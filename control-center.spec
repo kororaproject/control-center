@@ -17,20 +17,15 @@
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.6.1
-Release: 4
+Version: 2.7.0
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/control-center-%{version}.tar.bz2
 
 Patch1: control-center-2.5.2-freetype.patch
-Patch2: control-center-2.6.1-fedora-apps.patch
-
-# Send this upstream
-# - sets http, https, unknown and about keys to browser
-# - correct needs_terminal typos
-Patch100: control-center-2.5.4-setbrowsers-for-upstream.patch
+Patch2: control-center-2.7.0-fedora-apps.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -80,15 +75,10 @@ If you install GNOME, you need to install control-center.
 %prep
 %setup -q
 
-%patch1 -p1 -b .freetype
+#%patch1 -p1 -b .freetype
 %patch2 -p1 -b .fedora-apps
                                                                                                                              
-%patch100 -p1 -b .setbrowsers-for-upstream
-
 %build
-
-automake-1.4
-autoconf
 
 %configure
 make
@@ -176,6 +166,9 @@ done
 # (also its headers)
 
 %changelog
+* Mon Aug  9 2004 Jonathan Blandford <jrb@redhat.com> 1:2.7.0-1
+- update to 2.7.0
+
 * Tue Jun 15 2004 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
