@@ -6,7 +6,7 @@
 Summary: The GNOME Control Center.
 Name: control-center
 Version: 1.4.0.1
-Release: 18a
+Release: 19
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -26,6 +26,7 @@ BuildRequires: gnome-vfs-devel
 BuildRequires: libxml-devel
 
 Obsoletes: gnome
+Requires: /bin/aumix-minimal
 
 URL: http://www.gnome.org
 
@@ -64,8 +65,8 @@ Patch55: control-center-1.4.0.1-cleanup.patch
 Patch56: control-center-1.4.0.1-cjk.patch
 Patch57: control-center-1.4.0.1-setroothint.patch
 Patch58: control-center-1.4.0.1-uipropertiesmenu.patch
-
-Patch80: control-center-1.4.0.1-scrollkeeper.patch
+Patch59: control-center-1.4.0.1-pixbufflags.patch
+Patch60: control-center-1.4.0.1-compileflags.patch
 
 Requires: xscreensaver >= 3.32
 
@@ -136,8 +137,8 @@ tar zxf %{SOURCE11}
 %patch56 -p1 -b .cjk
 %patch57 -p1 -b .setroothint
 %patch58 -p1 -b .uipropertiesmenu
-
-%patch80 -p1 -b .scrollkeeper
+%patch59 -p1 -b .pixbufflags
+%patch60 -p1 -b .compileflags
 
 automake
 
@@ -207,6 +208,11 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/include/*
 
 %changelog
+* Sun Oct 28 2001 Havoc Pennington <hp@redhat.com>
+- rebuild with new gnome-libs so that libcapplet has right cflags/libs
+- pixbufflags patch to make the rebuild work
+- compileflags patch to make control-center-single work
+
 * Wed Aug 29 2001 Havoc Pennington <hp@redhat.com>
 - fix #52831 (UI properties in Programs menu)
 
