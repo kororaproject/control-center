@@ -1,52 +1,48 @@
 %define gettext_package control-center-2.0
 
 %define pango_version 1.0.99.020703
-%define gtk2_version 2.0.5-4
+%define gtk2_version 2.1.2
 %define gconf2_version 1.2.0
-%define gnome_desktop_version 2.0.0
-%define libgnome_version 2.0.0
-%define libbonobo_version 2.0.0
-%define libgnomeui_version 2.0.0
-%define libbonoboui_version 2.0.0
+%define gnome_desktop_version 2.1.2
+%define libgnome_version 2.1.0
+%define libbonobo_version 2.1.0
+%define libgnomeui_version 2.1.0
+%define libbonoboui_version 2.1.0
 %define gnome_vfs2_version 2.0.0
 %define bonobo_activation_version 1.0.0
 %define desktop_file_utils_version 0.2.90
 %define xft_version 1.9.1.020708.0036
 %define fontconfig_version 0.0.1.020626.1517-2
 %define redhat_menus_version 0.5
+%define metacity_version 2.4.34
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.0.1
-Release: 8
+Version: 2.2.0.1
+Release: 9
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/control-center-%{version}.tar.bz2
 Source1: font-capplet-pixmaps.tar.gz
-Source2: gnome-control-center-po.tar.gz
+#Source2: gnome-control-center-po.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
 
 # Add configuration options for Xft preferences to font capplet
 Patch1: control-center-2.0.1-xftprefs.patch
-# Add window title and terminal font to font capplet; also add
-# some missing unrefs.
-Patch2: control-center-2.0.1-extrafonts.patch
-# Add support for switching window manager themes the theme capplet
-Patch3: control-center-2.0.1-switchwmtheme.patch
-# Switch the gtk1 theme along with the GTK2 theme
-Patch4: control-center-2.0.1-gtk1theme.patch
-# Update to the new metacity keys
-Patch5: control-center-2.0.1-newmetacitykeys.patch
-# fix padding around italics
-Patch6: control-center-2.0.1-fixpad.patch
+
 Patch7: control-center-2.0.1-fakingsucks.patch
-Patch8: control-center-2.0.1-newegg.patch
 
-# Patch from Frederic Crozat to fix custom mime setting
-Patch9: control-center-2.0.1-editmime.patch
+# in HEAD.  Remove later.
+Patch8: control-center-2.1.6-fontilus.patch
+Patch9: control-center-2.1.7-schemadefault.patch
 
+# in HEAD.  Remove later.
+Patch10: control-center-2.2.0.1-cursorsupport.patch
+Patch11: control-center-2.2.0.1-cursorcapplet.patch
+Patch12: control-center-2.2.0.1-fixleaks.patch
+Patch13: control-center-2.2.0.1-fixcrash.patch
 
 Obsoletes: gnome control-center-devel
 Requires: xscreensaver
@@ -63,11 +59,11 @@ BuildRequires: libbonobo-devel >= %{libbonobo_version}
 BuildRequires: libbonoboui-devel >= %{libbonoboui_version}
 BuildRequires: gnome-vfs2-devel >= %{gnome_vfs2_version}
 BuildRequires: bonobo-activation-devel >= %{bonobo_activation_version}
-BuildRequires: Xft >= %{xft_version}
-BuildRequires: fontconfig >= %{fontconfig_version}
+BuildRequires: fontconfig-devel >= %{fontconfig_version}
 BuildRequires: desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires: /usr/bin/automake-1.4
 BuildRequires: /usr/bin/autoconf
+BuildRequires: metacity >= %{metacity_version}
 
 %description
 GNOME (the GNU Network Object Model Environment) is an attractive and
@@ -86,18 +82,17 @@ If you install GNOME, you need to install control-center.
 #rm configure.in
 #mv configure.ac configure.in
 
-%patch1 -p1 -b .xftprefs
-%patch2 -p1 -b .extrafonts
-%patch3 -p1 -b .switchwmtheme
-%patch4 -p1 -b .gtk1theme
-%patch5 -p1 -b .newmetacitykeys
-%patch6 -p1 -b .fixpad
-%patch7 -p1 -b .fakingsucks
-%patch8 -p1 -b .newegg
-%patch9 -p1 -b .editmime
+#%patch1 -p1 -b .xftprefs
+# %patch7 -p1 -b .fakingsucks
+%patch8 -p1 -b .fontilus
+%patch9 -p1 -b .schemadefaults
+%patch10 -p0 -b .cursorsupport
+%patch11 -p1 -b .cursorcapplet
+%patch12 -p0 -b .fixleaks
+%patch13 -p1 -b .fixcrash
 
 ## unpack po files
-tar zxf %{SOURCE2}
+#tar zxf %{SOURCE2}
 
 %build
 
@@ -134,6 +129,17 @@ ln -sf %{_datadir}/desktop-menu-patches/gnome-accessibility.desktop $RPM_BUILD_R
 
 cp -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/icons/* $RPM_BUILD_ROOT%{_datadir}/pixmaps
 
+# fix installed but not packaged
+/bin/rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
+
+/bin/rm -rf $RPM_BUILD_ROOT%{_includedir}/gnome-window-settings-2.0
+/bin/rm -rf $RPM_BUILD_ROOT%{_libdir}/libgnome-window-settings.*a
+/bin/rm -rf $RPM_BUILD_ROOT%{_libdir}/libgnome-window-settings.so
+/bin/rm -rf $RPM_BUILD_ROOT%{_libdir}/pkgconfig/gnome-window-settings*
+
+# loadable modules don't need static versions or .la files
+/bin/rm -f $RPM_BUILD_ROOT%{_libdir}/window-manager-settings/*.*a
+
 %find_lang %{gettext_package}
 
 %clean
@@ -163,12 +169,53 @@ done
 %{_bindir}/*
 %{_libdir}/bonobo
 %{_libdir}/*.so.*
+%{_libdir}/window-manager-settings
 %{_sysconfdir}/gconf/schemas/*.schemas
 
 # deliberately leaving out pkgconfig files and devel libs for libgnome-window-settings
 # (also its headers)
 
 %changelog
+* Mon Feb 24 2003 Elliot Lee <sopwith@redhat.com>
+- debuginfo rebuild
+
+* Thu Feb 20 2003 Jonathan Blandford <jrb@redhat.com> 1:2.2.0.1-8
+- fixed cursorcapplet patch to not crash, #84485
+
+* Tue Feb 18 2003 Jonathan Blandford <jrb@redhat.com> 1:2.2.0.1-7
+- fix crasher, #84400
+
+* Fri Feb 14 2003 Jeremy Katz <katzj@redhat.com> 1:2.2.0.1-6
+- fix buildrequires
+
+* Thu Feb  6 2003 Jonathan Blandford <jrb@redhat.com> 1:2.2.0.1-2
+- add cursor support
+
+* Thu Jan 30 2003 Jonathan Blandford <jrb@redhat.com>
+- add patch to know which themes are supposed to be the default.
+
+* Wed Jan 22 2003 Tim Powers <timp@redhat.com>
+- rebuilt
+
+* Thu Jan 16 2003 Jonathan Blandford <jrb@redhat.com>
+- bump version
+
+* Wed Jan 15 2003 Jonathan Blandford <jrb@redhat.com>
+- add "Go to fonts folder" button
+
+* Mon Jan 13 2003 Jonathan Blandford <jrb@redhat.com>
+- new version
+
+* Mon Dec  2 2002 Havoc Pennington <hp@redhat.com>
+- 2.1.3
+
+* Wed Nov 13 2002 Havoc Pennington <hp@redhat.com>
+- 2.1.2
+- comment out the "fakingsucks" patch for esd
+- remove most of the other patches
+- remove patch to add WM/terminal font to font capplet, should be upstream
+- comment out xftprefs patch for now
+
 * Thu Sep  5 2002 Jonathan Blandford <jrb@redhat.com>
 - Allow setting custom mime handlers
 
