@@ -9,7 +9,7 @@
 %define libgnomeui_version 2.3.0
 %define libbonoboui_version 2.3.0
 %define gnome_vfs2_version 2.3.0
-%define desktop_file_utils_version 0.3-7
+%define desktop_file_utils_version 0.8-4
 %define xft_version 1.9.1.020708.0036
 %define fontconfig_version 0.0.1.020626.1517-2
 %define redhat_menus_version 0.39
@@ -18,7 +18,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.8.0
-Release: 2
+Release: 3
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -170,6 +170,9 @@ done
 # (also its headers)
 
 %changelog
+* Thu Sep 23 2004 Ray Strode <rstrode@redhat.com> - 1:2.8.0-3
+- Require a working version of desktop-file-install
+
 * Thu Sep 23 2004 Ray Strode <rstrode@redhat.com> - 1:2.8.0-2
 - add everything but Preferred Applications entry back to Preferences
   menu (woops)
