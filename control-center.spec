@@ -24,7 +24,7 @@ License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/control-center-%{version}.tar.bz2
 
-Patch2: control-center-2.7.0-fedora-apps.patch
+Patch2: control-center-2.8.0-fedora-apps.patch
 Patch4: control-center-2.7.1-modifier.patch
 Patch5: control-center-2.8.0-filesel.patch
 Patch6: control-center-2.8.0-urlhandler-keys.patch
