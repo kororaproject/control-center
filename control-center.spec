@@ -18,7 +18,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.7.1
-Release: 2
+Release: 3
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -27,6 +27,7 @@ Source: ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/control-center-%{versio
 Patch2: control-center-2.7.0-fedora-apps.patch
 # Patch in upstream.  Remove patch in future versions
 Patch3: control-center-2.7.1-helpfix.patch
+Patch4: control-center-2.7.1-modifier.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -78,6 +79,7 @@ If you install GNOME, you need to install control-center.
 
 %patch2 -p1 -b .fedora-apps
 %patch3 -p1 -b .helpfix
+%patch4 -p1 -b .modifier
                                                                                                                              
 %build
 
@@ -167,6 +169,9 @@ done
 # (also its headers)
 
 %changelog
+* Tue Sep  7 2004 Matthias Clasen <mclasen@redhat.com> - 1:2.7.1-3
+- don't show hyper if its mapped to super (#131635)
+
 * Thu Sep  2 2004 GNOME <jrb@redhat.com> - 1:2.7.1-2
 - fix help
 
