@@ -3,8 +3,8 @@
 
 Summary: The GNOME Control Center.
 Name: control-center
-Version: 1.2.2
-Release: 8
+Version: 1.4.0.1
+Release: 3
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -45,14 +45,15 @@ Patch29: control-center-1.2.0-wmaker.patch
 Patch30: control-center-1.2.1-bigbg.patch
 #Patch31: control-center-1.2.1-noread.patch
 #Patch32: control-center-1.2.1-solidbg.patch
-Patch33: control-center-1.2.2-fvwm2.patch
+#Patch33: control-center-1.2.2-fvwm2.patch
 # Japanese patch
-Patch40: control-center-1.2.1-jp.patch
+#Patch40: control-center-1.2.1-jp.patch
 # Korean-related patch (?) bug #23782
-Patch41: control-center-1.2.2-fontset.patch
+#Patch41: control-center-1.2.2-fontset.patch
 Patch50: control-center-mixer.patch
+Patch51: control-center-xscreensaver-dpms.patch
 
-Requires: xscreensaver >= 3.08
+Requires: xscreensaver >= 3.32
 Requires: redhat-logos >= 1.1.2
 
 %description
@@ -112,10 +113,11 @@ tar zxf %{SOURCE11}
 %patch30 -p1 -b .bigbg
 #%patch31 -p1 -b .noread
 #%patch32 -p1 -b .solidbg
-%patch33 -p1 -b .fvwm2
-%patch40 -p1 -b .jp
-%patch41 -p1 -b .fontset
+#%patch33 -p1 -b .fvwm2
+#%patch40 -p1 -b .jp
+#%patch41 -p1 -b .fontset
 %patch50 -p1 -b .mixer
+%patch51 -p1 -b .dpms
 
 automake
 
@@ -171,6 +173,18 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/include/*
 
 %changelog
+* Tue May 22 2001 Havoc Pennington <hp@redhat.com>
+- putting in tree for David
+
+* Tue May 22 2001 David Sainty <dsainty@redhat.com>
+- improve DPMS patch for the try case, and enable patch
+
+* Wed May  2 2001 Bill Nottingham <notting@redhat.com>
+- add patch to use xscreensaver's DPMS stuff, require that version
+
+* Fri Apr 20 2001  <jrb@redhat.com>
+- New Version (1.4.0.1)
+
 * Wed Apr  4 2001 Bill Nottingham <notting@redhat.com>
 - kick the mixer once on startup if we aren't running esd
 
