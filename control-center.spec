@@ -18,7 +18,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.0.1
-Release: 7
+Release: 8
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -44,6 +44,8 @@ Patch6: control-center-2.0.1-fixpad.patch
 Patch7: control-center-2.0.1-fakingsucks.patch
 Patch8: control-center-2.0.1-newegg.patch
 
+# Patch from Frederic Crozat to fix custom mime setting
+Patch9: control-center-2.0.1-editmime.patch
 
 
 Obsoletes: gnome control-center-devel
@@ -92,6 +94,7 @@ If you install GNOME, you need to install control-center.
 %patch6 -p1 -b .fixpad
 %patch7 -p1 -b .fakingsucks
 %patch8 -p1 -b .newegg
+%patch9 -p1 -b .editmime
 
 ## unpack po files
 tar zxf %{SOURCE2}
@@ -166,6 +169,9 @@ done
 # (also its headers)
 
 %changelog
+* Thu Sep  5 2002 Jonathan Blandford <jrb@redhat.com>
+- Allow setting custom mime handlers
+
 * Tue Aug 27 2002 Havoc Pennington <hp@redhat.com>
 - make desktop file symlinks absolute #71991
 - add po files from cvs.gnome.org
