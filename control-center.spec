@@ -20,7 +20,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.10.0
-Release: 2
+Release: 3
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -150,14 +150,14 @@ for S in $SCHEMAS; do
 done
 update-desktop-database --quiet %{_datadir}/applications
 touch --no-create %{_datadir}/icons/hicolor
-if [-x /usr/bin/gtk-update-icon-cache ]; then
+if [ -x /usr/bin/gtk-update-icon-cache ]; then
   gtk-update-icon-cache %{_datadir}/icons/hicolor
 fi
 
 %postun -p /sbin/ldconfig
 update-desktop-database --quiet %{_datadir}/applications
 touch --no-create %{_datadir}/icons/hicolor
-if [-x /usr/bin/gtk-update-icon-cache ]; then
+if [ -x /usr/bin/gtk-update-icon-cache ]; then
   gtk-update-icon-cache %{_datadir}/icons/hicolor
 fi
 
@@ -186,6 +186,9 @@ fi
 # (also its headers)
 
 %changelog
+* Mon Mar 28 2005 Christopher Aillon <caillon@redhat.com>
+- rebuilt
+
 * Fri Mar 25 2005 Christopher Aillon <caillon@redhat.com> 2.10.0-2
 - Update the GTK+ theme icon cache on (un)install
 
