@@ -169,7 +169,7 @@ done
 # (also its headers)
 
 %changelog
-* Thu Sep 23 2004 Matthias Clasen <mclasen@redhat.com> - 1:2.8.0-5
+* Thu Sep 24 2004 Matthias Clasen <mclasen@redhat.com> - 1:2.8.0-5
 - add a preview to the background file chooser.
 
 * Fri Sep 24 2004 Ray Strode <rstrode@redhat.com> - 1:2.8.0-4
