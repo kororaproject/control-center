@@ -17,7 +17,7 @@
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.7.0
+Version: 2.7.1
 Release: 1
 Epoch: 1
 License: GPL/LGPL
@@ -166,6 +166,9 @@ done
 # (also its headers)
 
 %changelog
+* Sun Aug 29 2004 Jonathan Blandford <jrb@redhat.com> 1:2.7.1-1
+- new version
+
 * Mon Aug  9 2004 Jonathan Blandford <jrb@redhat.com> 1:2.7.0-1
 - update to 2.7.0
 
