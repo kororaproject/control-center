@@ -6,7 +6,7 @@
 Summary: The GNOME Control Center.
 Name: control-center
 Version: 1.4.0.1
-Release: 14
+Release: 15
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -15,7 +15,6 @@ Source: ftp://ftp.gnome.org/pub/control-center-%{version}.tar.gz
 Source1: control-center.png
 Source2: gnomecc.desktop
 #Source3: background-properties-new.tar.gz
-Source10: control-center-1.2.1-ja.po
 Source11: control-center-po.tar.gz
 Source12: %{ccsingle}.tar.gz
 
@@ -63,6 +62,7 @@ Patch51: control-center-xscreensaver-dpms.patch
 Patch52: control-center-1.4.0.1-multifix.patch
 Patch54: control-center-1.4.0.1-correct_config.patch
 Patch55: control-center-1.4.0.1-cleanup.patch
+Patch56: control-center-1.4.0.1-cjk.patch
 
 Requires: xscreensaver >= 3.32
 
@@ -130,13 +130,13 @@ tar zxf %{SOURCE11}
 %patch52 -p1 -b .multifix
 %patch54 -p1 -b .correct_config
 %patch55 -p1 -b .cleanup
+%patch56 -p1 -b .cjk
 
 automake
 
 # install new desktop entry and icon
 cp %{SOURCE1} $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/control-center
 cp %{SOURCE2} $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/control-center
-cp %{SOURCE10} $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/po/ja.po
 
 %build
 
@@ -200,6 +200,10 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/include/*
 
 %changelog
+* Wed Aug 22 2001 Yukihiro Nakai <ynakai@redhat.com>
+- Update translation.
+- Add CJK fontset patch
+
 * Thu Aug 16 2001 Jonathan Blandford <jrb@redhat.com>
 - New control-center-single to handle exiting, #51665
 
