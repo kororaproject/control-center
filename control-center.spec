@@ -17,8 +17,7 @@
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.8.0
-Release: 7
+Release: 8
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -169,6 +168,9 @@ done
 # (also its headers)
 
 %changelog
+* Mon Sep 27 2004 Matthias Clasen <mclasen@redhat.com> - 1:2.8.0-8
+- make the preview resize less
+
 * Fri Sep 24 2004 Ray Strode <rstrode@redhat.com> - 1:2.8.0-7
 - Remove X-Red-Hat-Base from Preferred Apps instead of Settings
 
