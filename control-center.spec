@@ -93,22 +93,25 @@ make install DESTDIR=$RPM_BUILD_ROOT
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 
 desktop-file-install --vendor gnome --delete-original                   \
-  --dir $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets          \
+  --dir $RPM_BUILD_ROOT%{_datadir}/applications			        \
   --add-only-show-in GNOME                                              \
   --add-category X-Red-Hat-Base                                         \
-  $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets/*
+  $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 desktop-file-install --vendor gnome --delete-original                   \
-  --dir $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets          \
+  --dir $RPM_BUILD_ROOT%{_datadir}/applications 			\
   --remove-category X-Red-Hat-Base                                      \
-  $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets/gnome-default-applications.desktop
+  $RPM_BUILD_ROOT%{_datadir}/applications/gnome-default-applications.desktop
 
 # remove control center desktop file
 /bin/rm -f $RPM_BUILD_ROOT%{_datadir}/applications/gnomecc.desktop
 
+# desktop-file-install really should not be generating this
+/bin/rm -f $RPM_BUILD_ROOT%{_datadir}/applications/mimeinfo.cache
+
 # replace accessibility desktop file
-/bin/rm -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets/*accessibility*.desktop
-ln -sf %{_datadir}/desktop-menu-patches/gnome-accessibility.desktop $RPM_BUILD_ROOT%{_datadir}/applications/gnome-accessibility.desktop
+#/bin/rm -f $RPM_BUILD_ROOT%{_datadir}/applications/*accessibility*.desktop
+#ln -sf %{_datadir}/desktop-menu-patches/gnome-accessibility.desktop $RPM_BUILD_ROOT%{_datadir}/applications/gnome-accessibility.desktop
 
 cp -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/icons/* $RPM_BUILD_ROOT%{_datadir}/pixmaps
 
@@ -147,23 +150,19 @@ done
 
 %{_datadir}/control-center-2.0
 %{_datadir}/pixmaps
+%{_datadir}/icons
 %{_datadir}/gnome
-%{_datadir}/applications
-%{_datadir}/gnome-2.0
+%{_datadir}/applications/*.desktop
 %{_datadir}/idl
 %{_bindir}/*
 %{_libexecdir}/*
 %{_libdir}/bonobo
+%{_libdir}/nautilus/extensions-1.0
 %{_libdir}/*.so.*
 %{_libdir}/window-manager-settings
 %{_sysconfdir}/gconf/schemas/*.schemas
 %{_sysconfdir}/gnome-vfs-2.0/modules/*.conf
 %{_libdir}/gnome-vfs-2.0/modules/*.so
-%{_libexecdir}/fontilus-context-menu
-%{_datadir}/application-registry/*.applications
-%{_datadir}/mime-info/*.keys
-%{_datadir}/mime-info/*.mime
-%{_datadir}/icons/gnome/48x48/apps/accessibility-directory.png
 
 # deliberately leaving out pkgconfig files and devel libs for libgnome-window-settings
 # (also its headers)
