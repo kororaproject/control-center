@@ -18,7 +18,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.8.0
-Release: 6
+Release: 7
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -100,7 +100,7 @@ desktop-file-install --vendor gnome --delete-original                   \
 
 desktop-file-install --vendor gnome --delete-original                   \
   --dir $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets          \
-  --remove-category Settings                                            \
+  --remove-category X-Red-Hat-Base                                      \
   $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets/gnome-default-applications.desktop
 
 # remove control center desktop file
@@ -169,6 +169,9 @@ done
 # (also its headers)
 
 %changelog
+* Fri Sep 24 2004 Ray Strode <rstrode@redhat.com> - 1:2.8.0-7
+- Remove X-Red-Hat-Base from Preferred Apps instead of Settings
+
 * Fri Sep 24 2004 Ray Strode <rstrode@redhat.com> - 1:2.8.0-6
 - require latest version of redhat-menus
 
