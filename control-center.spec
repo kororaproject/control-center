@@ -20,7 +20,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.10.0
-Release: 1
+Release: 2
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -44,6 +44,7 @@ Requires: libxklavier >= %{libxklavier_version}
 Requires: libgail-gnome
 Requires: alsa-lib
 Requires: gnome-menus >= %{gnome_menus_version}
+PreReq:   gtk2
 
 BuildRequires: esound
 BuildRequires: pango-devel >= %{pango_version}
@@ -148,9 +149,17 @@ for S in $SCHEMAS; do
   gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/$S > /dev/null
 done
 update-desktop-database --quiet %{_datadir}/applications
+touch --no-create %{_datadir}/icons/hicolor
+if [-x /usr/bin/gtk-update-icon-cache ]; then
+  gtk-update-icon-cache %{_datadir}/icons/hicolor
+fi
 
 %postun -p /sbin/ldconfig
 update-desktop-database --quiet %{_datadir}/applications
+touch --no-create %{_datadir}/icons/hicolor
+if [-x /usr/bin/gtk-update-icon-cache ]; then
+  gtk-update-icon-cache %{_datadir}/icons/hicolor
+fi
 
 %files -f %{gettext_package}.lang
 %defattr(-, root, root)
@@ -177,6 +186,9 @@ update-desktop-database --quiet %{_datadir}/applications
 # (also its headers)
 
 %changelog
+* Fri Mar 25 2005 Christopher Aillon <caillon@redhat.com> 2.10.0-2
+- Update the GTK+ theme icon cache on (un)install
+
 * Thu Mar 17 2005 Ray Strode <rstrode@redhat.com> - 2.10.0-1
 - Update to upstream version 2.10.0
 - Add some -Wno-error foo to calm gswitchit
