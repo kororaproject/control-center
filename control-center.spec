@@ -18,7 +18,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.8.0
-Release: 8
+Release: 9
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -27,6 +27,7 @@ Source: ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/control-center-%{versio
 Patch2: control-center-2.7.0-fedora-apps.patch
 Patch4: control-center-2.7.1-modifier.patch
 Patch5: control-center-2.8.0-filesel.patch
+Patch6: control-center-2.8.0-urlhandler-keys.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -79,6 +80,7 @@ If you install GNOME, you need to install control-center.
 %patch2 -p1 -b .fedora-apps
 %patch4 -p1 -b .modifier
 %patch5 -p1 -b .filesel
+%patch6 -p1 -b .urlhandler
                                                                                                                              
 %build
 
@@ -169,6 +171,9 @@ done
 # (also its headers)
 
 %changelog
+* Wed Oct 06 2004 Warren Togami <wtogami@redhat.com> - 1:2.8.0-9
+- #109738 Again Fix Preferred Applications url handler keys
+
 * Mon Sep 27 2004 Matthias Clasen <mclasen@redhat.com> - 1:2.8.0-8
 - make the preview resize less
 
