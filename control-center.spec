@@ -6,7 +6,7 @@
 Summary: The GNOME Control Center.
 Name: control-center
 Version: 1.4.0.1
-Release: 18
+Release: 18a
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -26,7 +26,6 @@ BuildRequires: gnome-vfs-devel
 BuildRequires: libxml-devel
 
 Obsoletes: gnome
-Requires: /bin/aumix-minimal
 
 URL: http://www.gnome.org
 
@@ -65,6 +64,8 @@ Patch55: control-center-1.4.0.1-cleanup.patch
 Patch56: control-center-1.4.0.1-cjk.patch
 Patch57: control-center-1.4.0.1-setroothint.patch
 Patch58: control-center-1.4.0.1-uipropertiesmenu.patch
+
+Patch80: control-center-1.4.0.1-scrollkeeper.patch
 
 Requires: xscreensaver >= 3.32
 
@@ -135,6 +136,8 @@ tar zxf %{SOURCE11}
 %patch56 -p1 -b .cjk
 %patch57 -p1 -b .setroothint
 %patch58 -p1 -b .uipropertiesmenu
+
+%patch80 -p1 -b .scrollkeeper
 
 automake
 
