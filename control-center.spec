@@ -18,7 +18,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.0.1
-Release: 5
+Release: 6
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -41,6 +41,7 @@ Patch5: control-center-2.0.1-newmetacitykeys.patch
 # fix padding around italics
 Patch6: control-center-2.0.1-fixpad.patch
 Patch7: control-center-2.0.1-fakingsucks.patch
+Patch8: control-center-2.0.1-newegg.patch
 
 
 
@@ -89,6 +90,7 @@ If you install GNOME, you need to install control-center.
 %patch5 -p1 -b .newmetacitykeys
 %patch6 -p1 -b .fixpad
 %patch7 -p1 -b .fakingsucks
+%patch8 -p1 -b .newegg
 
 %build
 
@@ -160,6 +162,9 @@ done
 # (also its headers)
 
 %changelog
+* Fri Aug 23 2002 Jonathan Blandford <jrb@redhat.com>
+- Fix up keyboard handling
+
 * Wed Aug 21 2002 Jonathan Blandford <jrb@redhat.com>
 - Fixes for #68735
 
