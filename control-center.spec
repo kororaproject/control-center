@@ -20,7 +20,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.9.4
-Release: 3
+Release: 4
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -173,6 +173,9 @@ update-desktop-database --quiet
 # (also its headers)
 
 %changelog
+* Wed Feb  2 2005 Matthias Clasen <mclasen@redhat.com> - 2.9.4-4
+- Call update-desktop-database in %%post
+
 * Wed Feb  2 2005 Matthias Clasen <mclasen@redhat.com> - 2.9.4-3
 - Add a Conflicts against older desktop-backgrounds, since
   the location of the xml background descriptions has changed
