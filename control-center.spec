@@ -17,6 +17,7 @@
 
 Summary: GNOME Control Center.
 Name: control-center
+Version: 2.8.0
 Release: 8
 Epoch: 1
 License: GPL/LGPL
