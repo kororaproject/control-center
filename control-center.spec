@@ -20,7 +20,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.10.0
-Release: 3
+Release: 4
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -154,7 +154,8 @@ if [ -x /usr/bin/gtk-update-icon-cache ]; then
   gtk-update-icon-cache %{_datadir}/icons/hicolor
 fi
 
-%postun -p /sbin/ldconfig
+%postun
+/sbin/ldconfig
 update-desktop-database --quiet %{_datadir}/applications
 touch --no-create %{_datadir}/icons/hicolor
 if [ -x /usr/bin/gtk-update-icon-cache ]; then
@@ -186,6 +187,9 @@ fi
 # (also its headers)
 
 %changelog
+* Wed Mar 30 2005 Warren Togami <wtogami@redhat.com> 2.10.0-4
+- fix ldconfig (#152575)
+
 * Mon Mar 28 2005 Christopher Aillon <caillon@redhat.com>
 - rebuilt
 
