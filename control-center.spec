@@ -6,7 +6,7 @@
 Summary: The GNOME Control Center.
 Name: control-center
 Version: 1.4.0.1
-Release: 30
+Release: 31
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -214,6 +214,9 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/include/*
 
 %changelog
+* Mon Apr 15 2002 Havoc Pennington <hp@redhat.com>
+- merge in translations
+
 * Fri Apr 12 2002 Owen Taylor <otaylor@redhat.com>
 - Make the theme selector write fontsets, not fonts (#62413)
 
