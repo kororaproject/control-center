@@ -20,7 +20,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.9.4
-Release: 4
+Release: 5
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -33,7 +33,10 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
 
 Obsoletes: gnome control-center-devel fontilus
-Conflicts: desktop-backgrounds < 2.0-27
+# the background capplets expects its .xml files in 
+# a different place now
+Conflicts: desktop-backgrounds-basic < 2.0-27
+Conflicts: desktop-backgrounds-extended < 2.0-27
 Requires: xscreensaver
 Requires: redhat-menus >= %{redhat_menus_version}
 Requires: gnome-icon-theme
@@ -173,6 +176,9 @@ update-desktop-database --quiet %{_datadir}/applications
 # (also its headers)
 
 %changelog
+* Thu Feb  3 2005 Matthias Clasen <mclasen@redhat.com> - 2.9.4-5
+- Fix the conflict to be against the actual packages
+
 * Wed Feb  2 2005 Matthias Clasen <mclasen@redhat.com> - 2.9.4-4
 - Call update-desktop-database in %%post
 
