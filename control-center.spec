@@ -17,14 +17,20 @@
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.5.4
-Release: 1
+Version: 2.6.1
+Release: 3
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/control-center-%{version}.tar.bz2
 
 Patch1: control-center-2.5.2-freetype.patch
+Patch2: control-center-2.6.1-fedora-apps.patch
+
+# Send this upstream
+# - sets http, https, unknown and about keys to browser
+# - correct needs_terminal typos
+Patch100: control-center-2.5.4-setbrowsers-for-upstream.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -33,7 +39,7 @@ Obsoletes: gnome control-center-devel fontilus
 Requires: xscreensaver
 Requires: redhat-menus >= %{redhat_menus_version}
 Requires: gnome-icon-theme
-Requires: libxklavier >= 0.97
+Requires: libxklavier >= 1.02
 Requires: libgail-gnome
 Requires: alsa-lib
 
@@ -47,14 +53,17 @@ BuildRequires: libgnome-devel >= %{libgnome_version}
 BuildRequires: libbonobo-devel >= %{libbonobo_version}
 BuildRequires: libbonoboui-devel >= %{libbonoboui_version}
 BuildRequires: gnome-vfs2-devel >= %{gnome_vfs2_version}
-BuildRequires: bonobo-activation-devel >= %{bonobo_activation_version}
+BuildRequires: bonobo-activation-devel
 BuildRequires: fontconfig-devel >= %{fontconfig_version}
 BuildRequires: desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires: /usr/bin/automake-1.4
 BuildRequires: /usr/bin/autoconf
 BuildRequires: metacity >= %{metacity_version}
-BuildRequires: libxklavier-devel
+BuildRequires: libxklavier-devel >= 1.02
 BuildRequires: alsa-lib-devel
+BuildRequires: nautilus
+BuildRequires: eel2-devel
+BuildRequires: gettext
 # For intltool:
 BuildRequires: perl-XML-Parser >= 2.31-16
 
@@ -72,6 +81,9 @@ If you install GNOME, you need to install control-center.
 %setup -q
 
 %patch1 -p1 -b .freetype
+%patch2 -p1 -b .fedora-apps
+                                                                                                                             
+%patch100 -p1 -b .setbrowsers-for-upstream
 
 %build
 
@@ -93,6 +105,9 @@ desktop-file-install --vendor gnome --delete-original                   \
   --add-only-show-in GNOME                                              \
   --add-category X-Red-Hat-Base                                         \
   $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets/*
+
+# Preferred Applications should be visible from KDE
+sed -i '\^OnlyShowIn=GNOME^d' $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets/gnome-default-applications.desktop
 
 # replace control center desktop file
 /bin/rm -f $RPM_BUILD_ROOT%{_datadir}/applications/gnomecc.desktop
@@ -161,6 +176,26 @@ done
 # (also its headers)
 
 %changelog
+* Wed May 05 2004 Warren Togami <wtogami@redhat.com> 1:2.6.1-3
+- workaround "evolution-1.6" bug, always point at /usr/bin/evolution
+- Preferred Applications should be visible from KDE
+
+* Tue Apr 20 2004 Jeremy Katz <katzj@redhat.com> 1:2.6.1-1
+- update to 2.6.1 to fix xorg brokenness
+
+* Thu Apr 15 2004 Alexander Larsson <alexl@redhat.com> 1:2.6.0.3-3
+- Fix xrandr revert behaviour (#119494)
+
+* Tue Apr 13 2004 Warren Togami <wtogami@redhat.com> 1:2.6.0.3-2
+- BR nautilus, eel2-devel, gettext
+- remove missing macro from bonobo-activation-devel dep
+
+* Fri Apr  2 2004 Alex Larsson <alexl@redhat.com> 1:2.6.0.3-1
+- update to 2.6.0.3
+
+* Thu Mar 18 2004 Warren Togami <wtogami@redhat.com> 2.5.4-2
+- #109738 needs_terminal typo fixes, and set preferred browsers
+
 * Thu Mar 11 2004 Mark McLoughlin <markmcredhat.com> 2.5.4-1
 - Update to 2.5.4
 
