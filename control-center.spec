@@ -1,10 +1,12 @@
 # Note that this is NOT a relocatable package
 %define prefix   /usr
 
+%define ccsingle control-center-single-0.2
+
 Summary: The GNOME Control Center.
 Name: control-center
 Version: 1.4.0.1
-Release: 3
+Release: 12
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -15,9 +17,15 @@ Source2: gnomecc.desktop
 #Source3: background-properties-new.tar.gz
 Source10: control-center-1.2.1-ja.po
 Source11: control-center-po.tar.gz
+Source12: %{ccsingle}.tar.gz
 
 BuildPrereq: gdk-pixbuf
 BuildRoot: %{_tmppath}/control-center-%{PACKAGE_VERSION}-root
+BuildRequires: gdk-pixbuf-devel
+BuildRequires: gnome-libs-devel
+BuildRequires: gnome-vfs-devel
+BuildRequires: libxml-devel
+
 Obsoletes: gnome
 Requires: /bin/aumix-minimal
 
@@ -37,7 +45,7 @@ Patch7: control-center-1.2.0-limitedbgs.patch
 #Patch23: control-center-1.0.7pre-cappletrace.patch
 #Patch24: control-center-fixrevert.patch
 
-Patch25: control-center-1.2.0-bgcolor1.patch
+Patch25: control-center-1.4.0.1-bgcolor1.patch
 #Patch26: control-center-1.2.0-switch.patch
 Patch27: control-center-1.2.0-history.patch
 #Patch28: control-center-1.2.0-themesafety.patch
@@ -52,19 +60,20 @@ Patch30: control-center-1.2.1-bigbg.patch
 #Patch41: control-center-1.2.2-fontset.patch
 Patch50: control-center-mixer.patch
 Patch51: control-center-xscreensaver-dpms.patch
-
+Patch52: control-center-1.4.0.1-multifix.patch
+Patch53: control-center-1.4.0.1-nocapplet.patch
+Patch54: control-center-1.4.0.1-correct_config.patch
 Requires: xscreensaver >= 3.32
-Requires: redhat-logos >= 1.1.2
 
 %description
 GNOME (the GNU Network Object Model Environment) is an attractive and
 easy-to-use GUI desktop environment. The control-center package
-provides the GNOME Control Center utilities, which allow you to setup
+provides the GNOME Control Center utilities that allow you to setup
 and configure your system's GNOME environment (things like the desktop
 background and theme, the screensaver, the window manager, system
 sounds, and mouse behavior).
 
-If you're installing GNOME, you'll need to install control-center.
+If you install GNOME, you need to install control-center.
 
 %package devel
 Summary: The GNOME Control Center development environment.
@@ -75,16 +84,15 @@ Requires: gnome-libs-devel
 %description devel
 The control-center-devel package contains the development environment
 needed for creating the capplets used in the GNOME Control
-Center. 
+Center.
 
-If you're interested in developing capplets for the GNOME control
-center, you'll want to install this package.  If you use the GNOME
-desktop, but you're not developing applications, you don't need to
+If you are interested in developing capplets for the GNOME control
+center, you need to install this package. If you use the GNOME
+desktop, but you are not developing applications, you do not need to
 install this package.
 
-
 %prep
-%setup -q
+%setup -q -a 12
 
 #(cd $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/capplets &&
 # tar xfz %{SOURCE3})
@@ -107,7 +115,7 @@ tar zxf %{SOURCE11}
 %patch25 -p1 -b .bgcolor1
 
 #%patch26 -p1 -b .switch
-%patch27 -p1 -b .history
+#%patch27 -p1 -b .history
 #%patch28 -p1 -b .themesafety
 %patch29 -p1 -b .wmaker
 %patch30 -p1 -b .bigbg
@@ -118,6 +126,9 @@ tar zxf %{SOURCE11}
 #%patch41 -p1 -b .fontset
 %patch50 -p1 -b .mixer
 %patch51 -p1 -b .dpms
+%patch52 -p1 -b .multifix
+%patch53 -p1 -b .nocapplet
+%patch54 -p1 -b .correct_config
 
 automake
 
@@ -131,6 +142,12 @@ cp %{SOURCE10} $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/po/ja.po
 CFLAGS="$RPM_OPT_FLAGS" %configure --sysconfdir=/etc
 make
 
+cd %{ccsingle} 
+automake
+autoconf
+%configure
+make
+
 %install
 rm -rf $RPM_BUILD_ROOT
 
@@ -140,6 +157,15 @@ rm -rf $RPM_BUILD_ROOT
 #rm -f $RPM_BUILD_ROOT%{prefix}/bin/ui-properties
 #rm -rf $RPM_BUILD_ROOT%{prefix}/share/control-center/UIOptions
 #rm -rf $RPM_BUILD_ROOT%{prefix}/share/gnome/apps/Settings/UIOptions
+
+# get rid of this, so it won't show up in panel menu. use start here 
+# instead.
+rm -f $RPM_BUILD_ROOT%{prefix}/share/gnome/apps/Settings/gnomecc.desktop
+
+cd %{ccsingle}
+%makeinstall sysconfdir=$RPM_BUILD_ROOT/etc
+
+cd $RPM_BUILD_DIR/%{name}-%{version}
 
 %find_lang %name
 
@@ -173,6 +199,28 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/include/*
 
 %changelog
+* Wed Aug 01 2001 Havoc Pennington <hp@redhat.com>
+- remove .desktop file for gnomecc, so it won't appear 
+  in panel menu, #49653
+
+* Mon Jul 30 2001 Jonathan Blandford <jrb@redhat.com>
+- allow to build without depending on control-center-devel
+
+* Mon Jul 23 2001 Jonathan Blandford <jrb@redhat.com>
+- Add BuildRequires
+
+* Mon Jul 16 2001 Jonathan Blandford <jrb@redhat.com>
+- New version of control-center-single
+
+* Thu Jul 12 2001 Alexander Larsson <alexl@redhat.com>
+- Change default background to the same as the nautilus one
+
+* Mon Jul 09 2001 Havoc Pennington <hp@redhat.com>
+- add hack to default to standalone control panels
+
+* Sun Jun 24 2001 Elliot Lee <sopwith@redhat.com>
+- Bump release + rebuild.
+
 * Tue May 22 2001 Havoc Pennington <hp@redhat.com>
 - putting in tree for David
 
