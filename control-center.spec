@@ -18,12 +18,13 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.0.1
-Release: 6
+Release: 7
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/control-center-%{version}.tar.bz2
 Source1: font-capplet-pixmaps.tar.gz
+Source2: gnome-control-center-po.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
 
@@ -92,6 +93,9 @@ If you install GNOME, you need to install control-center.
 %patch7 -p1 -b .fakingsucks
 %patch8 -p1 -b .newegg
 
+## unpack po files
+tar zxf %{SOURCE2}
+
 %build
 
 # xftprefs patch changes configure.in and Makefile.am
@@ -119,11 +123,11 @@ desktop-file-install --vendor gnome --delete-original                   \
 
 # replace control center desktop file
 /bin/rm -f $RPM_BUILD_ROOT%{_datadir}/applications/gnomecc.desktop
-(cd $RPM_BUILD_ROOT%{_datadir}/applications && ln -sf ../desktop-menu-patches/gnome-control-center.desktop)
+ln -sf %{_datadir}/desktop-menu-patches/gnome-control-center.desktop $RPM_BUILD_ROOT%{_datadir}/applications/gnome-control-center.desktop
 
 # replace accessibility desktop file
 /bin/rm -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets/*accessibility*.desktop
-(cd $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets && ln -sf ../../desktop-menu-patches/gnome-accessibility.desktop)
+ln -sf %{_datadir}/desktop-menu-patches/gnome-accessibility.desktop $RPM_BUILD_ROOT%{_datadir}/applications/gnome-accessibility.desktop
 
 cp -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/icons/* $RPM_BUILD_ROOT%{_datadir}/pixmaps
 
@@ -162,6 +166,10 @@ done
 # (also its headers)
 
 %changelog
+* Tue Aug 27 2002 Havoc Pennington <hp@redhat.com>
+- make desktop file symlinks absolute #71991
+- add po files from cvs.gnome.org
+
 * Fri Aug 23 2002 Jonathan Blandford <jrb@redhat.com>
 - Fix up keyboard handling
 
