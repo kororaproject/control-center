@@ -1,3 +1,5 @@
+%define enable_japanese 1
+
 # Note that this is NOT a relocatable package
 %define ver      1.2.1
 %define prefix   /usr
@@ -5,7 +7,7 @@
 Summary: The GNOME Control Center.
 Name: control-center
 Version: %ver
-Release: 5
+Release: 5j2
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -14,6 +16,8 @@ Source: ftp://ftp.gnome.org/pub/control-center-%{ver}.tar.gz
 Source1: control-center.png
 Source2: gnomecc.desktop
 #Source3: background-properties-new.tar.gz
+# Japanese resource
+Source10: control-center-1.2.1-ja.po
 
 BuildPrereq: gdk-pixbuf
 BuildRoot: %{_tmppath}/control-center-%{PACKAGE_VERSION}-root
@@ -43,6 +47,8 @@ Patch29: control-center-1.2.0-wmaker.patch
 Patch30: control-center-1.2.1-bigbg.patch
 Patch31: control-center-1.2.1-noread.patch
 Patch32: control-center-1.2.1-solidbg.patch
+# Japanese fontset patch
+Patch40: control-center-1.2.1-jp.patch
 
 Requires: xscreensaver >= 3.08
 Requires: redhat-logos >= 1.1.2
@@ -74,6 +80,12 @@ desktop, but you're not developing applications, you don't need to
 install this package.
 
 %changelog
+* Fri Sep 08 2000 Yukihiro Nakai <ynakai@redhat.com>
+- Add another patch for gnome_canvas_item_new
+
+* Fri Sep 01 2000 Yukihiro Nakai <ynakai@redhat.com>
+- Delete gnomecc.desktop. It deletes Japanese translation.
+
 * Sun Aug 13 2000 Owen Taylor <otaylor@redhat.com>
 - Again, fix problem with solid backgrounds in bg-properties capplet
   (patch got lost somewhere) 
@@ -239,12 +251,18 @@ install this package.
 %patch30 -p1 -b .bigbg
 %patch31 -p1 -b .noread
 %patch32 -p1 -b .solidbg
+%if %{enable_japanese}
+%patch40 -p1 -b .fontset
+cp %{SOURCE10} $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/po/ja.po
+%endif
 
 automake
 
 # install new desktop entry and icon
 cp %{SOURCE1} $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/control-center
+%if !%{enable_japanese}
 cp %{SOURCE2} $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/control-center
+%endif
 
 %build
 
