@@ -1,27 +1,25 @@
-%define enable_japanese 1
-
 # Note that this is NOT a relocatable package
-%define ver      1.2.1
 %define prefix   /usr
 
 Summary: The GNOME Control Center.
 Name: control-center
-Version: %ver
-Release: 5j2
+Version: 1.2.2
+Release: 8
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
-Source: ftp://ftp.gnome.org/pub/control-center-%{ver}.tar.gz
+Source: ftp://ftp.gnome.org/pub/control-center-%{version}.tar.gz
 
 Source1: control-center.png
 Source2: gnomecc.desktop
 #Source3: background-properties-new.tar.gz
-# Japanese resource
 Source10: control-center-1.2.1-ja.po
+Source11: control-center-po.tar.gz
 
 BuildPrereq: gdk-pixbuf
 BuildRoot: %{_tmppath}/control-center-%{PACKAGE_VERSION}-root
 Obsoletes: gnome
+Requires: /bin/aumix-minimal
 
 URL: http://www.gnome.org
 
@@ -45,10 +43,14 @@ Patch27: control-center-1.2.0-history.patch
 #Patch28: control-center-1.2.0-themesafety.patch
 Patch29: control-center-1.2.0-wmaker.patch
 Patch30: control-center-1.2.1-bigbg.patch
-Patch31: control-center-1.2.1-noread.patch
-Patch32: control-center-1.2.1-solidbg.patch
-# Japanese fontset patch
+#Patch31: control-center-1.2.1-noread.patch
+#Patch32: control-center-1.2.1-solidbg.patch
+Patch33: control-center-1.2.2-fvwm2.patch
+# Japanese patch
 Patch40: control-center-1.2.1-jp.patch
+# Korean-related patch (?) bug #23782
+Patch41: control-center-1.2.2-fontset.patch
+Patch50: control-center-mixer.patch
 
 Requires: xscreensaver >= 3.08
 Requires: redhat-logos >= 1.1.2
@@ -79,12 +81,121 @@ center, you'll want to install this package.  If you use the GNOME
 desktop, but you're not developing applications, you don't need to
 install this package.
 
-%changelog
-* Fri Sep 08 2000 Yukihiro Nakai <ynakai@redhat.com>
-- Add another patch for gnome_canvas_item_new
 
-* Fri Sep 01 2000 Yukihiro Nakai <ynakai@redhat.com>
-- Delete gnomecc.desktop. It deletes Japanese translation.
+%prep
+%setup -q
+
+#(cd $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/capplets &&
+# tar xfz %{SOURCE3})
+# our translations
+tar zxf %{SOURCE11}
+
+%patch -p1 -b .nosound
+%patch1 -p1 -b .esdrelease
+%patch3 -p1 -b .fsbgpath
+#%patch4 -p1 -b .dontstartesd
+#%patch5 -p1 -b .newsession
+#%patch6 -p1 -b .fixclosedlg
+%patch7 -p1 -b .limitedbgs
+#%patch8 -p1 -b .smfixtry
+
+#%patch22 -p1 -b .warning
+#%patch23 -p1 -b .cappletrace
+#%patch24 -p1 -b .fixrevert
+
+%patch25 -p1 -b .bgcolor1
+
+#%patch26 -p1 -b .switch
+%patch27 -p1 -b .history
+#%patch28 -p1 -b .themesafety
+%patch29 -p1 -b .wmaker
+%patch30 -p1 -b .bigbg
+#%patch31 -p1 -b .noread
+#%patch32 -p1 -b .solidbg
+%patch33 -p1 -b .fvwm2
+%patch40 -p1 -b .jp
+%patch41 -p1 -b .fontset
+%patch50 -p1 -b .mixer
+
+automake
+
+# install new desktop entry and icon
+cp %{SOURCE1} $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/control-center
+cp %{SOURCE2} $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/control-center
+cp %{SOURCE10} $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/po/ja.po
+
+%build
+
+CFLAGS="$RPM_OPT_FLAGS" %configure --sysconfdir=/etc
+make
+
+%install
+rm -rf $RPM_BUILD_ROOT
+
+%{makeinstall} sysconfdir=$RPM_BUILD_ROOT/etc
+
+# clear out ui props for now
+#rm -f $RPM_BUILD_ROOT%{prefix}/bin/ui-properties
+#rm -rf $RPM_BUILD_ROOT%{prefix}/share/control-center/UIOptions
+#rm -rf $RPM_BUILD_ROOT%{prefix}/share/gnome/apps/Settings/UIOptions
+
+%find_lang %name
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%post -p /sbin/ldconfig
+
+%postun -p /sbin/ldconfig
+
+%files -f %{name}.lang
+%defattr(-, root, root)
+
+%doc AUTHORS COPYING ChangeLog NEWS README
+%{prefix}/bin/*
+%{prefix}/lib/lib*.so.*
+%config /etc/CORBA/servers/*
+%{prefix}/share/control-center
+%{prefix}/share/pixmaps/*
+%{prefix}/share/gnome/wm-properties/*
+%{prefix}/share/gnome/apps/Settings/*
+%{prefix}/share/gnome/help/control-center/*
+
+%files devel
+%defattr(-, root, root)
+
+%{prefix}/lib/lib*.so
+%{prefix}/lib/*a
+%{prefix}/lib/*Conf.sh
+%{prefix}/share/idl
+%{prefix}/include/*
+
+%changelog
+* Wed Apr  4 2001 Bill Nottingham <notting@redhat.com>
+- kick the mixer once on startup if we aren't running esd
+
+* Thu Mar 15 2001 Havoc Pennington <hp@redhat.com>
+- translations
+
+* Thu Mar 01 2001 Owen Taylor <otaylor@redhat.com>
+- Rebuild for GTK+-1.2.9 include paths
+
+* Fri Feb 23 2001 Trond Eivind Glomsrød <teg@redhat.com>
+- langify
+- don't define and use "ver" at the top of the file
+- move changelog to sane location
+
+* Thu Feb 08 2001 Elliot Lee <sopwith@redhat.com> 1.2.2-4
+- Apply patch from bug #23782 to see how it works
+
+* Fri Feb 02 2001 Elliot Lee <sopwith@redhat.com> 1.2.2-3
+- Include fvwm2.desktop in WM's
+
+* Sat Jan 27 2001 Akira TAGOH <tagoh@redhat.com>
+- Added Japanese patch.
+
+* Mon Dec 04 2000 Jonathan Blandford <jrb@redhat.com>
+- Update release.
 
 * Sun Aug 13 2000 Owen Taylor <otaylor@redhat.com>
 - Again, fix problem with solid backgrounds in bg-properties capplet
@@ -222,92 +333,3 @@ install this package.
 * Wed Dec 16 1998 Jonathan Blandford <jrb@redhat.com>
 - Created for the new control-center branch
 
-
-%prep
-%setup -q
-
-#(cd $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/capplets &&
-# tar xfz %{SOURCE3})
-
-%patch -p1 -b .nosound
-%patch1 -p1 -b .esdrelease
-%patch3 -p1 -b .fsbgpath
-#%patch4 -p1 -b .dontstartesd
-#%patch5 -p1 -b .newsession
-#%patch6 -p1 -b .fixclosedlg
-%patch7 -p1 -b .limitedbgs
-#%patch8 -p1 -b .smfixtry
-
-#%patch22 -p1 -b .warning
-#%patch23 -p1 -b .cappletrace
-#%patch24 -p1 -b .fixrevert
-
-%patch25 -p1 -b .bgcolor1
-
-#%patch26 -p1 -b .switch
-%patch27 -p1 -b .history
-#%patch28 -p1 -b .themesafety
-%patch29 -p1 -b .wmaker
-%patch30 -p1 -b .bigbg
-%patch31 -p1 -b .noread
-%patch32 -p1 -b .solidbg
-%if %{enable_japanese}
-%patch40 -p1 -b .fontset
-cp %{SOURCE10} $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/po/ja.po
-%endif
-
-automake
-
-# install new desktop entry and icon
-cp %{SOURCE1} $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/control-center
-%if !%{enable_japanese}
-cp %{SOURCE2} $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/control-center
-%endif
-
-%build
-
-CFLAGS="$RPM_OPT_FLAGS" %configure --sysconfdir=/etc
-make
-
-%install
-rm -rf $RPM_BUILD_ROOT
-
-%{makeinstall} sysconfdir=$RPM_BUILD_ROOT/etc
-
-# clear out ui props for now
-#rm -f $RPM_BUILD_ROOT%{prefix}/bin/ui-properties
-#rm -rf $RPM_BUILD_ROOT%{prefix}/share/control-center/UIOptions
-#rm -rf $RPM_BUILD_ROOT%{prefix}/share/gnome/apps/Settings/UIOptions
-
-# strip binaries
-strip `file $RPM_BUILD_ROOT/%{prefix}/bin/* | awk -F':' '/executable/ { print $1 }'`
-
-%clean
-rm -rf $RPM_BUILD_ROOT
-
-%post -p /sbin/ldconfig
-
-%postun -p /sbin/ldconfig
-
-%files
-%defattr(-, root, root)
-
-%doc AUTHORS COPYING ChangeLog NEWS README
-%{prefix}/bin/*
-%{prefix}/lib/lib*.so.*
-%config /etc/CORBA/servers/*
-%{prefix}/share/control-center
-%{prefix}/share/pixmaps/*
-%{prefix}/share/locale/*/*/*
-%{prefix}/share/gnome/wm-properties/*
-%{prefix}/share/gnome/apps/Settings/*
-%{prefix}/share/gnome/help/control-center/*
-
-%files devel
-%defattr(-, root, root)
-
-%{prefix}/lib/lib*.so
-%{prefix}/lib/*a
-%{prefix}/lib/*Conf.sh
-%{prefix}/share/idl
-%{prefix}/include/*
