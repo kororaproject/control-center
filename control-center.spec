@@ -9,7 +9,7 @@
 %define libgnomeui_version 2.3.0
 %define libbonoboui_version 2.3.0
 %define gnome_vfs2_version 2.3.0
-%define desktop_file_utils_version 0.8-4
+%define desktop_file_utils_version 0.9
 %define xft_version 1.9.1.020708.0036
 %define fontconfig_version 0.0.1.020626.1517-2
 %define redhat_menus_version 1.8
