@@ -1,31 +1,30 @@
 %define gettext_package control-center-2.0
 
 %define pango_version 1.0.99.020703
-%define gtk2_version 2.1.2
+%define gtk2_version 2.2
 %define gconf2_version 1.2.0
-%define gnome_desktop_version 2.1.2
-%define libgnome_version 2.1.0
-%define libbonobo_version 2.1.0
-%define libgnomeui_version 2.1.0
-%define libbonoboui_version 2.1.0
-%define gnome_vfs2_version 2.0.0
-%define bonobo_activation_version 1.0.0
-%define desktop_file_utils_version 0.2.90
+%define gnome_desktop_version 2.3.0
+%define libgnome_version 2.3.0
+%define libbonobo_version 2.3.0
+%define libgnomeui_version 2.3.0
+%define libbonoboui_version 2.3.0
+%define gnome_vfs2_version 2.3.0
+%define desktop_file_utils_version 0.3-7
 %define xft_version 1.9.1.020708.0036
 %define fontconfig_version 0.0.1.020626.1517-2
-%define redhat_menus_version 0.5
-%define metacity_version 2.4.34
+%define redhat_menus_version 0.39
+%define metacity_version 2.5.3
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.2.0.1
-Release: 9
+Version: 2.4.0
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/control-center-%{version}.tar.bz2
-Source1: font-capplet-pixmaps.tar.gz
-#Source2: gnome-control-center-po.tar.gz
+Patch: control-center-2.4.0-glade-move.patch
+
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
 
@@ -34,17 +33,7 @@ Patch1: control-center-2.0.1-xftprefs.patch
 
 Patch7: control-center-2.0.1-fakingsucks.patch
 
-# in HEAD.  Remove later.
-Patch8: control-center-2.1.6-fontilus.patch
-Patch9: control-center-2.1.7-schemadefault.patch
-
-# in HEAD.  Remove later.
-Patch10: control-center-2.2.0.1-cursorsupport.patch
-Patch11: control-center-2.2.0.1-cursorcapplet.patch
-Patch12: control-center-2.2.0.1-fixleaks.patch
-Patch13: control-center-2.2.0.1-fixcrash.patch
-
-Obsoletes: gnome control-center-devel
+Obsoletes: gnome control-center-devel fontilus
 Requires: xscreensaver
 Requires: redhat-menus >= %{redhat_menus_version}
 
@@ -70,39 +59,21 @@ GNOME (the GNU Network Object Model Environment) is an attractive and
 easy-to-use GUI desktop environment. The control-center package
 provides the GNOME Control Center utilities that allow you to setup
 and configure your system's GNOME environment (things like the desktop
-background and theme, the screensaver, the window manager, system
-sounds, and mouse behavior).
+background and theme, the screensaver, system sounds, and mouse
+behavior).
 
 If you install GNOME, you need to install control-center.
 
 %prep
-%setup -q -a 1
+%setup -q
 
-# Don't ask...
-#rm configure.in
-#mv configure.ac configure.in
-
-#%patch1 -p1 -b .xftprefs
-# %patch7 -p1 -b .fakingsucks
-%patch8 -p1 -b .fontilus
-%patch9 -p1 -b .schemadefaults
-%patch10 -p0 -b .cursorsupport
-%patch11 -p1 -b .cursorcapplet
-%patch12 -p0 -b .fixleaks
-%patch13 -p1 -b .fixcrash
-
-## unpack po files
-#tar zxf %{SOURCE2}
+%patch -p1 -b .glade-move
 
 %build
 
-# xftprefs patch changes configure.in and Makefile.am
-# gtk1theme patch changes Makefile.am
 automake-1.4
-autoheader
 autoconf
 
-automake-1.4
 %configure
 make
 
@@ -136,6 +107,8 @@ cp -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/icons/* $RPM_BUILD_ROOT%{_da
 /bin/rm -rf $RPM_BUILD_ROOT%{_libdir}/libgnome-window-settings.*a
 /bin/rm -rf $RPM_BUILD_ROOT%{_libdir}/libgnome-window-settings.so
 /bin/rm -rf $RPM_BUILD_ROOT%{_libdir}/pkgconfig/gnome-window-settings*
+/bin/rm -rf $RPM_BUILD_ROOT%{_libdir}/gnome-vfs-2.0/modules/*.a
+/bin/rm -rf $RPM_BUILD_ROOT%{_libdir}/gnome-vfs-2.0/modules/*.la
 
 # loadable modules don't need static versions or .la files
 /bin/rm -f $RPM_BUILD_ROOT%{_libdir}/window-manager-settings/*.*a
@@ -171,11 +144,37 @@ done
 %{_libdir}/*.so.*
 %{_libdir}/window-manager-settings
 %{_sysconfdir}/gconf/schemas/*.schemas
+%{_sysconfdir}/gnome-vfs-2.0/modules/*.conf
+%{_libdir}/gnome-vfs-2.0/modules/*.so
+%{_libexecdir}/fontilus-context-menu
+%{_datadir}/application-registry/*.applications
+%{_datadir}/mime-info/*.keys
+%{_datadir}/mime-info/*.mime
 
 # deliberately leaving out pkgconfig files and devel libs for libgnome-window-settings
 # (also its headers)
 
 %changelog
+* Mon Sep  8 2003 Jonathan Blandford <jrb@redhat.com>
+- release 2.4.0
+
+* Tue Aug 26 2003 Jonathan Blandford <jrb@redhat.com>
+- Obsoletes: fontilus
+
+* Mon Aug 25 2003 Jonathan Blandford <jrb@redhat.com> 1:2.3.5-1
+- update to GNOME-2.4
+
+* Thu Jun  5 2003 Jonathan Blandford <jrb@redhat.com> 1:2.2.2-1
+- bump to new version
+
+* Wed Jun 04 2003 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
+* Tue May 27 2003 Alexander Larsson <alexl@redhat.com> 1:2.2.1-1
+- Update to 2.2.1
+- Add XRandR backport
+- Remove patches already in, update cursorsupport patch to apply
+
 * Mon Feb 24 2003 Elliot Lee <sopwith@redhat.com>
 - debuginfo rebuild
 
