@@ -12,13 +12,13 @@
 %define desktop_file_utils_version 0.8-4
 %define xft_version 1.9.1.020708.0036
 %define fontconfig_version 0.0.1.020626.1517-2
-%define redhat_menus_version 0.39
+%define redhat_menus_version 1.8
 %define metacity_version 2.5.3
 
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.8.0
-Release: 5
+Release: 6
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -169,7 +169,10 @@ done
 # (also its headers)
 
 %changelog
-* Thu Sep 24 2004 Matthias Clasen <mclasen@redhat.com> - 1:2.8.0-5
+* Fri Sep 24 2004 Ray Strode <rstrode@redhat.com> - 1:2.8.0-6
+- require latest version of redhat-menus
+
+* Fri Sep 24 2004 Matthias Clasen <mclasen@redhat.com> - 1:2.8.0-5
 - add a preview to the background file chooser.
 
 * Fri Sep 24 2004 Ray Strode <rstrode@redhat.com> - 1:2.8.0-4
