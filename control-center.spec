@@ -18,7 +18,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.6.1
-Release: 3
+Release: 4
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -176,6 +176,9 @@ done
 # (also its headers)
 
 %changelog
+* Tue Jun 15 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
 * Wed May 05 2004 Warren Togami <wtogami@redhat.com> 1:2.6.1-3
 - workaround "evolution-1.6" bug, always point at /usr/bin/evolution
 - Preferred Applications should be visible from KDE
