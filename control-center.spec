@@ -20,13 +20,14 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.9.4
-Release: 1
+Release: 2
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/control-center-%{version}.tar.bz2
 
 Patch2: control-center-2.9.4-fedora-apps.patch
+Patch3: control-center-2.9.4-filesel.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -79,6 +80,7 @@ If you install GNOME, you need to install control-center.
 %setup -q
 
 %patch2 -p1 -b .fedora-apps
+%patch3 -p1 -b .filesel
 
 %build
 
@@ -168,6 +170,9 @@ done
 # (also its headers)
 
 %changelog
+* Wed Feb  2 2005 Matthias Clasen <mclasen@redhat.com> - 2.9.4-2
+- Make the background filechooser open in the right directory
+
 * Tue Feb  1 2005 Matthias Clasen <mclasen@redhat.com> - 2.9.4-1
 - Update to 2.9.4
 - Drop upstreamed patches
