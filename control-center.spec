@@ -18,7 +18,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.8.0
-Release: 9
+Release: 10
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -171,6 +171,10 @@ done
 # (also its headers)
 
 %changelog
+* Mon Oct 11 2004 Warren Togami <wtogami@redhat.com> - 1:2.8.0-10
+- #135219 Preferred Applications hardcoded evolution-1.6
+- Add Opera as browser option
+
 * Wed Oct 06 2004 Warren Togami <wtogami@redhat.com> - 1:2.8.0-9
 - #109738 Again Fix Preferred Applications url handler keys
 
