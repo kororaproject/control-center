@@ -171,7 +171,7 @@ done
 # (also its headers)
 
 %changelog
-* Mon Oct 11 2004 Warren Togami <wtogami@redhat.com> - 1:2.8.0-10
+* Mon Oct 11 2004 Warren Togami <wtogami@redhat.com> - 1:2.8.0-11
 - #135219 Preferred Applications hardcoded evolution-1.6
 - Add Opera as browser and mail client
 
