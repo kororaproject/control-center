@@ -17,20 +17,15 @@
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.5.2
-Release: 3
+Version: 2.5.4
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/control-center-%{version}.tar.bz2
 
-Patch1: control-center-2.5.2-xklavier.patch
-Patch2: control-center-2.5.2-freetype.patch
-Patch3: control-center-2.5.2-bright.patch
-Patch4: control-center-2.5.2-destdir.patch
+Patch1: control-center-2.5.2-freetype.patch
 
-# Temporary hack to disable broken xkb setup.  Remove later when it works.
-Patch5: control-center-2.5.2-noerror.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
 
@@ -38,7 +33,7 @@ Obsoletes: gnome control-center-devel fontilus
 Requires: xscreensaver
 Requires: redhat-menus >= %{redhat_menus_version}
 Requires: gnome-icon-theme
-Requires: libxklavier
+Requires: libxklavier >= 0.97
 Requires: libgail-gnome
 Requires: alsa-lib
 
@@ -76,18 +71,9 @@ If you install GNOME, you need to install control-center.
 %prep
 %setup -q
 
-cd libgswitchit
-%patch1 -p0 -b .xklavier
-cd ..
-%patch2 -p1 -b .freetype
-%patch3 -p1 -b .bright
-%patch4 -p1 -b .destdir
-%patch5 -p1 -b .noerror
+%patch1 -p1 -b .freetype
 
 %build
-
-#workaround broken perl-XML-Parser on 64bit arches
-export PERL5LIB=/usr/lib64/perl5/vendor_perl/5.8.2:/usr/lib64/perl5/vendor_perl/5.8.0
 
 automake-1.4
 autoconf
@@ -139,7 +125,7 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-SCHEMAS="apps_gnome_settings_daemon_screensaver.schemas apps_gnome_settings_daemon_default_editor.schemas desktop_gnome_font_rendering.schemas fontilus.schemas themus.schemas"
+SCHEMAS="apps_gnome_settings_daemon_default_editor.schemas apps_gnome_settings_daemon_keybindings.schemas apps_gnome_settings_daemon_screensaver.schemas desktop_gnome_font_rendering.schemas desktop_gnome_peripherals_keyboard_xkb.schemas fontilus.schemas themus.schemas"
 for S in $SCHEMAS; do
   gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/$S > /dev/null
 done
@@ -175,6 +161,22 @@ done
 # (also its headers)
 
 %changelog
+* Thu Mar 11 2004 Mark McLoughlin <markmcredhat.com> 2.5.4-1
+- Update to 2.5.4
+
+* Tue Mar 02 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
+* Fri Feb 27 2004 Jeremy Katz <katzj@redhat.com> - 1:2.5.3-2
+- fix XKB stuff by adding the schema (#114477)
+- add other missing schemas (#114526)
+
+* Wed Feb 25 2004 Alexander Larsson <alexl@redhat.com> 1:2.5.3-1
+- update to 2.5.3
+
+* Fri Feb 13 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
 * Mon Feb  2 2004 Jonathan Blandford <jrb@redhat.com> 1:2.5.2-2
 - temporary fix to get rid of error dialog.  Need to fix properly later
 
