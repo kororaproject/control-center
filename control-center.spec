@@ -6,7 +6,7 @@
 Summary: The GNOME Control Center.
 Name: control-center
 Version: 1.4.0.1
-Release: 17
+Release: 18
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -64,6 +64,7 @@ Patch54: control-center-1.4.0.1-correct_config.patch
 Patch55: control-center-1.4.0.1-cleanup.patch
 Patch56: control-center-1.4.0.1-cjk.patch
 Patch57: control-center-1.4.0.1-setroothint.patch
+Patch58: control-center-1.4.0.1-uipropertiesmenu.patch
 
 Requires: xscreensaver >= 3.32
 
@@ -133,6 +134,7 @@ tar zxf %{SOURCE11}
 %patch55 -p1 -b .cleanup
 %patch56 -p1 -b .cjk
 %patch57 -p1 -b .setroothint
+%patch58 -p1 -b .uipropertiesmenu
 
 automake
 
@@ -202,6 +204,9 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/include/*
 
 %changelog
+* Wed Aug 29 2001 Havoc Pennington <hp@redhat.com>
+- fix #52831 (UI properties in Programs menu)
+
 * Mon Aug 27 2001 Havoc Pennington <hp@redhat.com>
 - Add po files from sources.redhat.com
 
