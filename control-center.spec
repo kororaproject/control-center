@@ -18,7 +18,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.8.0
-Release: 3
+Release: 4
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -98,14 +98,11 @@ desktop-file-install --vendor gnome --delete-original                   \
 
 desktop-file-install --vendor gnome --delete-original                   \
   --dir $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets          \
-  --remove-only-show-in GNOME                                              \
-  --add-category X-Red-Hat-Base                                         \
   --remove-category Settings                                            \
   $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets/gnome-default-applications.desktop
 
-# replace control center desktop file
+# remove control center desktop file
 /bin/rm -f $RPM_BUILD_ROOT%{_datadir}/applications/gnomecc.desktop
-ln -sf %{_datadir}/desktop-menu-patches/gnome-control-center.desktop $RPM_BUILD_ROOT%{_datadir}/applications/gnome-control-center.desktop
 
 # replace accessibility desktop file
 /bin/rm -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets/*accessibility*.desktop
@@ -170,6 +167,10 @@ done
 # (also its headers)
 
 %changelog
+* Fri Sep 24 2004 Ray Strode <rstrode@redhat.com> - 1:2.8.0-4
+- Delete control center desktop file
+- Remove superfluous args to second desktop-file-install command
+
 * Thu Sep 23 2004 Ray Strode <rstrode@redhat.com> - 1:2.8.0-3
 - Require a working version of desktop-file-install
 
