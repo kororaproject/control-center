@@ -18,7 +18,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.8.0
-Release: 4
+Release: 5
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -26,6 +26,7 @@ Source: ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/control-center-%{versio
 
 Patch2: control-center-2.7.0-fedora-apps.patch
 Patch4: control-center-2.7.1-modifier.patch
+Patch5: control-center-2.8.0-filesel.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -77,6 +78,7 @@ If you install GNOME, you need to install control-center.
 
 %patch2 -p1 -b .fedora-apps
 %patch4 -p1 -b .modifier
+%patch5 -p1 -b .filesel
                                                                                                                              
 %build
 
@@ -167,6 +169,9 @@ done
 # (also its headers)
 
 %changelog
+* Thu Sep 23 2004 Matthias Clasen <mclasen@redhat.com> - 1:2.8.0-5
+- add a preview to the background file chooser.
+
 * Fri Sep 24 2004 Ray Strode <rstrode@redhat.com> - 1:2.8.0-4
 - Delete control center desktop file
 - Remove superfluous args to second desktop-file-install command
