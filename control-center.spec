@@ -1,7 +1,7 @@
 %define gettext_package control-center-2.0
 
 %define pango_version 1.0.99.020703
-%define gtk2_version 2.2
+%define gtk2_version 2.3.0
 %define gconf2_version 1.2.0
 %define gnome_desktop_version 2.3.0
 %define libgnome_version 2.3.0
@@ -14,21 +14,19 @@
 %define fontconfig_version 0.0.1.020626.1517-2
 %define redhat_menus_version 1.8
 %define metacity_version 2.5.3
+%define libxklavier_version 1.14
+%define gnome_menus_version 2.9.1
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.8.0
-Release: 12
+Version: 2.9.4
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/control-center-%{version}.tar.bz2
 
-Patch2: control-center-2.8.0-fedora-apps.patch
-Patch4: control-center-2.7.1-modifier.patch
-Patch5: control-center-2.8.0-filesel.patch
-Patch6: control-center-2.8.0-urlhandler-keys.patch
-Patch7: control-center-2.8.0-install-icons.patch
+Patch2: control-center-2.9.4-fedora-apps.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -37,9 +35,10 @@ Obsoletes: gnome control-center-devel fontilus
 Requires: xscreensaver
 Requires: redhat-menus >= %{redhat_menus_version}
 Requires: gnome-icon-theme
-Requires: libxklavier >= 1.02
+Requires: libxklavier >= %{libxklavier_version}
 Requires: libgail-gnome
 Requires: alsa-lib
+Requires: gnome-menus >= %{gnome_menus_version}
 
 BuildRequires: esound
 BuildRequires: pango-devel >= %{pango_version}
@@ -57,11 +56,12 @@ BuildRequires: desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires: /usr/bin/automake-1.4
 BuildRequires: /usr/bin/autoconf
 BuildRequires: metacity >= %{metacity_version}
-BuildRequires: libxklavier-devel >= 1.02
+BuildRequires: libxklavier-devel >= %{libxklavier_version}
 BuildRequires: alsa-lib-devel
 BuildRequires: nautilus
 BuildRequires: eel2-devel
 BuildRequires: gettext
+BuildRequires: gnome-menus-devel >= %{gnome_menus_version}
 # For intltool:
 BuildRequires: perl-XML-Parser >= 2.31-16
 
@@ -79,11 +79,7 @@ If you install GNOME, you need to install control-center.
 %setup -q
 
 %patch2 -p1 -b .fedora-apps
-%patch4 -p1 -b .modifier
-%patch5 -p1 -b .filesel
-%patch6 -p1 -b .urlhandler
-%patch7 -p1 -b .install-icons
-                                                                                                                             
+
 %build
 
 %configure --disable-gstreamer --enable-alsa
@@ -173,6 +169,10 @@ done
 # (also its headers)
 
 %changelog
+* Tue Feb  1 2005 Matthias Clasen <mclasen@redhat.com> - 2.9.4-1
+- Update to 2.9.4
+- Drop upstreamed patches
+
 * Wed Oct 13 2004 Marco Pesenti Gritti <mpg@redhat.com>
 - #134670 Install icon theme untars it into $HOME/.themes
 
