@@ -6,7 +6,7 @@
 Summary: The GNOME Control Center.
 Name: control-center
 Version: 1.4.0.1
-Release: 19
+Release: 30
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -24,6 +24,7 @@ BuildRequires: gdk-pixbuf-devel
 BuildRequires: gnome-libs-devel
 BuildRequires: gnome-vfs-devel
 BuildRequires: libxml-devel
+##BuildRequires: automake14
 
 Obsoletes: gnome
 Requires: /bin/aumix-minimal
@@ -67,8 +68,11 @@ Patch57: control-center-1.4.0.1-setroothint.patch
 Patch58: control-center-1.4.0.1-uipropertiesmenu.patch
 Patch59: control-center-1.4.0.1-pixbufflags.patch
 Patch60: control-center-1.4.0.1-compileflags.patch
-
-Requires: xscreensaver >= 3.32
+Patch61: control-center-1.4.0.1-noscreensaver.patch
+Patch62: control-center-1.4.0.1-bg-radio-buttons.patch
+# Make the theme switcher write fontsets, not fonts
+Patch63: control-center-1.4.0.1-fontset.patch
+Requires: xscreensaver
 
 %description
 GNOME (the GNU Network Object Model Environment) is an attractive and
@@ -139,7 +143,11 @@ tar zxf %{SOURCE11}
 %patch58 -p1 -b .uipropertiesmenu
 %patch59 -p1 -b .pixbufflags
 %patch60 -p1 -b .compileflags
+#%patch61 -p1 -b .screensaver
+%patch62 -p1 -b .bg-radio-buttons
+%patch63 -p1 -b .fontset
 
+# automake-1.4
 automake
 
 # install new desktop entry and icon
@@ -148,12 +156,10 @@ cp %{SOURCE2} $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/control-center
 
 %build
 
-CFLAGS="$RPM_OPT_FLAGS" %configure --sysconfdir=/etc
+%configure --sysconfdir=/etc
 make
 
 cd %{ccsingle} 
-automake
-autoconf
 %configure
 make
 
@@ -208,6 +214,38 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/include/*
 
 %changelog
+* Fri Apr 12 2002 Owen Taylor <otaylor@redhat.com>
+- Make the theme selector write fontsets, not fonts (#62413)
+
+* Mon Apr  1 2002 Havoc Pennington <hp@redhat.com>
+- really put screensaver capplet back (I think)
+
+* Wed Mar 27 2002 Bill Nottingham <notting@redhat.com>
+- revert xscreensaver change
+
+* Wed Mar 27 2002 Havoc Pennington <hp@redhat.com>
+- init "Scaled" radio button correctly #61913
+
+* Mon Mar 25 2002 Havoc Pennington <hp@redhat.com>
+- change path to windowmaker config tool again, #61824
+
+* Thu Mar 14 2002 Bill Nottingham <notting@redhat.com>
+- rather than keep patching and patching it, use xscreensaver's own
+  capplet
+
+* Wed Feb 27 2002 Havoc Pennington <hp@redhat.com>
+- rebuild in Hampton
+
+* Wed Jan 30 2002 Jonathan Blandford <jrb@redhat.com>
+- Rebuild package.
+
+* Thu Jan 24 2002 Tim Powers <timp@redhat.com>
+- rebuilt against new openssl
+
+* Fri Jan 18 2002 Havoc Pennington <hp@redhat.com>
+- automake14
+- don't run auto* again in ccsingle subdir, not sure why we did that
+
 * Sun Oct 28 2001 Havoc Pennington <hp@redhat.com>
 - rebuild with new gnome-libs so that libcapplet has right cflags/libs
 - pixbufflags patch to make the rebuild work
