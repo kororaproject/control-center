@@ -18,7 +18,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.8.0
-Release: 11
+Release: 12
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -28,6 +28,7 @@ Patch2: control-center-2.8.0-fedora-apps.patch
 Patch4: control-center-2.7.1-modifier.patch
 Patch5: control-center-2.8.0-filesel.patch
 Patch6: control-center-2.8.0-urlhandler-keys.patch
+Patch7: control-center-2.8.0-install-icons.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -81,6 +82,7 @@ If you install GNOME, you need to install control-center.
 %patch4 -p1 -b .modifier
 %patch5 -p1 -b .filesel
 %patch6 -p1 -b .urlhandler
+%patch7 -p1 -b .install-icons
                                                                                                                              
 %build
 
@@ -171,6 +173,9 @@ done
 # (also its headers)
 
 %changelog
+* Wed Oct 13 2004 Marco Pesenti Gritti <mpg@redhat.com>
+- #134670 Install icon theme untars it into $HOME/.themes
+
 * Mon Oct 11 2004 Warren Togami <wtogami@redhat.com> - 1:2.8.0-11
 - #135219 Preferred Applications hardcoded evolution-1.6
 - Add Opera as browser and mail client
