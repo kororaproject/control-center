@@ -18,7 +18,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.0.1
-Release: 3
+Release: 4
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -36,6 +36,8 @@ Patch2: control-center-2.0.1-extrafonts.patch
 Patch3: control-center-2.0.1-switchwmtheme.patch
 # Switch the gtk1 theme along with the GTK2 theme
 Patch4: control-center-2.0.1-gtk1theme.patch
+# Update to the new metacity keys
+Patch5: control-center-2.0.1-newmetacitykeys.patch
 
 
 
@@ -81,6 +83,7 @@ If you install GNOME, you need to install control-center.
 %patch2 -p1 -b .extrafonts
 %patch3 -p1 -b .switchwmtheme
 %patch4 -p1 -b .gtk1theme
+%patch5 -p1 -b .newmetacitykeys
 
 %build
 
