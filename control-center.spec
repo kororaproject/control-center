@@ -18,7 +18,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.4.0
-Release: 1
+Release: 3
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -36,6 +36,7 @@ Patch7: control-center-2.0.1-fakingsucks.patch
 Obsoletes: gnome control-center-devel fontilus
 Requires: xscreensaver
 Requires: redhat-menus >= %{redhat_menus_version}
+Requires: libgail-gnome
 
 BuildRequires: esound
 BuildRequires: pango-devel >= %{pango_version}
@@ -121,7 +122,7 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-SCHEMAS="apps_gnome_settings_daemon_screensaver.schemas apps_gnome_settings_daemon_default_editor.schemas desktop_gnome_font_rendering.schemas"
+SCHEMAS="apps_gnome_settings_daemon_screensaver.schemas apps_gnome_settings_daemon_default_editor.schemas desktop_gnome_font_rendering.schemas fontilus.schemas themus.schemas"
 for S in $SCHEMAS; do
   gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/$S > /dev/null
 done
@@ -155,6 +156,12 @@ done
 # (also its headers)
 
 %changelog
+* Wed Oct 29 2003 Jonathan Blandford <jrb@redhat.com> 1:2.4.0-3
+- require libgail-gnome
+
+* Mon Sep 22 2003 Jonathan Blandford <jrb@redhat.com> 1:2.4.0-2
+- get all the schemas
+
 * Mon Sep  8 2003 Jonathan Blandford <jrb@redhat.com>
 - release 2.4.0
 
