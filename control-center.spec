@@ -6,7 +6,7 @@
 Summary: The GNOME Control Center.
 Name: control-center
 Version: 1.4.0.1
-Release: 12
+Release: 13
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -63,6 +63,8 @@ Patch51: control-center-xscreensaver-dpms.patch
 Patch52: control-center-1.4.0.1-multifix.patch
 Patch53: control-center-1.4.0.1-nocapplet.patch
 Patch54: control-center-1.4.0.1-correct_config.patch
+Patch55: control-center-1.4.0.1-cleanup.patch
+
 Requires: xscreensaver >= 3.32
 
 %description
@@ -129,6 +131,7 @@ tar zxf %{SOURCE11}
 %patch52 -p1 -b .multifix
 %patch53 -p1 -b .nocapplet
 %patch54 -p1 -b .correct_config
+%patch55 -p1 -b .cleanup
 
 automake
 
@@ -185,9 +188,9 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/CORBA/servers/*
 %{prefix}/share/control-center
 %{prefix}/share/pixmaps/*
-%{prefix}/share/gnome/wm-properties/*
+%{prefix}/share/gnome/wm-properties/
 %{prefix}/share/gnome/apps/Settings/*
-%{prefix}/share/gnome/help/control-center/*
+%{prefix}/share/gnome/help/control-center/
 
 %files devel
 %defattr(-, root, root)
