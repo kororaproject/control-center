@@ -1,78 +1,37 @@
-# Note that this is NOT a relocatable package
-%define prefix   /usr
+%define gtk2_version 2.0.2
+%define gconf2_version 1.1.11
+%define gnome_desktop_version 1.5.22
+%define libgnome_version 1.117.2
+%define libbonobo_version 2.0.0
+%define libgnomeui_version 1.117.2
+%define libbonoboui_version 1.118.0
+%define gnome_vfs2_version 1.9.16
+%define bonobo_activation_version 1.0.0
 
-%define ccsingle control-center-single-0.3
-
-Summary: The GNOME Control Center.
+Summary: GNOME Control Center.
 Name: control-center
-Version: 1.4.0.1
-Release: 31
+Version: 1.99.10
+Release: 4
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
-Source: ftp://ftp.gnome.org/pub/control-center-%{version}.tar.gz
-
-Source1: control-center.png
-Source2: gnomecc.desktop
-#Source3: background-properties-new.tar.gz
-Source11: control-center-pofiles.tar.gz
-Source12: %{ccsingle}.tar.gz
-
-BuildPrereq: gdk-pixbuf
-BuildRoot: %{_tmppath}/control-center-%{PACKAGE_VERSION}-root
-BuildRequires: gdk-pixbuf-devel
-BuildRequires: gnome-libs-devel
-BuildRequires: gnome-vfs-devel
-BuildRequires: libxml-devel
-##BuildRequires: automake14
-
-Obsoletes: gnome
-Requires: /bin/aumix-minimal
-
+Source: ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/control-center-%{version}.tar.bz2
+BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
 
-Patch: control-center-nosound.patch
-Patch1: control-center-esdrelease.patch
-Patch3: control-center-fsbgpath.patch
-#Patch4: control-center-1.0.5-dontstartesd.patch
-#Patch5: control-center-1.0.5-newsession.patch
-#Patch6: control-center-1.0.5-fixclosedlg.patch 
-Patch7: control-center-1.2.0-limitedbgs.patch
-
-#Patch8: control-center-1.0.5-smfixtry.patch
-
-#Patch22: control-center-1.0.5-warning.patch
-#Patch23: control-center-1.0.7pre-cappletrace.patch
-#Patch24: control-center-fixrevert.patch
-
-Patch25: control-center-1.4.0.1-bgcolor1.patch
-#Patch26: control-center-1.2.0-switch.patch
-Patch27: control-center-1.2.0-history.patch
-#Patch28: control-center-1.2.0-themesafety.patch
-Patch29: control-center-1.2.0-wmaker.patch
-Patch30: control-center-1.2.1-bigbg.patch
-#Patch31: control-center-1.2.1-noread.patch
-#Patch32: control-center-1.2.1-solidbg.patch
-#Patch33: control-center-1.2.2-fvwm2.patch
-# Japanese patch
-#Patch40: control-center-1.2.1-jp.patch
-# Korean-related patch (?) bug #23782
-#Patch41: control-center-1.2.2-fontset.patch
-Patch50: control-center-mixer.patch
-Patch51: control-center-xscreensaver-dpms.patch
-Patch52: control-center-1.4.0.1-multifix.patch
-Patch54: control-center-1.4.0.1-correct_config.patch
-Patch55: control-center-1.4.0.1-cleanup.patch
-Patch56: control-center-1.4.0.1-cjk.patch
-Patch57: control-center-1.4.0.1-setroothint.patch
-Patch58: control-center-1.4.0.1-uipropertiesmenu.patch
-Patch59: control-center-1.4.0.1-pixbufflags.patch
-Patch60: control-center-1.4.0.1-compileflags.patch
-Patch61: control-center-1.4.0.1-noscreensaver.patch
-Patch62: control-center-1.4.0.1-bg-radio-buttons.patch
-# Make the theme switcher write fontsets, not fonts
-Patch63: control-center-1.4.0.1-fontset.patch
+Obsoletes: gnome
 Requires: xscreensaver
+
+BuildRequires: esound
+BuildRequires: gtk2-devel >= %{gtk2_version}
+BuildRequires: GConf2-devel >= %{gconf2_version}
+BuildRequires: gnome-desktop-devel >= %{gnome_desktop_version}
+BuildRequires: libgnomeui-devel >= %{libgnomeui_version}
+BuildRequires: libgnome-devel >= %{libgnome_version}
+BuildRequires: libbonobo-devel >= %{libbonobo_version}
+BuildRequires: libbonoboui-devel >= %{libbonoboui_version}
+BuildRequires: gnome-vfs2-devel >= %{gnome_vfs2_version}
+BuildRequires: bonobo-activation-devel >= %{bonobo_activation_version}
 
 %description
 GNOME (the GNU Network Object Model Environment) is an attractive and
@@ -84,103 +43,20 @@ sounds, and mouse behavior).
 
 If you install GNOME, you need to install control-center.
 
-%package devel
-Summary: The GNOME Control Center development environment.
-Group: Development/Libraries
-Requires: control-center = %{PACKAGE_VERSION}
-Requires: gnome-libs-devel
-
-%description devel
-The control-center-devel package contains the development environment
-needed for creating the capplets used in the GNOME Control
-Center.
-
-If you are interested in developing capplets for the GNOME control
-center, you need to install this package. If you use the GNOME
-desktop, but you are not developing applications, you do not need to
-install this package.
-
 %prep
-%setup -q -a 12
-
-#(cd $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/capplets &&
-# tar xfz %{SOURCE3})
-# our translations
-tar zxf %{SOURCE11}
-
-%patch -p1 -b .nosound
-%patch1 -p1 -b .esdrelease
-%patch3 -p1 -b .fsbgpath
-#%patch4 -p1 -b .dontstartesd
-#%patch5 -p1 -b .newsession
-#%patch6 -p1 -b .fixclosedlg
-%patch7 -p1 -b .limitedbgs
-#%patch8 -p1 -b .smfixtry
-
-#%patch22 -p1 -b .warning
-#%patch23 -p1 -b .cappletrace
-#%patch24 -p1 -b .fixrevert
-
-%patch25 -p1 -b .bgcolor1
-
-#%patch26 -p1 -b .switch
-#%patch27 -p1 -b .history
-#%patch28 -p1 -b .themesafety
-%patch29 -p1 -b .wmaker
-%patch30 -p1 -b .bigbg
-#%patch31 -p1 -b .noread
-#%patch32 -p1 -b .solidbg
-#%patch33 -p1 -b .fvwm2
-#%patch40 -p1 -b .jp
-#%patch41 -p1 -b .fontset
-%patch50 -p1 -b .mixer
-%patch51 -p1 -b .dpms
-%patch52 -p1 -b .multifix
-%patch54 -p1 -b .correct_config
-%patch55 -p1 -b .cleanup
-%patch56 -p1 -b .cjk
-%patch57 -p1 -b .setroothint
-%patch58 -p1 -b .uipropertiesmenu
-%patch59 -p1 -b .pixbufflags
-%patch60 -p1 -b .compileflags
-#%patch61 -p1 -b .screensaver
-%patch62 -p1 -b .bg-radio-buttons
-%patch63 -p1 -b .fontset
-
-# automake-1.4
-automake
-
-# install new desktop entry and icon
-cp %{SOURCE1} $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/control-center
-cp %{SOURCE2} $RPM_BUILD_DIR/control-center-%{PACKAGE_VERSION}/control-center
+%setup -q
 
 %build
 
-%configure --sysconfdir=/etc
-make
-
-cd %{ccsingle} 
 %configure
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{makeinstall} sysconfdir=$RPM_BUILD_ROOT/etc
-
-# clear out ui props for now
-#rm -f $RPM_BUILD_ROOT%{prefix}/bin/ui-properties
-#rm -rf $RPM_BUILD_ROOT%{prefix}/share/control-center/UIOptions
-#rm -rf $RPM_BUILD_ROOT%{prefix}/share/gnome/apps/Settings/UIOptions
-
-# get rid of this, so it won't show up in panel menu. use start here 
-# instead.
-rm -f $RPM_BUILD_ROOT%{prefix}/share/gnome/apps/Settings/gnomecc.desktop
-
-cd %{ccsingle}
-%makeinstall sysconfdir=$RPM_BUILD_ROOT/etc
-
-cd $RPM_BUILD_DIR/%{name}-%{version}
+export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
+%makeinstall
+unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 
 %find_lang %name
 
@@ -188,6 +64,11 @@ cd $RPM_BUILD_DIR/%{name}-%{version}
 rm -rf $RPM_BUILD_ROOT
 
 %post -p /sbin/ldconfig
+export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
+SCHEMAS="apps_gnome_keybinding_properties.schemas apps_gnome_settings_daemon_screensaver.schemas"
+for S in $SCHEMAS; do
+  gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/$S > /dev/null
+done
 
 %postun -p /sbin/ldconfig
 
@@ -195,25 +76,37 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 
 %doc AUTHORS COPYING ChangeLog NEWS README
-%{prefix}/bin/*
-%{prefix}/lib/lib*.so.*
-%config /etc/CORBA/servers/*
-%{prefix}/share/control-center
-%{prefix}/share/pixmaps/*
-%{prefix}/share/gnome/wm-properties/
-%{prefix}/share/gnome/apps/Settings/*
-%{prefix}/share/gnome/help/control-center/
 
-%files devel
-%defattr(-, root, root)
-
-%{prefix}/lib/lib*.so
-%{prefix}/lib/*a
-%{prefix}/lib/*Conf.sh
-%{prefix}/share/idl
-%{prefix}/include/*
+%{_datadir}/control-center-2.0
+%{_datadir}/pixmaps
+%{_datadir}/gnome
+%{_datadir}/applications
+%{_datadir}/gnome-2.0
+%{_datadir}/idl
+%{_bindir}/*
+%{_libdir}/bonobo
+%{_sysconfdir}/gconf/schemas/*.schemas
 
 %changelog
+* Wed Jun  5 2002 Havoc Pennington <hp@redhat.com>
+- rebuild with new dependent libs
+
+* Tue May 21 2002 Havoc Pennington <hp@redhat.com>
+- rebuild in different environment
+
+* Tue May 21 2002 Havoc Pennington <hp@redhat.com>
+- rebuild in different environment
+- build requires bonobo-activation
+
+* Tue May 21 2002 Havoc Pennington <hp@redhat.com>
+- 1.99.10
+
+* Fri May  3 2002 Havoc Pennington <hp@redhat.com>
+- 1.99.9
+
+* Wed Apr 17 2002 Havoc Pennington <hp@redhat.com>
+- Move to GNOME 2 version
+
 * Mon Apr 15 2002 Havoc Pennington <hp@redhat.com>
 - merge in translations
 
