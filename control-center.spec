@@ -18,7 +18,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.7.1
-Release: 3
+Release: 4
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -97,6 +97,7 @@ desktop-file-install --vendor gnome --delete-original                   \
   --dir $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets          \
   --add-only-show-in GNOME                                              \
   --add-category X-Red-Hat-Base                                         \
+  --remove-category Settings                                            \
   $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets/*
 
 # Preferred Applications should be visible from KDE
@@ -169,6 +170,9 @@ done
 # (also its headers)
 
 %changelog
+* Mon Sep 20 2004 Ray Strode <rstrode@redhat.com> - 1:2.7.1-4
+- remove Preferred Applications entry from Preferences menu
+
 * Tue Sep  7 2004 Matthias Clasen <mclasen@redhat.com> - 1:2.7.1-3
 - don't show hyper if its mapped to super (#131635)
 
