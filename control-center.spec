@@ -17,26 +17,30 @@
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.4.0
+Version: 2.5.2
 Release: 3
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/control-center-%{version}.tar.bz2
-Patch: control-center-2.4.0-glade-move.patch
 
+Patch1: control-center-2.5.2-xklavier.patch
+Patch2: control-center-2.5.2-freetype.patch
+Patch3: control-center-2.5.2-bright.patch
+Patch4: control-center-2.5.2-destdir.patch
+
+# Temporary hack to disable broken xkb setup.  Remove later when it works.
+Patch5: control-center-2.5.2-noerror.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
-
-# Add configuration options for Xft preferences to font capplet
-Patch1: control-center-2.0.1-xftprefs.patch
-
-Patch7: control-center-2.0.1-fakingsucks.patch
 
 Obsoletes: gnome control-center-devel fontilus
 Requires: xscreensaver
 Requires: redhat-menus >= %{redhat_menus_version}
+Requires: gnome-icon-theme
+Requires: libxklavier
 Requires: libgail-gnome
+Requires: alsa-lib
 
 BuildRequires: esound
 BuildRequires: pango-devel >= %{pango_version}
@@ -54,6 +58,10 @@ BuildRequires: desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires: /usr/bin/automake-1.4
 BuildRequires: /usr/bin/autoconf
 BuildRequires: metacity >= %{metacity_version}
+BuildRequires: libxklavier-devel
+BuildRequires: alsa-lib-devel
+# For intltool:
+BuildRequires: perl-XML-Parser >= 2.31-16
 
 %description
 GNOME (the GNU Network Object Model Environment) is an attractive and
@@ -68,9 +76,18 @@ If you install GNOME, you need to install control-center.
 %prep
 %setup -q
 
-%patch -p1 -b .glade-move
+cd libgswitchit
+%patch1 -p0 -b .xklavier
+cd ..
+%patch2 -p1 -b .freetype
+%patch3 -p1 -b .bright
+%patch4 -p1 -b .destdir
+%patch5 -p1 -b .noerror
 
 %build
+
+#workaround broken perl-XML-Parser on 64bit arches
+export PERL5LIB=/usr/lib64/perl5/vendor_perl/5.8.2:/usr/lib64/perl5/vendor_perl/5.8.0
 
 automake-1.4
 autoconf
@@ -82,7 +99,7 @@ make
 rm -rf $RPM_BUILD_ROOT
 
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
-%makeinstall
+make install DESTDIR=$RPM_BUILD_ROOT
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 
 desktop-file-install --vendor gnome --delete-original                   \
@@ -141,6 +158,7 @@ done
 %{_datadir}/gnome-2.0
 %{_datadir}/idl
 %{_bindir}/*
+%{_libexecdir}/*
 %{_libdir}/bonobo
 %{_libdir}/*.so.*
 %{_libdir}/window-manager-settings
@@ -151,11 +169,21 @@ done
 %{_datadir}/application-registry/*.applications
 %{_datadir}/mime-info/*.keys
 %{_datadir}/mime-info/*.mime
+%{_datadir}/icons/gnome/48x48/apps/accessibility-directory.png
 
 # deliberately leaving out pkgconfig files and devel libs for libgnome-window-settings
 # (also its headers)
 
 %changelog
+* Mon Feb  2 2004 Jonathan Blandford <jrb@redhat.com> 1:2.5.2-2
+- temporary fix to get rid of error dialog.  Need to fix properly later
+
+* Thu Jan 29 2004 Alexander Larsson <alexl@redhat.com> 1:2.5.2-2
+- fix setting-daemon .server file
+
+* Tue Jan 27 2004 Alexander Larsson <alexl@redhat.com> 1:2.5.2-1
+- update to 2.5.2
+
 * Wed Oct 29 2003 Jonathan Blandford <jrb@redhat.com> 1:2.4.0-3
 - require libgail-gnome
 
