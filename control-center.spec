@@ -6,7 +6,7 @@
 Summary: The GNOME Control Center.
 Name: control-center
 Version: 1.4.0.1
-Release: 15
+Release: 16
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -63,6 +63,7 @@ Patch52: control-center-1.4.0.1-multifix.patch
 Patch54: control-center-1.4.0.1-correct_config.patch
 Patch55: control-center-1.4.0.1-cleanup.patch
 Patch56: control-center-1.4.0.1-cjk.patch
+Patch57: control-center-1.4.0.1-setroothint.patch
 
 Requires: xscreensaver >= 3.32
 
@@ -131,6 +132,7 @@ tar zxf %{SOURCE11}
 %patch54 -p1 -b .correct_config
 %patch55 -p1 -b .cleanup
 %patch56 -p1 -b .cjk
+%patch57 -p1 -b .setroothint
 
 automake
 
@@ -200,6 +202,10 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/include/*
 
 %changelog
+* Thu Aug 23 2001 Havoc Pennington <hp@redhat.com>
+- set the _XROOTCOLOR_PIXEL property, should fix
+  bug #52141
+
 * Wed Aug 22 2001 Yukihiro Nakai <ynakai@redhat.com>
 - Update translation.
 - Add CJK fontset patch
