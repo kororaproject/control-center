@@ -6,7 +6,7 @@
 Summary: The GNOME Control Center.
 Name: control-center
 Version: 1.4.0.1
-Release: 16
+Release: 17
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -15,7 +15,7 @@ Source: ftp://ftp.gnome.org/pub/control-center-%{version}.tar.gz
 Source1: control-center.png
 Source2: gnomecc.desktop
 #Source3: background-properties-new.tar.gz
-Source11: control-center-po.tar.gz
+Source11: control-center-pofiles.tar.gz
 Source12: %{ccsingle}.tar.gz
 
 BuildPrereq: gdk-pixbuf
@@ -202,6 +202,9 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/include/*
 
 %changelog
+* Mon Aug 27 2001 Havoc Pennington <hp@redhat.com>
+- Add po files from sources.redhat.com
+
 * Thu Aug 23 2001 Havoc Pennington <hp@redhat.com>
 - set the _XROOTCOLOR_PIXEL property, should fix
   bug #52141
