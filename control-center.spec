@@ -88,7 +88,8 @@ If you install GNOME, you need to install control-center.
 
 %build
 
-%configure --disable-gstreamer --enable-alsa
+# Add -Wno-error to silence gswitchit
+%configure --disable-gstreamer --enable-alsa CFLAGS="$RPM_OPT_FLAGS -Wno-error"
 make
 
 %install
@@ -178,6 +179,7 @@ update-desktop-database --quiet %{_datadir}/applications
 %changelog
 * Thu Mar 17 2005 Ray Strode <rstrode@redhat.com> - 2.10.0-1
 - Update to upstream version 2.10.0
+- Add some -Wno-error foo to calm gswitchit
 
 * Fri Feb 11 2005 Matthias Clasen <mclasen@redhat.com> - 2.9.91-1
 - Update to 2.9.91
