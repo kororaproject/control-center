@@ -18,7 +18,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.8.0
-Release: 1
+Release: 2
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -94,11 +94,14 @@ desktop-file-install --vendor gnome --delete-original                   \
   --dir $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets          \
   --add-only-show-in GNOME                                              \
   --add-category X-Red-Hat-Base                                         \
-  --remove-category Settings                                            \
   $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets/*
 
-# Preferred Applications should be visible from KDE
-sed -i '\^OnlyShowIn=GNOME^d' $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets/gnome-default-applications.desktop
+desktop-file-install --vendor gnome --delete-original                   \
+  --dir $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets          \
+  --remove-only-show-in GNOME                                              \
+  --add-category X-Red-Hat-Base                                         \
+  --remove-category Settings                                            \
+  $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets/gnome-default-applications.desktop
 
 # replace control center desktop file
 /bin/rm -f $RPM_BUILD_ROOT%{_datadir}/applications/gnomecc.desktop
@@ -167,6 +170,10 @@ done
 # (also its headers)
 
 %changelog
+* Thu Sep 23 2004 Ray Strode <rstrode@redhat.com> - 1:2.8.0-2
+- add everything but Preferred Applications entry back to Preferences
+  menu (woops)
+
 * Wed Sep 22 2004 GNOME <jrb@redhat.com> - 1:2.8.0-1
 - new version; disable gstreamer and enable alsa
 
