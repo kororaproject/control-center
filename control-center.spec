@@ -143,10 +143,10 @@ SCHEMAS="apps_gnome_settings_daemon_default_editor.schemas apps_gnome_settings_d
 for S in $SCHEMAS; do
   gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/$S > /dev/null
 done
-update-desktop-database --quiet
+update-desktop-database --quiet %{_datadir}/applications
 
 %postun -p /sbin/ldconfig
-update-desktop-database --quiet
+update-desktop-database --quiet %{_datadir}/applications
 
 %files -f %{gettext_package}.lang
 %defattr(-, root, root)
