@@ -17,16 +17,14 @@
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.7.1
-Release: 4
+Version: 2.8.0
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/control-center-%{version}.tar.bz2
 
 Patch2: control-center-2.7.0-fedora-apps.patch
-# Patch in upstream.  Remove patch in future versions
-Patch3: control-center-2.7.1-helpfix.patch
 Patch4: control-center-2.7.1-modifier.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
@@ -78,12 +76,11 @@ If you install GNOME, you need to install control-center.
 %setup -q
 
 %patch2 -p1 -b .fedora-apps
-%patch3 -p1 -b .helpfix
 %patch4 -p1 -b .modifier
                                                                                                                              
 %build
 
-%configure
+%configure --disable-gstreamer --enable-alsa
 make
 
 %install
@@ -170,6 +167,9 @@ done
 # (also its headers)
 
 %changelog
+* Wed Sep 22 2004 GNOME <jrb@redhat.com> - 1:2.8.0-1
+- new version; disable gstreamer and enable alsa
+
 * Mon Sep 20 2004 Ray Strode <rstrode@redhat.com> - 1:2.7.1-4
 - remove Preferred Applications entry from Preferences menu
 
