@@ -1,12 +1,12 @@
 # Note that this is NOT a relocatable package
 %define prefix   /usr
 
-%define ccsingle control-center-single-0.2
+%define ccsingle control-center-single-0.3
 
 Summary: The GNOME Control Center.
 Name: control-center
 Version: 1.4.0.1
-Release: 13
+Release: 14
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -61,7 +61,6 @@ Patch30: control-center-1.2.1-bigbg.patch
 Patch50: control-center-mixer.patch
 Patch51: control-center-xscreensaver-dpms.patch
 Patch52: control-center-1.4.0.1-multifix.patch
-Patch53: control-center-1.4.0.1-nocapplet.patch
 Patch54: control-center-1.4.0.1-correct_config.patch
 Patch55: control-center-1.4.0.1-cleanup.patch
 
@@ -129,7 +128,6 @@ tar zxf %{SOURCE11}
 %patch50 -p1 -b .mixer
 %patch51 -p1 -b .dpms
 %patch52 -p1 -b .multifix
-%patch53 -p1 -b .nocapplet
 %patch54 -p1 -b .correct_config
 %patch55 -p1 -b .cleanup
 
@@ -202,6 +200,9 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/include/*
 
 %changelog
+* Thu Aug 16 2001 Jonathan Blandford <jrb@redhat.com>
+- New control-center-single to handle exiting, #51665
+
 * Wed Aug 01 2001 Havoc Pennington <hp@redhat.com>
 - remove .desktop file for gnomecc, so it won't appear 
   in panel menu, #49653
