@@ -19,8 +19,8 @@
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.9.4
-Release: 5
+Version: 2.9.91
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -176,6 +176,9 @@ update-desktop-database --quiet %{_datadir}/applications
 # (also its headers)
 
 %changelog
+* Fri Feb 11 2005 Matthias Clasen <mclasen@redhat.com> - 2.9.91-1
+- Update to 2.9.91
+
 * Thu Feb  3 2005 Matthias Clasen <mclasen@redhat.com> - 2.9.4-5
 - Fix the conflict to be against the actual packages
 
