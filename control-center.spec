@@ -1,28 +1,50 @@
-%define gtk2_version 2.0.2
-%define gconf2_version 1.1.11
-%define gnome_desktop_version 1.5.22
-%define libgnome_version 1.117.2
+%define gettext_package control-center-2.0
+
+%define pango_version 1.0.99.020703
+%define gtk2_version 2.0.5-4
+%define gconf2_version 1.2.0
+%define gnome_desktop_version 2.0.0
+%define libgnome_version 2.0.0
 %define libbonobo_version 2.0.0
-%define libgnomeui_version 1.117.2
-%define libbonoboui_version 1.118.0
-%define gnome_vfs2_version 1.9.16
+%define libgnomeui_version 2.0.0
+%define libbonoboui_version 2.0.0
+%define gnome_vfs2_version 2.0.0
 %define bonobo_activation_version 1.0.0
+%define desktop_file_utils_version 0.2.90
+%define xft_version 1.9.1.020708.0036
+%define fontconfig_version 0.0.1.020626.1517-2
+%define redhat_menus_version 0.5
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 1.99.10
-Release: 4
+Version: 2.0.1
+Release: 3
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/control-center-%{version}.tar.bz2
+Source1: font-capplet-pixmaps.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
 
-Obsoletes: gnome
+# Add configuration options for Xft preferences to font capplet
+Patch1: control-center-2.0.1-xftprefs.patch
+# Add window title and terminal font to font capplet; also add
+# some missing unrefs.
+Patch2: control-center-2.0.1-extrafonts.patch
+# Add support for switching window manager themes the theme capplet
+Patch3: control-center-2.0.1-switchwmtheme.patch
+# Switch the gtk1 theme along with the GTK2 theme
+Patch4: control-center-2.0.1-gtk1theme.patch
+
+
+
+Obsoletes: gnome control-center-devel
 Requires: xscreensaver
+Requires: redhat-menus >= %{redhat_menus_version}
 
 BuildRequires: esound
+BuildRequires: pango-devel >= %{pango_version}
 BuildRequires: gtk2-devel >= %{gtk2_version}
 BuildRequires: GConf2-devel >= %{gconf2_version}
 BuildRequires: gnome-desktop-devel >= %{gnome_desktop_version}
@@ -32,6 +54,11 @@ BuildRequires: libbonobo-devel >= %{libbonobo_version}
 BuildRequires: libbonoboui-devel >= %{libbonoboui_version}
 BuildRequires: gnome-vfs2-devel >= %{gnome_vfs2_version}
 BuildRequires: bonobo-activation-devel >= %{bonobo_activation_version}
+BuildRequires: Xft >= %{xft_version}
+BuildRequires: fontconfig >= %{fontconfig_version}
+BuildRequires: desktop-file-utils >= %{desktop_file_utils_version}
+BuildRequires: /usr/bin/automake-1.4
+BuildRequires: /usr/bin/autoconf
 
 %description
 GNOME (the GNU Network Object Model Environment) is an attractive and
@@ -44,10 +71,26 @@ sounds, and mouse behavior).
 If you install GNOME, you need to install control-center.
 
 %prep
-%setup -q
+%setup -q -a 1
+
+# Don't ask...
+#rm configure.in
+#mv configure.ac configure.in
+
+%patch1 -p1 -b .xftprefs
+%patch2 -p1 -b .extrafonts
+%patch3 -p1 -b .switchwmtheme
+%patch4 -p1 -b .gtk1theme
 
 %build
 
+# xftprefs patch changes configure.in and Makefile.am
+# gtk1theme patch changes Makefile.am
+automake-1.4
+autoheader
+autoconf
+
+automake-1.4
 %configure
 make
 
@@ -58,21 +101,38 @@ export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 %makeinstall
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 
-%find_lang %name
+desktop-file-install --vendor gnome --delete-original                   \
+  --dir $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets          \
+  --add-only-show-in GNOME                                              \
+  --add-category X-Red-Hat-Base                                         \
+  $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets/*
+
+# replace control center desktop file
+/bin/rm -f $RPM_BUILD_ROOT%{_datadir}/applications/gnomecc.desktop
+(cd $RPM_BUILD_ROOT%{_datadir}/applications && ln -sf ../desktop-menu-patches/gnome-control-center.desktop)
+
+# replace accessibility desktop file
+/bin/rm -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets/*accessibility*.desktop
+(cd $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/capplets && ln -sf ../../desktop-menu-patches/gnome-accessibility.desktop)
+
+cp -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/icons/* $RPM_BUILD_ROOT%{_datadir}/pixmaps
+
+%find_lang %{gettext_package}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -p /sbin/ldconfig
+%post
+/sbin/ldconfig
 export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-SCHEMAS="apps_gnome_keybinding_properties.schemas apps_gnome_settings_daemon_screensaver.schemas"
+SCHEMAS="apps_gnome_settings_daemon_screensaver.schemas apps_gnome_settings_daemon_default_editor.schemas desktop_gnome_font_rendering.schemas"
 for S in $SCHEMAS; do
   gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/$S > /dev/null
 done
 
 %postun -p /sbin/ldconfig
 
-%files -f %{name}.lang
+%files -f %{gettext_package}.lang
 %defattr(-, root, root)
 
 %doc AUTHORS COPYING ChangeLog NEWS README
@@ -85,9 +145,56 @@ done
 %{_datadir}/idl
 %{_bindir}/*
 %{_libdir}/bonobo
+%{_libdir}/*.so.*
 %{_sysconfdir}/gconf/schemas/*.schemas
 
+# deliberately leaving out pkgconfig files and devel libs for libgnome-window-settings
+# (also its headers)
+
 %changelog
+* Wed Aug  7 2002 Jonathan Blandford <jrb@redhat.com>
+- New version.  Fix up metacity theme locations
+
+* Wed Jul 24 2002 Owen Taylor <otaylor@redhat.com>
+- Switch the gtk1 theme along with the gtk2 theme
+- Add the ability to switch the window manager theme through the theme capplet
+- Add two more font options to the font property dialog
+- Add a bunch of missing unrefs of the result of gconf_client_get_default()
+
+* Tue Jul 23 2002 Havoc Pennington <hp@redhat.com>
+- fix desktop files more
+- copy icons to /usr/share/pixmaps
+
+* Tue Jul 23 2002 Havoc Pennington <hp@redhat.com>
+- munge the desktop files correctly
+- obsolete control-center-devel, #69168
+- replace gnomecc.desktop with a file from redhat-menus
+
+* Tue Jul 23 2002 Owen Taylor <otaylor@redhat.com>
+- Fix crasher bug in xftprefs patch
+
+* Tue Jul 16 2002 Owen Taylor <otaylor@redhat.com>
+- Change the default rendering style to be "Best Shapes", not "Best Contrast"
+
+* Tue Jul  9 2002 Owen Taylor <otaylor@redhat.com>
+- Add Xft / XSETTINGS support
+
+* Fri Jun 28 2002 Bill Nottingham <notting@redhat.com> 2.0.0-2
+- fix %%post so schemas get installed
+  
+* Mon Jun 24 2002 Havoc Pennington <hp@redhat.com>
+- 2.0.0
+- add new default editor schemas
+- fix find_lang
+
+* Mon Jun 17 2002 Havoc Pennington <hp@redhat.com>
+- rebuild for new libraries
+- remove a no-longer-existing schemas file from post
+- use desktop-file-install
+
+* Fri Jun 07 2002 Havoc Pennington <hp@redhat.com>
+- rebuild in different environment
+
 * Wed Jun  5 2002 Havoc Pennington <hp@redhat.com>
 - rebuild with new dependent libs
 
