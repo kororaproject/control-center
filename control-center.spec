@@ -19,12 +19,12 @@
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.10.0
-Release: 4
+Version: 2.10.1
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
-Source: ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/control-center-%{version}.tar.bz2
+Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center-%{version}.tar.bz2
 
 Patch2: control-center-2.9.4-fedora-apps.patch
 Patch3: control-center-2.9.4-filesel.patch
@@ -187,6 +187,9 @@ fi
 # (also its headers)
 
 %changelog
+* Fri Apr 8 2005 Ray Strode <rstrode@redhat.com>
+- Update to 2.10.1
+
 * Wed Mar 30 2005 Warren Togami <wtogami@redhat.com> 2.10.0-4
 - fix ldconfig (#152575)
 
