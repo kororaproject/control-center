@@ -15,12 +15,12 @@
 %define redhat_menus_version 1.8
 %define metacity_version 2.5.3
 %define libxklavier_version 1.14
-%define gnome_menus_version 2.9.1
+%define gnome_menus_version 2.10.1
 
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.10.1
-Release: 1
+Release: 2
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -28,6 +28,7 @@ Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center-%{version}.tar.bz2
 
 Patch2: control-center-2.9.4-fedora-apps.patch
 Patch3: control-center-2.9.4-filesel.patch
+Patch4: control-center-2.10.1-mark-tool-buttons-important.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -86,6 +87,7 @@ If you install GNOME, you need to install control-center.
 
 %patch2 -p1 -b .fedora-apps
 %patch3 -p1 -b .filesel
+%patch4 -p1 -b .mark-tool-buttons-important
 
 %build
 
@@ -187,7 +189,11 @@ fi
 # (also its headers)
 
 %changelog
-* Fri Apr 8 2005 Ray Strode <rstrode@redhat.com>
+* Fri Apr 15 2005 Ray Strode <rstrode@redhat.com> 2.10.1-2
+- Show preferred text toolbar items in ui-properties capplet
+  preview (bug 154836)
+
+* Fri Apr 8 2005 Ray Strode <rstrode@redhat.com> 2.10.1-1
 - Update to 2.10.1
 
 * Wed Mar 30 2005 Warren Togami <wtogami@redhat.com> 2.10.0-4
