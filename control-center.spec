@@ -20,7 +20,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.10.1
-Release: 3
+Release: 4
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -155,7 +155,7 @@ done
 update-desktop-database --quiet %{_datadir}/applications
 touch --no-create %{_datadir}/icons/hicolor
 if [ -x /usr/bin/gtk-update-icon-cache ]; then
-  gtk-update-icon-cache %{_datadir}/icons/hicolor
+  gtk-update-icon-cache -q %{_datadir}/icons/hicolor
 fi
 
 %postun
@@ -163,7 +163,7 @@ fi
 update-desktop-database --quiet %{_datadir}/applications
 touch --no-create %{_datadir}/icons/hicolor
 if [ -x /usr/bin/gtk-update-icon-cache ]; then
-  gtk-update-icon-cache %{_datadir}/icons/hicolor
+  gtk-update-icon-cache -q %{_datadir}/icons/hicolor
 fi
 
 %files -f %{gettext_package}.lang
@@ -191,6 +191,9 @@ fi
 # (also its headers)
 
 %changelog
+* Wed Apr 27 2005 Jeremy Katz <katzj@redhat.com> - 1:2.10.1-4
+- run gtk-update-icon-cache with -q 
+
 * Mon Apr 25 2005 Matthias Clasen <mclasen@redhat.com> - 2.10.1-3
 - Avoid a warning from gnome-default-applications-properties.
 
