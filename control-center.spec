@@ -20,7 +20,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.10.1
-Release: 4
+Release: 5
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -30,6 +30,7 @@ Patch2: control-center-2.9.4-fedora-apps.patch
 Patch3: control-center-2.9.4-filesel.patch
 Patch4: control-center-2.10.1-mark-tool-buttons-important.patch
 Patch5: control-center-2.10.1-icon.patch
+Patch6: control-center-2.10.1-fix-popunder-bug.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -90,6 +91,7 @@ If you install GNOME, you need to install control-center.
 %patch3 -p1 -b .filesel
 %patch4 -p1 -b .mark-tool-buttons-important
 %patch5 -p1 -b .icon
+%patch6 -p1 -b .fix-popunder-bug
 
 %build
 
@@ -191,6 +193,10 @@ fi
 # (also its headers)
 
 %changelog
+* Thu May  5 2005 Ray Strode  <rstrode@redhat.com> - 1:2.10.1-5
+- Don't pop up accessibility dialogs under currently focused
+  window
+
 * Wed Apr 27 2005 Jeremy Katz <katzj@redhat.com> - 1:2.10.1-4
 - run gtk-update-icon-cache with -q 
 
