@@ -20,7 +20,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.10.1
-Release: 5
+Release: 6
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -141,6 +141,7 @@ cp -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/icons/* $RPM_BUILD_ROOT%{_da
 
 # loadable modules don't need static versions or .la files
 /bin/rm -f $RPM_BUILD_ROOT%{_libdir}/window-manager-settings/*.*a
+/bin/rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.*a
 
 %find_lang %{gettext_package}
 
@@ -193,6 +194,9 @@ fi
 # (also its headers)
 
 %changelog
+* Mon May 23 2005 Bill Nottingham <notting@redhat.com> - 1:2.10.1-6
+- don't ship static versions of nautilus extensions
+
 * Thu May  5 2005 Ray Strode  <rstrode@redhat.com> - 1:2.10.1-5
 - Don't pop up accessibility dialogs under currently focused
   window
