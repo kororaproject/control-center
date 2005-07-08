@@ -1,7 +1,7 @@
 %define gettext_package control-center-2.0
 
 %define pango_version 1.0.99.020703
-%define gtk2_version 2.3.0
+%define gtk2_version 2.6.0
 %define gconf2_version 1.2.0
 %define gnome_desktop_version 2.3.0
 %define libgnome_version 2.3.0
@@ -10,27 +10,26 @@
 %define libbonoboui_version 2.3.0
 %define gnome_vfs2_version 2.3.0
 %define desktop_file_utils_version 0.9
-%define xft_version 1.9.1.020708.0036
-%define fontconfig_version 0.0.1.020626.1517-2
+%define xft_version 2.0.0
+%define fontconfig_version 1.0.0
 %define redhat_menus_version 1.8
 %define metacity_version 2.5.3
 %define libxklavier_version 1.14
-%define gnome_menus_version 2.10.1
+%define gnome_menus_version 2.11.1
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.10.1
-Release: 6
+Version: 2.11.5
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center-%{version}.tar.bz2
 
-Patch2: control-center-2.9.4-fedora-apps.patch
+Patch2: control-center-2.11.5-fedora-apps.patch
 Patch3: control-center-2.9.4-filesel.patch
 Patch4: control-center-2.10.1-mark-tool-buttons-important.patch
-Patch5: control-center-2.10.1-icon.patch
-Patch6: control-center-2.10.1-fix-popunder-bug.patch
+Patch5: control-center-2.11.5-acme-dummy.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -90,8 +89,7 @@ If you install GNOME, you need to install control-center.
 %patch2 -p1 -b .fedora-apps
 %patch3 -p1 -b .filesel
 %patch4 -p1 -b .mark-tool-buttons-important
-%patch5 -p1 -b .icon
-%patch6 -p1 -b .fix-popunder-bug
+%patch5 -p1 -b .acme-dummy
 
 %build
 
@@ -194,6 +192,9 @@ fi
 # (also its headers)
 
 %changelog
+* Fri Jul  8 2005 Matthias Clasen <mclasen@redhat.com> - 1:2.11.5-1
+- Update to 2.11.5
+
 * Mon May 23 2005 Bill Nottingham <notting@redhat.com> - 1:2.10.1-6
 - don't ship static versions of nautilus extensions
 
