@@ -1,3 +1,6 @@
+# no ppc64 evolution-data-server
+ExcludeArch: ppc64
+
 %define gettext_package control-center-2.0
 
 %define pango_version 1.0.99.020703
@@ -68,6 +71,7 @@ BuildRequires: libxklavier-devel >= %{libxklavier_version}
 BuildRequires: alsa-lib-devel
 BuildRequires: nautilus
 BuildRequires: eel2-devel
+BuildRequires: evolution-data-server-devel
 BuildRequires: gettext
 BuildRequires: gnome-menus-devel >= %{gnome_menus_version}
 # For intltool:
