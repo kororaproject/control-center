@@ -98,7 +98,7 @@ If you install GNOME, you need to install control-center.
 %build
 
 # Add -Wno-error to silence gswitchit
-%configure --disable-gstreamer --enable-alsa CFLAGS="$RPM_OPT_FLAGS -Wno-error"
+%configure --disable-gstreamer --enable-alsa CFLAGS="$RPM_OPT_FLAGS -Wno-error" --disable-about-me
 make
 
 %install
