@@ -13,7 +13,7 @@ ExcludeArch: ppc64
 %define libbonoboui_version 2.3.0
 %define gnome_vfs2_version 2.3.0
 %define desktop_file_utils_version 0.9
-%define xft_version 2.0.0
+%define xft_version 2.1.7
 %define fontconfig_version 1.0.0
 %define redhat_menus_version 1.8
 %define metacity_version 2.5.3
@@ -33,6 +33,8 @@ Patch2: control-center-2.11.5-fedora-apps.patch
 Patch3: control-center-2.9.4-filesel.patch
 Patch4: control-center-2.10.1-mark-tool-buttons-important.patch
 Patch5: control-center-2.11.5-acme-dummy.patch
+# patch out the xft 2.1.7 requirement until we ship modular xorg
+Patch6: control-center-2.11.6-xft.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -94,6 +96,7 @@ If you install GNOME, you need to install control-center.
 %patch3 -p1 -b .filesel
 %patch4 -p1 -b .mark-tool-buttons-important
 %patch5 -p1 -b .acme-dummy
+%patch6 -p1 -b .xft
 
 %build
 
