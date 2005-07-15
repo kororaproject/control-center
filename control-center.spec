@@ -22,8 +22,8 @@ ExcludeArch: ppc64
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.11.5
-Release: 2
+Version: 2.11.6
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -196,6 +196,9 @@ fi
 # (also its headers)
 
 %changelog
+* Fri Jul 15 2005 Matthias Clasen <mclasen@redhat.com> - 1:2.11.6-1
+- New upstream version
+
 * Thu Jul 14 2005 Matthias Clasen <mclasen@redhat.com> - 1:2.11.5-2
 - Disable the about-me capplet 
 
