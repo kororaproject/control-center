@@ -200,9 +200,6 @@ fi
 # (also its headers)
 
 %changelog
-* Wed Aug 03 2005 Ray Strode <rstrode@redhat.com> - 2.11.90-1
-- Update to upstream version 2.11.90
-
 * Wed Aug  3 2005 Matthias Clasen <mclasen@redhat.com> - 1:2.11.90-1
 - New upstream version
 
