@@ -22,7 +22,7 @@ ExcludeArch: ppc64
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.11.6
+Version: 2.11.90
 Release: 1
 Epoch: 1
 License: GPL/LGPL
@@ -199,6 +199,9 @@ fi
 # (also its headers)
 
 %changelog
+* Wed Aug  3 2005 Matthias Clasen <mclasen@redhat.com> - 1:2.11.90-1
+- New upstream version
+
 * Fri Jul 15 2005 Matthias Clasen <mclasen@redhat.com> - 1:2.11.6-1
 - New upstream version
 
