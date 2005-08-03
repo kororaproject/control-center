@@ -32,7 +32,6 @@ Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center-%{version}.tar.bz2
 Patch2: control-center-2.11.5-fedora-apps.patch
 Patch3: control-center-2.9.4-filesel.patch
 Patch4: control-center-2.10.1-mark-tool-buttons-important.patch
-Patch5: control-center-2.11.5-acme-dummy.patch
 # patch out the xft 2.1.7 requirement until we ship modular xorg
 Patch6: control-center-2.11.6-xft.patch
 
@@ -95,7 +94,6 @@ If you install GNOME, you need to install control-center.
 %patch2 -p1 -b .fedora-apps
 %patch3 -p1 -b .filesel
 %patch4 -p1 -b .mark-tool-buttons-important
-%patch5 -p1 -b .acme-dummy
 %patch6 -p1 -b .xft
 
 %build
