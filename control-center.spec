@@ -1,6 +1,3 @@
-# no ppc64 evolution-data-server
-ExcludeArch: ppc64
-
 %define gettext_package control-center-2.0
 
 %define pango_version 1.0.99.020703
@@ -22,8 +19,8 @@ ExcludeArch: ppc64
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.11.90
-Release: 2
+Version: 2.11.91
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -32,9 +29,9 @@ Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center-%{version}.tar.bz2
 Patch2: control-center-2.11.5-fedora-apps.patch
 Patch3: control-center-2.9.4-filesel.patch
 Patch4: control-center-2.10.1-mark-tool-buttons-important.patch
-Patch5: control-center-2.11.5-acme-dummy.patch
 # patch out the xft 2.1.7 requirement until we ship modular xorg
 Patch6: control-center-2.11.6-xft.patch
+Patch7: control-center-2.11.91-fix-about-me-disablement.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -73,7 +70,6 @@ BuildRequires: libxklavier-devel >= %{libxklavier_version}
 BuildRequires: alsa-lib-devel
 BuildRequires: nautilus
 BuildRequires: eel2-devel
-BuildRequires: evolution-data-server-devel
 BuildRequires: gettext
 BuildRequires: gnome-menus-devel >= %{gnome_menus_version}
 # For intltool:
@@ -95,10 +91,13 @@ If you install GNOME, you need to install control-center.
 %patch2 -p1 -b .fedora-apps
 %patch3 -p1 -b .filesel
 %patch4 -p1 -b .mark-tool-buttons-important
-%patch5 -p1 -b .acme-dummy
 %patch6 -p1 -b .xft
+%patch7 -p1 -b .fix-about-me-disablement
 
 %build
+
+# Rerun autoconf because of fix-about-me-diablement patch
+autoconf
 
 # Add -Wno-error to silence gswitchit
 %configure --disable-gstreamer --enable-alsa CFLAGS="$RPM_OPT_FLAGS -Wno-error" --disable-about-me --disable-scrollkeeper
@@ -200,6 +199,10 @@ fi
 # (also its headers)
 
 %changelog
+* Wed Aug 10 2005 Ray Strode <rstrode@redhat.com> - 1:2.11.91-1
+- New upstream version
+- Patch out buildreq for e-d-s (bug 165493)
+
 * Tue Aug  9 2005 David Malcolm <dmalcolm@redhat.com> - 1:2.11.90-2
 - rebuild (against new evolution-data-server-devel)
 
