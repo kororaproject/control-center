@@ -20,7 +20,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.11.91
-Release: 1
+Release: 2
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -199,6 +199,9 @@ fi
 # (also its headers)
 
 %changelog
+* Tue Aug 16 2005 Warren Togami <wtogami@redhat.com> - 1:2.11.91-2
+- rebuild for new cairo
+
 * Wed Aug 10 2005 Ray Strode <rstrode@redhat.com> - 1:2.11.91-1
 - New upstream version
 - Patch out buildreq for e-d-s (bug 165493)
