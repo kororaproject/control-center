@@ -33,7 +33,7 @@ Patch4: control-center-2.10.1-mark-tool-buttons-important.patch
 Patch6: control-center-2.11.6-xft.patch
 Patch7: control-center-2.11.91-fix-about-me-disablement.patch
 Patch8: control-center-2.11.91-help-left-handed-dual-mice-users.patch
-Patch9: control-center-2.11.91-add-pango-xft.patch
+Patch9: control-center-2.11.91-dont-use-pango-xft.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -96,7 +96,7 @@ If you install GNOME, you need to install control-center.
 %patch6 -p1 -b .xft
 %patch7 -p1 -b .fix-about-me-disablement
 %patch8 -p1 -b .help-left-handed-dual-mice-users
-%patch9 -p1 -b .add-pango-xft
+%patch9 -p1 -b .dont-use-pango-xft
 
 %build
 
@@ -208,8 +208,10 @@ fi
 
 %changelog
 * Tue Aug 23 2005 Ray Strode <rstrode@redhat.com> - 1:2.11.91-3
-- Configure all mice for left-handed mode in left-handed mode (bug 126420)
-- explicitly link in pango-xft which is used for rendering the keyboard
+- Configure all mice for left-handed mode in left-handed 
+  mode (bug 126420)
+- dont use pango-xft when drawing keyboard layout in 
+  gnome-keyboard-properties dialog
 
 * Tue Aug 16 2005 Warren Togami <wtogami@redhat.com> - 1:2.11.91-2
 - rebuild for new cairo
