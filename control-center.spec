@@ -20,7 +20,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.11.91
-Release: 2
+Release: 3
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -32,6 +32,7 @@ Patch4: control-center-2.10.1-mark-tool-buttons-important.patch
 # patch out the xft 2.1.7 requirement until we ship modular xorg
 Patch6: control-center-2.11.6-xft.patch
 Patch7: control-center-2.11.91-fix-about-me-disablement.patch
+Patch8: control-center-2.11.91-help-left-handed-dual-mice-users.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -93,10 +94,15 @@ If you install GNOME, you need to install control-center.
 %patch4 -p1 -b .mark-tool-buttons-important
 %patch6 -p1 -b .xft
 %patch7 -p1 -b .fix-about-me-disablement
+%patch8 -p1 -b .help-left-handed-dual-mice-users
 
 %build
 
-# Rerun autoconf because of fix-about-me-diablement patch
+# Rerun autoheader because of help-left-handled-dual-mice-users patch
+autoheader
+
+# Rerun autoconf because of fix-about-me-disablement and 
+# help-left-handled-dual-mice-users patches
 autoconf
 
 # Add -Wno-error to silence gswitchit
@@ -199,6 +205,9 @@ fi
 # (also its headers)
 
 %changelog
+* Tue Aug 23 2005 Ray Strode <rstrode@redhat.com> - 1:2.11.91-3
+- Configure all mice for left-handed mode in left-handed mode (bug 126420)
+
 * Tue Aug 16 2005 Warren Togami <wtogami@redhat.com> - 1:2.11.91-2
 - rebuild for new cairo
 
