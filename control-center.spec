@@ -20,7 +20,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.11.91
-Release: 3
+Release: 4
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -207,6 +207,9 @@ fi
 # (also its headers)
 
 %changelog
+* Wed Aug 31 2005 Ray Strode <rstrode@redhat.com> - 1:2.11.91-4
+- Potentially fix tablet bustage (bug 167227)
+
 * Tue Aug 23 2005 Ray Strode <rstrode@redhat.com> - 1:2.11.91-3
 - Configure all mice for left-handed mode in left-handed 
   mode (bug 126420)
