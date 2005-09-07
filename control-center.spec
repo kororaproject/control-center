@@ -19,8 +19,8 @@
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.11.91
-Release: 4
+Version: 2.12.0
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -29,11 +29,7 @@ Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center-%{version}.tar.bz2
 Patch2: control-center-2.11.5-fedora-apps.patch
 Patch3: control-center-2.9.4-filesel.patch
 Patch4: control-center-2.10.1-mark-tool-buttons-important.patch
-# patch out the xft 2.1.7 requirement until we ship modular xorg
-Patch6: control-center-2.11.6-xft.patch
-Patch7: control-center-2.11.91-fix-about-me-disablement.patch
 Patch8: control-center-2.11.91-help-left-handed-dual-mice-users.patch
-Patch9: control-center-2.11.91-dont-use-pango-xft.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -93,10 +89,7 @@ If you install GNOME, you need to install control-center.
 %patch2 -p1 -b .fedora-apps
 %patch3 -p1 -b .filesel
 %patch4 -p1 -b .mark-tool-buttons-important
-%patch6 -p1 -b .xft
-%patch7 -p1 -b .fix-about-me-disablement
 %patch8 -p1 -b .help-left-handed-dual-mice-users
-%patch9 -p1 -b .dont-use-pango-xft
 
 %build
 
@@ -207,6 +200,10 @@ fi
 # (also its headers)
 
 %changelog
+* Wed Sep  7 2005 Matthias Clasen <mclasen@redhat.com> - 1:2.12.0-1
+- Update to 2.12.0
+- Drop upstreamed patches
+
 * Wed Aug 31 2005 Ray Strode <rstrode@redhat.com> - 1:2.11.91-4
 - Potentially fix tablet bustage (bug 167227)
 
