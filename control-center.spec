@@ -20,7 +20,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.12.0
-Release: 1
+Release: 2
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
