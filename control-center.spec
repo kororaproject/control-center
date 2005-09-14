@@ -26,10 +26,10 @@ License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center-%{version}.tar.bz2
 
-Patch2: control-center-2.11.5-fedora-apps.patch
-Patch3: control-center-2.9.4-filesel.patch
-Patch4: control-center-2.10.1-mark-tool-buttons-important.patch
-Patch8: control-center-2.11.91-help-left-handed-dual-mice-users.patch
+Patch1: control-center-2.11.5-fedora-apps.patch
+Patch2: control-center-2.9.4-filesel.patch
+Patch3: control-center-2.10.1-mark-tool-buttons-important.patch
+Patch4: control-center-2.12.0-help-left-handed-dual-mice-users.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -86,10 +86,10 @@ If you install GNOME, you need to install control-center.
 %prep
 %setup -q
 
-%patch2 -p1 -b .fedora-apps
-%patch3 -p1 -b .filesel
-%patch4 -p1 -b .mark-tool-buttons-important
-%patch8 -p1 -b .help-left-handed-dual-mice-users
+%patch1 -p1 -b .fedora-apps
+%patch2 -p1 -b .filesel
+%patch3 -p1 -b .mark-tool-buttons-important
+%patch4 -p1 -b .help-left-handed-dual-mice-users
 
 %build
 
@@ -200,6 +200,9 @@ fi
 # (also its headers)
 
 %changelog
+* Wed Sep 14 2005 Ray Strode <rstrode@redhat.com> - 1:2.12.1-2
+- new patch for left-handed mode
+
 * Wed Sep  7 2005 Matthias Clasen <mclasen@redhat.com> - 1:2.12.0-1
 - Update to 2.12.0
 - Drop upstreamed patches
