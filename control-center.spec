@@ -20,7 +20,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.12.0
-Release: 2
+Release: 3
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -30,6 +30,7 @@ Patch1: control-center-2.11.5-fedora-apps.patch
 Patch2: control-center-2.9.4-filesel.patch
 Patch3: control-center-2.10.1-mark-tool-buttons-important.patch
 Patch4: control-center-2.12.0-help-left-handed-dual-mice-users.patch
+Patch5: control-center-2.12.0-run-power-manager.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -90,6 +91,7 @@ If you install GNOME, you need to install control-center.
 %patch2 -p1 -b .filesel
 %patch3 -p1 -b .mark-tool-buttons-important
 %patch4 -p1 -b .help-left-handed-dual-mice-users
+%patch5 -p1 -b .run-power-manager
 
 %build
 
@@ -99,6 +101,10 @@ autoheader
 # Rerun autoconf because of fix-about-me-disablement and 
 # help-left-handled-dual-mice-users patches
 autoconf
+
+# Run aclocal and automake for run-power-manager
+aclocal
+automake
 
 # Add -Wno-error to silence gswitchit
 %configure --disable-gstreamer --enable-alsa CFLAGS="$RPM_OPT_FLAGS -Wno-error" --disable-about-me --disable-scrollkeeper
@@ -156,7 +162,7 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-SCHEMAS="apps_gnome_settings_daemon_default_editor.schemas apps_gnome_settings_daemon_keybindings.schemas apps_gnome_settings_daemon_screensaver.schemas desktop_gnome_font_rendering.schemas desktop_gnome_peripherals_keyboard_xkb.schemas fontilus.schemas themus.schemas"
+SCHEMAS="apps_gnome_settings_daemon_default_editor.schemas apps_gnome_settings_daemon_keybindings.schemas apps_gnome_settings_daemon_screensaver.schemas apps_gnome_settings_daemon_power_manager.schemas desktop_gnome_font_rendering.schemas desktop_gnome_peripherals_keyboard_xkb.schemas fontilus.schemas themus.schemas"
 for S in $SCHEMAS; do
   gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/$S > /dev/null
 done
@@ -200,6 +206,9 @@ fi
 # (also its headers)
 
 %changelog
+* Wed Sep 21 2005 Ray Strode <rstrode@redhat.com> - 1:2.12.1-3
+- run gnome-power-manager if available
+
 * Wed Sep 14 2005 Ray Strode <rstrode@redhat.com> - 1:2.12.1-2
 - new patch for left-handed mode
 
