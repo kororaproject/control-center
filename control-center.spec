@@ -20,7 +20,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.12.0
-Release: 3
+Release: 4
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -40,7 +40,6 @@ Obsoletes: gnome control-center-devel fontilus
 # a different place now
 Conflicts: desktop-backgrounds-basic < 2.0-27
 Conflicts: desktop-backgrounds-extended < 2.0-27
-Requires: xscreensaver
 Requires: redhat-menus >= %{redhat_menus_version}
 Requires: gnome-icon-theme
 Requires: libxklavier >= %{libxklavier_version}
@@ -206,6 +205,9 @@ fi
 # (also its headers)
 
 %changelog
+* Fri Sep 23 2005 Ray Strode <rstrode@redhat.com> - 1:2.12.1-4
+- remove explicit dependency on xscreensaver
+
 * Wed Sep 21 2005 Ray Strode <rstrode@redhat.com> - 1:2.12.1-3
 - run gnome-power-manager if available
 
