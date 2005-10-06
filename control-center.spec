@@ -19,8 +19,8 @@
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.12.0
-Release: 4
+Version: 2.12.1
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -205,6 +205,9 @@ fi
 # (also its headers)
 
 %changelog
+* Thu Oct  6 2005 Matthias Clasen <mclasen@redhat.com> - 1:2.12.1-1
+- Update to 2.12.1
+
 * Fri Sep 23 2005 Ray Strode <rstrode@redhat.com> - 1:2.12.1-4
 - remove explicit dependency on xscreensaver
 
