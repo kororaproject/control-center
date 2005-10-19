@@ -20,7 +20,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.12.1
-Release: 1
+Release: 2
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -127,6 +127,12 @@ desktop-file-install --vendor gnome --delete-original                   \
   --remove-category X-Red-Hat-Base                                      \
   $RPM_BUILD_ROOT%{_datadir}/applications/gnome-default-applications.desktop
 
+# bug 171059
+sed -e 's/=Font$/=Fonts/g' $RPM_BUILD_ROOT%{_datadir}/applications/gnome-font-properties.desktop > \
+                           $RPM_BUILD_ROOT%{_datadir}/applications/.gnome-font-properties.desktop.tmp
+mv $RPM_BUILD_ROOT%{_datadir}/applications/.gnome-font-properties.desktop.tmp \
+   $RPM_BUILD_ROOT%{_datadir}/applications/gnome-font-properties.desktop
+
 # remove control center desktop file
 /bin/rm -f $RPM_BUILD_ROOT%{_datadir}/applications/gnomecc.desktop
 
@@ -205,6 +211,9 @@ fi
 # (also its headers)
 
 %changelog
+* Wed Oct 19 2005 Ray Strode <rstrode@redhat.com> - 1:2.12.1-2
+- rename Font capplet to Fonts (bug 171059)
+
 * Thu Oct  6 2005 Matthias Clasen <mclasen@redhat.com> - 1:2.12.1-1
 - Update to 2.12.1
 
