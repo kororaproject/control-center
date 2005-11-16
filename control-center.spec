@@ -16,11 +16,12 @@
 %define metacity_version 2.5.3
 %define libxklavier_version 1.14
 %define gnome_menus_version 2.11.1
+%define usermode_version 1.83
 
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.12.1
-Release: 3
+Release: 4
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -33,6 +34,9 @@ Patch4: control-center-2.12.0-help-left-handed-dual-mice-users.patch
 Patch5: control-center-2.12.0-run-power-manager.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=319634 
 Patch6: control-center-2.12.1-inputmethod.patch
+Patch7: control-center-2.12.1-passwd.patch
+Patch8: control-center-2.12.1-login-photo.patch
+Patch9: control-center-2.12.1-gecos.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -49,6 +53,7 @@ Requires: libgail-gnome
 Requires: alsa-lib
 Requires: gnome-menus >= %{gnome_menus_version}
 PreReq:   gtk2
+Requires: usermode >= %{usermode_version}
 
 BuildRequires: esound
 BuildRequires: pango-devel >= %{pango_version}
@@ -94,13 +99,16 @@ If you install GNOME, you need to install control-center.
 %patch4 -p1 -b .help-left-handed-dual-mice-users
 %patch5 -p1 -b .run-power-manager
 %patch6 -p1 -b .inputmethod
+%patch7 -p1 -b .passwd
+%patch8 -p1 -b .login-photo
+%patch9 -p1 -b .gecos
 
 %build
 
 # Rerun autoheader because of help-left-handled-dual-mice-users patch
 autoheader
 
-# Rerun autoconf because of fix-about-me-disablement and 
+# Rerun autoconf because of 
 # help-left-handled-dual-mice-users patches
 autoconf
 
@@ -109,7 +117,7 @@ aclocal
 automake
 
 # Add -Wno-error to silence gswitchit
-%configure --disable-gstreamer --enable-alsa CFLAGS="$RPM_OPT_FLAGS -Wno-error" --disable-about-me --disable-scrollkeeper
+%configure --disable-gstreamer --enable-alsa CFLAGS="$RPM_OPT_FLAGS -Wno-error" --enable-aboutme --disable-scrollkeeper
 make
 
 %install
@@ -214,6 +222,12 @@ fi
 # (also its headers)
 
 %changelog
+* Mon Nov 14 2005 Matthias Clasen <mclasen@redhat.com> - 1:2.12.1-4
+- Reenable about me capplet
+- Add a preview to the user image chooser
+- Make about me capplet use userpasswd for passwords and userinfo for
+  gecos information
+
 * Mon Oct 24 2005 Matthias Clasen <mclasen@redhat.com> - 1:2.12.1-3
 - Support a gconf key to hide the input method menu
 
