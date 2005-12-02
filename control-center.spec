@@ -20,8 +20,8 @@
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.12.1
-Release: 4
+Version: 2.13.2
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -222,6 +222,9 @@ fi
 # (also its headers)
 
 %changelog
+* Fri Dec  2 2005 Matthias Clasen <mclasen@redhat.com> - 1:2.13.2-1
+- Update to 2.13.2
+
 * Mon Nov 14 2005 Matthias Clasen <mclasen@redhat.com> - 1:2.12.1-4
 - Reenable about me capplet
 - Add a preview to the user image chooser
