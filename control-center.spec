@@ -30,7 +30,6 @@ Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center-%{version}.tar.bz2
 Patch1: control-center-2.12.1-fedora-apps.patch
 Patch2: control-center-2.9.4-filesel.patch
 Patch3: control-center-2.10.1-mark-tool-buttons-important.patch
-Patch4: control-center-2.12.0-help-left-handed-dual-mice-users.patch
 Patch5: control-center-2.12.0-run-power-manager.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=319634 
 Patch6: control-center-2.12.1-inputmethod.patch
@@ -96,7 +95,6 @@ If you install GNOME, you need to install control-center.
 %patch1 -p1 -b .fedora-apps
 %patch2 -p1 -b .filesel
 %patch3 -p1 -b .mark-tool-buttons-important
-%patch4 -p1 -b .help-left-handed-dual-mice-users
 %patch5 -p1 -b .run-power-manager
 %patch6 -p1 -b .inputmethod
 %patch7 -p1 -b .passwd
