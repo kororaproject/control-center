@@ -20,8 +20,8 @@
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.13.2
-Release: 1.1
+Version: 2.13.3
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -31,10 +31,7 @@ Patch1: control-center-2.12.1-fedora-apps.patch
 Patch2: control-center-2.9.4-filesel.patch
 Patch3: control-center-2.10.1-mark-tool-buttons-important.patch
 Patch5: control-center-2.12.0-run-power-manager.patch
-# http://bugzilla.gnome.org/show_bug.cgi?id=319634 
-Patch6: control-center-2.12.1-inputmethod.patch
 Patch7: control-center-2.12.1-passwd.patch
-Patch8: control-center-2.12.1-login-photo.patch
 Patch9: control-center-2.12.1-gecos.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
@@ -96,10 +93,8 @@ If you install GNOME, you need to install control-center.
 %patch2 -p1 -b .filesel
 %patch3 -p1 -b .mark-tool-buttons-important
 %patch5 -p1 -b .run-power-manager
-%patch6 -p1 -b .inputmethod
 %patch7 -p1 -b .passwd
-%patch8 -p1 -b .login-photo
-%patch9 -p1 -b .gecos
+#%patch9 -p1 -b .gecos
 
 %build
 
@@ -220,6 +215,9 @@ fi
 # (also its headers)
 
 %changelog
+* Wed Dec 14 2005 Matthias Clasen <mclasen@redhat.com> - 1:2.13.3-1
+- Update to 2.13.3
+
 * Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
 - rebuilt
 
