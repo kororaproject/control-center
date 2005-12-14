@@ -31,8 +31,8 @@ Patch1: control-center-2.12.1-fedora-apps.patch
 Patch2: control-center-2.9.4-filesel.patch
 Patch3: control-center-2.10.1-mark-tool-buttons-important.patch
 Patch5: control-center-2.12.0-run-power-manager.patch
-Patch7: control-center-2.12.1-passwd.patch
-Patch9: control-center-2.12.1-gecos.patch
+Patch6: control-center-2.12.1-passwd.patch
+Patch7: control-center-2.13.3-gecos.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -93,8 +93,8 @@ If you install GNOME, you need to install control-center.
 %patch2 -p1 -b .filesel
 %patch3 -p1 -b .mark-tool-buttons-important
 %patch5 -p1 -b .run-power-manager
-%patch7 -p1 -b .passwd
-#%patch9 -p1 -b .gecos
+%patch6 -p1 -b .passwd
+%patch7 -p1 -b .gecos
 
 %build
 
@@ -217,6 +217,7 @@ fi
 %changelog
 * Wed Dec 14 2005 Matthias Clasen <mclasen@redhat.com> - 1:2.13.3-1
 - Update to 2.13.3
+- Update patches
 
 * Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
 - rebuilt
