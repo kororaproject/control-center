@@ -20,14 +20,14 @@
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.13.3
-Release: 2
+Version: 2.13.4
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center-%{version}.tar.bz2
 
-Patch1: control-center-2.12.1-fedora-apps.patch
+Patch1: control-center-2.13.4-fedora-apps.patch
 Patch2: control-center-2.9.4-filesel.patch
 Patch3: control-center-2.10.1-mark-tool-buttons-important.patch
 Patch5: control-center-2.12.0-run-power-manager.patch
@@ -215,6 +215,9 @@ fi
 # (also its headers)
 
 %changelog
+* Wed Jan  4 2006 Matthias Clasen <mclasen@redhat.com> - 1:2.13.4-1
+- Update to 2.13.4
+
 * Tue Dec 20 2005 Ray Strode <rstrode@redhat.com> - 1:2.13.3-2
 - rebuild 
 
