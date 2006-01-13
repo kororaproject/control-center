@@ -21,7 +21,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.13.4
-Release: 1
+Release: 2
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -68,6 +68,7 @@ BuildRequires: /usr/bin/automake-1.4
 BuildRequires: /usr/bin/autoconf
 BuildRequires: metacity >= %{metacity_version}
 BuildRequires: libxklavier-devel >= %{libxklavier_version}
+BuildRequires: libXcursor-devel
 BuildRequires: alsa-lib-devel
 BuildRequires: nautilus
 BuildRequires: eel2-devel
@@ -215,6 +216,10 @@ fi
 # (also its headers)
 
 %changelog
+* Fri Jan 13 2006 Matthias Clasen <mclasen@redhat.com> - 1:2.13.4-2
+- Add a build requires for libXcursor-devel, to fix the 
+  mouse capplet.
+
 * Wed Jan  4 2006 Matthias Clasen <mclasen@redhat.com> - 1:2.13.4-1
 - Update to 2.13.4
 
