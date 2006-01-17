@@ -198,16 +198,17 @@ fi
 %doc AUTHORS COPYING ChangeLog NEWS README
 
 %{_datadir}/control-center-2.0
-%{_datadir}/pixmaps
-%{_datadir}/icons
-%{_datadir}/gnome
+%{_datadir}/pixmaps/*
+%{_datadir}/icons/*
+%{_datadir}/gnome/*
 %{_datadir}/applications/*.desktop
 %{_datadir}/idl
 %{_datadir}/omf/control-center
+%{_datadir}/gnome-default-applications/*
 %{_bindir}/*
 %{_libexecdir}/*
-%{_libdir}/bonobo
-%{_libdir}/nautilus/extensions-1.0
+%{_libdir}/bonobo/*
+%{_libdir}/nautilus/extensions-1.0/*
 %{_libdir}/*.so.*
 %{_libdir}/window-manager-settings
 %{_sysconfdir}/gconf/schemas/*.schemas
