@@ -20,7 +20,7 @@
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.13.5
+Version: 2.13.5.1
 Release: 1
 Epoch: 1
 License: GPL/LGPL
@@ -219,6 +219,9 @@ fi
 # (also its headers)
 
 %changelog
+* Fri Jan 20 2006 Matthias Clasen <mclasen@redhat.com> - 1:2.13.5.1-1
+- Update to 2.13.5.1
+
 * Tue Jan 17 2006 Matthias Clasen <mclasen@redhat.com> - 1:2.13.5-1
 - Update to 2.13.5
 
