@@ -34,6 +34,7 @@ Patch5: control-center-2.12.0-run-power-manager.patch
 Patch6: control-center-2.12.1-passwd.patch
 Patch7: control-center-2.13.3-gecos.patch
 Patch8: control-center-2.13.5-m4.patch
+Patch9: control-center-2.13.90-broken-es-help.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -98,6 +99,7 @@ If you install GNOME, you need to install control-center.
 %patch6 -p1 -b .passwd
 %patch7 -p1 -b .gecos
 %patch8 -p1 -b .m4
+%patch9 -p1 -b .broken-es-help
 
 %build
 
