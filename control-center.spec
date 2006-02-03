@@ -21,7 +21,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.13.90
-Release: 1
+Release: 2
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -30,6 +30,7 @@ Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center-%{version}.tar.bz2
 Patch1: control-center-2.13.90-fedora-apps.patch
 Patch2: control-center-2.9.4-filesel.patch
 Patch3: control-center-2.10.1-mark-tool-buttons-important.patch
+Patch4: control-center-2.13.90-about-me-faces.patch
 Patch5: control-center-2.12.0-run-power-manager.patch
 Patch6: control-center-2.12.1-passwd.patch
 Patch7: control-center-2.13.3-gecos.patch
@@ -95,6 +96,7 @@ If you install GNOME, you need to install control-center.
 %patch1 -p1 -b .fedora-apps
 %patch2 -p1 -b .filesel
 %patch3 -p1 -b .mark-tool-buttons-important
+%patch4 -p1 -b .about-me-faces
 %patch5 -p1 -b .run-power-manager
 %patch6 -p1 -b .passwd
 %patch7 -p1 -b .gecos
@@ -221,6 +223,10 @@ fi
 # (also its headers)
 
 %changelog
+* Fri Feb  3 2006 Christopher Aillon <caillon@redhat.com> 1:2.13.90-2
+- Patch gnome-about-me's file chooser dialog to default to the
+  system faces directory
+
 * Mon Jan 30 2006 Matthias Clasen <mclasen@redhat.com> - 1:2.13.90-1
 - Update to 2.13.90
 
