@@ -21,7 +21,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.13.90
-Release: 3
+Release: 5
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -37,6 +37,7 @@ Patch6: control-center-2.12.1-passwd.patch
 Patch7: control-center-2.13.3-gecos.patch
 Patch8: control-center-2.13.5-m4.patch
 Patch9: control-center-2.13.90-broken-es-help.patch
+Patch10: background-no-delay.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -107,6 +108,7 @@ cp -R control-center-2.12.3/capplets/background capplets
 %patch7 -p1 -b .gecos
 %patch8 -p1 -b .m4
 %patch9 -p1 -b .broken-es-help
+%patch10 -p1 -b .no-delay
 
 %build
 
@@ -228,6 +230,9 @@ fi
 # (also its headers)
 
 %changelog
+* Mon Feb  6 2006 Matthias Clasen <mclasen@redhat.com> - 1:2.13.90-4
+- Avoid delays when switching backgrounds
+
 * Mon Feb  6 2006 Matthias Clasen <mclasen@redhat.com> - 1:2.13.90-3
 - Use the 2.12 background capplet
 
