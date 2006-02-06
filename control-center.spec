@@ -21,7 +21,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.13.90
-Release: 5
+Release: 6
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -230,7 +230,7 @@ fi
 # (also its headers)
 
 %changelog
-* Mon Feb  6 2006 Matthias Clasen <mclasen@redhat.com> - 1:2.13.90-4
+* Mon Feb  6 2006 Matthias Clasen <mclasen@redhat.com> - 1:2.13.90-6
 - Avoid delays when switching backgrounds
 
 * Mon Feb  6 2006 Matthias Clasen <mclasen@redhat.com> - 1:2.13.90-3
