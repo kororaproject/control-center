@@ -21,7 +21,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.13.90
-Release: 2
+Release: 3
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -228,6 +228,9 @@ fi
 # (also its headers)
 
 %changelog
+* Mon Feb  6 2006 Matthias Clasen <mclasen@redhat.com> - 1:2.13.90-3
+- Use the 2.12 background capplet
+
 * Fri Feb  3 2006 Christopher Aillon <caillon@redhat.com> 1:2.13.90-2
 - Patch gnome-about-me's file chooser dialog to default to the
   system faces directory
