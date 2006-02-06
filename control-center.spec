@@ -25,7 +25,8 @@ Release: 2
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
-Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center-%{version}.tar.bz2
+Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center/2.13/control-center-%{version}.tar.bz2
+Source2: ftp://ftp.gnome.org/pub/GNOME/sources/control-center/2.12/control-center-2.12.3.tar.bz2
 
 Patch1: control-center-2.13.90-fedora-apps.patch
 Patch2: control-center-2.9.4-filesel.patch
@@ -92,6 +93,10 @@ If you install GNOME, you need to install control-center.
 
 %prep
 %setup -q
+
+tar xjf ../control-center-2.12.3.tar.bz2
+rm -rf capplets/background
+cp -R control-center-2.12.3/capplets/background capplets
 
 %patch1 -p1 -b .fedora-apps
 %patch2 -p1 -b .filesel
