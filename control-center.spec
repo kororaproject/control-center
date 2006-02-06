@@ -94,7 +94,7 @@ If you install GNOME, you need to install control-center.
 %prep
 %setup -q
 
-tar xjf ../control-center-2.12.3.tar.bz2
+tar xjf %{SOURCE2}
 rm -rf capplets/background
 cp -R control-center-2.12.3/capplets/background capplets
 
