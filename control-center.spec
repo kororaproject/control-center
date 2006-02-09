@@ -20,8 +20,8 @@
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.13.90
-Release: 6.1
+Version: 2.13.91
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -36,7 +36,6 @@ Patch5: control-center-2.12.0-run-power-manager.patch
 Patch6: control-center-2.12.1-passwd.patch
 Patch7: control-center-2.13.3-gecos.patch
 Patch8: control-center-2.13.5-m4.patch
-Patch9: control-center-2.13.90-broken-es-help.patch
 Patch10: background-no-delay.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
@@ -107,7 +106,6 @@ cp -R control-center-2.12.3/capplets/background capplets
 %patch6 -p1 -b .passwd
 %patch7 -p1 -b .gecos
 %patch8 -p1 -b .m4
-%patch9 -p1 -b .broken-es-help
 %patch10 -p1 -b .no-delay
 
 %build
@@ -230,6 +228,10 @@ fi
 # (also its headers)
 
 %changelog
+* Wed Feb  8 2006 Matthias Clasen <mclasen@redhat.com> - 2.13.91-1
+- Update to 2.13.91
+- Reenable Spanish help
+
 * Tue Feb 07 2006 Jesse Keating <jkeating@redhat.com> - 1:2.13.90-6.1
 - rebuilt for new gcc4.1 snapshot and glibc changes
 
