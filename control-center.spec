@@ -20,8 +20,8 @@
 
 Summary: GNOME Control Center.
 Name: control-center
-Version: 2.13.91
-Release: 1.1
+Version: 2.13.92
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -228,6 +228,9 @@ fi
 # (also its headers)
 
 %changelog
+* Wed Feb 15 2006 Matthias Clasen <mclasen@redhat.com> - 2.13.92-1
+- Update to 2.13.92
+
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 1:2.13.91-1.1
 - bump again for double-long bug on ppc(64)
 
