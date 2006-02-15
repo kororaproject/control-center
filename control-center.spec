@@ -21,7 +21,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.13.92
-Release: 1
+Release: 2
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -80,6 +80,7 @@ BuildRequires: gettext
 BuildRequires: gnome-menus-devel >= %{gnome_menus_version}
 # For intltool:
 BuildRequires: perl-XML-Parser >= 2.31-16
+BuildRequires: evolution-data-server-devel
 
 %description
 GNOME (the GNU Network Object Model Environment) is an attractive and
@@ -228,6 +229,9 @@ fi
 # (also its headers)
 
 %changelog
+* Wed Feb 15 2006 Matthias Clasen <mclasen@redhat.com> - 2.13.92-2
+- Add a missing BuildRequires
+
 * Wed Feb 15 2006 Matthias Clasen <mclasen@redhat.com> - 2.13.92-1
 - Update to 2.13.92
 
