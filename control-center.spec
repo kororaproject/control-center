@@ -217,6 +217,7 @@ fi
 %{_datadir}/idl
 %{_datadir}/omf/control-center
 %{_datadir}/gnome-default-applications/*
+%{_datadir}/desktop-directories/*
 %{_bindir}/*
 %{_libexecdir}/*
 %{_libdir}/bonobo/*
