@@ -25,7 +25,7 @@ Release: 2
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
-Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center/2.13/control-center-%{version}.tar.bz2
+Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center/2.14/control-center-%{version}.tar.bz2
 Source2: ftp://ftp.gnome.org/pub/GNOME/sources/control-center/2.12/control-center-2.12.3.tar.bz2
 
 Patch1: control-center-2.13.90-fedora-apps.patch
