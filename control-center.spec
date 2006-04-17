@@ -21,7 +21,7 @@
 Summary: GNOME Control Center.
 Name: control-center
 Version: 2.14.1
-Release: 2
+Release: 3
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -232,6 +232,9 @@ fi
 # (also its headers)
 
 %changelog
+* Mon Apr 17 2006 Matthias Clasen <mclasen@redhat.com> - 2.14.1-3
+- Fix the thunderbird commandline
+
 * Mon Apr 10 2006 Matthias Clasen <mclasen@redhat.com> - 2.14.1-2
 - Update to 2.14.1
 
