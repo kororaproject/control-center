@@ -18,10 +18,10 @@
 %define gnome_menus_version 2.11.1
 %define usermode_version 1.83
 
-Summary: GNOME Control Center.
+Summary: GNOME Control Center
 Name: control-center
 Version: 2.14.1
-Release: 3
+Release: 4
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -83,6 +83,8 @@ BuildRequires: perl-XML-Parser >= 2.31-16
 BuildRequires: evolution-data-server-devel
 BuildRequires: libXxf86misc-devel 
 BuildRequires: libxkbfile-devel
+BuildRequires: libXScrnSaver-devel
+BuildRequires: gnome-doc-utils
 
 %description
 GNOME (the GNU Network Object Model Environment) is an attractive and
@@ -232,6 +234,9 @@ fi
 # (also its headers)
 
 %changelog
+* Thu May 25 2006 Matthias Clasen <mclasen@redhat.com> - 2.14.1-4
+- Add missing buildrequires
+
 * Mon Apr 17 2006 Matthias Clasen <mclasen@redhat.com> - 2.14.1-3
 - Fix the thunderbird commandline
 
