@@ -34,7 +34,7 @@ Patch3: control-center-2.10.1-mark-tool-buttons-important.patch
 Patch4: control-center-2.13.90-about-me-faces.patch
 Patch5: control-center-2.12.0-run-power-manager.patch
 Patch6: control-center-2.12.1-passwd.patch
-Patch7: control-center-2.13.3-gecos.patch
+Patch7: control-center-2.14.2-gecos.patch
 Patch8: control-center-2.13.5-m4.patch
 Patch10: background-no-delay.patch
 
