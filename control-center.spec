@@ -55,7 +55,7 @@ Requires: gnome-menus >= %{gnome_menus_version}
 PreReq:   gtk2
 Requires: usermode >= %{usermode_version}
 
-BuildRequires: autoconf automake
+BuildRequires: autoconf automake libtool
 BuildRequires: esound
 BuildRequires: pango-devel >= %{pango_version}
 BuildRequires: gtk2-devel >= %{gtk2_version}
@@ -252,7 +252,7 @@ fi
 %changelog
 * Tue Jun  6 2006 Kristian Høgsberg <krh@redhat.com> - 2.14.2-3
 - Add devel package.
-- Add build requires for autoconf and automake.
+- Add build requires for autoconf, automake, and libtool.
 
 * Mon May 29 2006 Matthias Clasen <mclasen@redhat.com> - 2.14.2-2
 - Update to 2.14.2
