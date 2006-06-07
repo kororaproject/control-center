@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.14.2
-Release: 2
+Release: 3
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -41,7 +41,7 @@ Patch10: background-no-delay.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
 
-Obsoletes: gnome control-center-devel fontilus
+Obsoletes: gnome fontilus
 # the background capplets expects its .xml files in 
 # a different place now
 Conflicts: desktop-backgrounds-basic < 2.0-27
@@ -95,6 +95,21 @@ background and theme, the screensaver, system sounds, and mouse
 behavior).
 
 If you install GNOME, you need to install control-center.
+
+%package devel
+Summary: GNOME Control Center development libraries and header files
+Group: Development/Libraries
+Requires: %{name} = %{epoch}:%{version}-%{release}
+
+%description devel
+GNOME (the GNU Network Object Model Environment) is an attractive and
+easy-to-use GUI desktop environment. The control-center package
+provides the GNOME Control Center utilities that allow you to setup
+and configure your system's GNOME environment (things like the desktop
+background and theme, the screensaver, system sounds, and mouse
+behavior).
+
+This packages development files for GNOME Control Center.
 
 %prep
 %setup -q
@@ -169,10 +184,7 @@ cp -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/icons/* $RPM_BUILD_ROOT%{_da
 # fix installed but not packaged
 /bin/rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 
-/bin/rm -rf $RPM_BUILD_ROOT%{_includedir}/gnome-window-settings-2.0
 /bin/rm -rf $RPM_BUILD_ROOT%{_libdir}/libgnome-window-settings.*a
-/bin/rm -rf $RPM_BUILD_ROOT%{_libdir}/libgnome-window-settings.so
-/bin/rm -rf $RPM_BUILD_ROOT%{_libdir}/pkgconfig/gnome-window-settings*
 /bin/rm -rf $RPM_BUILD_ROOT%{_libdir}/gnome-vfs-2.0/modules/*.a
 /bin/rm -rf $RPM_BUILD_ROOT%{_libdir}/gnome-vfs-2.0/modules/*.la
 
@@ -230,10 +242,16 @@ fi
 %{_sysconfdir}/gnome-vfs-2.0/modules/*.conf
 %{_libdir}/gnome-vfs-2.0/modules/*.so
 
-# deliberately leaving out pkgconfig files and devel libs for libgnome-window-settings
-# (also its headers)
+%files devel
+%defattr(-,root,root)
+%{_includedir}/gnome-window-settings-2.0
+%{_libdir}/libgnome-window-settings.so
+%{_libdir}/pkgconfig/gnome-window-settings*
 
 %changelog
+* Tue Jun  6 2006 Kristian Høgsberg <krh@redhat.com> - 2.14.2-3
+- Add devel package.
+
 * Mon May 29 2006 Matthias Clasen <mclasen@redhat.com> - 2.14.2-2
 - Update to 2.14.2
 
