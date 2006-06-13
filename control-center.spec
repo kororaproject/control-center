@@ -20,8 +20,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.14.2
-Release: 3
+Version: 2.15.3
+Release: 1
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -250,6 +250,9 @@ fi
 %{_libdir}/pkgconfig/gnome-window-settings*
 
 %changelog
+* Tue Jun 13 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.3-1
+- Update to 2.15.3
+
 * Tue Jun  6 2006 Kristian Høgsberg <krh@redhat.com> - 2.14.2-3
 - Add devel package.
 - Add build requires for autoconf, automake, and libtool.
