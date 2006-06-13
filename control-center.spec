@@ -56,7 +56,7 @@ PreReq:   gtk2
 Requires: usermode >= %{usermode_version}
 
 BuildRequires: autoconf automake libtool
-BuildRequires: esound
+BuildRequires: esound-devel
 BuildRequires: pango-devel >= %{pango_version}
 BuildRequires: gtk2-devel >= %{gtk2_version}
 BuildRequires: GConf2-devel >= %{gconf2_version}
@@ -88,6 +88,8 @@ BuildRequires: libXScrnSaver-devel
 BuildRequires: gnome-doc-utils
 BuildRequires: gstreamer
 BuildRequires: gstreamer-plugins-base
+BuildRequires: libglade2-devel
+BuildRequires: libxml2-devel
 
 %description
 GNOME (the GNU Network Object Model Environment) is an attractive and
