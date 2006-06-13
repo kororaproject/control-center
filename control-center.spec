@@ -86,6 +86,8 @@ BuildRequires: libXxf86misc-devel
 BuildRequires: libxkbfile-devel
 BuildRequires: libXScrnSaver-devel
 BuildRequires: gnome-doc-utils
+BuildRequires: gstreamer
+BuildRequires: gstreamer-plugins-base
 
 %description
 GNOME (the GNU Network Object Model Environment) is an attractive and
