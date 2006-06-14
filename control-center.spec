@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.15.3
-Release: 1
+Release: 2
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -146,6 +146,10 @@ autoconf
 aclocal
 automake
 
+# work around a gstreamer problem where it doesn't find
+# plugins the first time around
+/usr/bin/gst-inspect-0.10 --print-all
+
 # Add -Wno-error to silence gswitchit
 %configure --disable-gstreamer --enable-alsa CFLAGS="$RPM_OPT_FLAGS -Wno-error" --enable-aboutme --disable-scrollkeeper
 make
@@ -254,6 +258,9 @@ fi
 %{_libdir}/pkgconfig/gnome-window-settings*
 
 %changelog
+* Wed Jun 14 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.3-2
+- Work around a gstreamer problem
+
 * Tue Jun 13 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.3-1
 - Update to 2.15.3
 
