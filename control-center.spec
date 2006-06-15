@@ -86,7 +86,7 @@ BuildRequires: libXxf86misc-devel
 BuildRequires: libxkbfile-devel
 BuildRequires: libXScrnSaver-devel
 BuildRequires: gnome-doc-utils
-BuildRequires: gstreamer
+BuildRequires: gstreamer-devel
 BuildRequires: gstreamer-plugins-base
 BuildRequires: libglade2-devel
 BuildRequires: libxml2-devel
@@ -258,6 +258,10 @@ fi
 %{_libdir}/pkgconfig/gnome-window-settings*
 
 %changelog
+* Wed Jun 14 2006 Tomas Mraz <tmraz@redhat.com>
+- rebuilt with new gnutls
+- require gstreamer-devel
+
 * Wed Jun 14 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.3-2
 - Work around a gstreamer problem
 
