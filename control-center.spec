@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.15.3
-Release: 2
+Release: 3
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -258,6 +258,9 @@ fi
 %{_libdir}/pkgconfig/gnome-window-settings*
 
 %changelog
+* Tue Jun 20 2006 Matthias Clasen  <mclasen@redhat.com> - 2.15.3-3
+- Rebuild against new libxklavier
+
 * Wed Jun 14 2006 Tomas Mraz <tmraz@redhat.com>
 - rebuilt with new gnutls
 - require gstreamer-devel
