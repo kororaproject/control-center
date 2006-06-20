@@ -90,6 +90,8 @@ BuildRequires: gstreamer-devel
 BuildRequires: gstreamer-plugins-base
 BuildRequires: libglade2-devel
 BuildRequires: libxml2-devel
+BuildRequires: hal-devel >= 0.5.6
+BuildRequires: dbus-devel >= 0.32
 
 %description
 GNOME (the GNU Network Object Model Environment) is an attractive and
