@@ -229,7 +229,6 @@ fi
 %{_datadir}/desktop-directories/*
 %{_bindir}/*
 %{_libexecdir}/*
-%{_libdir}/bonobo/*
 %{_libdir}/nautilus/extensions-1.0/*
 %{_libdir}/*.so.*
 %{_libdir}/window-manager-settings
@@ -241,7 +240,7 @@ fi
 %defattr(-,root,root)
 %{_includedir}/gnome-window-settings-2.0
 %{_libdir}/libgnome-window-settings.so
-%{_libdir}/pkgconfig/gnome-window-settings*
+%{_libdir}/pkgconfig/*
 
 %changelog
 * Thu Jul 13 2006 Ray Strode <rstrode@redhat.com> - 2.15.4-2
