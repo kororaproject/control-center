@@ -35,7 +35,6 @@ Patch5: control-center-2.12.0-run-power-manager.patch
 Patch6: control-center-2.12.1-passwd.patch
 Patch7: control-center-2.14.2-gecos.patch
 Patch8: control-center-2.13.5-m4.patch
-Patch10: background-no-delay.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -128,7 +127,6 @@ This packages development files for GNOME Control Center.
 %patch6 -p1 -b .passwd
 %patch7 -p1 -b .gecos
 %patch8 -p1 -b .m4
-%patch10 -p1 -b .no-delay
 
 %build
 
