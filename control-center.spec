@@ -130,9 +130,7 @@ This packages development files for GNOME Control Center.
 
 %build
 
-# Run aclocal and automake for run-power-manager
-aclocal
-automake
+autoreconf
 
 # work around a gstreamer problem where it doesn't find
 # plugins the first time around
