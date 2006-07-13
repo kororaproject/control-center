@@ -21,12 +21,11 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.15.4
-Release: 1
+Release: 2
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center/2.14/control-center-%{version}.tar.bz2
-Source2: ftp://ftp.gnome.org/pub/GNOME/sources/control-center/2.12/control-center-2.12.3.tar.bz2
 
 Patch1: control-center-2.13.90-fedora-apps.patch
 Patch2: control-center-2.9.4-filesel.patch
@@ -121,10 +120,6 @@ This packages development files for GNOME Control Center.
 %prep
 %setup -q
 
-tar xjf %{SOURCE2}
-rm -rf capplets/background
-cp -R control-center-2.12.3/capplets/background capplets
-
 %patch1 -p1 -b .fedora-apps
 %patch2 -p1 -b .filesel
 %patch3 -p1 -b .mark-tool-buttons-important
@@ -136,13 +131,6 @@ cp -R control-center-2.12.3/capplets/background capplets
 %patch10 -p1 -b .no-delay
 
 %build
-
-# Rerun autoheader because of help-left-handled-dual-mice-users patch
-autoheader
-
-# Rerun autoconf because of 
-# help-left-handled-dual-mice-users patches
-autoconf
 
 # Run aclocal and automake for run-power-manager
 aclocal
@@ -260,6 +248,9 @@ fi
 %{_libdir}/pkgconfig/gnome-window-settings*
 
 %changelog
+* Thu Jul 13 2006 Ray Strode <rstrode@redhat.com> - 2.15.4-2
+- go to latest background capplet
+
 * Wed Jul 12 2006 Matthias Clasen  <mclasen@redhat.com> - 2.15.4-1
 - Update to 2.15.4
 
