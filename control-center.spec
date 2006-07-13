@@ -227,6 +227,7 @@ fi
 %{_datadir}/omf/control-center
 %{_datadir}/gnome-default-applications/*
 %{_datadir}/desktop-directories/*
+%{_datadir}/dbus-1/services/*
 %{_bindir}/*
 %{_libexecdir}/*
 %{_libdir}/nautilus/extensions-1.0/*
@@ -239,6 +240,7 @@ fi
 %files devel
 %defattr(-,root,root)
 %{_includedir}/gnome-window-settings-2.0
+%{_includedir}/gnome-settings-daemon-2.0
 %{_libdir}/libgnome-window-settings.so
 %{_libdir}/pkgconfig/*
 
