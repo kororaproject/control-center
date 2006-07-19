@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.15.4
-Release: 2
+Release: 3 
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -89,7 +89,8 @@ BuildRequires: gstreamer-plugins-base
 BuildRequires: libglade2-devel
 BuildRequires: libxml2-devel
 BuildRequires: hal-devel >= 0.5.6
-BuildRequires: dbus-devel >= 0.32
+BuildRequires: dbus-devel >= 0.90
+BuildRequires: dbus-glib-devel >= 0.70
 
 %description
 GNOME (the GNU Network Object Model Environment) is an attractive and
@@ -245,6 +246,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Jul 18 2006 John (J5) Palmieri <johnp@redhat.com> - 2.15.4-3
+- Add BR on dbus-glib-devel
+
 * Thu Jul 13 2006 Ray Strode <rstrode@redhat.com> - 2.15.4-2
 - go to latest background capplet
 
