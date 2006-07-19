@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.15.4
-Release: 3 
+Release: 4 
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -35,6 +35,7 @@ Patch5: control-center-2.12.0-run-power-manager.patch
 Patch6: control-center-2.12.1-passwd.patch
 Patch7: control-center-2.14.2-gecos.patch
 Patch8: control-center-2.13.5-m4.patch
+Patch9: control-center-2.15.4-add-dbus-flags.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -128,6 +129,7 @@ This packages development files for GNOME Control Center.
 %patch6 -p1 -b .passwd
 %patch7 -p1 -b .gecos
 %patch8 -p1 -b .m4
+%patch9 -p1 -b .add-dbus-flags
 
 %build
 
@@ -246,6 +248,10 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Jul 19 2006 John (J5) Palmieri <johnp@redhat.com> - 2.15.4-4
+- Add patch to use the dbus cflags and libs instead of relying on hal
+  flags to populate them
+
 * Tue Jul 18 2006 John (J5) Palmieri <johnp@redhat.com> - 2.15.4-3
 - Add BR on dbus-glib-devel
 
