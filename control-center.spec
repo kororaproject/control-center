@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.15.4
-Release: 5 
+Release: 6 
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -33,7 +33,7 @@ Patch3: control-center-2.10.1-mark-tool-buttons-important.patch
 Patch4: control-center-2.13.90-about-me-faces.patch
 Patch5: control-center-2.12.0-run-power-manager.patch
 Patch6: control-center-2.12.1-passwd.patch
-Patch7: control-center-2.14.2-gecos.patch
+Patch7: control-center-2.15.4-gecos.patch
 Patch8: control-center-2.13.5-m4.patch
 Patch9: control-center-2.15.4-add-dbus-flags.patch
 # Dobey being unreasonable again
@@ -251,6 +251,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Jul 24 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.4-6
+- Make gnome-about-me start 
+
 * Sat Jul 22 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.4-5
 - Fix the close button of the background capplet
 
