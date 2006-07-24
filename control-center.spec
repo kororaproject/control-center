@@ -34,7 +34,6 @@ Patch4: control-center-2.13.90-about-me-faces.patch
 Patch5: control-center-2.12.0-run-power-manager.patch
 Patch6: control-center-2.12.1-passwd.patch
 Patch7: control-center-2.15.4-gecos.patch
-Patch8: control-center-2.13.5-m4.patch
 Patch9: control-center-2.15.4-add-dbus-flags.patch
 # Dobey being unreasonable again
 Patch10: control-center-2.15.4-finish.patch
@@ -130,7 +129,6 @@ This packages development files for GNOME Control Center.
 %patch5 -p1 -b .run-power-manager
 %patch6 -p1 -b .passwd
 %patch7 -p1 -b .gecos
-%patch8 -p1 -b .m4
 %patch9 -p1 -b .add-dbus-flags
 %patch10 -p1 -b .finish
 
