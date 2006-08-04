@@ -20,8 +20,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.15.4
-Release: 6 
+Version: 2.15.90
+Release: 1%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -249,6 +249,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Aug  4 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.90-1.fc6
+- Update to 2.15.90
+
 * Mon Jul 24 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.4-6
 - Make gnome-about-me start 
 
