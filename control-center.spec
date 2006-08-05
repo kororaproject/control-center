@@ -249,9 +249,6 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
-* Sat Aug  5 2006 Caolan McNamara <caolanm@redhat.com> - 2.15.90-2.fc6
-- rebuild against new e-d-s
-
 * Fri Aug  4 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.90-1.fc6
 - Update to 2.15.90
 
