@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.15.90
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -249,6 +249,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sun Aug 06 2006 Florian La Roche <laroche@redhat.com>
+- rebuild for deps
+
 * Fri Aug  4 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.90-1.fc6
 - Update to 2.15.90
 
