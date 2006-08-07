@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.15.90
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -37,6 +37,7 @@ Patch7: control-center-2.15.4-gecos.patch
 Patch9: control-center-2.15.4-add-dbus-flags.patch
 # Dobey being unreasonable again
 Patch10: control-center-2.15.4-finish.patch
+Patch11: control-center-2.15.90-newapi.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -81,7 +82,7 @@ BuildRequires: gettext
 BuildRequires: gnome-menus-devel >= %{gnome_menus_version}
 # For intltool:
 BuildRequires: perl-XML-Parser >= 2.31-16
-BuildRequires: evolution-data-server-devel
+BuildRequires: evolution-data-server-devel >= 1.7.90
 BuildRequires: libXxf86misc-devel 
 BuildRequires: libxkbfile-devel
 BuildRequires: libXScrnSaver-devel
@@ -131,6 +132,7 @@ This packages development files for GNOME Control Center.
 %patch7 -p1 -b .gecos
 %patch9 -p1 -b .add-dbus-flags
 %patch10 -p1 -b .finish
+%patch11 -p1 -b .newapi
 
 %build
 
@@ -249,6 +251,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Aug 07 2006 Karsten Hopp <karsten@redhat.com> 2.15.90-4
+- add fix for new libebook api
+
 * Sun Aug 06 2006 Florian La Roche <laroche@redhat.com>
 - rebuild for deps
 
