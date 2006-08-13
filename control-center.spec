@@ -75,7 +75,7 @@ BuildRequires: metacity >= %{metacity_version}
 BuildRequires: libxklavier-devel >= %{libxklavier_version}
 BuildRequires: libXcursor-devel
 BuildRequires: alsa-lib-devel
-BuildRequires: nautilus
+BuildRequires: nautilus-devel
 BuildRequires: eel2-devel
 BuildRequires: gettext
 BuildRequires: gnome-menus-devel >= %{gnome_menus_version}
@@ -138,7 +138,7 @@ autoreconf
 
 # work around a gstreamer problem where it doesn't find
 # plugins the first time around
-/usr/bin/gst-inspect-0.10 --print-all
+/usr/bin/gst-inspect-0.10 --print-all >& /dev/null
 
 # Add -Wno-error to silence gswitchit
 %configure --disable-gstreamer --enable-alsa CFLAGS="$RPM_OPT_FLAGS -Wno-error" --enable-aboutme --disable-scrollkeeper
