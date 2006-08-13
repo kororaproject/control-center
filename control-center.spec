@@ -268,10 +268,10 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
-* Sun Aug 13 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.01-2.fc6
+* Sun Aug 13 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.91-2.fc6
 - fix spec file (pointed out by Yanko Kaneti)
 
-* Sun Aug 13 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.90-1.fc6
+* Sun Aug 13 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.91-1.fc6
 - Update to 2.15.91
 
 * Mon Aug 07 2006 Karsten Hopp <karsten@redhat.com> 2.15.90-4
