@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.15.91
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -203,10 +203,11 @@ gconftool-2 --makefile-install-rule \
    %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas  \
    %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas \
    %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas \
-   %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_power_manager.schemas \ 
+   %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_power_manager.schemas \
    %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas \
    %{_sysconfdir}/gconf/schemas/desktop_gnome_peripherals_keyboard_xkb.schemas \
-   %{_sysconfdir}/gconf/schemas/fontilus.schemas themus.schemas >& /dev/null
+   %{_sysconfdir}/gconf/schemas/fontilus.schemas \
+   %{_sysconfdir}/gconf/schemas/themus.schemas >& /dev/null
 update-desktop-database --quiet %{_datadir}/applications
 touch --no-create %{_datadir}/icons/hicolor
 if [ -x /usr/bin/gtk-update-icon-cache ]; then
@@ -220,10 +221,11 @@ if [ "$1" -eq 0 ]; then
      %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas  \
      %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas \
      %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas \
-     %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_power_manager.schemas \ 
+     %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_power_manager.schemas \
      %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas \
      %{_sysconfdir}/gconf/schemas/desktop_gnome_peripherals_keyboard_xkb.schemas \
-     %{_sysconfdir}/gconf/schemas/fontilus.schemas themus.schemas >& /dev/null
+     %{_sysconfdir}/gconf/schemas/fontilus.schemas \
+     %{_sysconfdir}/gconf/schemas/themus.schemas >& /dev/null
 fi
 
 %postun
@@ -266,6 +268,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sun Aug 13 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.01-2.fc6
+- fix spec file (pointed out by Yanko Kaneti)
+
 * Sun Aug 13 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.90-1.fc6
 - Update to 2.15.91
 
