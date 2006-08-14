@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.15.91
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -37,6 +37,7 @@ Patch7: control-center-2.15.4-gecos.patch
 Patch9: control-center-2.15.4-add-dbus-flags.patch
 # Dobey being unreasonable again
 Patch10: control-center-2.15.4-finish.patch
+Patch11: control-center-2.15.91-search.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -131,6 +132,7 @@ This packages development files for GNOME Control Center.
 %patch7 -p1 -b .gecos
 %patch9 -p1 -b .add-dbus-flags
 %patch10 -p1 -b .finish
+%patch11 -p1 -b .search
 
 %build
 
@@ -268,6 +270,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Aug 14 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.91-3.fc6
+- Make the search keybinding work with beagle
+
 * Sun Aug 13 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.91-2.fc6
 - fix spec file (pointed out by Yanko Kaneti)
 
