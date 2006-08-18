@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.15.91
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -38,6 +38,7 @@ Patch9: control-center-2.15.4-add-dbus-flags.patch
 # Dobey being unreasonable again
 Patch10: control-center-2.15.4-finish.patch
 Patch11: control-center-2.15.91-search.patch
+Patch12: control-center-2.15.90-fix-thumbnailing.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -133,6 +134,7 @@ This packages development files for GNOME Control Center.
 %patch9 -p1 -b .add-dbus-flags
 %patch10 -p1 -b .finish
 %patch11 -p1 -b .search
+%patch12 -p1 -b .fix-thumbnailing
 
 %build
 
@@ -270,6 +272,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Aug 18 2006 Ray Strode <rstrode@redhat.com> - 2.15.91-4.fc6
+- Fix thumbnailing problem in background capplet (bug 185142)
+
 * Mon Aug 14 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.91-3.fc6
 - Make the search keybinding work with beagle
 
