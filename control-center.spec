@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.15.91
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -38,7 +38,7 @@ Patch9: control-center-2.15.4-add-dbus-flags.patch
 # Dobey being unreasonable again
 Patch10: control-center-2.15.4-finish.patch
 Patch11: control-center-2.15.91-search.patch
-Patch12: control-center-2.15.90-fix-thumbnailing.patch
+Patch12: control-center-2.15.91-fix-thumbnailing.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -272,6 +272,10 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Aug 21 2006 Ray Strode <rstrode@redhat.com> - 2.15.91-5.fc6
+- When creating new thumbnails, record thumbnail location rather
+  that regenerating them over and over again.
+
 * Fri Aug 18 2006 Ray Strode <rstrode@redhat.com> - 2.15.91-4.fc6
 - Fix thumbnailing problem in background capplet (bug 185142)
 
