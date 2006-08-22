@@ -20,8 +20,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.15.91
-Release: 6%{?dist}
+Version: 2.15.92
+Release: 1%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -274,6 +274,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Aug 22 2006 Ray Strode <rstrode@redhat.com> - 2.15.91-6.fc6
+- update to 2.15.92
+
 * Tue Aug 22 2006 Soren Sandmann <sandmann@redhat.com> - 2.15.91-6.fc6
 - Add support for compiz in keybinding dialog.
 
