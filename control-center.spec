@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.15.91
-Release: 5%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
