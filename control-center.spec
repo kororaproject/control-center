@@ -39,6 +39,7 @@ Patch9: control-center-2.15.4-add-dbus-flags.patch
 Patch10: control-center-2.15.4-finish.patch
 Patch11: control-center-2.15.91-search.patch
 Patch12: control-center-2.15.91-fix-thumbnailing.patch
+Patch13: control-center-2.15.91-compiz-support.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -135,6 +136,7 @@ This packages development files for GNOME Control Center.
 %patch10 -p1 -b .finish
 %patch11 -p1 -b .search
 %patch12 -p1 -b .fix-thumbnailing
+%patch13 -p1 -b .compiz-support.patch
 
 %build
 
@@ -272,6 +274,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Aug 22 2006 Soren Sandmann <sandmann@redhat.com> - 2.15.91-6.fc6
+- Add support for compiz in keybinding dialog.
+
 * Mon Aug 21 2006 Ray Strode <rstrode@redhat.com> - 2.15.91-5.fc6
 - When creating new thumbnails, record thumbnail location rather
   that regenerating them over and over again.
