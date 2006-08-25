@@ -42,10 +42,15 @@ Patch12: control-center-2.15.91-fix-thumbnailing.patch
 Patch13: control-center-2.15.91-compiz-support.patch
 Patch14: control-center-2.15.92-fix-media-keys.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=352776
 Patch15: keyboard-drawing-focus.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=352777
 Patch16: keyboard-drawing-rotated-text.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=352778
 Patch17: keyboard-drawing-label-color.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=352779
 Patch18: keyboard-drawing-primary.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=352781
 Patch19: keyboard-drawing-corner.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
