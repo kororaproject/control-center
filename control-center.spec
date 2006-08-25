@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.15.92
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -41,6 +41,12 @@ Patch11: control-center-2.15.91-search.patch
 Patch12: control-center-2.15.91-fix-thumbnailing.patch
 Patch13: control-center-2.15.91-compiz-support.patch
 Patch14: control-center-2.15.92-fix-media-keys.patch
+
+Patch14: keyboard-drawing-focus.patch
+Patch15: keyboard-drawing-rotated-text.patch
+Patch16: keyboard-drawing-label-color.patch
+Patch17: keyboard-drawing-primary.patch
+Patch18: keyboard-drawing-corner.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -139,6 +145,12 @@ This packages development files for GNOME Control Center.
 %patch12 -p1 -b .fix-thumbnailing
 %patch13 -p1 -b .compiz-support
 %patch14 -p1 -b .fix-media-keys
+
+%patch14 -p1 -b .focus
+%patch15 -p1 -b .rotated-text
+%patch16 -p1 -b .label-color
+%patch17 -p1 -b .primary
+%patch18 -p1 -b .corner
 
 %build
 
@@ -276,6 +288,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Aug 24 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.92-3.fc6
+- Various improvements for the keyboard capplet
+
 * Thu Aug 24 2006 Ray Strode <rstrode@redhat.com> - 2.15.92-2.fc6
 - don't try to map user defined key shortcuts to keysyms
   (bug 201176)
