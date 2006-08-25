@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.15.92
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -276,11 +276,11 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
-* Thu Aug 24 2006 Ray Strode <rstrode@redhat.com> - 2.15.91-7.fc6
+* Thu Aug 24 2006 Ray Strode <rstrode@redhat.com> - 2.15.92-2.fc6
 - don't try to map user defined key shortcuts to keysyms
   (bug 201176)
 
-* Tue Aug 22 2006 Ray Strode <rstrode@redhat.com> - 2.15.91-6.fc6
+* Tue Aug 22 2006 Ray Strode <rstrode@redhat.com> - 2.15.92-1.fc6
 - update to 2.15.92
 
 * Tue Aug 22 2006 Soren Sandmann <sandmann@redhat.com> - 2.15.91-6.fc6
