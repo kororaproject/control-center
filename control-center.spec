@@ -42,11 +42,11 @@ Patch12: control-center-2.15.91-fix-thumbnailing.patch
 Patch13: control-center-2.15.91-compiz-support.patch
 Patch14: control-center-2.15.92-fix-media-keys.patch
 
-Patch14: keyboard-drawing-focus.patch
-Patch15: keyboard-drawing-rotated-text.patch
-Patch16: keyboard-drawing-label-color.patch
-Patch17: keyboard-drawing-primary.patch
-Patch18: keyboard-drawing-corner.patch
+Patch15: keyboard-drawing-focus.patch
+Patch16: keyboard-drawing-rotated-text.patch
+Patch17: keyboard-drawing-label-color.patch
+Patch18: keyboard-drawing-primary.patch
+Patch19: keyboard-drawing-corner.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -146,11 +146,11 @@ This packages development files for GNOME Control Center.
 %patch13 -p1 -b .compiz-support
 %patch14 -p1 -b .fix-media-keys
 
-%patch14 -p1 -b .focus
-%patch15 -p1 -b .rotated-text
-%patch16 -p1 -b .label-color
-%patch17 -p1 -b .primary
-%patch18 -p1 -b .corner
+%patch15 -p1 -b .focus
+%patch16 -p1 -b .rotated-text
+%patch17 -p1 -b .label-color
+%patch18 -p1 -b .primary
+%patch19 -p1 -b .corner
 
 %build
 
