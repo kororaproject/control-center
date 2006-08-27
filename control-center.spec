@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.15.92
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -293,6 +293,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sun Aug 27 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.92-4.fc6
+- More keyboard capplet improvements
+
 * Thu Aug 24 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.92-3.fc6
 - Various improvements for the keyboard capplet
 
