@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.15.92
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -52,6 +52,8 @@ Patch17: keyboard-drawing-label-color.patch
 Patch18: keyboard-drawing-primary.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=352781
 Patch19: keyboard-drawing-corner.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=353163
+Patch20: keyboard-drawing-redraw.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -156,6 +158,7 @@ This packages development files for GNOME Control Center.
 %patch17 -p1 -b .label-color
 %patch18 -p1 -b .primary
 %patch19 -p1 -b .corner
+%patch20 -p1 -b .redraw
 
 %build
 
@@ -293,6 +296,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sun Aug 27 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.92-5.fc6
+- Fix some redraw issues in the keyboard capplet
+
 * Sun Aug 27 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.92-4.fc6
 - More keyboard capplet improvements
 
