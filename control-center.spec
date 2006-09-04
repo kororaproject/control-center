@@ -53,8 +53,6 @@ Patch19: keyboard-drawing-corner.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=353163
 Patch20: keyboard-drawing-redraw.patch
 
-Patch21: control-center-2.15.92-power-key.patch
-
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
 
@@ -159,8 +157,6 @@ This packages development files for GNOME Control Center.
 %patch18 -p1 -b .primary
 %patch19 -p1 -b .corner
 %patch20 -p1 -b .redraw
-
-%patch21 -p1 -b .power-key
 
 %build
 
