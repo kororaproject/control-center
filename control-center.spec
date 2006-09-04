@@ -42,8 +42,6 @@ Patch12: control-center-2.15.91-fix-thumbnailing.patch
 Patch13: control-center-2.15.91-compiz-support.patch
 Patch14: control-center-2.15.92-fix-media-keys.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=352776
-Patch15: keyboard-drawing-focus.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=352777
 Patch16: keyboard-drawing-rotated-text.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=352778
@@ -155,7 +153,6 @@ This packages development files for GNOME Control Center.
 %patch13 -p1 -b .compiz-support
 %patch14 -p1 -b .fix-media-keys
 
-%patch15 -p1 -b .focus
 %patch16 -p1 -b .rotated-text
 %patch17 -p1 -b .label-color
 %patch18 -p1 -b .primary
