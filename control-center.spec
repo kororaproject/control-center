@@ -125,6 +125,7 @@ If you install GNOME, you need to install control-center.
 Summary: GNOME Control Center development libraries and header files
 Group: Development/Libraries
 Requires: %{name} = %{?epoch}:%{version}-%{release}
+Requires: pkgconfig
 
 %description devel
 GNOME (the GNU Network Object Model Environment) is an attractive and
