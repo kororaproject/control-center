@@ -21,11 +21,11 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.16.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
-Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center/2.14/control-center-%{version}.tar.bz2
+Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center/2.16/control-center-%{version}.tar.bz2
 
 Patch1: control-center-2.13.90-fedora-apps.patch
 Patch2: control-center-2.9.4-filesel.patch
@@ -298,7 +298,7 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
-* Mon Sep  4 2006 Matthias Clasen <mclasen@redhat.com> - 2.16.0-1.fc6
+* Mon Sep  4 2006 Matthias Clasen <mclasen@redhat.com> - 2.16.0-2.fc6
 - Update to 2.16.0
 
 * Sun Aug 27 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.92-5.fc6
