@@ -21,13 +21,13 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.16.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center/2.16/control-center-%{version}.tar.bz2
 
-Patch1: control-center-2.13.90-fedora-apps.patch
+Patch1: control-center-2.16.0-fedora-apps.patch
 Patch2: control-center-2.9.4-filesel.patch
 Patch3: control-center-2.10.1-mark-tool-buttons-important.patch
 Patch4: control-center-2.13.90-about-me-faces.patch
@@ -294,6 +294,10 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Sep 13 2006 Matthias Clasen <mclasen@redhat.com> - 2.16.0-3
+- Correct the Thunderbird and Evolution commands in
+  the list of default applications  (#197135)
+ 
 * Mon Sep  4 2006 Matthias Clasen <mclasen@redhat.com> - 2.16.0-2.fc6
 - Update to 2.16.0
 
