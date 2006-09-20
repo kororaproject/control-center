@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.16.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -298,6 +298,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Sep 19 2006 John (J5) Palmieri <johnp@redhat.com> - 2.16.0-5
+- Update the Orca patch
+
 * Tue Sep 19 2006 John (J5) Palmieri <johnp@redhat.com> - 2.16.0-4
 - Add a patch to start/stop and configure Orca from the accessibilities
   capplet

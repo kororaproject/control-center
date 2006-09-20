@@ -1,5 +1,5 @@
 --- control-center-2.16.0/capplets/accessibility/at-properties/main.c.start-at-helper	2006-09-19 18:45:32.000000000 -0400
-+++ control-center-2.16.0/capplets/accessibility/at-properties/main.c	2006-09-19 20:01:15.000000000 -0400
++++ control-center-2.16.0/capplets/accessibility/at-properties/main.c	2006-09-19 21:10:19.000000000 -0400
 @@ -44,6 +44,9 @@
  	gtk_widget_set_sensitive (WID ("at_magnifier_toggle"),
  				  at_startup_state.enabled.magnifier_installed);
@@ -10,20 +10,22 @@
  	if (at_startup_state.enabled.osk_installed &&
  	    at_startup_state.enabled.screenreader_installed &&
  	    at_startup_state.enabled.magnifier_installed) {
-@@ -149,6 +152,12 @@
+@@ -149,6 +152,14 @@
  			       is_enabled,
  			       NULL);
  	at_startup_state.enabled.support = is_enabled;
 +
-+	if (is_enabled && at_startup_state.enabled.orca_installed)
-+		at_orca_start ();
-+	else
-+		at_orca_stop ();
++        if (at_startup_state.enabled.orca_installed) {
++		if (is_enabled) 
++			at_orca_start ();
++		else
++			at_orca_stop ();
++	}
 +
  	g_object_unref (client);
  }
  
-@@ -200,6 +209,13 @@
+@@ -200,6 +211,13 @@
  }
  
  static void
@@ -37,7 +39,7 @@
  setup_dialog (GladeXML *dialog)
  {
  	GConfClient *client;
-@@ -255,7 +271,13 @@
+@@ -255,7 +273,13 @@
  	g_signal_connect (widget, "toggled",
  			  G_CALLBACK (at_startup_toggled), 
  			  dialog);
@@ -255,7 +257,7 @@
  			    <packing>
  			      <property name="padding">0</property>
 --- control-center-2.16.0/capplets/accessibility/at-properties/at-startup-session.c.start-at-helper	2006-09-19 20:09:38.000000000 -0400
-+++ control-center-2.16.0/capplets/accessibility/at-properties/at-startup-session.c	2006-09-19 20:01:10.000000000 -0400
++++ control-center-2.16.0/capplets/accessibility/at-properties/at-startup-session.c	2006-09-19 21:13:35.000000000 -0400
 @@ -57,6 +57,48 @@
  	return list;
  }
@@ -275,7 +277,7 @@
 +  g_spawn_async (NULL, 
 +  		 argv, 
 +		 NULL, 
-+		 G_SPAWN_DO_NOT_REAP_CHILD, 
++		 0, 
 +		 NULL,
 +		 NULL,
 +		 NULL,
