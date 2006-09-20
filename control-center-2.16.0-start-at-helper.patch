@@ -1,0 +1,318 @@
+--- control-center-2.16.0/capplets/accessibility/at-properties/main.c.start-at-helper	2006-09-19 18:45:32.000000000 -0400
++++ control-center-2.16.0/capplets/accessibility/at-properties/main.c	2006-09-19 20:01:15.000000000 -0400
+@@ -44,6 +44,9 @@
+ 	gtk_widget_set_sensitive (WID ("at_magnifier_toggle"),
+ 				  at_startup_state.enabled.magnifier_installed);
+ 
++	if (!at_startup_state.enabled.orca_installed)
++		gtk_widget_hide (WID ("at_pref_button"));
++
+ 	if (at_startup_state.enabled.osk_installed &&
+ 	    at_startup_state.enabled.screenreader_installed &&
+ 	    at_startup_state.enabled.magnifier_installed) {
+@@ -149,6 +152,12 @@
+ 			       is_enabled,
+ 			       NULL);
+ 	at_startup_state.enabled.support = is_enabled;
++
++	if (is_enabled && at_startup_state.enabled.orca_installed)
++		at_orca_start ();
++	else
++		at_orca_stop ();
++
+ 	g_object_unref (client);
+ }
+ 
+@@ -200,6 +209,13 @@
+ }
+ 
+ static void
++at_pref_clicked (GtkButton *button)
++{
++	if (at_startup_state.enabled.orca_installed)
++		at_orca_config ();
++}
++
++static void
+ setup_dialog (GladeXML *dialog)
+ {
+ 	GConfClient *client;
+@@ -255,7 +271,13 @@
+ 	g_signal_connect (widget, "toggled",
+ 			  G_CALLBACK (at_startup_toggled), 
+ 			  dialog);
+-	
++
++	widget = WID ("at_pref_button");
++	g_signal_connect (widget, "clicked",
++			  G_CALLBACK (at_pref_clicked), 
++			  NULL);
++
++
+ 	widget = WID ("at_properties_dialog");
+ 	capplet_set_icon (widget, "gnome-settings-accessibility-technologies");
+ 	
+--- control-center-2.16.0/capplets/accessibility/at-properties/at-startup-session.h.start-at-helper	2006-09-19 20:09:48.000000000 -0400
++++ control-center-2.16.0/capplets/accessibility/at-properties/at-startup-session.h	2006-09-19 20:01:13.000000000 -0400
+@@ -18,3 +18,10 @@
+ void at_startup_state_init (AtStartupState *startup_state);
+ 
+ void at_startup_state_update (AtStartupState *startup_state);
++
++void at_orca_start (void);
++
++void at_orca_stop (void);
++
++void at_orca_config (void);
++
+--- control-center-2.16.0/capplets/accessibility/at-properties/at-enable-dialog.glade.start-at-helper	2006-09-19 18:44:33.000000000 -0400
++++ control-center-2.16.0/capplets/accessibility/at-properties/at-enable-dialog.glade	2006-09-19 19:46:21.000000000 -0400
+@@ -12,6 +12,13 @@
+   <property name="modal">False</property>
+   <property name="resizable">False</property>
+   <property name="destroy_with_parent">False</property>
++  <property name="decorated">True</property>
++  <property name="skip_taskbar_hint">False</property>
++  <property name="skip_pager_hint">False</property>
++  <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
++  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
++  <property name="focus_on_map">True</property>
++  <property name="urgency_hint">False</property>
+   <property name="has_separator">False</property>
+ 
+   <child internal-child="vbox">
+@@ -33,6 +40,7 @@
+ 	      <property name="label">gtk-help</property>
+ 	      <property name="use_stock">True</property>
+ 	      <property name="relief">GTK_RELIEF_NORMAL</property>
++	      <property name="focus_on_click">True</property>
+ 	      <property name="response_id">-11</property>
+ 	    </widget>
+ 	  </child>
+@@ -44,6 +52,7 @@
+ 	      <property name="can_default">True</property>
+ 	      <property name="can_focus">True</property>
+ 	      <property name="relief">GTK_RELIEF_NORMAL</property>
++	      <property name="focus_on_click">True</property>
+ 	      <property name="response_id">0</property>
+ 
+ 	      <child>
+@@ -53,6 +62,10 @@
+ 		  <property name="yalign">0.5</property>
+ 		  <property name="xscale">0</property>
+ 		  <property name="yscale">0</property>
++		  <property name="top_padding">0</property>
++		  <property name="bottom_padding">0</property>
++		  <property name="left_padding">0</property>
++		  <property name="right_padding">0</property>
+ 
+ 		  <child>
+ 		    <widget class="GtkHBox" id="hbox1">
+@@ -88,6 +101,10 @@
+ 			  <property name="yalign">0.5</property>
+ 			  <property name="xpad">0</property>
+ 			  <property name="ypad">0</property>
++			  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
++			  <property name="width_chars">-1</property>
++			  <property name="single_line_mode">False</property>
++			  <property name="angle">0</property>
+ 			</widget>
+ 			<packing>
+ 			  <property name="padding">0</property>
+@@ -111,6 +128,7 @@
+ 	      <property name="label">gtk-close</property>
+ 	      <property name="use_stock">True</property>
+ 	      <property name="relief">GTK_RELIEF_NORMAL</property>
++	      <property name="focus_on_click">True</property>
+ 	      <property name="response_id">-7</property>
+ 	    </widget>
+ 	  </child>
+@@ -155,6 +173,10 @@
+ 		      <property name="yalign">0.5</property>
+ 		      <property name="xpad">0</property>
+ 		      <property name="ypad">0</property>
++		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
++		      <property name="width_chars">-1</property>
++		      <property name="single_line_mode">False</property>
++		      <property name="angle">0</property>
+ 		    </widget>
+ 		    <packing>
+ 		      <property name="padding">0</property>
+@@ -197,6 +219,7 @@
+ 			      <property name="label" translatable="yes">_Enable assistive technologies</property>
+ 			      <property name="use_underline">True</property>
+ 			      <property name="relief">GTK_RELIEF_NORMAL</property>
++			      <property name="focus_on_click">True</property>
+ 			      <property name="active">False</property>
+ 			      <property name="inconsistent">False</property>
+ 			      <property name="draw_indicator">True</property>
+@@ -221,6 +244,10 @@
+ 			      <property name="yalign">0.5</property>
+ 			      <property name="xpad">0</property>
+ 			      <property name="ypad">0</property>
++			      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
++			      <property name="width_chars">-1</property>
++			      <property name="single_line_mode">False</property>
++			      <property name="angle">0</property>
+ 			    </widget>
+ 			    <packing>
+ 			      <property name="padding">0</property>
+@@ -282,6 +309,10 @@
+ 		      <property name="yalign">0.5</property>
+ 		      <property name="xpad">0</property>
+ 		      <property name="ypad">0</property>
++		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
++		      <property name="width_chars">-1</property>
++		      <property name="single_line_mode">False</property>
++		      <property name="angle">0</property>
+ 		    </widget>
+ 		    <packing>
+ 		      <property name="padding">0</property>
+@@ -330,6 +361,10 @@
+ 			      <property name="yalign">0.5</property>
+ 			      <property name="xpad">0</property>
+ 			      <property name="ypad">6</property>
++			      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
++			      <property name="width_chars">-1</property>
++			      <property name="single_line_mode">False</property>
++			      <property name="angle">0</property>
+ 			    </widget>
+ 			    <packing>
+ 			      <property name="padding">0</property>
+@@ -345,6 +380,7 @@
+ 			      <property name="label" translatable="yes">_Screenreader</property>
+ 			      <property name="use_underline">True</property>
+ 			      <property name="relief">GTK_RELIEF_NORMAL</property>
++			      <property name="focus_on_click">True</property>
+ 			      <property name="active">False</property>
+ 			      <property name="inconsistent">False</property>
+ 			      <property name="draw_indicator">True</property>
+@@ -363,6 +399,7 @@
+ 			      <property name="label" translatable="yes">_Magnifier</property>
+ 			      <property name="use_underline">True</property>
+ 			      <property name="relief">GTK_RELIEF_NORMAL</property>
++			      <property name="focus_on_click">True</property>
+ 			      <property name="active">False</property>
+ 			      <property name="inconsistent">False</property>
+ 			      <property name="draw_indicator">True</property>
+@@ -381,6 +418,7 @@
+ 			      <property name="label" translatable="yes">_On-screen keyboard</property>
+ 			      <property name="use_underline">True</property>
+ 			      <property name="relief">GTK_RELIEF_NORMAL</property>
++			      <property name="focus_on_click">True</property>
+ 			      <property name="active">False</property>
+ 			      <property name="inconsistent">False</property>
+ 			      <property name="draw_indicator">True</property>
+@@ -393,6 +431,39 @@
+ 			  </child>
+ 
+ 			  <child>
++			    <widget class="GtkHBox" id="hbox4">
++			      <property name="visible">True</property>
++			      <property name="homogeneous">False</property>
++			      <property name="spacing">0</property>
++
++			      <child>
++				<widget class="GtkButton" id="at_pref_button">
++				  <property name="visible">True</property>
++				  <property name="can_focus">True</property>
++				  <property name="label">gtk-preferences</property>
++				  <property name="use_stock">True</property>
++				  <property name="relief">GTK_RELIEF_NORMAL</property>
++				  <property name="focus_on_click">True</property>
++				</widget>
++				<packing>
++				  <property name="padding">0</property>
++				  <property name="expand">False</property>
++				  <property name="fill">False</property>
++				</packing>
++			      </child>
++
++			      <child>
++				<placeholder/>
++			      </child>
++			    </widget>
++			    <packing>
++			      <property name="padding">0</property>
++			      <property name="expand">False</property>
++			      <property name="fill">False</property>
++			    </packing>
++			  </child>
++
++			  <child>
+ 			    <widget class="GtkHSeparator" id="at_applications_hseparator">
+ 			      <property name="visible">True</property>
+ 			    </widget>
+@@ -416,6 +487,10 @@
+ 			      <property name="yalign">0.5</property>
+ 			      <property name="xpad">0</property>
+ 			      <property name="ypad">0</property>
++			      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
++			      <property name="width_chars">-1</property>
++			      <property name="single_line_mode">False</property>
++			      <property name="angle">0</property>
+ 			    </widget>
+ 			    <packing>
+ 			      <property name="padding">0</property>
+--- control-center-2.16.0/capplets/accessibility/at-properties/at-startup-session.c.start-at-helper	2006-09-19 20:09:38.000000000 -0400
++++ control-center-2.16.0/capplets/accessibility/at-properties/at-startup-session.c	2006-09-19 20:01:10.000000000 -0400
+@@ -57,6 +57,48 @@
+ 	return list;
+ }
+ 
++/* Hack for starting and stopping orca when Enable assitive technologies
++   is toggled */
++static char *orca_start_cmd;
++static char *orca_stop_cmd;
++static char *orca_config_cmd;
++
++static void
++orca_execute_cmd (const char *cmd)
++{
++  char **argv;
++  
++  argv = g_strsplit (cmd, " ", -1); 
++  g_spawn_async (NULL, 
++  		 argv, 
++		 NULL, 
++		 G_SPAWN_DO_NOT_REAP_CHILD, 
++		 NULL,
++		 NULL,
++		 NULL,
++		 NULL); 
++
++  g_strfreev (argv);
++}
++
++void
++at_orca_start ()
++{
++  orca_execute_cmd (orca_start_cmd);
++}
++
++void
++at_orca_stop ()
++{
++  orca_execute_cmd (orca_stop_cmd);
++}
++
++void
++at_orca_config ()
++{
++  orca_execute_cmd (orca_config_cmd);
++}
++
+ void
+ at_startup_state_init (AtStartupState *startup_state)
+ {
+@@ -111,6 +153,10 @@
+ 	prog = g_find_program_in_path ("orca");
+ 	if (prog != NULL) {
+ 		startup_state->enabled.orca_installed = TRUE;
++		orca_start_cmd = g_strdup_printf ("%s --no-setup", prog);
++		orca_stop_cmd = g_strdup_printf ("%s --stop", prog);
++		orca_config_cmd = g_strdup_printf ("%s --gui-setup", prog);
++
+ 		g_free (prog);
+ 	} else {
+ 		startup_state->enabled.orca_installed = FALSE;

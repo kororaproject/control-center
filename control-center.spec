@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.16.0
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -52,6 +52,8 @@ Patch18: keyboard-drawing-primary.patch
 Patch19: keyboard-drawing-corner.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=353163
 Patch20: keyboard-drawing-redraw.patch
+
+Patch21: control-center-2.16.0-start-at-helper.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -157,6 +159,8 @@ This packages development files for GNOME Control Center.
 %patch18 -p1 -b .primary
 %patch19 -p1 -b .corner
 %patch20 -p1 -b .redraw
+
+%patch21 -p1 -b .start-at-helper
 
 %build
 
@@ -294,6 +298,10 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Sep 19 2006 John (J5) Palmieri <johnp@redhat.com> - 2.16.0-4
+- Add a patch to start/stop and configure Orca from the accessibilities
+  capplet
+
 * Wed Sep 13 2006 Matthias Clasen <mclasen@redhat.com> - 2.16.0-3
 - Correct the Thunderbird and Evolution commands in
   the list of default applications  (#197135)
