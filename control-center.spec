@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.16.0
-Release: 5%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -298,6 +298,10 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Sep 26 2006 Soren Sandmann <sandmann@redhat.com> - 2.16.0-6
+- Update the compiz-support patch to also make the "Desktop" keybindings
+  work. Bug 200290.
+
 * Tue Sep 19 2006 John (J5) Palmieri <johnp@redhat.com> - 2.16.0-5
 - Update the Orca patch
 
