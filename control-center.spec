@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.16.0
-Release: 6%{?dist}
+Release: 7%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -298,6 +298,10 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Sep 27 2006 Soren Sandmann <sandmann@redhat.com> - 2.16.0-7
+- Update the compiz-support.patch to use the correct gconf keys for
+  the compiz keyboard bindings. (Bug 204094).
+
 * Tue Sep 26 2006 Soren Sandmann <sandmann@redhat.com> - 2.16.0-6
 - Update the compiz-support patch to also make the "Desktop" keybindings
   work. Bug 200290.
