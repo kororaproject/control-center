@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.16.0
-Release: 7%{?dist}
+Release: 8%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -298,6 +298,10 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Sep 28 2006 Soren Sandmann <sandmann@redhat.com> - 2.16.0-8
+- Update the compiz-support.patch to support raising of windows (and also
+  show-desktop) (Bug 204129).
+
 * Wed Sep 27 2006 Soren Sandmann <sandmann@redhat.com> - 2.16.0-7
 - Update the compiz-support.patch to use the correct gconf keys for
   the compiz keyboard bindings. (Bug 204094).
