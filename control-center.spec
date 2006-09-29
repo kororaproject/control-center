@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.16.0
-Release: 8%{?dist}
+Release: 9%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -54,6 +54,7 @@ Patch19: keyboard-drawing-corner.patch
 Patch20: keyboard-drawing-redraw.patch
 
 Patch21: control-center-2.16.0-start-at-helper.patch
+Patch22: control-center-2.16.0-default-applications-browser-fixes.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -161,6 +162,7 @@ This packages development files for GNOME Control Center.
 %patch20 -p1 -b .redraw
 
 %patch21 -p1 -b .start-at-helper
+%patch22 -p1 -b .default-applications-browser-fixes
 
 %build
 
@@ -298,6 +300,11 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Sep 29 2006 Christopher Aillon <caillon@redhat.com> - 2.16.0-9
+- Don't let default-applications tell official gecko applications
+  to launch new tabs or windows, as it causes them to not launch when 
+  there is no running instance.
+
 * Thu Sep 28 2006 Soren Sandmann <sandmann@redhat.com> - 2.16.0-8
 - Update the compiz-support.patch to support raising of windows (and also
   show-desktop) (Bug 204129).
