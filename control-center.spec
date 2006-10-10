@@ -55,6 +55,7 @@ Patch20: keyboard-drawing-redraw.patch
 
 Patch21: control-center-2.16.0-start-at-helper.patch
 Patch22: control-center-2.16.0-default-applications-browser-fixes.patch
+Patch23: control-center-2.16.0-about-me-help.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -163,6 +164,7 @@ This packages development files for GNOME Control Center.
 
 %patch21 -p1 -b .start-at-helper
 %patch22 -p1 -b .default-applications-browser-fixes
+%patch23 -b1 -b .about-me-help
 
 %build
 
@@ -300,6 +302,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Oct 10 2006 Matthias Clasen <mclasen@redhat.com> - 2.16.0-10
+- Don't show a nonworking help button in the about-me capplet (#201878)
+
 * Fri Sep 29 2006 Christopher Aillon <caillon@redhat.com> - 2.16.0-9
 - Don't let default-applications tell official gecko applications
   to launch new tabs or windows, as it causes them to not launch when 
