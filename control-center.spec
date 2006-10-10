@@ -164,7 +164,7 @@ This packages development files for GNOME Control Center.
 
 %patch21 -p1 -b .start-at-helper
 %patch22 -p1 -b .default-applications-browser-fixes
-%patch23 -b1 -b .about-me-help
+%patch23 -p1 -b .about-me-help
 
 %build
 
