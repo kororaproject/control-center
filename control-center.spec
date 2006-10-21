@@ -20,8 +20,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.16.0
-Release: 10%{?dist}
+Version: 2.17.1
+Release: 1%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -248,6 +248,20 @@ if [ -x /usr/bin/gtk-update-icon-cache ]; then
   gtk-update-icon-cache -q %{_datadir}/icons/hicolor
 fi
 
+%pre
+if [ "$1" -gt 1 ]; then
+    export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
+    gconftool-2 --makefile-uninstall-rule \
+     %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas  \
+     %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas \
+     %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas \
+     %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_power_manager.schemas \
+     %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas \
+     %{_sysconfdir}/gconf/schemas/desktop_gnome_peripherals_keyboard_xkb.schemas \
+     %{_sysconfdir}/gconf/schemas/fontilus.schemas \
+     %{_sysconfdir}/gconf/schemas/themus.schemas >& /dev/null
+fi
+
 %preun
 if [ "$1" -eq 0 ]; then
     export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
@@ -302,6 +316,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sat Oct 21 2006 Matthias Clasen <mclasen@redhat.com> - 2.17.1-1
+- Update to 2.17.1
+
 * Tue Oct 10 2006 Matthias Clasen <mclasen@redhat.com> - 2.16.0-10
 - Don't show a nonworking help button in the about-me capplet (#201878)
 
