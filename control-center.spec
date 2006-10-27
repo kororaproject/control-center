@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.17.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -100,7 +100,7 @@ BuildRequires: gettext
 BuildRequires: gnome-menus-devel >= %{gnome_menus_version}
 # For intltool:
 BuildRequires: perl-XML-Parser >= 2.31-16
-BuildRequires: evolution-data-server-devel >= 1.7.90
+BuildRequires: evolution-data-server-devel >= 1.9.1
 BuildRequires: libXxf86misc-devel 
 BuildRequires: libxkbfile-devel
 BuildRequires: libXScrnSaver-devel
@@ -316,6 +316,10 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Oct 27 2006 Matthew Barnes <mbarnes@redhat.com> - 2.17.1-2.fc7
+- Update BuildRequires for evolution-data-server-devel.
+- Rebuild against evolution-data-server-1.9.1.
+
 * Sat Oct 21 2006 Matthias Clasen <mclasen@redhat.com> - 2.17.1-1
 - Update to 2.17.1
 
