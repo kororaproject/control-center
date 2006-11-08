@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.17.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -225,6 +225,9 @@ cp -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/icons/* $RPM_BUILD_ROOT%{_da
 /bin/rm -f $RPM_BUILD_ROOT%{_libdir}/window-manager-settings/*.*a
 /bin/rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.*a
 
+# temporarly work around the file conflict with libgnomekbd
+rm $RPM_BUILD_ROOT%{_sysconfdir}/gconf/schemas/desktop_gnome_peripherals_keyboard_xkb.schemas 
+
 %find_lang %{gettext_package}
 
 %clean
@@ -239,7 +242,6 @@ gconftool-2 --makefile-install-rule \
    %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas \
    %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_power_manager.schemas \
    %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas \
-   %{_sysconfdir}/gconf/schemas/desktop_gnome_peripherals_keyboard_xkb.schemas \
    %{_sysconfdir}/gconf/schemas/fontilus.schemas \
    %{_sysconfdir}/gconf/schemas/themus.schemas >& /dev/null
 update-desktop-database --quiet %{_datadir}/applications
@@ -316,6 +318,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Nov  8 2006 Matthias Clasen <mclasen@redhat.com> - 2.17.1-3
+- Work around a file conflict with libgnomekbd (#214608)
+
 * Fri Oct 27 2006 Matthew Barnes <mbarnes@redhat.com> - 2.17.1-2.fc7
 - Update BuildRequires for evolution-data-server-devel.
 - Rebuild against evolution-data-server-1.9.1.
