@@ -21,41 +21,64 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.17.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center/2.16/control-center-%{version}.tar.bz2
 
-Patch1: control-center-2.16.0-fedora-apps.patch
-Patch2: control-center-2.9.4-filesel.patch
-Patch3: control-center-2.10.1-mark-tool-buttons-important.patch
-Patch4: control-center-2.13.90-about-me-faces.patch
-Patch5: control-center-2.12.0-run-power-manager.patch
-Patch6: control-center-2.12.1-passwd.patch
-Patch7: control-center-2.15.4-gecos.patch
-Patch9: control-center-2.15.4-add-dbus-flags.patch
-# Dobey being unreasonable again
-Patch10: control-center-2.15.4-finish.patch
-Patch11: control-center-2.15.91-search.patch
-Patch12: control-center-2.15.91-fix-thumbnailing.patch
-Patch13: control-center-2.15.91-compiz-support.patch
-Patch14: control-center-2.15.92-fix-media-keys.patch
+# Remove "Apply" button and just have "Close" instead
+# FIXME: We should figure out what to do about this...either get
+# it upstreamed or drop it I guess.
+Patch1: control-center-2.15.4-finish.patch
 
+# Optionally bring up beagle if available
+# FIXME: need to get this filed upstream
+Patch2: control-center-2.15.91-search.patch
+
+# drop help button from a dialog that doesn't have
+# help
+# FIXME: need to get this filed upstream
+Patch3: control-center-2.16.0-about-me-help.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=351991
+Patch4: control-center-2.15.91-fix-thumbnailing.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=376045
+Patch5: control-center-2.15.91-compiz-support.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=133815
+Patch6: control-center-2.17.1-fix-media-keys.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=352777
-Patch16: keyboard-drawing-rotated-text.patch
+Patch7: keyboard-drawing-rotated-text.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=352778
-Patch17: keyboard-drawing-label-color.patch
+Patch8: keyboard-drawing-label-color.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=352779
-Patch18: keyboard-drawing-primary.patch
+Patch9: keyboard-drawing-primary.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=352781
-Patch19: keyboard-drawing-corner.patch
+Patch10: keyboard-drawing-corner.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=353163
-Patch20: keyboard-drawing-redraw.patch
+Patch11: keyboard-drawing-redraw.patch
 
-Patch21: control-center-2.16.0-start-at-helper.patch
-Patch22: control-center-2.16.0-default-applications-browser-fixes.patch
-Patch23: control-center-2.16.0-about-me-help.patch
+# ubuntu has a better patch for this in the works
+# apparently http://blog.omma.net/?p=16
+# We should either wait for it to get upstream, or
+# hunt through the 6.1MB (!!) patch file against
+# control-center
+Patch12: control-center-2.16.0-start-at-helper.patch
+
+# call the Fedora/RHEL graphical passwd changing apps
+Patch95: control-center-2.12.1-passwd.patch
+Patch96: control-center-2.15.4-gecos.patch
+
+# change default faces directory to where we ship faces
+# (should probably be filed upstream)
+Patch97: control-center-2.13.90-about-me-faces.patch
+
+# change default wallpaper directory to where we ship our
+# backgrounds
+Patch98: control-center-2.9.4-filesel.patch
+
+# change default preferred apps to programs we ship
+Patch99: control-center-2.17.1-default-apps.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 URL: http://www.gnome.org
@@ -88,8 +111,6 @@ BuildRequires: gnome-vfs2-devel >= %{gnome_vfs2_version}
 BuildRequires: bonobo-activation-devel
 BuildRequires: fontconfig-devel >= %{fontconfig_version}
 BuildRequires: desktop-file-utils >= %{desktop_file_utils_version}
-BuildRequires: /usr/bin/automake-1.4
-BuildRequires: /usr/bin/autoconf
 BuildRequires: metacity >= %{metacity_version}
 BuildRequires: libxklavier-devel >= %{libxklavier_version}
 BuildRequires: libXcursor-devel
@@ -142,30 +163,27 @@ This packages development files for GNOME Control Center.
 %prep
 %setup -q
 
-%patch1 -p1 -b .fedora-apps
-%patch2 -p1 -b .filesel
-%patch3 -p1 -b .mark-tool-buttons-important
-%patch4 -p1 -b .about-me-faces
-%patch5 -p1 -b .run-power-manager
-%patch6 -p1 -b .passwd
-%patch7 -p1 -b .gecos
-%patch9 -p1 -b .add-dbus-flags
-%patch10 -p1 -b .finish
-%patch11 -p1 -b .search
-%patch12 -p1 -b .fix-thumbnailing
-%patch13 -p1 -b .compiz-support
-%patch14 -p1 -b .fix-media-keys
+%patch1 -p1 -b .finish
+%patch2 -p1 -b .search
+%patch3 -p1 -b .about-me-help
+%patch4 -p1 -b .fix-thumbnailing
+%patch5 -p1 -b .compiz-support
+%patch6 -p1 -b .fix-media-keys
 
-%patch16 -p1 -b .rotated-text
-%patch17 -p1 -b .label-color
-%patch18 -p1 -b .primary
-%patch19 -p1 -b .corner
-%patch20 -p1 -b .redraw
+%patch7 -p1 -b .rotated-text
+%patch8 -p1 -b .label-color
+%patch9 -p1 -b .primary
+%patch10 -p1 -b .corner
+%patch11 -p1 -b .redraw
 
-%patch21 -p1 -b .start-at-helper
-%patch22 -p1 -b .default-applications-browser-fixes
-%patch23 -p1 -b .about-me-help
+%patch12 -p1 -b .start-at-helper
 
+# vendor configuration patches
+%patch95 -p1 -b .passwd
+%patch96 -p1 -b .gecos
+%patch97 -p1 -b .about-me-faces
+%patch98 -p1 -b .filesel
+%patch99 -p1 -b .default-apps
 %build
 
 autoreconf
@@ -318,6 +336,11 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Nov 17 2006 Ray Strode <rstrode@redhat.com> - 2.17.1-4
+- Drop unused/bogus patches
+- Try to fix up background capplet thumbnail code again (better this time)
+- rearrange patches so that vendor patches end up at the end
+
 * Wed Nov  8 2006 Matthias Clasen <mclasen@redhat.com> - 2.17.1-3
 - Work around a file conflict with libgnomekbd (#214608)
 
