@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.17.1
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -42,7 +42,7 @@ Patch2: control-center-2.15.91-search.patch
 Patch3: control-center-2.16.0-about-me-help.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=351991
-Patch4: control-center-2.15.91-fix-thumbnailing.patch
+Patch4: control-center-2.17.1-fix-thumbnailing.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=376045
 Patch5: control-center-2.15.91-compiz-support.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=133815
@@ -336,6 +336,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Nov 17 2006 Ray Strode <rstrode@redhat.com> - 2.17.1-5
+- apply aforementioned thumbnail fixups
+
 * Fri Nov 17 2006 Ray Strode <rstrode@redhat.com> - 2.17.1-4
 - Drop unused/bogus patches
 - Try to fix up background capplet thumbnail code again (better this time)
