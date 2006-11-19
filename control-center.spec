@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.17.1
-Release: 5%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -258,7 +258,6 @@ gconftool-2 --makefile-install-rule \
    %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas  \
    %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas \
    %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas \
-   %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_power_manager.schemas \
    %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas \
    %{_sysconfdir}/gconf/schemas/fontilus.schemas \
    %{_sysconfdir}/gconf/schemas/themus.schemas >& /dev/null
@@ -275,11 +274,10 @@ if [ "$1" -gt 1 ]; then
      %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas  \
      %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas \
      %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas \
-     %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_power_manager.schemas \
      %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas \
-     %{_sysconfdir}/gconf/schemas/desktop_gnome_peripherals_keyboard_xkb.schemas \
      %{_sysconfdir}/gconf/schemas/fontilus.schemas \
-     %{_sysconfdir}/gconf/schemas/themus.schemas >& /dev/null
+     %{_sysconfdir}/gconf/schemas/themus.schemas \
+     >& /dev/null
 fi
 
 %preun
@@ -289,11 +287,10 @@ if [ "$1" -eq 0 ]; then
      %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas  \
      %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas \
      %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas \
-     %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_power_manager.schemas \
      %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas \
-     %{_sysconfdir}/gconf/schemas/desktop_gnome_peripherals_keyboard_xkb.schemas \
      %{_sysconfdir}/gconf/schemas/fontilus.schemas \
-     %{_sysconfdir}/gconf/schemas/themus.schemas >& /dev/null
+     %{_sysconfdir}/gconf/schemas/themus.schemas \
+     >& /dev/null
 fi
 
 %postun
@@ -324,7 +321,12 @@ fi
 %{_libdir}/nautilus/extensions-1.0/*
 %{_libdir}/*.so.*
 %{_libdir}/window-manager-settings
-%{_sysconfdir}/gconf/schemas/*.schemas
+%{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas  
+%{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas
+%{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas
+%{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas
+%{_sysconfdir}/gconf/schemas/fontilus.schemas
+%{_sysconfdir}/gconf/schemas/themus.schemas
 %{_sysconfdir}/gnome-vfs-2.0/modules/*.conf
 %{_libdir}/gnome-vfs-2.0/modules/*.so
 
@@ -336,6 +338,10 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sat Nov 18 2006 Ray Strode <rstrode@redhat.com> - 2.17.1-6
+- update file list to explicitly mention schema files
+- fix %%pre scriplet
+
 * Fri Nov 17 2006 Ray Strode <rstrode@redhat.com> - 2.17.1-5
 - apply aforementioned thumbnail fixups
 
