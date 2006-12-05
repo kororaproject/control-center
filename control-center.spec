@@ -121,6 +121,7 @@ BuildRequires: eel2-devel
 BuildRequires: gettext
 BuildRequires: gnome-menus-devel >= %{gnome_menus_version}
 BuildRequires: gnome-panel-devel
+BuildRequires: libgnomekbd-devel
 # For intltool:
 BuildRequires: perl-XML-Parser >= 2.31-16
 BuildRequires: evolution-data-server-devel >= 1.9.1
