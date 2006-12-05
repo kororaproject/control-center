@@ -20,8 +20,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.17.1
-Release: 6%{?dist}
+Version: 2.17.3
+Release: 1%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -170,11 +170,11 @@ This packages development files for GNOME Control Center.
 %patch5 -p1 -b .compiz-support
 %patch6 -p1 -b .fix-media-keys
 
-%patch7 -p1 -b .rotated-text
-%patch8 -p1 -b .label-color
-%patch9 -p1 -b .primary
-%patch10 -p1 -b .corner
-%patch11 -p1 -b .redraw
+#%patch7 -p1 -b .rotated-text
+#%patch8 -p1 -b .label-color
+#%patch9 -p1 -b .primary
+#%patch10 -p1 -b .corner
+#%patch11 -p1 -b .redraw
 
 %patch12 -p1 -b .start-at-helper
 
@@ -338,6 +338,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Dec  5 2006 Matthias Clasen <mclasen@redhat.com> - 2.17.3-1
+- Update to 2.17.3
+
 * Sat Nov 18 2006 Ray Strode <rstrode@redhat.com> - 2.17.1-6
 - update file list to explicitly mention schema files
 - fix %%pre scriplet
