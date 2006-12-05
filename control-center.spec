@@ -47,16 +47,17 @@ Patch4: control-center-2.17.1-fix-thumbnailing.patch
 Patch5: control-center-2.15.91-compiz-support.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=133815
 Patch6: control-center-2.17.1-fix-media-keys.patch
+
 # http://bugzilla.gnome.org/show_bug.cgi?id=352777
-Patch7: keyboard-drawing-rotated-text.patch
+#Patch7: keyboard-drawing-rotated-text.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=352778
-Patch8: keyboard-drawing-label-color.patch
+#Patch8: keyboard-drawing-label-color.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=352779
-Patch9: keyboard-drawing-primary.patch
+#Patch9: keyboard-drawing-primary.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=352781
-Patch10: keyboard-drawing-corner.patch
+#Patch10: keyboard-drawing-corner.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=353163
-Patch11: keyboard-drawing-redraw.patch
+#Patch11: keyboard-drawing-redraw.patch
 
 # ubuntu has a better patch for this in the works
 # apparently http://blog.omma.net/?p=16
@@ -119,6 +120,7 @@ BuildRequires: nautilus-devel
 BuildRequires: eel2-devel
 BuildRequires: gettext
 BuildRequires: gnome-menus-devel >= %{gnome_menus_version}
+BuildRequires: gnome-panel-devel
 # For intltool:
 BuildRequires: perl-XML-Parser >= 2.31-16
 BuildRequires: evolution-data-server-devel >= 1.9.1
