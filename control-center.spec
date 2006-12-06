@@ -311,7 +311,6 @@ fi
 
 %{_datadir}/control-center-2.0
 %{_datadir}/pixmaps/*
-%{_datadir}/icons/*
 %{_datadir}/gnome/*
 %{_datadir}/applications/*.desktop
 %{_datadir}/idl
