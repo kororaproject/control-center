@@ -48,6 +48,8 @@ Patch5: control-center-2.15.91-compiz-support.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=133815
 Patch6: control-center-2.17.1-fix-media-keys.patch
 
+## FIXME 
+## these patches need to go to libgnomekbd 
 # http://bugzilla.gnome.org/show_bug.cgi?id=352777
 #Patch7: keyboard-drawing-rotated-text.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=352778
@@ -246,8 +248,6 @@ cp -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/icons/* $RPM_BUILD_ROOT%{_da
 /bin/rm -f $RPM_BUILD_ROOT%{_libdir}/window-manager-settings/*.*a
 /bin/rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.*a
 
-# temporarly work around the file conflict with libgnomekbd
-rm $RPM_BUILD_ROOT%{_sysconfdir}/gconf/schemas/desktop_gnome_peripherals_keyboard_xkb.schemas 
 
 %find_lang %{gettext_package}
 
