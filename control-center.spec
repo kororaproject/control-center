@@ -239,10 +239,10 @@ cp -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/icons/* $RPM_BUILD_ROOT%{_da
 
 # fix installed but not packaged
 /bin/rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
+/bin/rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 
-/bin/rm -rf $RPM_BUILD_ROOT%{_libdir}/libgnome-window-settings.*a
-/bin/rm -rf $RPM_BUILD_ROOT%{_libdir}/gnome-vfs-2.0/modules/*.a
-/bin/rm -rf $RPM_BUILD_ROOT%{_libdir}/gnome-vfs-2.0/modules/*.la
+/bin/rm -f $RPM_BUILD_ROOT%{_libdir}/gnome-vfs-2.0/modules/*.a
+/bin/rm -f $RPM_BUILD_ROOT%{_libdir}/gnome-vfs-2.0/modules/*.la
 
 # loadable modules don't need static versions or .la files
 /bin/rm -f $RPM_BUILD_ROOT%{_libdir}/window-manager-settings/*.*a
@@ -336,7 +336,9 @@ fi
 %defattr(-,root,root)
 %{_includedir}/gnome-window-settings-2.0
 %{_includedir}/gnome-settings-daemon-2.0
+%{_includedir}/slab
 %{_libdir}/libgnome-window-settings.so
+%{_libdir}/libslab.so
 %{_libdir}/pkgconfig/*
 
 %changelog
