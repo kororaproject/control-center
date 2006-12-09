@@ -21,11 +21,11 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.17.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
-Source: ftp://ftp.gnome.org/pub/GNOME/sources/control-center/2.16/control-center-%{version}.tar.bz2
+Source: http://ftp.gnome.org/pub/GNOME/sources/control-center/2.17/control-center-%{version}.tar.bz2
 
 # Remove "Apply" button and just have "Close" instead
 # FIXME: We should figure out what to do about this...either get
@@ -83,7 +83,7 @@ Patch98: control-center-2.9.4-filesel.patch
 # change default preferred apps to programs we ship
 Patch99: control-center-2.17.1-default-apps.patch
 
-BuildRoot: %{_tmppath}/%{name}-%{version}-root
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
 
 Obsoletes: gnome fontilus
@@ -91,13 +91,12 @@ Obsoletes: gnome fontilus
 # a different place now
 Conflicts: desktop-backgrounds-basic < 2.0-27
 Conflicts: desktop-backgrounds-extended < 2.0-27
+
 Requires: redhat-menus >= %{redhat_menus_version}
 Requires: gnome-icon-theme
-Requires: libxklavier >= %{libxklavier_version}
 Requires: libgail-gnome
 Requires: alsa-lib
 Requires: gnome-menus >= %{gnome_menus_version}
-PreReq:   gtk2
 Requires: usermode >= %{usermode_version}
 
 BuildRequires: autoconf automake libtool
@@ -138,6 +137,15 @@ BuildRequires: libxml2-devel
 BuildRequires: hal-devel >= 0.5.6
 BuildRequires: dbus-devel >= 0.90
 BuildRequires: dbus-glib-devel >= 0.70
+
+Requires(pre): GConf2
+
+Requires(preun): GConf2
+
+Requires(post): GConf2
+Requires(post): desktop-file-utils >= %{desktop_file_utils_version}
+
+Requires(postun): desktop-file-utils >= %{desktop_file_utils_version}
 
 %description
 GNOME (the GNU Network Object Model Environment) is an attractive and
@@ -198,7 +206,7 @@ autoreconf
 /usr/bin/gst-inspect-0.10 --print-all >& /dev/null
 
 # Add -Wno-error to silence gswitchit
-%configure --disable-gstreamer --enable-alsa CFLAGS="$RPM_OPT_FLAGS -Wno-error" --enable-aboutme --disable-scrollkeeper
+%configure --disable-static --disable-gstreamer --enable-alsa CFLAGS="$RPM_OPT_FLAGS -Wno-error" --enable-aboutme --disable-scrollkeeper
 make
 
 %install
@@ -208,28 +216,25 @@ export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 make install DESTDIR=$RPM_BUILD_ROOT
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 
-desktop-file-install --vendor gnome --delete-original                   \
-  --dir $RPM_BUILD_ROOT%{_datadir}/applications			        \
-  --add-only-show-in GNOME                                              \
-  --add-category X-Red-Hat-Base                                         \
+desktop-file-install --vendor gnome --delete-original			\
+  --dir $RPM_BUILD_ROOT%{_datadir}/applications				\
+  --add-only-show-in GNOME						\
+  --add-category X-Red-Hat-Base						\
   $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
-desktop-file-install --vendor gnome --delete-original                   \
-  --dir $RPM_BUILD_ROOT%{_datadir}/applications 			\
-  --remove-category X-Red-Hat-Base                                      \
+desktop-file-install --vendor gnome --delete-original			\
+  --dir $RPM_BUILD_ROOT%{_datadir}/applications				\
+  --remove-category X-Red-Hat-Base					\
   $RPM_BUILD_ROOT%{_datadir}/applications/gnome-default-applications.desktop
 
 # bug 171059
-sed -e 's/=Font$/=Fonts/g' $RPM_BUILD_ROOT%{_datadir}/applications/gnome-font-properties.desktop > \
-                           $RPM_BUILD_ROOT%{_datadir}/applications/.gnome-font-properties.desktop.tmp
-mv $RPM_BUILD_ROOT%{_datadir}/applications/.gnome-font-properties.desktop.tmp \
-   $RPM_BUILD_ROOT%{_datadir}/applications/gnome-font-properties.desktop
+sed -i -e 's/=Font$/=Fonts/g' $RPM_BUILD_ROOT%{_datadir}/applications/gnome-font-properties.desktop 
 
 # remove control center desktop file
-/bin/rm -f $RPM_BUILD_ROOT%{_datadir}/applications/gnomecc.desktop
+rm -f $RPM_BUILD_ROOT%{_datadir}/applications/gnomecc.desktop
 
 # desktop-file-install really should not be generating this
-/bin/rm -f $RPM_BUILD_ROOT%{_datadir}/applications/mimeinfo.cache
+rm -f $RPM_BUILD_ROOT%{_datadir}/applications/mimeinfo.cache
 
 # replace accessibility desktop file
 #/bin/rm -f $RPM_BUILD_ROOT%{_datadir}/applications/*accessibility*.desktop
@@ -238,16 +243,12 @@ mv $RPM_BUILD_ROOT%{_datadir}/applications/.gnome-font-properties.desktop.tmp \
 cp -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/icons/* $RPM_BUILD_ROOT%{_datadir}/pixmaps
 
 # fix installed but not packaged
-/bin/rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
-/bin/rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
-
-/bin/rm -f $RPM_BUILD_ROOT%{_libdir}/gnome-vfs-2.0/modules/*.a
-/bin/rm -f $RPM_BUILD_ROOT%{_libdir}/gnome-vfs-2.0/modules/*.la
+rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
+rm -f $RPM_BUILD_ROOT%{_libdir}/gnome-vfs-2.0/modules/*.la
 
 # loadable modules don't need static versions or .la files
-/bin/rm -f $RPM_BUILD_ROOT%{_libdir}/window-manager-settings/*.*a
-/bin/rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.*a
-
+rm -f $RPM_BUILD_ROOT%{_libdir}/window-manager-settings/*.*a
+rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.*a
 
 %find_lang %{gettext_package}
 
@@ -257,12 +258,12 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-gconftool-2 --makefile-install-rule \
-   %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas  \
-   %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas \
-   %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas \
-   %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas \
-   %{_sysconfdir}/gconf/schemas/fontilus.schemas \
+gconftool-2 --makefile-install-rule 						\
+   %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas \
+   %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas	\
+   %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas	\
+   %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas		\
+   %{_sysconfdir}/gconf/schemas/fontilus.schemas				\
    %{_sysconfdir}/gconf/schemas/themus.schemas >& /dev/null
 update-desktop-database --quiet %{_datadir}/applications
 touch --no-create %{_datadir}/icons/hicolor
@@ -342,6 +343,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sat Dec  9 2006 Matthias Clasen <mclasen@redhat.com> - 2.17.3-2
+- Spec file cleanups
+
 * Tue Dec  5 2006 Matthias Clasen <mclasen@redhat.com> - 2.17.3-1
 - Update to 2.17.3
 
@@ -477,7 +481,7 @@ fi
 * Tue Jun 13 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.3-1
 - Update to 2.15.3
 
-* Tue Jun  6 2006 Kristian Høgsberg <krh@redhat.com> - 2.14.2-3
+* Tue Jun  6 2006 Kristian HÃ¸gsberg <krh@redhat.com> - 2.14.2-3
 - Add devel package.
 - Add build requires for autoconf, automake, and libtool.
 
@@ -891,7 +895,7 @@ fi
 - rebuild in different environment
 
 * Wed Jun  5 2002 Havoc Pennington <hp@redhat.com>
-- rebuild with new dependent libs
+/- rebuild with new dependent libs
 
 * Tue May 21 2002 Havoc Pennington <hp@redhat.com>
 - rebuild in different environment
@@ -1009,7 +1013,7 @@ fi
 * Thu Mar 01 2001 Owen Taylor <otaylor@redhat.com>
 - Rebuild for GTK+-1.2.9 include paths
 
-* Fri Feb 23 2001 Trond Eivind Glomsrød <teg@redhat.com>
+* Fri Feb 23 2001 Trond Eivind GlomsrÃ¸d <teg@redhat.com>
 - langify
 - don't define and use "ver" at the top of the file
 - move changelog to sane location
