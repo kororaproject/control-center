@@ -140,8 +140,10 @@ Requires(preun): GConf2
 
 Requires(post): GConf2
 Requires(post): desktop-file-utils >= %{desktop_file_utils_version}
+Requires(post): shared-mime-info
 
 Requires(postun): desktop-file-utils >= %{desktop_file_utils_version}
+Requires(postun): shared-mime-info
 
 %description
 GNOME (the GNU Network Object Model Environment) is an attractive and
@@ -244,6 +246,15 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/gnome-vfs-2.0/modules/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/window-manager-settings/*.*a
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.*a
 
+# don't package mime caches
+rm -f $RPM_BUILD_ROOT%{_datadir}/mime/XMLnamespaces
+rm -f $RPM_BUILD_ROOT%{_datadir}/mime/aliases
+rm -f $RPM_BUILD_ROOT%{_datadir}/mime/application/x-gnome-theme-package.xml
+rm -f $RPM_BUILD_ROOT%{_datadir}/mime/globs
+rm -f $RPM_BUILD_ROOT%{_datadir}/mime/magic
+rm -f $RPM_BUILD_ROOT%{_datadir}/mime/subclasses
+rm -f $RPM_BUILD_ROOT%{_datadir}/mime/mime.cache
+
 %find_lang %{gettext_package}
 
 %clean
@@ -260,6 +271,7 @@ gconftool-2 --makefile-install-rule 						\
    %{_sysconfdir}/gconf/schemas/fontilus.schemas				\
    %{_sysconfdir}/gconf/schemas/themus.schemas >& /dev/null
 update-desktop-database --quiet %{_datadir}/applications
+update-mime-database %{_datadir}/mime > /dev/null
 touch --no-create %{_datadir}/icons/hicolor
 if [ -x /usr/bin/gtk-update-icon-cache ]; then
   gtk-update-icon-cache -q %{_datadir}/icons/hicolor
@@ -294,6 +306,7 @@ fi
 %postun
 /sbin/ldconfig
 update-desktop-database --quiet %{_datadir}/applications
+update-mime-database %{_datadir}/mime > /dev/null
 touch --no-create %{_datadir}/icons/hicolor
 if [ -x /usr/bin/gtk-update-icon-cache ]; then
   gtk-update-icon-cache -q %{_datadir}/icons/hicolor
