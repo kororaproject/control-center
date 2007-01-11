@@ -127,7 +127,7 @@ BuildRequires: libxkbfile-devel
 BuildRequires: libXScrnSaver-devel
 BuildRequires: gnome-doc-utils
 BuildRequires: gstreamer-devel
-BuildRequires: gstreamer-plugins-base
+BuildRequires: gstreamer-plugins-base-devel
 BuildRequires: libglade2-devel
 BuildRequires: libxml2-devel
 BuildRequires: hal-devel >= 0.5.6
