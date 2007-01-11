@@ -326,6 +326,7 @@ fi
 %{_datadir}/gnome-default-applications/*
 %{_datadir}/desktop-directories/*
 %{_datadir}/dbus-1/services/*
+%{_datadir}/mime/packages/gnome-theme-package.xml
 %{_bindir}/*
 %{_libexecdir}/*
 %{_libdir}/nautilus/extensions-1.0/*
