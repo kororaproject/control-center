@@ -20,8 +20,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.17.3
-Release: 2%{?dist}
+Version: 2.17.5
+Release: 1%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -343,6 +343,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Jan 11 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.5-1
+- Update to 2.17.5
+
 * Sat Dec  9 2006 Matthias Clasen <mclasen@redhat.com> - 2.17.3-2
 - Spec file cleanups
 
