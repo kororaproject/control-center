@@ -77,7 +77,7 @@ Patch97: control-center-2.13.90-about-me-faces.patch
 Patch98: control-center-2.9.4-filesel.patch
 
 # change default preferred apps to programs we ship
-Patch99: control-center-2.17.1-default-apps.patch
+Patch99: control-center-2.17.5-default-apps.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
