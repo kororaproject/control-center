@@ -41,12 +41,8 @@ Patch2: control-center-2.15.91-search.patch
 # FIXME: need to get this filed upstream
 Patch3: control-center-2.16.0-about-me-help.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=351991
-Patch4: control-center-2.17.1-fix-thumbnailing.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=376045
 Patch5: control-center-2.15.91-compiz-support.patch
-# http://bugzilla.gnome.org/show_bug.cgi?id=133815
-Patch6: control-center-2.17.1-fix-media-keys.patch
 
 ## FIXME 
 ## these patches need to go to libgnomekbd 
@@ -179,9 +175,7 @@ This packages development files for GNOME Control Center.
 %patch1 -p1 -b .finish
 %patch2 -p1 -b .search
 %patch3 -p1 -b .about-me-help
-%patch4 -p1 -b .fix-thumbnailing
 %patch5 -p1 -b .compiz-support
-%patch6 -p1 -b .fix-media-keys
 
 #%patch7 -p1 -b .rotated-text
 #%patch8 -p1 -b .label-color
