@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.17.90
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -226,15 +226,8 @@ desktop-file-install --vendor gnome --delete-original			\
 # bug 171059
 sed -i -e 's/=Font$/=Fonts/g' $RPM_BUILD_ROOT%{_datadir}/applications/gnome-font-properties.desktop 
 
-# remove control center desktop file
-rm -f $RPM_BUILD_ROOT%{_datadir}/applications/gnomecc.desktop
-
 # desktop-file-install really should not be generating this
 rm -f $RPM_BUILD_ROOT%{_datadir}/applications/mimeinfo.cache
-
-# replace accessibility desktop file
-#/bin/rm -f $RPM_BUILD_ROOT%{_datadir}/applications/*accessibility*.desktop
-#ln -sf %{_datadir}/desktop-menu-patches/gnome-accessibility.desktop $RPM_BUILD_ROOT%{_datadir}/applications/gnome-accessibility.desktop
 
 cp -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/icons/* $RPM_BUILD_ROOT%{_datadir}/pixmaps
 
@@ -353,6 +346,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Jan 23 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.90-2
+- Install gnomecc desktop file
+
 * Mon Jan 22 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.90-1
 - Update to 2.17.90
 
