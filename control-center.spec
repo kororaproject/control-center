@@ -327,6 +327,8 @@ fi
 %{_datadir}/desktop-directories/*
 %{_datadir}/dbus-1/services/*
 %{_datadir}/mime/packages/gnome-theme-package.xml
+%{_datadir}/icons/hicolor/*/apps/typing-monitor.png
+%{_datadir}/icons/hicolor/scalable/apps/typing-monitor.svg
 %{_bindir}/*
 %{_libexecdir}/*
 %{_libdir}/nautilus/extensions-1.0/*
