@@ -20,7 +20,7 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.17.5
+Version: 2.17.90
 Release: 1%{?dist}
 Epoch: 1
 License: GPL/LGPL
@@ -321,7 +321,7 @@ fi
 %{_datadir}/pixmaps/*
 %{_datadir}/gnome/*
 %{_datadir}/applications/*.desktop
-%{_datadir}/idl
+%{_datadir}/idl/*
 %{_datadir}/omf/control-center
 %{_datadir}/gnome-default-applications/*
 %{_datadir}/desktop-directories/*
@@ -351,6 +351,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Jan 22 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.90-1
+- Update to 2.17.90
+
 * Thu Jan 11 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.5-1
 - Update to 2.17.5
 
