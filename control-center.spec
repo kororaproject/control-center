@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.17.90
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -32,9 +32,9 @@ Source: http://ftp.gnome.org/pub/GNOME/sources/control-center/2.17/control-cente
 # it upstreamed or drop it I guess.
 Patch1: control-center-2.15.4-finish.patch
 
-# Optionally bring up beagle if available
+# Optionally bring up beagle or tracker if available
 # FIXME: need to get this filed upstream
-Patch2: control-center-2.15.91-search.patch
+Patch2: control-center-2.17.90-search.patch
 
 # drop help button from a dialog that doesn't have
 # help
@@ -43,19 +43,6 @@ Patch3: control-center-2.16.0-about-me-help.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=376045
 Patch5: control-center-2.15.91-compiz-support.patch
-
-## FIXME 
-## these patches need to go to libgnomekbd 
-# http://bugzilla.gnome.org/show_bug.cgi?id=352777
-#Patch7: keyboard-drawing-rotated-text.patch
-# http://bugzilla.gnome.org/show_bug.cgi?id=352778
-#Patch8: keyboard-drawing-label-color.patch
-# http://bugzilla.gnome.org/show_bug.cgi?id=352779
-#Patch9: keyboard-drawing-primary.patch
-# http://bugzilla.gnome.org/show_bug.cgi?id=352781
-#Patch10: keyboard-drawing-corner.patch
-# http://bugzilla.gnome.org/show_bug.cgi?id=353163
-#Patch11: keyboard-drawing-redraw.patch
 
 # ubuntu has a better patch for this in the works
 # apparently http://blog.omma.net/?p=16
@@ -178,12 +165,6 @@ This packages development files for GNOME Control Center.
 %patch2 -p1 -b .search
 %patch3 -p1 -b .about-me-help
 %patch5 -p1 -b .compiz-support
-
-#%patch7 -p1 -b .rotated-text
-#%patch8 -p1 -b .label-color
-#%patch9 -p1 -b .primary
-#%patch10 -p1 -b .corner
-#%patch11 -p1 -b .redraw
 
 %patch12 -p1 -b .start-at-helper
 
@@ -346,6 +327,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Jan 29 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.90-3
+- Support tracker in the search keybinding (#216315)
+
 * Tue Jan 23 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.90-2
 - Install gnomecc desktop file
 
