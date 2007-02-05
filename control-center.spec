@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.17.90
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -121,14 +121,11 @@ BuildRequires: hal-devel >= 0.5.6
 BuildRequires: dbus-devel >= 0.90
 BuildRequires: dbus-glib-devel >= 0.70
 
-Requires(pre): GConf2
-
 Requires(preun): GConf2
-
+Requires(pre): GConf2
 Requires(post): GConf2
 Requires(post): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(post): shared-mime-info
-
 Requires(postun): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(postun): shared-mime-info
 
@@ -204,21 +201,10 @@ desktop-file-install --vendor gnome --delete-original			\
   --remove-category X-Red-Hat-Base					\
   $RPM_BUILD_ROOT%{_datadir}/applications/gnome-default-applications.desktop
 
-# bug 171059
-sed -i -e 's/=Font$/=Fonts/g' $RPM_BUILD_ROOT%{_datadir}/applications/gnome-font-properties.desktop 
-
-# desktop-file-install really should not be generating this
-rm -f $RPM_BUILD_ROOT%{_datadir}/applications/mimeinfo.cache
-
 cp -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/icons/* $RPM_BUILD_ROOT%{_datadir}/pixmaps
 
-# fix installed but not packaged
-rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/gnome-vfs-2.0/modules/*.la
-
-# loadable modules don't need static versions or .la files
-rm -f $RPM_BUILD_ROOT%{_libdir}/window-manager-settings/*.*a
-rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0/*.*a
+# remove useless libtool archive files
+find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
 
 # don't package mime caches
 rm -f $RPM_BUILD_ROOT%{_datadir}/mime/XMLnamespaces
@@ -327,6 +313,11 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Feb  5 2007 Ray Strode <rstrode@redhat.com> - 2.17.90-4
+- remove crufty sed replace line
+- use find -name '*.la' instead of removing each one
+  individually
+
 * Mon Jan 29 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.90-3
 - Support tracker in the search keybinding (#216315)
 
