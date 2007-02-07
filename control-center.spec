@@ -217,6 +217,7 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/mime/globs
 rm -f $RPM_BUILD_ROOT%{_datadir}/mime/magic
 rm -f $RPM_BUILD_ROOT%{_datadir}/mime/subclasses
 rm -f $RPM_BUILD_ROOT%{_datadir}/mime/mime.cache
+rm -f $RPM_BUILD_ROOT%{_datadir}/applications/mimeinfo.cache
 
 %find_lang %{gettext_package}
 
