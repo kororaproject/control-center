@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.17.90
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -50,6 +50,8 @@ Patch5: control-center-2.15.91-compiz-support.patch
 # hunt through the 6.1MB (!!) patch file against
 # control-center
 Patch12: control-center-2.16.0-start-at-helper.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=405210
+Patch13: control-center-2.17.90-color-theme.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.12.1-passwd.patch
@@ -164,6 +166,7 @@ This packages development files for GNOME Control Center.
 %patch5 -p1 -b .compiz-support
 
 %patch12 -p1 -b .start-at-helper
+%patch13 -p1 -b .color-theme
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -313,6 +316,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Feb  6 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.90-5
+- Fix some problems with the color theme support
+
 * Mon Feb  5 2007 Ray Strode <rstrode@redhat.com> - 2.17.90-4
 - remove crufty sed replace line
 - use find -name '*.la' instead of removing each one
