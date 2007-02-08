@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.17.90
-Release: 5%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -52,6 +52,9 @@ Patch5: control-center-2.15.91-compiz-support.patch
 Patch12: control-center-2.16.0-start-at-helper.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=405210
 Patch13: control-center-2.17.90-color-theme.patch
+
+# make pulseaudio source/sink show up in the sound capplet
+Patch14: control-center-2.17.90-pulse.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.12.1-passwd.patch
@@ -167,6 +170,7 @@ This packages development files for GNOME Control Center.
 
 %patch12 -p1 -b .start-at-helper
 %patch13 -p1 -b .color-theme
+%patch14 -p1 -b .pulse
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -317,6 +321,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Feb  7 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.90-6
+- Make gstreamer pulse plugin show up in the sound capplet
+
 * Tue Feb  6 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.90-5
 - Fix some problems with the color theme support
 
