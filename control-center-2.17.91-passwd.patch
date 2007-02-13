@@ -1,5 +1,5 @@
 --- control-center-2.17.91/capplets/about-me/gnome-about-me.c.passwd	2007-02-12 04:28:24.000000000 -0500
-+++ control-center-2.17.91/capplets/about-me/gnome-about-me.c	2007-02-13 11:35:39.000000000 -0500
++++ control-center-2.17.91/capplets/about-me/gnome-about-me.c	2007-02-13 12:18:59.000000000 -0500
 @@ -36,7 +36,6 @@
  #include <libebook/e-book.h>
  
@@ -73,7 +73,7 @@
  
  	gtk_label_set_markup (GTK_LABEL (widget), str);
  	g_free (str);
-@@ -840,11 +818,7 @@
+@@ -840,14 +818,9 @@
  	widget = WID ("login");
  	gtk_label_set_text (GTK_LABEL (widget), me->login);
  
@@ -85,4 +85,7 @@
 +        str = g_strdup_printf (_("About %s"), me->username);
  	gtk_window_set_title (GTK_WINDOW (main_dialog), str);
  	g_free (str);
- 	g_strfreev (tok);
+-	g_strfreev (tok);
+ 
+ 	widget = WID ("password");
+ 	g_signal_connect (G_OBJECT (widget), "clicked",

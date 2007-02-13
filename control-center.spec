@@ -170,10 +170,10 @@ This packages development files for GNOME Control Center.
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
-%patch96 -p1 -b .gecos
-%patch97 -p1 -b .about-me-faces
-%patch98 -p1 -b .filesel
-%patch99 -p1 -b .default-apps
+#%patch96 -p1 -b .gecos
+#%patch97 -p1 -b .about-me-faces
+#%patch98 -p1 -b .filesel
+#%patch99 -p1 -b .default-apps
 %build
 
 autoreconf
