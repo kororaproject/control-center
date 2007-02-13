@@ -1,0 +1,14 @@
+--- control-center-2.17.91/configure.in.no-gnome-common	2007-02-13 12:03:44.000000000 -0500
++++ control-center-2.17.91/configure.in	2007-02-13 12:03:50.000000000 -0500
+@@ -43,11 +43,6 @@
+ 
+ AM_GLIB_GNU_GETTEXT
+ 
+-GNOME_COMMON_INIT
+-GNOME_DEBUG_CHECK
+-GNOME_COMPILE_WARNINGS([maximum])
+-GNOME_MAINTAINER_MODE_DEFINES
+-
+ AC_CHECK_FUNCS(usleep)
+ AC_CHECK_FUNCS(putenv)
+ AC_CHECK_FUNCS(setenv)

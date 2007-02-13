@@ -51,6 +51,8 @@ Patch5: control-center-2.17.91-compiz-support.patch
 # control-center
 Patch12: control-center-2.16.0-start-at-helper.patch
 
+Patch13: control-center-2.17.91-no-gnome-common.patch
+
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.17.91-passwd.patch
 Patch96: control-center-2.17.91-gecos.patch
@@ -164,6 +166,7 @@ This packages development files for GNOME Control Center.
 %patch5 -p1 -b .compiz-support
 
 %patch12 -p1 -b .start-at-helper
+%patch13 -p1 -b .no-gnome-common
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
