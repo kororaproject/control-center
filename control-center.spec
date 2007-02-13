@@ -225,10 +225,11 @@ rm -rf $RPM_BUILD_ROOT
 export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
 gconftool-2 --makefile-install-rule 						\
    %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas \
-   %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas	\
-   %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas	\
-   %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas		\
-   %{_sysconfdir}/gconf/schemas/fontilus.schemas				\
+   %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas \
+   %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas \
+   %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas	\
+   %{_sysconfdir}/gconf/schemas/fontilus.schemas			\
+   %{_sysconfdir}/gconf/schemas/control-center.schemas			\
    %{_sysconfdir}/gconf/schemas/themus.schemas >& /dev/null
 update-desktop-database --quiet %{_datadir}/applications
 update-mime-database %{_datadir}/mime > /dev/null
@@ -241,12 +242,13 @@ fi
 if [ "$1" -gt 1 ]; then
     export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
     gconftool-2 --makefile-uninstall-rule \
-     %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas  \
+     %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas \
      %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas \
      %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas \
      %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas \
      %{_sysconfdir}/gconf/schemas/fontilus.schemas \
      %{_sysconfdir}/gconf/schemas/themus.schemas \
+     %{_sysconfdir}/gconf/schemas/control-center.schemas \
      >& /dev/null
 fi
 
@@ -260,6 +262,7 @@ if [ "$1" -eq 0 ]; then
      %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas \
      %{_sysconfdir}/gconf/schemas/fontilus.schemas \
      %{_sysconfdir}/gconf/schemas/themus.schemas \
+     %{_sysconfdir}/gconf/schemas/control-center.schemas \
      >& /dev/null
 fi
 
@@ -297,7 +300,9 @@ fi
 %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas
 %{_sysconfdir}/gconf/schemas/fontilus.schemas
 %{_sysconfdir}/gconf/schemas/themus.schemas
+%{_sysconfdir}/gconf/schemas/control-center.schemas
 %{_sysconfdir}/gnome-vfs-2.0/modules/*.conf
+%{_sysconfdir}/xdg/menus/gnomecc.menu
 %{_libdir}/gnome-vfs-2.0/modules/*.so
 
 %files devel
