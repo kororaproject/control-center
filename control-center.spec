@@ -170,10 +170,10 @@ This packages development files for GNOME Control Center.
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
-#%patch96 -p1 -b .gecos
-#%patch97 -p1 -b .about-me-faces
-#%patch98 -p1 -b .filesel
-#%patch99 -p1 -b .default-apps
+%patch96 -p1 -b .gecos
+%patch97 -p1 -b .about-me-faces
+%patch98 -p1 -b .filesel
+%patch99 -p1 -b .default-apps
 %build
 
 autoreconf
@@ -201,8 +201,6 @@ desktop-file-install --vendor gnome --delete-original			\
 desktop-file-install --vendor gnome --delete-original			\
   --dir $RPM_BUILD_ROOT%{_datadir}/applications				\
   $RPM_BUILD_ROOT%{_datadir}/applications/gnome-default-applications.desktop
-
-cp -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/icons/* $RPM_BUILD_ROOT%{_datadir}/pixmaps
 
 # remove useless libtool archive files
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
