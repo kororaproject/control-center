@@ -277,13 +277,11 @@ fi
 
 %doc AUTHORS COPYING ChangeLog NEWS README
 
-%{_datadir}/control-center-2.0
+%{_datadir}/control-center
 %{_datadir}/pixmaps/*
 %{_datadir}/gnome/*
 %{_datadir}/applications/*.desktop
-%{_datadir}/idl/*
 %{_datadir}/omf/control-center
-%{_datadir}/gnome-default-applications/*
 %{_datadir}/desktop-directories/*
 %{_datadir}/dbus-1/services/*
 %{_datadir}/mime/packages/gnome-theme-package.xml
