@@ -52,8 +52,8 @@ Patch5: control-center-2.17.91-compiz-support.patch
 Patch12: control-center-2.16.0-start-at-helper.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
-Patch95: control-center-2.12.1-passwd.patch
-Patch96: control-center-2.15.4-gecos.patch
+Patch95: control-center-2.17.91-passwd.patch
+Patch96: control-center-2.17.91-gecos.patch
 
 # change default faces directory to where we ship faces
 # (should probably be filed upstream)
@@ -314,6 +314,7 @@ fi
 * Tue Feb 13 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.91-1
 - Update to 2.17.91
 - Drop upstreamed patches
+- Update patches
 
 * Wed Feb  7 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.90-6
 - Make gstreamer pulse plugin show up in the sound capplet

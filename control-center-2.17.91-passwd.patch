@@ -1,0 +1,88 @@
+--- control-center-2.17.91/capplets/about-me/gnome-about-me.c.passwd	2007-02-12 04:28:24.000000000 -0500
++++ control-center-2.17.91/capplets/about-me/gnome-about-me.c	2007-02-13 11:35:39.000000000 -0500
+@@ -36,7 +36,6 @@
+ #include <libebook/e-book.h>
+ 
+ #include "e-image-chooser.h"
+-#include "gnome-about-me-password.h"
+ 
+ #include "capplet-util.h"
+ 
+@@ -719,10 +718,12 @@
+ static void
+ about_me_passwd_clicked_cb (GtkWidget *button, GnomeAboutMe *me)
+ {
++        gchar *argv[2]; 
+ 	GladeXML *dialog;
+ 	
+-	dialog = me->dialog;
+-	gnome_about_me_password (GTK_WINDOW (WID ("about-me-dialog")));
++        argv[0] = "/usr/bin/userpasswd";
++        argv[1] = NULL;
++	g_spawn_async (NULL, argv, NULL, 0, NULL, NULL, NULL, NULL);
+ }
+ 
+ static gint
+@@ -733,10 +734,7 @@
+ 	GtkIconInfo  *icon;
+ 	GladeXML     *dialog;
+ 	GError 	     *error = NULL;
+-
+-	struct passwd *pwent;
+-	gchar *str;
+-	gchar **tok;
++        gchar        *str;
+ 
+ 	me = g_new0 (GnomeAboutMe, 1);
+ 
+@@ -805,34 +803,14 @@
+ 		} 
+ 	}
+ 
+-	/************************************************/
+-	me->login = get_user_login ();
+-	setpwent ();
+-	pwent = getpwnam (me->login);
+-	if (pwent == NULL) {
+-		about_me_error (GTK_WINDOW (WID ("about-me-dialog")), 
+-				_("Unknown login ID, the user database might be corrupted"));
+-		about_me_destroy (me);
+-		return -1;
+-	}
+-	tok = g_strsplit (pwent->pw_gecos, ",", 0);
+-
+-	/************************************************/
+-
+-	if (tok[0] == NULL || strlen (tok[0]) == 0)
+-		me->username = NULL;
+-	else
+-		me->username = g_strdup (tok[0]);
++	me->login = g_strdup (g_get_user_name ());
++        me->username = g_strdup (g_get_real_name ());
+ 
+ 	/* Contact Tab */
+ 	about_me_load_photo (me, me->contact);
+ 
+ 	widget = WID ("fullname"); 
+-	if (tok[0] == NULL || strlen (tok[0]) == 0) {
+-		str = g_strdup_printf ("<b><span size=\"xx-large\">%s</span></b>", me->login);
+-	} else {
+-		str = g_strdup_printf ("<b><span size=\"xx-large\">%s</span></b>", tok[0]);
+-	}
++        str = g_strdup_printf ("<b><span size=\"xx-large\">%s</span></b>", me->username);
+ 
+ 	gtk_label_set_markup (GTK_LABEL (widget), str);
+ 	g_free (str);
+@@ -840,11 +818,7 @@
+ 	widget = WID ("login");
+ 	gtk_label_set_text (GTK_LABEL (widget), me->login);
+ 
+-	if (tok[0] == NULL || strlen (tok[0]) == 0) {
+-		str = g_strdup_printf (_("About %s"), me->login);
+-	} else {
+-		str = g_strdup_printf (_("About %s"), tok[0]);
+-	}
++        str = g_strdup_printf (_("About %s"), me->username);
+ 	gtk_window_set_title (GTK_WINDOW (main_dialog), str);
+ 	g_free (str);
+ 	g_strfreev (tok);
