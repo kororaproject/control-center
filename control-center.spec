@@ -20,8 +20,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.17.90
-Release: 6%{?dist}
+Version: 2.17.91
+Release: 1%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -42,7 +42,7 @@ Patch2: control-center-2.17.90-search.patch
 Patch3: control-center-2.16.0-about-me-help.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=376045
-Patch5: control-center-2.15.91-compiz-support.patch
+Patch5: control-center-2.17.91-compiz-support.patch
 
 # ubuntu has a better patch for this in the works
 # apparently http://blog.omma.net/?p=16
@@ -50,11 +50,6 @@ Patch5: control-center-2.15.91-compiz-support.patch
 # hunt through the 6.1MB (!!) patch file against
 # control-center
 Patch12: control-center-2.16.0-start-at-helper.patch
-# http://bugzilla.gnome.org/show_bug.cgi?id=405210
-Patch13: control-center-2.17.90-color-theme.patch
-
-# make pulseaudio source/sink show up in the sound capplet
-Patch14: control-center-2.17.90-pulse.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.12.1-passwd.patch
@@ -112,7 +107,7 @@ BuildRequires: gnome-menus-devel >= %{gnome_menus_version}
 BuildRequires: gnome-panel-devel
 BuildRequires: libgnomekbd-devel
 # For intltool:
-BuildRequires: perl-XML-Parser >= 2.31-16
+BuildRequires: perl(XML::Parser) 
 BuildRequires: evolution-data-server-devel >= 1.9.1
 BuildRequires: libXxf86misc-devel 
 BuildRequires: libxkbfile-devel
@@ -169,8 +164,6 @@ This packages development files for GNOME Control Center.
 %patch5 -p1 -b .compiz-support
 
 %patch12 -p1 -b .start-at-helper
-%patch13 -p1 -b .color-theme
-%patch14 -p1 -b .pulse
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -200,12 +193,10 @@ unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 desktop-file-install --vendor gnome --delete-original			\
   --dir $RPM_BUILD_ROOT%{_datadir}/applications				\
   --add-only-show-in GNOME						\
-  --add-category X-Red-Hat-Base						\
   $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 desktop-file-install --vendor gnome --delete-original			\
   --dir $RPM_BUILD_ROOT%{_datadir}/applications				\
-  --remove-category X-Red-Hat-Base					\
   $RPM_BUILD_ROOT%{_datadir}/applications/gnome-default-applications.desktop
 
 cp -f $RPM_BUILD_ROOT%{_datadir}/control-center-2.0/icons/* $RPM_BUILD_ROOT%{_datadir}/pixmaps
@@ -295,8 +286,7 @@ fi
 %{_datadir}/desktop-directories/*
 %{_datadir}/dbus-1/services/*
 %{_datadir}/mime/packages/gnome-theme-package.xml
-%{_datadir}/icons/hicolor/*/apps/typing-monitor.png
-%{_datadir}/icons/hicolor/scalable/apps/typing-monitor.svg
+%{_datadir}/icons/hicolor/*/apps/typing-monitor.*
 %{_bindir}/*
 %{_libexecdir}/*
 %{_libdir}/nautilus/extensions-1.0/*
@@ -321,6 +311,10 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Feb 13 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.91-1
+- Update to 2.17.91
+- Drop upstreamed patches
+
 * Wed Feb  7 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.90-6
 - Make gstreamer pulse plugin show up in the sound capplet
 
