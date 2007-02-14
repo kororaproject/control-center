@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.17.91
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -230,7 +230,7 @@ gconftool-2 --makefile-install-rule 						\
    %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas	\
    %{_sysconfdir}/gconf/schemas/fontilus.schemas			\
    %{_sysconfdir}/gconf/schemas/control-center.schemas			\
-   %{_sysconfdir}/gconf/schemas/themus.schemas >& /dev/null
+   %{_sysconfdir}/gconf/schemas/themus.schemas > /dev/null || :
 update-desktop-database --quiet %{_datadir}/applications
 update-mime-database %{_datadir}/mime > /dev/null
 touch --no-create %{_datadir}/icons/hicolor
@@ -247,9 +247,11 @@ if [ "$1" -gt 1 ]; then
      %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas \
      %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas \
      %{_sysconfdir}/gconf/schemas/fontilus.schemas \
-     %{_sysconfdir}/gconf/schemas/themus.schemas \
+     %{_sysconfdir}/gconf/schemas/themus.schemas \ 
+     > /dev/null || :
+    gconftool-2 --makefile-uninstall-rule \
      %{_sysconfdir}/gconf/schemas/control-center.schemas \
-     >& /dev/null
+     > /dev/null || :
 fi
 
 %preun
@@ -262,8 +264,10 @@ if [ "$1" -eq 0 ]; then
      %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas \
      %{_sysconfdir}/gconf/schemas/fontilus.schemas \
      %{_sysconfdir}/gconf/schemas/themus.schemas \
+     > /dev/null || :
+    gconftool-2 --makefile-uninstall-rule \
      %{_sysconfdir}/gconf/schemas/control-center.schemas \
-     >& /dev/null
+     > /dev/null || :
 fi
 
 %postun
@@ -315,6 +319,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Feb 14 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.91-2
+- Fix scriptlets
+
 * Tue Feb 13 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.91-1
 - Update to 2.17.91
 - Drop upstreamed patches
