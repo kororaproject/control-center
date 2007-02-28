@@ -20,8 +20,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.17.91
-Release: 2%{?dist}
+Version: 2.17.92
+Release: 1%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -319,6 +319,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Feb 28 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.92-1
+- Update to 2.17.92
+
 * Wed Feb 14 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.91-2
 - Fix scriptlets
 
