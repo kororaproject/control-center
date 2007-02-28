@@ -55,11 +55,7 @@ Patch13: control-center-2.17.91-no-gnome-common.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.17.91-passwd.patch
-Patch96: control-center-2.17.91-gecos.patch
-
-# change default faces directory to where we ship faces
-# (should probably be filed upstream)
-Patch97: control-center-2.13.90-about-me-faces.patch
+Patch96: control-center-2.17.92-gecos.patch
 
 # change default wallpaper directory to where we ship our
 # backgrounds
@@ -171,7 +167,6 @@ This packages development files for GNOME Control Center.
 # vendor configuration patches
 %patch95 -p1 -b .passwd
 %patch96 -p1 -b .gecos
-%patch97 -p1 -b .about-me-faces
 %patch98 -p1 -b .filesel
 %patch99 -p1 -b .default-apps
 %build
@@ -321,6 +316,7 @@ fi
 %changelog
 * Wed Feb 28 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.92-1
 - Update to 2.17.92
+- Drop obsolete patches
 
 * Wed Feb 14 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.91-2
 - Fix scriptlets
