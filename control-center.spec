@@ -20,12 +20,12 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.17.92
+Version: 2.18.0
 Release: 1%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
-Source: http://ftp.gnome.org/pub/GNOME/sources/control-center/2.17/control-center-%{version}.tar.bz2
+Source: http://ftp.gnome.org/pub/GNOME/sources/control-center/2.18/control-center-%{version}.tar.bz2
 
 # Remove "Apply" button and just have "Close" instead
 # FIXME: We should figure out what to do about this...either get
@@ -314,6 +314,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Mar 13 2007 Matthias Clasen <mclasen@redhat.com> - 2.18.0-1
+- Update to 2.18.0
+
 * Wed Feb 28 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.92-1
 - Update to 2.17.92
 - Drop obsolete patches
