@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.18.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -195,7 +195,8 @@ desktop-file-install --vendor gnome --delete-original			\
 
 desktop-file-install --vendor gnome --delete-original			\
   --dir $RPM_BUILD_ROOT%{_datadir}/applications				\
-  $RPM_BUILD_ROOT%{_datadir}/applications/gnome-default-applications.desktop
+  --remove-only-show-in GNOME						\
+  $RPM_BUILD_ROOT%{_datadir}/applications/gnome-theme-installer.desktop
 
 # remove useless libtool archive files
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
@@ -314,6 +315,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Mar 19 2007 Matthias Clasen <mclasen@redhat.com> - 2.18.0-2
+- Don't show the theme installer in the menus
+
 * Tue Mar 13 2007 Matthias Clasen <mclasen@redhat.com> - 2.18.0-1
 - Update to 2.18.0
 
