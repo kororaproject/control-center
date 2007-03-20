@@ -3,7 +3,7 @@
 %define pango_version 1.0.99.020703
 %define gtk2_version 2.6.0
 %define gconf2_version 1.2.0
-%define gnome_desktop_version 2.3.0
+%define gnome_desktop_version 2.18.0-2
 %define libgnome_version 2.3.0
 %define libbonobo_version 2.3.0
 %define libgnomeui_version 2.3.0
@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.18.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -53,6 +53,8 @@ Patch12: control-center-2.16.0-start-at-helper.patch
 
 Patch13: control-center-2.17.91-no-gnome-common.patch
 
+Patch14: control-center-2.18.0-gnome-bg.patch
+
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.17.91-passwd.patch
 Patch96: control-center-2.17.92-gecos.patch
@@ -79,6 +81,7 @@ Requires: libgail-gnome
 Requires: alsa-lib
 Requires: gnome-menus >= %{gnome_menus_version}
 Requires: usermode >= %{usermode_version}
+Requires: gnome-desktop >= %{gnome_desktop_version}
 
 BuildRequires: autoconf automake libtool
 BuildRequires: esound-devel
@@ -163,6 +166,8 @@ This packages development files for GNOME Control Center.
 
 %patch12 -p1 -b .start-at-helper
 %patch13 -p1 -b .no-gnome-common
+%patch14 -p1 -b .gnome-bg.patch
+
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -315,6 +320,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Mar 19 2007 Soren Sandmann <sandmann@redhat.com> - 2.18.0-3
+- Add control-center-2.18
+
 * Mon Mar 19 2007 Matthias Clasen <mclasen@redhat.com> - 2.18.0-2
 - Don't show the theme installer in the menus
 
