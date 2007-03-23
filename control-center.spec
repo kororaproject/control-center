@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.18.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -166,7 +166,7 @@ This packages development files for GNOME Control Center.
 
 %patch12 -p1 -b .start-at-helper
 %patch13 -p1 -b .no-gnome-common
-%patch14 -p1 -b .gnome-bg.patch
+%patch14 -p1 -b .gnome-bg
 
 
 # vendor configuration patches
@@ -318,11 +318,15 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Mar 23 2007 Soren Sandmann <sandmann@redhat.com> - 2.18.0-5
+- Remove debug spew from gnome-bg patch
+
 * Wed Mar 21 2007 Matthias Clasen <mclasen@redhat.com> - 2.18.0-4
 - Try hard to not show the theme installer
 
 * Mon Mar 19 2007 Soren Sandmann <sandmann@redhat.com> - 2.18.0-3
-- Add control-center-2.18
+- Add control-center-2.18.0-gnome-bg.patch to support time changing
+  backgrounds in gnome-settings-daemon and gnome-wp-capplet
 
 * Mon Mar 19 2007 Matthias Clasen <mclasen@redhat.com> - 2.18.0-2
 - Don't show the theme installer in the menus
