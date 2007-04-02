@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.18.0
-Release: 5%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -55,6 +55,9 @@ Patch13: control-center-2.17.91-no-gnome-common.patch
 
 Patch14: control-center-2.18.0-gnome-bg.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=425650
+Patch15: control-center-2.18.0-ellipsize-sound-devices.patch
+
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.17.91-passwd.patch
 Patch96: control-center-2.17.92-gecos.patch
@@ -65,6 +68,7 @@ Patch98: control-center-2.9.4-filesel.patch
 
 # change default preferred apps to programs we ship
 Patch99: control-center-2.17.5-default-apps.patch
+
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
@@ -167,6 +171,7 @@ This packages development files for GNOME Control Center.
 %patch12 -p1 -b .start-at-helper
 %patch13 -p1 -b .no-gnome-common
 %patch14 -p1 -b .gnome-bg
+%patch15 -p1 -b .ellipsize-sound-devices
 
 
 # vendor configuration patches
@@ -318,6 +323,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Apr  2 2007 Matthias Clasen <mclasen@redhat.com> - 2.18.0-6
+- Ellipsize sound devices in the sound capplet
+
 * Fri Mar 23 2007 Soren Sandmann <sandmann@redhat.com> - 2.18.0-5
 - Remove debug spew from gnome-bg patch
 
