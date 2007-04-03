@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.18.0
-Release: 6%{?dist}
+Release: 7%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -323,6 +323,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Apr  3 2007 Matthias Clasen <mclasen@redhat.com> - 2.18.0-7
+- Fix a problem with the previous patch
+
 * Mon Apr  2 2007 Matthias Clasen <mclasen@redhat.com> - 2.18.0-6
 - Ellipsize sound devices in the sound capplet
 
