@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.18.0
-Release: 7%{?dist}
+Release: 8%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -49,11 +49,11 @@ Patch5: control-center-2.17.91-compiz-support.patch
 # We should either wait for it to get upstream, or
 # hunt through the 6.1MB (!!) patch file against
 # control-center
-Patch12: control-center-2.16.0-start-at-helper.patch
+#Patch12: control-center-2.16.0-start-at-helper.patch
 
 Patch13: control-center-2.17.91-no-gnome-common.patch
 
-Patch14: control-center-2.18.0-gnome-bg.patch
+#Patch14: control-center-2.18.0-gnome-bg.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=425650
 Patch15: control-center-2.18.0-ellipsize-sound-devices.patch
@@ -102,6 +102,7 @@ BuildRequires: bonobo-activation-devel
 BuildRequires: fontconfig-devel >= %{fontconfig_version}
 BuildRequires: desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires: metacity >= %{metacity_version}
+BuildRequires: metacity-devel >= %{metacity_version}
 BuildRequires: libxklavier-devel >= %{libxklavier_version}
 BuildRequires: libXcursor-devel
 BuildRequires: alsa-lib-devel
@@ -168,9 +169,9 @@ This packages development files for GNOME Control Center.
 %patch3 -p1 -b .about-me-help
 %patch5 -p1 -b .compiz-support
 
-%patch12 -p1 -b .start-at-helper
+#%patch12 -p1 -b .start-at-helper
 %patch13 -p1 -b .no-gnome-common
-%patch14 -p1 -b .gnome-bg
+#%patch14 -p1 -b .gnome-bg
 %patch15 -p1 -b .ellipsize-sound-devices
 
 
@@ -323,6 +324,11 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Apr 12 2007 David Zeuthen <davidz@redhat.com> - 2.18.0-8
+- Disable start-at-helper patch for now (#223669)
+- Disable gnome-bg patch as it's empty
+- BR metacity-devel
+
 * Tue Apr  3 2007 Matthias Clasen <mclasen@redhat.com> - 2.18.0-7
 - Fix a problem with the previous patch
 
