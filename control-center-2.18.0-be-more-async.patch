@@ -1,0 +1,273 @@
+--- control-center-2.18.0/gnome-settings-daemon/gnome-settings-daemon.c.be-more-async	2007-01-02 07:47:00.000000000 -0500
++++ control-center-2.18.0/gnome-settings-daemon/gnome-settings-daemon.c	2007-04-13 16:44:36.000000000 -0400
+@@ -255,15 +255,179 @@
+ G_DEFINE_TYPE (GnomeSettingsDaemon, gnome_settings_daemon,
+                G_TYPE_OBJECT)
+ 
++static void load_subsystems (void);
++
++typedef void (* GnomeSettingsSubsystemInitFunc) (GConfClient *client);
++
++static GnomeSettingsSubsystemInitFunc subsystem_init_funcs[] = 
++{
++/*  gnome_settings_disk_init  */
++  gnome_settings_font_init,
++  gnome_settings_xsettings_init,
++  gnome_settings_mouse_init,
++  gnome_settings_keyboard_xkb_init,
++  gnome_settings_keyboard_init,
++  gnome_settings_multimedia_keys_init,
++/* */
++  gnome_settings_sound_init,
++  gnome_settings_accessibility_keyboard_init,
++  gnome_settings_screensaver_init,
++  gnome_settings_default_editor_init,
++  gnome_settings_background_init,
++  gnome_settings_keybindings_init,
++  gnome_settings_gtk1_theme_init,
++  gnome_settings_xrdb_init,
++  gnome_settings_typing_break_init,
++  (GnomeSettingsSubsystemInitFunc) load_subsystems,
++  NULL
++};
++
++static gboolean
++call_init_func_and_queue_next (guint func_index)
++{
++  GConfClient *client;
++
++  client = gnome_settings_daemon_get_conf_client ();
++
++  subsystem_init_funcs[func_index] (client);
++
++  if (subsystem_init_funcs[func_index + 1] != NULL)
++    g_idle_add ((GSourceFunc) call_init_func_and_queue_next,
++                GUINT_TO_POINTER (func_index + 1));
++  
++  return FALSE;
++}
++
++static void
++initialize_subsystems (void)
++{
++  /* Essential - xkb initialization should happen before */
++  gnome_settings_keyboard_xkb_set_post_activation_callback ((PostActivationCallback)gnome_settings_load_modmap_files, NULL);
++
++  g_idle_add ((GSourceFunc) call_init_func_and_queue_next,
++              GUINT_TO_POINTER (0));
++}
++
++typedef void (* GnomeSettingsSubsystemLoadFunc) (GConfClient *client);
++
++static GnomeSettingsSubsystemLoadFunc subsystem_load_funcs[] = 
++{
++/* gnome_settings_disk_load,*/
++  gnome_settings_font_load,
++  gnome_settings_xsettings_load,
++  gnome_settings_mouse_load,
++  gnome_settings_keyboard_xkb_load,
++  gnome_settings_keyboard_load,
++  gnome_settings_multimedia_keys_load,
++  gnome_settings_sound_load,
++  gnome_settings_accessibility_keyboard_load,
++  gnome_settings_screensaver_load,
++  gnome_settings_default_editor_load,
++  gnome_settings_background_load,
++  gnome_settings_keybindings_load,
++  gnome_settings_gtk1_theme_load,
++  gnome_settings_xrdb_load,
++  gnome_settings_typing_break_load,
++  NULL
++};
++
++static gboolean
++call_load_func_and_queue_next (guint func_index)
++{
++  GConfClient *client;
++
++  client = gnome_settings_daemon_get_conf_client ();
++
++  subsystem_load_funcs[func_index] (client);
++
++  if (subsystem_load_funcs[func_index + 1] != NULL)
++    g_idle_add ((GSourceFunc) call_load_func_and_queue_next,
++                GUINT_TO_POINTER (func_index + 1));
++  
++  return FALSE;
++}
++
++static void
++load_subsystems (void)
++{
++  g_idle_add ((GSourceFunc) call_load_func_and_queue_next,
++              GUINT_TO_POINTER (0));
++}
++
++static void
++watch_for_xsetting_changes (void)
++{
++  GdkDisplay *display;
++  int i;
++  int n_screens;
++
++  display = gdk_display_get_default ();
++  n_screens = gdk_display_get_n_screens (display);
++
++  for (i = 0; i < n_screens; i++) 
++    {
++      GdkScreen *screen;
++
++      screen = gdk_display_get_screen (display, i);
++      gdk_window_add_filter (
++		gdk_screen_get_root_window (screen),
++		manager_event_filter, GINT_TO_POINTER (i));
++    }
++}
++
++static void
++watch_for_configuration_changes (void)
++{
++  GConfClient *client;
++  GSList *list;
++
++  client = gnome_settings_daemon_get_conf_client ();
++
++  for (list = directories; list; list = list->next)
++    {
++      GError *error = NULL;
++      DirElement *dir_element = list->data;
++
++      gconf_client_add_dir (client,
++			    dir_element->dir,
++			    GCONF_CLIENT_PRELOAD_ONELEVEL,
++			    NULL);
++      
++      gconf_client_notify_add (client,
++                               dir_element->dir,
++                               config_notify,
++                               NULL,
++			       NULL,
++                               &error);
++
++      if (error)
++        {
++          fprintf (stderr, "Could not listen for changes to configuration in '%s': %s\n",
++                   dir_element->dir, error->message);
++          g_error_free (error);
++        }
++    }
++}
++
++static gboolean
++initialize_and_load (GnomeSettingsDaemon *daemon)
++{
++  GObject *dbus_service;
++  
++  dbus_service = g_object_new (gnome_settings_server_get_type (), NULL);
++
++  initialize_subsystems ();
++  watch_for_xsetting_changes ();
++  watch_for_configuration_changes ();
++  return FALSE;
++}
++
+ GObject *
+ gnome_settings_daemon_new (void)
+ {
+   gboolean terminated = FALSE;
+-  GConfClient *client;
+-  GSList *list;
+   GnomeSettingsDaemon *daemon;
+   GdkDisplay *display;
+-  GObject *dbusServer;
+   int i;
+   int n_screens;
+ 
+@@ -316,86 +480,7 @@
+ 						 NULL);
+     }
+ 
+-  /* We use GConfClient not GConfClient because a cache isn't useful
+-   * for us
+-   */
+-  client = gnome_settings_daemon_get_conf_client ();
+-
+-/*  gnome_settings_disk_init (client);*/
+-  gnome_settings_font_init (client);
+-  gnome_settings_xsettings_init (client);
+-  gnome_settings_mouse_init (client);
+-/* Essential - xkb initialization should happen before */
+-  gnome_settings_keyboard_xkb_set_post_activation_callback ((PostActivationCallback)gnome_settings_load_modmap_files, NULL);
+-  gnome_settings_keyboard_xkb_init (client);
+-  gnome_settings_keyboard_init (client);
+-  gnome_settings_multimedia_keys_init (client);
+-/* */
+-  gnome_settings_sound_init (client);
+-  gnome_settings_accessibility_keyboard_init (client);
+-  gnome_settings_screensaver_init (client);
+-  gnome_settings_default_editor_init (client);
+-  gnome_settings_background_init (client);
+-  gnome_settings_keybindings_init (client);
+-  gnome_settings_gtk1_theme_init (client);
+-  gnome_settings_xrdb_init (client);
+-  gnome_settings_typing_break_init (client);
+-
+-  for (list = directories; list; list = list->next)
+-    {
+-      GError *error = NULL;
+-      DirElement *dir_element = list->data;
+-
+-      gconf_client_add_dir (client,
+-			    dir_element->dir,
+-			    GCONF_CLIENT_PRELOAD_ONELEVEL,
+-			    NULL);
+-      
+-      gconf_client_notify_add (client,
+-                               dir_element->dir,
+-                               config_notify,
+-                               NULL,
+-			       NULL,
+-                               &error);
+-
+-      if (error)
+-        {
+-          fprintf (stderr, "Could not listen for changes to configuration in '%s': %s\n",
+-                   dir_element->dir, error->message);
+-          g_error_free (error);
+-        }
+-    }
+-
+-  for (i = 0; i < n_screens; i++) 
+-    {
+-      GdkScreen *screen;
+-
+-      screen = gdk_display_get_screen (display, i);
+-      gdk_window_add_filter (
+-		gdk_screen_get_root_window (screen),
+-		manager_event_filter, GINT_TO_POINTER (i));
+-    }
+-
+-/*  gnome_settings_disk_load (client);*/
+-  gnome_settings_font_load (client);
+-  gnome_settings_xsettings_load (client);
+-  gnome_settings_mouse_load (client);
+-/* Essential - xkb initialization should happen before */
+-  gnome_settings_keyboard_xkb_load (client);
+-  gnome_settings_keyboard_load (client);
+-  gnome_settings_multimedia_keys_load (client);
+-/* */
+-  gnome_settings_sound_load (client);
+-  gnome_settings_accessibility_keyboard_load (client);
+-  gnome_settings_screensaver_load (client);
+-  gnome_settings_default_editor_load (client);
+-  gnome_settings_background_load (client);
+-  gnome_settings_keybindings_load (client);
+-  gnome_settings_gtk1_theme_load (client);
+-  gnome_settings_xrdb_load (client);
+-  gnome_settings_typing_break_load (client);
+-
+-  dbusServer = g_object_new (gnome_settings_server_get_type (), NULL);
++  g_idle_add ((GSourceFunc) initialize_and_load, daemon);
+ 
+   return G_OBJECT (daemon);
+ }

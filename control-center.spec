@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.18.0
-Release: 8%{?dist}
+Release: 9%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -57,6 +57,9 @@ Patch13: control-center-2.17.91-no-gnome-common.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=425650
 Patch15: control-center-2.18.0-ellipsize-sound-devices.patch
+
+# http://
+Patch16: control-center-2.18.0-be-more-async.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.17.91-passwd.patch
@@ -173,6 +176,7 @@ This packages development files for GNOME Control Center.
 %patch13 -p1 -b .no-gnome-common
 #%patch14 -p1 -b .gnome-bg
 %patch15 -p1 -b .ellipsize-sound-devices
+%patch16 -p1 -b .be-more-async
 
 
 # vendor configuration patches
@@ -324,6 +328,10 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Apr 13 2007 Ray Strode <rstrode@redhat.com> - 2.18.0-9
+- Load settings-daemon parts more asynchronously (to help with
+  bug 236296)
+
 * Thu Apr 12 2007 David Zeuthen <davidz@redhat.com> - 2.18.0-8
 - Disable start-at-helper patch for now (#223669)
 - Disable gnome-bg patch as it's empty
