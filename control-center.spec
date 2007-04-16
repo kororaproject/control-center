@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.18.0
-Release: 9%{?dist}
+Release: 10%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -256,7 +256,7 @@ if [ "$1" -gt 1 ]; then
      %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas \
      %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas \
      %{_sysconfdir}/gconf/schemas/fontilus.schemas \
-     %{_sysconfdir}/gconf/schemas/themus.schemas \ 
+     %{_sysconfdir}/gconf/schemas/themus.schemas \
      > /dev/null || :
     gconftool-2 --makefile-uninstall-rule \
      %{_sysconfdir}/gconf/schemas/control-center.schemas \
@@ -328,6 +328,10 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Apr 16 2007 Ray Strode <rstrode@redhat.com> - 2.18.0-10
+- Remove trailing space after escaped newline in schema post
+  install.  Reported by Yanko Kaneti.
+
 * Fri Apr 13 2007 Ray Strode <rstrode@redhat.com> - 2.18.0-9
 - Load settings-daemon parts more asynchronously (to help with
   bug 236296)
