@@ -1,10 +1,12 @@
 --- control-center-2.18.0/gnome-settings-daemon/gnome-settings-daemon.c.be-more-async	2007-01-02 07:47:00.000000000 -0500
-+++ control-center-2.18.0/gnome-settings-daemon/gnome-settings-daemon.c	2007-04-13 16:44:36.000000000 -0400
-@@ -255,15 +255,179 @@
++++ control-center-2.18.0/gnome-settings-daemon/gnome-settings-daemon.c	2007-04-17 18:14:47.000000000 -0400
+@@ -255,15 +255,177 @@
  G_DEFINE_TYPE (GnomeSettingsDaemon, gnome_settings_daemon,
                 G_TYPE_OBJECT)
  
 +static void load_subsystems (void);
++static void watch_for_xsetting_changes (void);
++static void watch_for_configuration_changes (GConfClient *client);
 +
 +typedef void (* GnomeSettingsSubsystemInitFunc) (GConfClient *client);
 +
@@ -17,7 +19,6 @@
 +  gnome_settings_keyboard_xkb_init,
 +  gnome_settings_keyboard_init,
 +  gnome_settings_multimedia_keys_init,
-+/* */
 +  gnome_settings_sound_init,
 +  gnome_settings_accessibility_keyboard_init,
 +  gnome_settings_screensaver_init,
@@ -27,6 +28,8 @@
 +  gnome_settings_gtk1_theme_init,
 +  gnome_settings_xrdb_init,
 +  gnome_settings_typing_break_init,
++  watch_for_configuration_changes,
++  (GnomeSettingsSubsystemInitFunc) watch_for_xsetting_changes,
 +  (GnomeSettingsSubsystemInitFunc) load_subsystems,
 +  NULL
 +};
@@ -125,12 +128,9 @@
 +}
 +
 +static void
-+watch_for_configuration_changes (void)
++watch_for_configuration_changes (GConfClient *client)
 +{
-+  GConfClient *client;
 +  GSList *list;
-+
-+  client = gnome_settings_daemon_get_conf_client ();
 +
 +  for (list = directories; list; list = list->next)
 +    {
@@ -166,8 +166,6 @@
 +  dbus_service = g_object_new (gnome_settings_server_get_type (), NULL);
 +
 +  initialize_subsystems ();
-+  watch_for_xsetting_changes ();
-+  watch_for_configuration_changes ();
 +  return FALSE;
 +}
 +
@@ -183,7 +181,7 @@
    int i;
    int n_screens;
  
-@@ -316,86 +480,7 @@
+@@ -316,86 +478,7 @@
  						 NULL);
      }
  
