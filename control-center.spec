@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.18.0
-Release: 10%{?dist}
+Release: 11%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -63,7 +63,7 @@ Patch16: control-center-2.18.0-be-more-async.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.17.91-passwd.patch
-Patch96: control-center-2.17.92-gecos.patch
+Patch96: control-center-2.18.0-gecos.patch
 
 # change default wallpaper directory to where we ship our
 # backgrounds
@@ -328,6 +328,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Apr 17 2007 Matthias Clasen <mclasen@redhat.com> - 2.18.0-11
+- Remove debugging spew from the about-me capplet
+
 * Mon Apr 16 2007 Ray Strode <rstrode@redhat.com> - 2.18.0-10
 - Remove trailing space after escaped newline in schema post
   install.  Reported by Yanko Kaneti.
