@@ -58,7 +58,7 @@ Patch13: control-center-2.17.91-no-gnome-common.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=425650
 Patch15: control-center-2.18.0-ellipsize-sound-devices.patch
 
-# http://
+# http://bugzilla.gnome.org/show_bug.cgi?id=430889
 Patch16: control-center-2.18.0-be-more-async.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
