@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.18.0
-Release: 13%{?dist}
+Release: 14%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -53,7 +53,7 @@ Patch5: control-center-2.17.91-compiz-support.patch
 
 Patch13: control-center-2.17.91-no-gnome-common.patch
 
-#Patch14: control-center-2.18.0-gnome-bg.patch
+Patch14: control-center-2.18.0-gnome-bg.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=425650
 Patch15: control-center-2.18.0-ellipsize-sound-devices.patch
@@ -174,10 +174,9 @@ This packages development files for GNOME Control Center.
 
 #%patch12 -p1 -b .start-at-helper
 %patch13 -p1 -b .no-gnome-common
-#%patch14 -p1 -b .gnome-bg
+%patch14 -p1 -b .gnome-bg
 %patch15 -p1 -b .ellipsize-sound-devices
 %patch16 -p1 -b .be-more-async
-
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -328,6 +327,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Apr 18 2007 Soren Sandmann <sandmann@redhat.com> - 2.18.0-14
+- Add control-center-2.18.0-gnome-bg.patch contents. Apply it again
+
 * Tue Apr 17 2007 Ray Strode <rstrode@redhat.com> - 2.18.0-13
 - clean up be-more-async patch to have less repetitive code 
 
