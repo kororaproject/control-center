@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.18.0
-Release: 12%{?dist}
+Release: 13%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -328,6 +328,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Apr 17 2007 Ray Strode <rstrode@redhat.com> - 2.18.0-13
+- clean up be-more-async patch to have less repetitive code 
+
 * Tue Apr 17 2007 Ray Strode <rstrode@redhat.com> - 2.18.0-12
 - Make theme changes work again (among other things). 
   Bug 236752. 

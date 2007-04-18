@@ -1,17 +1,48 @@
 --- control-center-2.18.0/gnome-settings-daemon/gnome-settings-daemon.c.be-more-async	2007-01-02 07:47:00.000000000 -0500
-+++ control-center-2.18.0/gnome-settings-daemon/gnome-settings-daemon.c	2007-04-17 18:14:47.000000000 -0400
-@@ -255,15 +255,177 @@
- G_DEFINE_TYPE (GnomeSettingsDaemon, gnome_settings_daemon,
-                G_TYPE_OBJECT)
++++ control-center-2.18.0/gnome-settings-daemon/gnome-settings-daemon.c	2007-04-17 23:25:30.000000000 -0400
+@@ -1,5 +1,5 @@
+ /*
+- * Copyright © 2001 Red Hat, Inc.
++ * Copyright © 2001, 2007 Red Hat, Inc.
+  *
+  * Permission to use, copy, modify, distribute, and sell this software and its
+  * documentation for any purpose is hereby granted without fee, provided that
+@@ -18,7 +18,7 @@
+  * OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+  *
+- * Authors:  Owen Taylor, Havoc Pennington
++ * Authors:  Owen Taylor, Havoc Pennington, Ray Strode
+  */
+ #include <config.h>
+ #include <stdlib.h>
+@@ -61,16 +61,67 @@
  
-+static void load_subsystems (void);
-+static void watch_for_xsetting_changes (void);
+ #include "clipboard-manager.h"
+ 
+-static GObjectClass *parent_class = NULL;
+-
+ struct _GnomeSettingsDaemonPrivate {
+-	int dummy;
++  GObject *dbus_service;	
+ };
+ 
+ static GSList *directories = NULL;
+ XSettingsManager **managers = NULL;
+ static ClipboardManager *clipboard_manager;
+ 
++static gboolean process_action (guint action_number);
++static void queue_action (guint action_number);
++static void queue_transaction (void);
++
++static void watch_for_xsetting_changes (GConfClient *client);
 +static void watch_for_configuration_changes (GConfClient *client);
 +
-+typedef void (* GnomeSettingsSubsystemInitFunc) (GConfClient *client);
++typedef void (* GnomeSettingsActionFunc) (GConfClient *client);
 +
-+static GnomeSettingsSubsystemInitFunc subsystem_init_funcs[] = 
++static GnomeSettingsActionFunc transaction[] = 
 +{
++  /* Subsystem Initialization */
 +/*  gnome_settings_disk_init  */
 +  gnome_settings_font_init,
 +  gnome_settings_xsettings_init,
@@ -28,42 +59,12 @@
 +  gnome_settings_gtk1_theme_init,
 +  gnome_settings_xrdb_init,
 +  gnome_settings_typing_break_init,
++
++  /* Post initialization setup */
 +  watch_for_configuration_changes,
-+  (GnomeSettingsSubsystemInitFunc) watch_for_xsetting_changes,
-+  (GnomeSettingsSubsystemInitFunc) load_subsystems,
-+  NULL
-+};
++  watch_for_xsetting_changes,
 +
-+static gboolean
-+call_init_func_and_queue_next (guint func_index)
-+{
-+  GConfClient *client;
-+
-+  client = gnome_settings_daemon_get_conf_client ();
-+
-+  subsystem_init_funcs[func_index] (client);
-+
-+  if (subsystem_init_funcs[func_index + 1] != NULL)
-+    g_idle_add ((GSourceFunc) call_init_func_and_queue_next,
-+                GUINT_TO_POINTER (func_index + 1));
-+  
-+  return FALSE;
-+}
-+
-+static void
-+initialize_subsystems (void)
-+{
-+  /* Essential - xkb initialization should happen before */
-+  gnome_settings_keyboard_xkb_set_post_activation_callback ((PostActivationCallback)gnome_settings_load_modmap_files, NULL);
-+
-+  g_idle_add ((GSourceFunc) call_init_func_and_queue_next,
-+              GUINT_TO_POINTER (0));
-+}
-+
-+typedef void (* GnomeSettingsSubsystemLoadFunc) (GConfClient *client);
-+
-+static GnomeSettingsSubsystemLoadFunc subsystem_load_funcs[] = 
-+{
++  /* Subsystem work */
 +/* gnome_settings_disk_load,*/
 +  gnome_settings_font_load,
 +  gnome_settings_xsettings_load,
@@ -83,31 +84,154 @@
 +  NULL
 +};
 +
-+static gboolean
-+call_load_func_and_queue_next (guint func_index)
+ typedef struct DirElement
+ {
+   char *dir;
+@@ -212,6 +263,8 @@
+     return GDK_FILTER_CONTINUE;
+ }
+ 
++G_DEFINE_TYPE (GnomeSettingsDaemon, gnome_settings_daemon, G_TYPE_OBJECT)
++
+ static void
+ finalize (GObject *object)
+ {
+@@ -219,19 +272,15 @@
+ 	int                  i;
+ 
+ 	daemon = GNOME_SETTINGS_DAEMON (object);
+-	if (daemon->private == NULL) {
+-	  return;
+-	}
+ 
+ 	for (i = 0; managers && managers [i]; i++)
+ 		xsettings_manager_destroy (managers [i]);
+ 
+ 	clipboard_manager_destroy (clipboard_manager);
+ 
+-	g_free (daemon->private);
+-	daemon->private = NULL;
++	g_object_unref (daemon->private->dbus_service);
+ 
+-	G_OBJECT_CLASS (parent_class)->finalize (object);
++	G_OBJECT_CLASS (gnome_settings_daemon_parent_class)->finalize (object);
+ }
+ 
+ static void
+@@ -243,103 +292,94 @@
+ 
+   object_class->finalize = finalize;
+ 
+-  parent_class = g_type_class_peek_parent (klass);
++  gnome_settings_daemon_parent_class = g_type_class_peek_parent (klass);
++
++  g_type_class_add_private (object_class, 
++                            sizeof (GnomeSettingsDaemonPrivate));
+ }
+ 
+ static void
+ gnome_settings_daemon_init (GnomeSettingsDaemon *settings)
+ {
+-  settings->private = g_new (GnomeSettingsDaemonPrivate, 1);
++  settings->private = G_TYPE_INSTANCE_GET_PRIVATE (settings,
++                                                   GNOME_SETTINGS_DAEMON_TYPE,
++                                                   GnomeSettingsDaemonPrivate);
++
++  settings->private->dbus_service = g_object_new (gnome_settings_server_get_type (), NULL);
++
++  queue_transaction ();
+ }
+ 
+-G_DEFINE_TYPE (GnomeSettingsDaemon, gnome_settings_daemon,
+-               G_TYPE_OBJECT)
++static void
++queue_action (guint action_number)
 +{
-+  GConfClient *client;
++  g_assert (action_number < G_N_ELEMENTS (transaction));
+ 
+-GObject *
+-gnome_settings_daemon_new (void)
++  if (transaction[action_number] == NULL)
++    return;
 +
++  g_idle_add ((GSourceFunc) process_action, GUINT_TO_POINTER (action_number));
++}
++
++static gboolean
++process_action (guint action_number)
+ {
+-  gboolean terminated = FALSE;
++  GnomeSettingsActionFunc action;
+   GConfClient *client;
+-  GSList *list;
+-  GnomeSettingsDaemon *daemon;
+-  GdkDisplay *display;
+-  GObject *dbusServer;
+-  int i;
+-  int n_screens;
+ 
+-  display = gdk_display_get_default ();
+-  n_screens = gdk_display_get_n_screens (display);
++  g_assert (action_number < G_N_ELEMENTS (transaction));
+ 
+-  daemon = g_object_new (gnome_settings_daemon_get_type (), NULL);
++  action = transaction[action_number];
+ 
+-  if (xsettings_manager_check_running (
+-		gdk_x11_display_get_xdisplay (display),
+-		gdk_screen_get_number (gdk_screen_get_default ())))
+-    {
+-      fprintf (stderr, "You can only run one xsettings manager at a time; exiting\n");
+-      exit (1);
+-    }
++  g_assert (action != NULL);
+ 
+-  
+-  if (!terminated)
+-    {
+-      managers = g_new (XSettingsManager *, n_screens + 1);
 +  client = gnome_settings_daemon_get_conf_client ();
-+
-+  subsystem_load_funcs[func_index] (client);
-+
-+  if (subsystem_load_funcs[func_index + 1] != NULL)
-+    g_idle_add ((GSourceFunc) call_load_func_and_queue_next,
-+                GUINT_TO_POINTER (func_index + 1));
-+  
++  action (client);
+ 
+-      for (i = 0; i < n_screens; i++)
+-        {
+-          GdkScreen *screen;
++  queue_action (action_number + 1);
+ 
+-          screen = gdk_display_get_screen (display, i);
 +  return FALSE;
 +}
-+
+ 
+-          managers [i] = xsettings_manager_new (
+-				gdk_x11_display_get_xdisplay (display),
+-				gdk_screen_get_number (screen),
+-				terminate_cb, &terminated);
+-          if (!managers [i])
+-	    {
+-	      fprintf (stderr, "Could not create xsettings manager for screen %d!\n", i);
+-	      exit (1);
+-	    }
+-        }
 +static void
-+load_subsystems (void)
++queue_transaction (void)
 +{
-+  g_idle_add ((GSourceFunc) call_load_func_and_queue_next,
-+              GUINT_TO_POINTER (0));
++  /* Essential - xkb initialization should happen before */
++  gnome_settings_keyboard_xkb_set_post_activation_callback ((PostActivationCallback)
++                                                            gnome_settings_load_modmap_files,
++                                                            NULL);
+ 
+-      g_assert (i == n_screens);
+-      managers [i] = NULL;
+-    }
++  /* queue first action in transaction array to run on idle and get the ball
++   * rolling (the first action will queue the second and so on)
++   */
++  queue_action (0);
 +}
-+
+ 
+-  if (!clipboard_manager_check_running (GDK_DISPLAY_XDISPLAY (display)))
 +static void
-+watch_for_xsetting_changes (void)
++watch_for_xsetting_changes (GConfClient *client)
 +{
 +  GdkDisplay *display;
 +  int i;
@@ -117,79 +241,27 @@
 +  n_screens = gdk_display_get_n_screens (display);
 +
 +  for (i = 0; i < n_screens; i++) 
-+    {
+     {
+-      clipboard_manager = clipboard_manager_new (GDK_DISPLAY_XDISPLAY (display),
+-						 gdk_error_trap_push,
+-						 gdk_error_trap_pop,
+-						 clipboard_manager_terminate_cb,
+-						 clipboard_manager_watch_cb,
+-						 NULL);
+-    }
 +      GdkScreen *screen;
-+
+ 
+-  /* We use GConfClient not GConfClient because a cache isn't useful
+-   * for us
+-   */
+-  client = gnome_settings_daemon_get_conf_client ();
 +      screen = gdk_display_get_screen (display, i);
 +      gdk_window_add_filter (
 +		gdk_screen_get_root_window (screen),
 +		manager_event_filter, GINT_TO_POINTER (i));
 +    }
 +}
-+
-+static void
-+watch_for_configuration_changes (GConfClient *client)
-+{
-+  GSList *list;
-+
-+  for (list = directories; list; list = list->next)
-+    {
-+      GError *error = NULL;
-+      DirElement *dir_element = list->data;
-+
-+      gconf_client_add_dir (client,
-+			    dir_element->dir,
-+			    GCONF_CLIENT_PRELOAD_ONELEVEL,
-+			    NULL);
-+      
-+      gconf_client_notify_add (client,
-+                               dir_element->dir,
-+                               config_notify,
-+                               NULL,
-+			       NULL,
-+                               &error);
-+
-+      if (error)
-+        {
-+          fprintf (stderr, "Could not listen for changes to configuration in '%s': %s\n",
-+                   dir_element->dir, error->message);
-+          g_error_free (error);
-+        }
-+    }
-+}
-+
-+static gboolean
-+initialize_and_load (GnomeSettingsDaemon *daemon)
-+{
-+  GObject *dbus_service;
-+  
-+  dbus_service = g_object_new (gnome_settings_server_get_type (), NULL);
-+
-+  initialize_subsystems ();
-+  return FALSE;
-+}
-+
- GObject *
- gnome_settings_daemon_new (void)
- {
-   gboolean terminated = FALSE;
--  GConfClient *client;
--  GSList *list;
-   GnomeSettingsDaemon *daemon;
-   GdkDisplay *display;
--  GObject *dbusServer;
-   int i;
-   int n_screens;
  
-@@ -316,86 +478,7 @@
- 						 NULL);
-     }
- 
--  /* We use GConfClient not GConfClient because a cache isn't useful
--   * for us
--   */
--  client = gnome_settings_daemon_get_conf_client ();
--
 -/*  gnome_settings_disk_init (client);*/
 -  gnome_settings_font_init (client);
 -  gnome_settings_xsettings_init (client);
@@ -209,42 +281,62 @@
 -  gnome_settings_gtk1_theme_init (client);
 -  gnome_settings_xrdb_init (client);
 -  gnome_settings_typing_break_init (client);
--
--  for (list = directories; list; list = list->next)
--    {
--      GError *error = NULL;
--      DirElement *dir_element = list->data;
--
--      gconf_client_add_dir (client,
--			    dir_element->dir,
--			    GCONF_CLIENT_PRELOAD_ONELEVEL,
--			    NULL);
--      
--      gconf_client_notify_add (client,
--                               dir_element->dir,
--                               config_notify,
--                               NULL,
--			       NULL,
--                               &error);
--
--      if (error)
--        {
--          fprintf (stderr, "Could not listen for changes to configuration in '%s': %s\n",
--                   dir_element->dir, error->message);
--          g_error_free (error);
--        }
--    }
--
++static void
++watch_for_configuration_changes (GConfClient *client)
++{
++  GSList *list;
+ 
+   for (list = directories; list; list = list->next)
+     {
+@@ -365,37 +405,61 @@
+           g_error_free (error);
+         }
+     }
++}
+ 
 -  for (i = 0; i < n_screens; i++) 
--    {
--      GdkScreen *screen;
--
--      screen = gdk_display_get_screen (display, i);
++GObject *
++gnome_settings_daemon_new (void)
++{
++  gboolean terminated = FALSE;
++  GnomeSettingsDaemon *daemon;
++  GdkDisplay *display;
++  int i;
++  int n_screens;
++
++  display = gdk_display_get_default ();
++  n_screens = gdk_display_get_n_screens (display);
++
++  if (xsettings_manager_check_running (
++		gdk_x11_display_get_xdisplay (display),
++		gdk_screen_get_number (gdk_screen_get_default ())))
++    {
++      fprintf (stderr, "You can only run one xsettings manager at a time; exiting\n");
++      exit (1);
++    }
++
++  managers = g_new (XSettingsManager *, n_screens + 1);
++
++  for (i = 0; i < n_screens; i++)
+     {
+       GdkScreen *screen;
+ 
+       screen = gdk_display_get_screen (display, i);
 -      gdk_window_add_filter (
 -		gdk_screen_get_root_window (screen),
 -		manager_event_filter, GINT_TO_POINTER (i));
--    }
--
++
++      managers [i] = xsettings_manager_new (
++              gdk_x11_display_get_xdisplay (display),
++              gdk_screen_get_number (screen),
++              terminate_cb, &terminated);
++      if (!managers [i])
++        {
++          fprintf (stderr, "Could not create xsettings manager for screen %d!\n", i);
++          exit (1);
++        }
+     }
+ 
 -/*  gnome_settings_disk_load (client);*/
 -  gnome_settings_font_load (client);
 -  gnome_settings_xsettings_load (client);
@@ -263,9 +355,21 @@
 -  gnome_settings_gtk1_theme_load (client);
 -  gnome_settings_xrdb_load (client);
 -  gnome_settings_typing_break_load (client);
--
++  g_assert (i == n_screens);
++  managers [i] = NULL;
++
++  if (!clipboard_manager_check_running (GDK_DISPLAY_XDISPLAY (display)))
++    {
++      clipboard_manager = clipboard_manager_new (GDK_DISPLAY_XDISPLAY (display),
++						 gdk_error_trap_push,
++						 gdk_error_trap_pop,
++						 clipboard_manager_terminate_cb,
++						 clipboard_manager_watch_cb,
++						 NULL);
++    }
+ 
 -  dbusServer = g_object_new (gnome_settings_server_get_type (), NULL);
-+  g_idle_add ((GSourceFunc) initialize_and_load, daemon);
++  daemon = g_object_new (GNOME_SETTINGS_DAEMON_TYPE, NULL);
  
    return G_OBJECT (daemon);
  }
