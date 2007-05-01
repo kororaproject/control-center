@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.18.0
-Release: 14%{?dist}
+Release: 15%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -60,6 +60,9 @@ Patch15: control-center-2.18.0-ellipsize-sound-devices.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=430889
 Patch16: control-center-2.18.0-be-more-async.patch
+
+# https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=236393
+Patch17: control-center-trunk-set-face-perms-4.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.17.91-passwd.patch
@@ -327,6 +330,10 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue May 01 2007 - Bastien Nocera <bnocera@redhat.com> - 2.18.0-15
+- Add a patch to set the permissions on ~/.face so that GDM can
+  show them (#236393)
+
 * Wed Apr 18 2007 Soren Sandmann <sandmann@redhat.com> - 2.18.0-14
 - Add control-center-2.18.0-gnome-bg.patch contents. Apply it again
 
