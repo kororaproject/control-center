@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.18.0
-Release: 15%{?dist}
+Release: 16%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -92,6 +92,7 @@ Requires: alsa-lib
 Requires: gnome-menus >= %{gnome_menus_version}
 Requires: usermode >= %{usermode_version}
 Requires: gnome-desktop >= %{gnome_desktop_version}
+Requires: dbus-x11
 
 BuildRequires: autoconf automake libtool
 BuildRequires: esound-devel
@@ -330,6 +331,10 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue May 01 2007 - Bastien Nocera <bnocera@redhat.com> - 2.18.0-16
+- Add missing dbus-x11 dependency, otherwise gnome-settings-daemon
+  cannot be started (#204706)
+
 * Tue May 01 2007 - Bastien Nocera <bnocera@redhat.com> - 2.18.0-15
 - Add a patch to set the permissions on ~/.face so that GDM can
   show them (#236393)
