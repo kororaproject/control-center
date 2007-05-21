@@ -20,12 +20,12 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.18.0
-Release: 16%{?dist}
+Version: 2.19.1
+Release: 1%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
-Source: http://ftp.gnome.org/pub/GNOME/sources/control-center/2.18/control-center-%{version}.tar.bz2
+Source: http://download.gnome.org/sources/gnome-control-center/2.19/gnome-control-center-%{version}.tar.bz2
 
 # Remove "Apply" button and just have "Close" instead
 # FIXME: We should figure out what to do about this...either get
@@ -34,15 +34,14 @@ Patch1: control-center-2.15.4-finish.patch
 
 # Optionally bring up beagle or tracker if available
 # FIXME: need to get this filed upstream
-Patch2: control-center-2.17.90-search.patch
+Patch2: control-center-2.19.1-search.patch
 
 # drop help button from a dialog that doesn't have
 # help
 # FIXME: need to get this filed upstream
 Patch3: control-center-2.16.0-about-me-help.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=376045
-Patch5: control-center-2.17.91-compiz-support.patch
+Patch5: control-center-2.19.1-compiz-support.patch
 
 # ubuntu has a better patch for this in the works
 # apparently http://blog.omma.net/?p=16
@@ -53,27 +52,25 @@ Patch5: control-center-2.17.91-compiz-support.patch
 
 Patch13: control-center-2.17.91-no-gnome-common.patch
 
-Patch14: control-center-2.18.0-gnome-bg.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=425650
-Patch15: control-center-2.18.0-ellipsize-sound-devices.patch
+Patch14: control-center-2.19.1-gnome-bg.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=430889
-Patch16: control-center-2.18.0-be-more-async.patch
+# disable for now, upstream plans conflicting changes
+#Patch16: control-center-2.18.0-be-more-async.patch
 
 # https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=236393
 Patch17: control-center-trunk-set-face-perms-4.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.17.91-passwd.patch
-Patch96: control-center-2.18.0-gecos.patch
+Patch96: control-center-2.19.1-gecos.patch
 
 # change default wallpaper directory to where we ship our
 # backgrounds
 Patch98: control-center-2.9.4-filesel.patch
 
 # change default preferred apps to programs we ship
-Patch99: control-center-2.17.5-default-apps.patch
+Patch99: control-center-2.19.1-default-apps.patch
 
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
@@ -169,7 +166,7 @@ behavior).
 This packages development files for GNOME Control Center.
 
 %prep
-%setup -q
+%setup -q -n gnome-control-center-%{version}
 
 %patch1 -p1 -b .finish
 %patch2 -p1 -b .search
@@ -179,8 +176,7 @@ This packages development files for GNOME Control Center.
 #%patch12 -p1 -b .start-at-helper
 %patch13 -p1 -b .no-gnome-common
 %patch14 -p1 -b .gnome-bg
-%patch15 -p1 -b .ellipsize-sound-devices
-%patch16 -p1 -b .be-more-async
+#%patch16 -p1 -b .be-more-async
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -331,6 +327,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sat May 10 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.1-1
+- Update to 2.19.1
+
 * Tue May 01 2007 - Bastien Nocera <bnocera@redhat.com> - 2.18.0-16
 - Add missing dbus-x11 dependency, otherwise gnome-settings-daemon
   cannot be started (#204706)

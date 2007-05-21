@@ -1,0 +1,18 @@
+--- gnome-control-center-2.19.1/gnome-settings-daemon/gnome-settings-multimedia-keys.c.search	2007-04-02 06:35:01.000000000 -0400
++++ gnome-control-center-2.19.1/gnome-settings-daemon/gnome-settings-multimedia-keys.c	2007-05-19 23:33:22.000000000 -0400
+@@ -648,7 +648,14 @@ do_action (Acme *acme, int type)
+ 		execute (acme, "nautilus", FALSE, FALSE);
+ 		break;
+ 	case SEARCH_KEY:
+-		execute (acme, "gnome-search-tool", FALSE, FALSE);
++		cmd = NULL;
++		if ((cmd = g_find_program_in_path ("beagle-search")))
++			execute (acme, "beagle-search", FALSE, FALSE);
++		else if ((cmd = g_find_program_in_path ("tracker-search-tool")))
++			execute (acme, "tracker-search-tool", FALSE, FALSE);
++		else
++			execute (acme, "gnome-search-tool", FALSE, FALSE);
++		g_free (cmd);
+ 		break;
+ 	case EMAIL_KEY:
+ 		do_mail_action (acme);

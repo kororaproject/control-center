@@ -1,0 +1,201 @@
+--- gnome-control-center-2.19.1/capplets/default-applications/gnome-default-applications.xml.in.default-apps	2007-04-23 10:58:28.000000000 -0400
++++ gnome-control-center-2.19.1/capplets/default-applications/gnome-default-applications.xml.in	2007-05-21 01:19:05.000000000 -0400
+@@ -44,52 +44,12 @@
+       <win-command>galeon -w %s</win-command>
+     </web-browser>
+     <web-browser>
+-      <_name>Encompass</_name>
+-      <executable>encompass</executable>
+-      <command>encompass %s</command>
+-      <icon-name>encompass</icon-name>
+-      <run-in-terminal>false</run-in-terminal>
+-      <netscape-remote>false</netscape-remote>
+-    </web-browser>
+-    <web-browser>
+-      <_name>Firebird</_name>
+-      <executable>mozilla-firebird</executable>
+-      <command>mozilla-firebird %s</command>
+-      <icon-name></icon-name>
+-      <run-in-terminal>false</run-in-terminal>
+-      <netscape-remote>true</netscape-remote>
+-      <tab-command>mozilla-firebird -remote "openurl(%s,new-tab)"</tab-command>
+-      <win-command>mozilla-firebird -remote "openurl(%s,new-window)"</win-command>
+-    </web-browser>
+-    <web-browser>
+       <_name>Firefox</_name>
+       <executable>firefox</executable>
+       <command>firefox %s</command>
+       <icon-name>firefox</icon-name>
+       <run-in-terminal>false</run-in-terminal>
+-      <netscape-remote>true</netscape-remote>
+-      <tab-command>firefox -remote "openurl(%s,new-tab)"</tab-command>
+-      <win-command>firefox -remote "openurl(%s,new-window)"</win-command>
+-    </web-browser>
+-    <web-browser>
+-      <_name>Iceweasel</_name>
+-      <executable>iceweasel</executable>
+-      <command>iceweasel %s</command>
+-      <icon-name>iceweasel</icon-name>
+-      <run-in-terminal>false</run-in-terminal>
+-      <netscape-remote>true</netscape-remote>
+-      <tab-command>iceweasel -remote "openurl(%s,new-tab)"</tab-command>
+-      <win-command>iceweasel -remote "openurl(%s,new-window)"</win-command>
+-    </web-browser>
+-    <web-browser>
+-      <_name>Mozilla 1.6</_name>
+-      <executable>mozilla-1.6</executable>
+-      <command>mozilla-1.6 %s</command>
+-      <icon-name>mozilla-icon</icon-name>
+-      <run-in-terminal>false</run-in-terminal>
+-      <netscape-remote>true</netscape-remote>
+-      <tab-command>mozilla-1.6 -remote "openurl(%s,new-tab)"</tab-command>
+-      <win-command>mozilla-1.6 -remote "openurl(%s,new-window)"</win-command>
++      <netscape-remote>false</netscape-remote>
+     </web-browser>
+     <web-browser>
+       <_name>Mozilla</_name>
+@@ -97,9 +57,7 @@
+       <command>mozilla %s</command>
+       <icon-name>mozilla-icon</icon-name>
+       <run-in-terminal>false</run-in-terminal>
+-      <netscape-remote>true</netscape-remote>
+-      <tab-command>mozilla -remote "openurl(%s,new-tab)"</tab-command>
+-      <win-command>mozilla -remote "openurl(%s,new-window)"</win-command>
++      <netscape-remote>false</netscape-remote>
+     </web-browser>
+     <web-browser>
+       <_name>SeaMonkey</_name>
+@@ -112,14 +70,12 @@
+       <win-command>seamonkey -remote "openurl(%s,new-window)"</win-command>
+     </web-browser>
+     <web-browser>
+-      <_name>Netscape Communicator</_name>
++      <_name>Netscape</_name>
+       <executable>netscape</executable>
+       <command>netscape %s</command>
+       <icon-name>netscape</icon-name>
+       <run-in-terminal>false</run-in-terminal>
+-      <netscape-remote>true</netscape-remote>
+-      <tab-command>netscape -remote "openurl(%s,new-tab)"</tab-command>
+-      <win-command>netscape -remote "openurl(%s,new-window)"</win-command>
++      <netscape-remote>false</netscape-remote>
+     </web-browser>
+     <web-browser>
+       <_name>Konqueror</_name>
+@@ -157,51 +113,9 @@
+ 
+   <mail-readers>
+     <mail-reader>
+-      <_name>Evolution Mail Reader 2.4</_name>
+-      <executable>evolution-2.4</executable>
+-      <command>evolution-2.4 %s</command>
+-      <icon-name>evolution</icon-name>
+-      <run-in-terminal>false</run-in-terminal>
+-    </mail-reader>
+-    <mail-reader>
+-      <_name>Evolution Mail Reader 2.2</_name>
+-      <executable>evolution-2.2</executable>
+-      <command>evolution-2.2 %s</command>
+-      <icon-name>evolution</icon-name>
+-      <run-in-terminal>false</run-in-terminal>
+-    </mail-reader>
+-    <mail-reader>
+-      <_name>Evolution Mail Reader 2.0</_name>
+-      <executable>evolution-2.0</executable>
+-      <command>evolution-2.0 %s</command>
+-      <icon-name>evolution</icon-name>
+-      <run-in-terminal>false</run-in-terminal>
+-    </mail-reader>
+-    <mail-reader>
+-      <_name>Evolution Mail Reader 1.6</_name>
+-      <executable>evolution-1.6</executable>
+-      <command>evolution-1.6 %s</command>
+-      <icon-name>evolution</icon-name>
+-      <run-in-terminal>false</run-in-terminal>
+-    </mail-reader>
+-    <mail-reader>
+-      <_name>Evolution Mail Reader 1.5</_name>
+-      <executable>evolution-1.5</executable>
+-      <command>evolution-1.5 %s</command>
+-      <icon-name>evolution</icon-name>
+-      <run-in-terminal>false</run-in-terminal>
+-    </mail-reader>
+-    <mail-reader>
+-      <_name>Evolution Mail Reader 1.4</_name>
+-      <executable>evolution-1.4</executable>
+-      <command>evolution-1.4 %s</command>
+-      <icon-name>evolution</icon-name>
+-      <run-in-terminal>false</run-in-terminal>
+-    </mail-reader>
+-    <mail-reader>
+       <_name>Evolution Mail Reader</_name>
+       <executable>evolution</executable>
+-      <command>evolution %s</command>
++      <command>evolution --component=mail %s</command>
+       <icon-name>evolution</icon-name>
+       <run-in-terminal>false</run-in-terminal>
+     </mail-reader>
+@@ -227,27 +141,13 @@
+       <run-in-terminal>false</run-in-terminal>
+     </mail-reader>
+     <mail-reader>
+-      <_name>Thunderbird</_name>
++      <_name>Thunderbird Mail</_name>
+       <executable>thunderbird</executable>
+       <command>thunderbird %s</command>
+       <icon-name>thunderbird</icon-name>
+       <run-in-terminal>false</run-in-terminal>
+     </mail-reader>
+     <mail-reader>
+-      <_name>Mozilla Thunderbird</_name>
+-      <executable>mozilla-thunderbird</executable>
+-      <command>mozilla-thunderbird %s</command>
+-      <icon-name>thunderbird</icon-name>
+-      <run-in-terminal>false</run-in-terminal>
+-    </mail-reader>
+-    <mail-reader>
+-      <_name>Mozilla Mail</_name>
+-      <executable>mozilla</executable>
+-      <command>mozilla -mail %s</command>
+-      <icon-name>mozilla-mail-icon</icon-name>
+-      <run-in-terminal>false</run-in-terminal>
+-    </mail-reader>
+-    <mail-reader>
+       <_name>SeaMonkey Mail</_name>
+       <executable>seamonkey</executable>
+       <command>seamonkey -mail %s</command>
+@@ -269,6 +169,13 @@
+       <run-in-terminal>false</run-in-terminal>
+     </mail-reader>
+     <mail-reader>
++      <_name>Sylpheed</_name>
++      <executable>sylpheed</executable>
++      <command>sylpheed --compose %s</command>
++      <icon-name>sylpheed</icon-name>
++      <run-in-terminal>false</run-in-terminal>
++    </mail-reader>
++    <mail-reader>
+       <_name>Sylpheed-Claws</_name>
+       <executable>sylpheed-claws</executable>
+       <command>sylpheed-claws --compose %s</command>
+@@ -293,6 +200,20 @@
+       <exec-flag>-e</exec-flag>
+     </terminal>
+     <terminal>
++      <_name>KDE Konsole</_name>
++      <executable>konsole</executable>
++      <command>konsole</command>
++      <icon-name>konsole</icon-name>
++      <exec-flag>-e</exec-flag>
++    </terminal>
++    <terminal>
++      <_name>KTerm</_name>
++      <executable>kterm</executable>
++      <command>kterm</command>
++      <icon-name>kterm</icon-name>
++      <exec-flag>-e</exec-flag>
++    </terminal>
++    <terminal>
+       <_name>GNOME Terminal</_name>
+       <executable>gnome-terminal</executable>
+       <command>gnome-terminal</command>
