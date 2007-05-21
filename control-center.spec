@@ -130,6 +130,7 @@ BuildRequires: libxml2-devel
 BuildRequires: hal-devel >= 0.5.6
 BuildRequires: dbus-devel >= 0.90
 BuildRequires: dbus-glib-devel >= 0.70
+BuildRequires: scrollkeeper
 
 Requires(preun): GConf2
 Requires(pre): GConf2
