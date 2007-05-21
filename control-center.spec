@@ -41,8 +41,6 @@ Patch2: control-center-2.19.1-search.patch
 # FIXME: need to get this filed upstream
 Patch3: control-center-2.16.0-about-me-help.patch
 
-Patch5: control-center-2.19.1-compiz-support.patch
-
 # ubuntu has a better patch for this in the works
 # apparently http://blog.omma.net/?p=16
 # We should either wait for it to get upstream, or
@@ -130,7 +128,6 @@ BuildRequires: libxml2-devel
 BuildRequires: hal-devel >= 0.5.6
 BuildRequires: dbus-devel >= 0.90
 BuildRequires: dbus-glib-devel >= 0.70
-BuildRequires: libxslt
 BuildRequires: scrollkeeper
 
 Requires(preun): GConf2
@@ -173,7 +170,6 @@ This packages development files for GNOME Control Center.
 %patch1 -p1 -b .finish
 %patch2 -p1 -b .search
 %patch3 -p1 -b .about-me-help
-%patch5 -p1 -b .compiz-support
 
 #%patch12 -p1 -b .start-at-helper
 %patch13 -p1 -b .no-gnome-common
@@ -329,6 +325,11 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon May 21 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.1-3
+- Remove the compiz support patch, compiz should ship it's keybindings XML
+  file itself
+- Remove libxslt BR as it should be pulled by scrollkeeper
+
 * Mon May 21 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.1-2
 - Add libxslt as a BR so that xsltproc can be used to generate the .omf files
 
