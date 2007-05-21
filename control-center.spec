@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -130,6 +130,7 @@ BuildRequires: libxml2-devel
 BuildRequires: hal-devel >= 0.5.6
 BuildRequires: dbus-devel >= 0.90
 BuildRequires: dbus-glib-devel >= 0.70
+BuildRequires: libxslt
 BuildRequires: scrollkeeper
 
 Requires(preun): GConf2
@@ -328,6 +329,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon May 21 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.1-2
+- Add libxslt as a BR so that xsltproc can be used to generate the .omf files
+
 * Sat May 10 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.1-1
 - Update to 2.19.1
 
