@@ -1,5 +1,5 @@
 --- gnome-control-center-2.19.1/capplets/background/gnome-wp-info.h.gnome-bg	2007-01-02 07:47:00.000000000 -0500
-+++ gnome-control-center-2.19.1/capplets/background/gnome-wp-info.h	2007-05-21 00:45:50.000000000 -0400
++++ gnome-control-center-2.19.1/capplets/background/gnome-wp-info.h	2007-05-21 01:33:13.000000000 -0400
 @@ -40,7 +40,6 @@ struct _GnomeWPInfo {
  
  GnomeWPInfo * gnome_wp_info_new (const gchar * uri,
@@ -9,7 +9,7 @@
  
  #endif
 --- gnome-control-center-2.19.1/capplets/background/gnome-wp-xml.c.gnome-bg	2007-03-06 04:40:46.000000000 -0500
-+++ gnome-control-center-2.19.1/capplets/background/gnome-wp-xml.c	2007-05-21 00:45:50.000000000 -0400
++++ gnome-control-center-2.19.1/capplets/background/gnome-wp-xml.c	2007-05-21 01:33:13.000000000 -0400
 @@ -223,16 +223,19 @@ static void gnome_wp_xml_load_xml (Gnome
  	   g_file_test (wp->filename, G_FILE_TEST_EXISTS)) ||
  	  !strcmp (wp->filename, "(none)")) {
@@ -33,7 +33,7 @@
    }
    xmlFreeDoc (wplist);
 --- gnome-control-center-2.19.1/capplets/background/gnome-wp-capplet.c.gnome-bg	2007-04-18 05:35:29.000000000 -0400
-+++ gnome-control-center-2.19.1/capplets/background/gnome-wp-capplet.c	2007-05-21 00:45:50.000000000 -0400
++++ gnome-control-center-2.19.1/capplets/background/gnome-wp-capplet.c	2007-05-21 01:33:13.000000000 -0400
 @@ -17,7 +17,7 @@
   *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
   *
@@ -104,7 +104,7 @@
  					  FALSE);
  
 --- gnome-control-center-2.19.1/capplets/background/gnome-wp-info.c.gnome-bg	2007-01-08 13:15:11.000000000 -0500
-+++ gnome-control-center-2.19.1/capplets/background/gnome-wp-info.c	2007-05-21 00:45:50.000000000 -0400
++++ gnome-control-center-2.19.1/capplets/background/gnome-wp-info.c	2007-05-21 01:33:13.000000000 -0400
 @@ -67,27 +67,6 @@ GnomeWPInfo * gnome_wp_info_new (const g
    return new;
  }
@@ -134,7 +134,7 @@
    if (info == NULL) {
      return;
 --- gnome-control-center-2.19.1/capplets/background/gnome-wp-item.h.gnome-bg	2007-01-02 07:47:00.000000000 -0500
-+++ gnome-control-center-2.19.1/capplets/background/gnome-wp-item.h	2007-05-21 00:45:50.000000000 -0400
++++ gnome-control-center-2.19.1/capplets/background/gnome-wp-item.h	2007-05-21 01:33:13.000000000 -0400
 @@ -24,6 +24,7 @@
  #include <libgnomeui/gnome-thumbnail.h>
  #include <gnome-wp-info.h>
@@ -173,7 +173,7 @@
  #endif
  
 --- gnome-control-center-2.19.1/capplets/background/gnome-wp-item.c.gnome-bg	2007-03-06 04:40:46.000000000 -0500
-+++ gnome-control-center-2.19.1/capplets/background/gnome-wp-item.c	2007-05-21 00:45:50.000000000 -0400
++++ gnome-control-center-2.19.1/capplets/background/gnome-wp-item.c	2007-05-21 01:33:13.000000000 -0400
 @@ -25,10 +25,56 @@
  #include <gnome.h>
  #include <string.h>
@@ -475,7 +475,7 @@
  
  void gnome_wp_item_update_description (GnomeWPItem * item) {
 --- gnome-control-center-2.19.1/gnome-settings-daemon/gnome-settings-background.c.gnome-bg	2007-04-02 11:37:18.000000000 -0400
-+++ gnome-control-center-2.19.1/gnome-settings-daemon/gnome-settings-background.c	2007-05-21 01:01:39.000000000 -0400
++++ gnome-control-center-2.19.1/gnome-settings-daemon/gnome-settings-background.c	2007-05-21 01:33:29.000000000 -0400
 @@ -30,66 +30,143 @@
  #include <gdk/gdk.h>
  #include <gdk/gdkx.h>
@@ -644,7 +644,7 @@
 -	gnome_settings_register_config_callback ("/desktop/gnome/background", background_callback);
 +	apply_prefs (NULL);
 +
-+	gnome_settings_daemon_register_callback ("/desktop/gnome/background", 
++	gnome_settings_register_config_callback ("/desktop/gnome/background", 
 +						 background_callback);
  }
  
