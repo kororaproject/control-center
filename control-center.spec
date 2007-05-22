@@ -1,4 +1,4 @@
-%define gettext_package control-center-2.0
+%define gettext_package gnome-control-center-2.0
 
 %define pango_version 1.0.99.020703
 %define gtk2_version 2.6.0
@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.1
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -332,6 +332,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue May 22 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.1-5
+- Fix the gettext_package, as control-center changed its name
+
 * Tue May 22 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.1-4
 - Add a hack to avoid desktop-file-install complaining about missing
   desktop name in OnlyShownIn
