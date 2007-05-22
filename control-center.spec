@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.1
-Release: 5%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -297,7 +297,7 @@ fi
 
 %doc AUTHORS COPYING ChangeLog NEWS README
 
-%{_datadir}/control-center
+%{_datadir}/gnome-control-center
 %{_datadir}/pixmaps/*
 %{_datadir}/gnome/*
 %{_datadir}/applications/*.desktop
@@ -326,12 +326,14 @@ fi
 %defattr(-,root,root)
 %{_includedir}/gnome-window-settings-2.0
 %{_includedir}/gnome-settings-daemon-2.0
-%{_includedir}/slab
 %{_libdir}/libgnome-window-settings.so
-%{_libdir}/libslab.so
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue May 22 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.1-6
+- Fix the datadir control-center being renamed to gnome-control-center
+- Don't package slab devel files, we don't install them anymore
+
 * Tue May 22 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.1-5
 - Fix the gettext_package, as control-center changed its name
 
