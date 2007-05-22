@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -203,6 +203,10 @@ export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 make install DESTDIR=$RPM_BUILD_ROOT
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 
+# Add a "valid" OnlyShowIn entry, otherwise desktop-file-install complains
+sed -i -e "s/OnlyShowIn=;/OnlyShowIn=GNOME;/"  \
+  $RPM_BUILD_ROOT%{_datadir}/applications/gnome-theme-installer.desktop
+
 desktop-file-install --vendor gnome --delete-original			\
   --dir $RPM_BUILD_ROOT%{_datadir}/applications				\
   --add-only-show-in GNOME						\
@@ -328,6 +332,10 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue May 22 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.1-4
+- Add a hack to avoid desktop-file-install complaining about missing
+  desktop name in OnlyShownIn
+
 * Mon May 21 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.1-3
 - Remove the compiz support patch, compiz should ship it's keybindings XML
   file itself
