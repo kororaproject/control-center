@@ -185,6 +185,9 @@ This packages development files for GNOME Control Center.
 
 autoreconf
 
+# Work-around http://bugzilla.gnome.org/show_bug.cgi?id=427939
+sed -i -e 's/@ENABLE_SK_TRUE@_s/_s/' help/Makefile.in
+
 # work around a gstreamer problem where it doesn't find
 # plugins the first time around
 /usr/bin/gst-inspect-0.10 --print-all >& /dev/null
@@ -329,6 +332,7 @@ fi
 - Remove the compiz support patch, compiz should ship it's keybindings XML
   file itself
 - Remove libxslt BR as it should be pulled by scrollkeeper
+- Add a work-around for GNOME bug 427939
 
 * Mon May 21 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.1-2
 - Add libxslt as a BR so that xsltproc can be used to generate the .omf files
