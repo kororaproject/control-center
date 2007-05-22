@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.1
-Release: 6%{?dist}
+Release: 7%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -175,6 +175,7 @@ This packages development files for GNOME Control Center.
 %patch13 -p1 -b .no-gnome-common
 %patch14 -p1 -b .gnome-bg
 #%patch16 -p1 -b .be-more-async
+%patch17 -p1 -b .face-perms
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -330,6 +331,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue May 22 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.1-7
+- Really apply the patch for ~/.face permissions
+
 * Tue May 22 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.1-6
 - Fix the datadir control-center being renamed to gnome-control-center
 - Don't package slab devel files, we don't install them anymore
