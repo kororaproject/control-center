@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.3
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -331,6 +331,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Jun 05 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.3-4
+- Another rebuild with GStreamer for PPC rebuilt
+
 * Tue Jun 05 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.3-3
 - And update for added files
 
