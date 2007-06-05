@@ -1,0 +1,20 @@
+--- gnome-control-center-2.19.3/capplets/appearance/Makefile.am.makefile-format	2007-06-05 15:28:11.000000000 -0400
++++ gnome-control-center-2.19.3/capplets/appearance/Makefile.am	2007-06-05 15:28:15.000000000 -0400
+@@ -42,7 +42,7 @@ glade_DATA = appearance.glade
+ 
+ pixmapdir = $(pkgdatadir)/pixmaps
+ pixmap_DATA =             \
+-        theme-thumbnailing.png  \        
++        theme-thumbnailing.png  \
+         subpixel-bgr.png  \
+         subpixel-rgb.png  \
+         subpixel-vbgr.png \
+@@ -57,7 +57,7 @@ desktop_DATA = $(desktop_in_files:.deskt
+ INCLUDES = 						\
+ 	$(METACITY_CFLAGS)				\
+ 	$(GNOMECC_CAPPLETS_CFLAGS)			\
+-	$(FONT_CAPPLET_CFLAGS) \
++	$(FONT_CAPPLET_CFLAGS) 				\
+ 	-DGNOMELOCALEDIR="\"$(datadir)/locale\""	\
+ 	-DGNOMECC_DATA_DIR="\"$(pkgdatadir)\""		\
+ 	-DGNOMECC_GLADE_DIR="\"$(gladedir)\""		\
