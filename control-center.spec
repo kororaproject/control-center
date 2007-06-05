@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -302,7 +302,9 @@ fi
 %{_datadir}/omf/control-center
 %{_datadir}/desktop-directories/*
 %{_datadir}/dbus-1/services/*
-%{_datadir}/mime/packages/gnome-theme-package.xml
+# Don't package the inexistant mime-type defs
+# http://bugzilla.gnome.org/show_bug.cgi?id=444336
+#%{_datadir}/mime/packages/gnome-theme-package.xml
 %{_datadir}/icons/hicolor/*/apps/typing-monitor.*
 %{_bindir}/*
 %{_libexecdir}/*
@@ -328,6 +330,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Jun 05 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.3-2
+- Update for removed files
+
 * Tue Jun  5 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.3-1
 - Update to 2.19.3
 
