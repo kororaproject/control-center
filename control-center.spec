@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.3
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -306,6 +306,7 @@ fi
 # http://bugzilla.gnome.org/show_bug.cgi?id=444336
 #%{_datadir}/mime/packages/gnome-theme-package.xml
 %{_datadir}/icons/hicolor/*/apps/typing-monitor.*
+%{_datadir}/pkgconfig/gnome-keybindings.pc
 %{_bindir}/*
 %{_libexecdir}/*
 %{_libdir}/nautilus/extensions-1.0/*
@@ -330,6 +331,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Jun 05 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.3-3
+- And update for added files
+
 * Tue Jun 05 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.3-2
 - Update for removed files
 
