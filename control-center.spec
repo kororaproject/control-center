@@ -20,17 +20,16 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.19.1
-Release: 8%{?dist}
+Version: 2.19.3
+Release: 1%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: http://download.gnome.org/sources/gnome-control-center/2.19/gnome-control-center-%{version}.tar.bz2
 
 # Remove "Apply" button and just have "Close" instead
-# FIXME: We should figure out what to do about this...either get
-# it upstreamed or drop it I guess.
-Patch1: control-center-2.15.4-finish.patch
+# FIXME: figure out how this applies to the new appearance capplet
+#Patch1: control-center-2.15.4-finish.patch
 
 # Optionally bring up beagle or tracker if available
 # FIXME: need to get this filed upstream
@@ -48,24 +47,23 @@ Patch3: control-center-2.16.0-about-me-help.patch
 # control-center
 #Patch12: control-center-2.16.0-start-at-helper.patch
 
-Patch13: control-center-2.17.91-no-gnome-common.patch
+Patch13: control-center-2.19.3-no-gnome-common.patch
 
-Patch14: control-center-2.19.1-gnome-bg.patch
+# FIXME: figure out how this applies to the new appearance capplet
+#Patch14: control-center-2.19.1-gnome-bg.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=430889
 # disable for now, upstream plans conflicting changes
 #Patch16: control-center-2.18.0-be-more-async.patch
 
-# https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=236393
-Patch17: control-center-trunk-set-face-perms-4.patch
-
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.17.91-passwd.patch
-Patch96: control-center-2.19.1-gecos.patch
+Patch96: control-center-2.19.3-gecos.patch
 
 # change default wallpaper directory to where we ship our
 # backgrounds
-Patch98: control-center-2.9.4-filesel.patch
+# FIXME: figure out how this applies to the new appearance capplet
+#Patch98: control-center-2.9.4-filesel.patch
 
 # change default preferred apps to programs we ship
 Patch99: control-center-2.19.1-default-apps.patch
@@ -167,22 +165,19 @@ This packages development files for GNOME Control Center.
 %prep
 %setup -q -n gnome-control-center-%{version}
 
-%patch1 -p1 -b .finish
+#%patch1 -p1 -b .finish
 %patch2 -p1 -b .search
 %patch3 -p1 -b .about-me-help
 
 #%patch12 -p1 -b .start-at-helper
 %patch13 -p1 -b .no-gnome-common
-%patch14 -p1 -b .gnome-bg
+#%patch14 -p1 -b .gnome-bg
 #%patch16 -p1 -b .be-more-async
-pushd capplets/about-me/
-%patch17 -p0 -b .face-perms
-popd
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
 %patch96 -p1 -b .gecos
-%patch98 -p1 -b .filesel
+#%patch98 -p1 -b .filesel
 %patch99 -p1 -b .default-apps
 %build
 
@@ -333,6 +328,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Jun  5 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.3-1
+- Update to 2.19.3
+
 * Tue May 22 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.1-8
 - And go to the right directory to apply patch17
 
