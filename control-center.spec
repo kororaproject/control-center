@@ -203,7 +203,7 @@ unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 
 # Add a "valid" OnlyShowIn entry, otherwise desktop-file-install complains
 sed -i -e "s/OnlyShowIn=;/OnlyShowIn=GNOME;/"  \
-  $RPM_BUILD_ROOT%{_datadir}/applications/gnome-theme-installer.desktop
+  $RPM_BUILD_ROOT%{_datadir}/applications/themus-theme-applier.desktop
 
 desktop-file-install --vendor gnome --delete-original			\
   --dir $RPM_BUILD_ROOT%{_datadir}/applications				\
@@ -211,7 +211,7 @@ desktop-file-install --vendor gnome --delete-original			\
   $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 sed -i -e "s/OnlyShowIn=GNOME;/OnlyShowIn=;/"  \
-  $RPM_BUILD_ROOT%{_datadir}/applications/gnome-theme-installer.desktop
+  $RPM_BUILD_ROOT%{_datadir}/applications/themus-theme-applier.desktop
 
 # remove useless libtool archive files
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
