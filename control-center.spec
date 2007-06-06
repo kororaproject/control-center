@@ -21,7 +21,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.3
-Release: 5%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -189,10 +189,6 @@ autoreconf
 # Work-around http://bugzilla.gnome.org/show_bug.cgi?id=427939
 sed -i -e 's/@ENABLE_SK_TRUE@_s/_s/' help/Makefile.in
 
-# work around a gstreamer problem where it doesn't find
-# plugins the first time around
-/usr/bin/gst-inspect-0.10 --print-all >& /dev/null
-
 # Add -Wno-error to silence gswitchit
 %configure --disable-static --disable-gstreamer --enable-alsa CFLAGS="$RPM_OPT_FLAGS -Wno-error" --enable-aboutme --disable-scrollkeeper
 make
@@ -334,6 +330,10 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Jun 06 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.3-6
+- Remove gst-inspect call, as the configure doesn't check for
+  specific plugins
+
 * Tue Jun  5 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.3-5
 - Another rebuild, fixing some Makefile syntax problems
 
