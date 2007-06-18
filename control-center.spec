@@ -1,6 +1,7 @@
 %define gettext_package gnome-control-center-2.0
 
 %define pango_version 1.0.99.020703
+%define glib2_version 2.13.0
 %define gtk2_version 2.6.0
 %define gconf2_version 1.2.0
 %define gnome_desktop_version 2.18.0-2
@@ -20,8 +21,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.19.3
-Release: 6%{?dist}
+Version: 2.19.4
+Release: 1%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -68,8 +69,6 @@ Patch96: control-center-2.19.3-gecos.patch
 # change default preferred apps to programs we ship
 Patch99: control-center-2.19.1-default-apps.patch
 
-Patch100: control-center-2.19.3-makefile-format.patch
-
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
 
@@ -91,6 +90,7 @@ Requires: dbus-x11
 BuildRequires: autoconf automake libtool
 BuildRequires: esound-devel
 BuildRequires: pango-devel >= %{pango_version}
+BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gtk2-devel >= %{gtk2_version}
 BuildRequires: GConf2-devel >= %{gconf2_version}
 BuildRequires: gnome-desktop-devel >= %{gnome_desktop_version}
@@ -180,7 +180,6 @@ This packages development files for GNOME Control Center.
 %patch96 -p1 -b .gecos
 #%patch98 -p1 -b .filesel
 %patch99 -p1 -b .default-apps
-%patch100 -p1 -b .makefile-format
 
 %build
 
@@ -330,6 +329,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Jun 18 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.4-1
+- Update to 2.19.4
+
 * Wed Jun 06 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.3-6
 - Remove gst-inspect call, as the configure doesn't check for
   specific plugins
