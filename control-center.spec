@@ -304,9 +304,7 @@ fi
 %{_datadir}/omf/control-center
 %{_datadir}/desktop-directories/*
 %{_datadir}/dbus-1/services/*
-# Don't package the inexistant mime-type defs
-# http://bugzilla.gnome.org/show_bug.cgi?id=444336
-#%{_datadir}/mime/packages/gnome-theme-package.xml
+%{_datadir}/mime/packages/gnome-theme-package.xml
 %{_datadir}/icons/hicolor/*/apps/typing-monitor.*
 %{_datadir}/pkgconfig/gnome-keybindings.pc
 %{_bindir}/*
