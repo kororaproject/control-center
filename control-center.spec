@@ -22,11 +22,14 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.4
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: http://download.gnome.org/sources/gnome-control-center/2.19/gnome-control-center-%{version}.tar.bz2
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=449118
+Patch0: loaded-modules.patch
 
 # Remove "Apply" button and just have "Close" instead
 # FIXME: figure out how this applies to the new appearance capplet
@@ -166,6 +169,7 @@ This packages development files for GNOME Control Center.
 %prep
 %setup -q -n gnome-control-center-%{version}
 
+%patch0 -p1 -b .loaded-modules
 #%patch1 -p1 -b .finish
 %patch2 -p1 -b .search
 %patch3 -p1 -b .about-me-help
@@ -331,6 +335,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Jun 19 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.4-2
+- Fix up the new module handling in gnome-settings-daemon
+
 * Mon Jun 18 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.4-1
 - Update to 2.19.4
 
