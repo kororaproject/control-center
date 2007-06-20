@@ -1,0 +1,11 @@
+--- gnome-control-center-2.19.4/gnome-settings-daemon/gnome-settings-background.c.background-idle	2007-06-19 22:23:56.000000000 -0400
++++ gnome-control-center-2.19.4/gnome-settings-daemon/gnome-settings-background.c	2007-06-19 22:24:06.000000000 -0400
+@@ -89,7 +89,7 @@ background_callback (GConfClient *client
+ 		g_source_remove (module_bg->applier_idle_id);
+ 	}
+ 
+-	module_bg->applier_idle_id = g_timeout_add (100, applier_idle, NULL);
++	module_bg->applier_idle_id = g_timeout_add (100, applier_idle, module_bg);
+ }
+ 
+ static void
