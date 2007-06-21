@@ -1,0 +1,11 @@
+--- gnome-control-center-2.19.4/gnome-settings-daemon/gnome-settings-screensaver.c.screensaver-path	2007-06-21 00:35:11.000000000 -0400
++++ gnome-control-center-2.19.4/gnome-settings-daemon/gnome-settings-screensaver.c	2007-06-21 00:36:26.000000000 -0400
+@@ -173,7 +173,7 @@ gnome_settings_module_screensaver_start 
+ 		return FALSE;
+ 	args[2] = NULL;
+ 
+-	if (g_spawn_async (g_get_home_dir (), args, NULL, 0, NULL, NULL, &module_ss->screensaver_pid, &gerr))
++	if (g_spawn_async (g_get_home_dir (), args, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, &module_ss->screensaver_pid, &gerr))
+ 		return TRUE;
+ 
+ 	show_error = gconf_client_get_bool (gnome_settings_module_get_config_client (module),

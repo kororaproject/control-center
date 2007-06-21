@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.4
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -31,6 +31,7 @@ Source: http://download.gnome.org/sources/gnome-control-center/2.19/gnome-contro
 # http://bugzilla.gnome.org/show_bug.cgi?id=449118
 Patch0: loaded-modules.patch
 Patch1: background-idle.patch
+Patch2: screensaver-path.patch
 
 # Remove "Apply" button and just have "Close" instead
 # FIXME: figure out how this applies to the new appearance capplet
@@ -38,12 +39,12 @@ Patch1: background-idle.patch
 
 # Optionally bring up beagle or tracker if available
 # FIXME: need to get this filed upstream
-Patch2: control-center-2.19.1-search.patch
+Patch3: control-center-2.19.1-search.patch
 
 # drop help button from a dialog that doesn't have
 # help
 # FIXME: need to get this filed upstream
-Patch3: control-center-2.16.0-about-me-help.patch
+Patch4: control-center-2.16.0-about-me-help.patch
 
 # ubuntu has a better patch for this in the works
 # apparently http://blog.omma.net/?p=16
@@ -172,9 +173,11 @@ This packages development files for GNOME Control Center.
 
 %patch0 -p1 -b .loaded-modules
 %patch1 -p1 -b .background-idle
+%patch2 -p1 -b .screensaver-path
+
 #%patch1 -p1 -b .finish
-%patch2 -p1 -b .search
-%patch3 -p1 -b .about-me-help
+%patch3 -p1 -b .search
+%patch4 -p1 -b .about-me-help
 
 #%patch12 -p1 -b .start-at-helper
 %patch13 -p1 -b .no-gnome-common
@@ -337,6 +340,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Jun 21 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.4-4
+- Fix starting of screensavers
+
 * Tue Jun 19 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.4-3
 - Fix a segfault in the background-setting code
 
