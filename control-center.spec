@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.4
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -224,6 +224,11 @@ sed -i -e "s/OnlyShowIn=GNOME;/OnlyShowIn=;/"  \
 sed -i -e "s/OnlyShowIn=GNOME;/OnlyShowIn=;/"  \
   $RPM_BUILD_ROOT%{_datadir}/applications/gnome-themus-theme-applier.desktop
 
+# We don't want these
+rm $RPM_BUILD_ROOT%{_datadir}/applications/gnome-default-applications-accessibility.desktop
+rm $RPM_BUILD_ROOT%{_datadir}/applications/gnome-at-mobility.desktop
+rm $RPM_BUILD_ROOT%{_datadir}/applications/gnome-at-visual.desktop
+
 # remove useless libtool archive files
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
 
@@ -340,6 +345,9 @@ fi
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Jun 27 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.4-5
+- Remove some questionable a11y menu items
+
 * Thu Jun 21 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.4-4
 - Fix starting of screensavers
 
