@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.4
-Release: 6%{?dist}
+Release: 7%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -247,8 +247,8 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/gnome/wm-properties
 rm $RPM_BUILD_ROOT%{_datadir}/applications/gnome-default-applications-accessibility.desktop
 rm $RPM_BUILD_ROOT%{_datadir}/applications/gnome-at-mobility.desktop
 rm $RPM_BUILD_ROOT%{_datadir}/applications/gnome-at-visual.desktop
-rm $RPM_BUILD_ROOT%{_datadir}/gnome/autostart/gnome-at-session.desktop
-rmdir $RPM_BUILD_ROOT%{_datadir}/gnome/autostart
+rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/autostart
+rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/cursor-fonts
 
 # remove useless libtool archive files
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
@@ -339,8 +339,6 @@ fi
 %{_datadir}/gnome-control-center/xrdb
 %{_datadir}/gnome-control-center/*.xml
 %{_datadir}/pixmaps/*
-# why do we still ship these here ?
-%{_datadir}/gnome/cursor-fonts
 %{_datadir}/gnome/help/control-center
 %{_datadir}/applications/*.desktop
 %{_datadir}/omf/control-center
@@ -380,6 +378,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Wed Jun 27 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.4-7
+- Don't ship old unused cursor fonts 
+
 * Wed Jun 27 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.4-6
 - Remove some questionable a11y autostart files, too
 - Add a filesystem subpackage
