@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.4
-Release: 5%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -91,6 +91,10 @@ Requires: gnome-menus >= %{gnome_menus_version}
 Requires: usermode >= %{usermode_version}
 Requires: gnome-desktop >= %{gnome_desktop_version}
 Requires: dbus-x11
+Requires: control-center-filesystem = %{epoch}:%{version}-%{release}
+# for /usr/share/gnome
+# see https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=247276
+Requires: gnome-session
 
 BuildRequires: autoconf automake libtool
 BuildRequires: esound-devel
@@ -168,6 +172,18 @@ behavior).
 
 This packages development files for GNOME Control Center.
 
+%package filesystem
+Summary: GNOME Control Center directories
+Group: Development/Libraries
+# NOTE: this is an "inverse dep" subpackage. It gets pulled in
+# NOTE: by the main package an MUST not depend on the main package
+
+%description filesystem
+The GNOME control-center provides a number of extension points
+for applications. This package contains directories where applications 
+can install configuration files that are picked up by the control-center
+utilities.
+
 %prep
 %setup -q -n gnome-control-center-%{version}
 
@@ -224,10 +240,15 @@ sed -i -e "s/OnlyShowIn=GNOME;/OnlyShowIn=;/"  \
 sed -i -e "s/OnlyShowIn=GNOME;/OnlyShowIn=;/"  \
   $RPM_BUILD_ROOT%{_datadir}/applications/gnome-themus-theme-applier.desktop
 
+# we do want this
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/gnome/wm-properties
+
 # We don't want these
 rm $RPM_BUILD_ROOT%{_datadir}/applications/gnome-default-applications-accessibility.desktop
 rm $RPM_BUILD_ROOT%{_datadir}/applications/gnome-at-mobility.desktop
 rm $RPM_BUILD_ROOT%{_datadir}/applications/gnome-at-visual.desktop
+rm $RPM_BUILD_ROOT%{_datadir}/gnome/autostart/gnome-at-session.desktop
+rmdir $RPM_BUILD_ROOT%{_datadir}/gnome/autostart
 
 # remove useless libtool archive files
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
@@ -311,9 +332,16 @@ fi
 
 %doc AUTHORS COPYING ChangeLog NEWS README
 
-%{_datadir}/gnome-control-center
+%{_datadir}/gnome-control-center/keybindings/*.xml
+%{_datadir}/gnome-control-center/glade
+%{_datadir}/gnome-control-center/icons
+%{_datadir}/gnome-control-center/pixmaps
+%{_datadir}/gnome-control-center/xrdb
+%{_datadir}/gnome-control-center/*.xml
 %{_datadir}/pixmaps/*
-%{_datadir}/gnome/*
+# why do we still ship these here ?
+%{_datadir}/gnome/cursor-fonts
+%{_datadir}/gnome/help/control-center
 %{_datadir}/applications/*.desktop
 %{_datadir}/omf/control-center
 %{_datadir}/desktop-directories/*
@@ -325,7 +353,6 @@ fi
 %{_libexecdir}/*
 %{_libdir}/nautilus/extensions-1.0/*
 %{_libdir}/*.so.*
-%{_libdir}/window-manager-settings
 %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas  
 %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas
 %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas
@@ -336,6 +363,7 @@ fi
 %{_sysconfdir}/gnome-vfs-2.0/modules/*.conf
 %{_sysconfdir}/xdg/menus/gnomecc.menu
 %{_libdir}/gnome-vfs-2.0/modules/*.so
+%{_libdir}/window-manager-settings/*.so
 
 %files devel
 %defattr(-,root,root)
@@ -344,7 +372,18 @@ fi
 %{_libdir}/libgnome-window-settings.so
 %{_libdir}/pkgconfig/*
 
+%files filesystem
+%defattr(-,root,root)
+%dir %{_libdir}/window-manager-settings
+%dir %{_datadir}/gnome/wm-properties
+%dir %{_datadir}/gnome-control-center
+%dir %{_datadir}/gnome-control-center/keybindings
+
 %changelog
+* Wed Jun 27 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.4-6
+- Remove some questionable a11y autostart files, too
+- Add a filesystem subpackage
+
 * Wed Jun 27 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.4-5
 - Remove some questionable a11y menu items
 
