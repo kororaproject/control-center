@@ -21,17 +21,12 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.19.4
-Release: 7%{?dist}
+Version: 2.19.5
+Release: 1%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
 Source: http://download.gnome.org/sources/gnome-control-center/2.19/gnome-control-center-%{version}.tar.bz2
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=449118
-Patch0: loaded-modules.patch
-Patch1: background-idle.patch
-Patch2: screensaver-path.patch
 
 # Remove "Apply" button and just have "Close" instead
 # FIXME: figure out how this applies to the new appearance capplet
@@ -186,10 +181,6 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
-
-%patch0 -p1 -b .loaded-modules
-%patch1 -p1 -b .background-idle
-%patch2 -p1 -b .screensaver-path
 
 #%patch1 -p1 -b .finish
 %patch3 -p1 -b .search
@@ -378,6 +369,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Jul 10 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.5-1 
+- Update to 2.19.5
+
 * Wed Jun 27 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.4-7
 - Don't ship old unused cursor fonts 
 
