@@ -325,8 +325,6 @@ fi
 
 %{_datadir}/gnome-control-center/keybindings/*.xml
 %{_datadir}/gnome-control-center/glade
-%{_datadir}/gnome-control-center/icons
-%{_datadir}/gnome-control-center/pixmaps
 %{_datadir}/gnome-control-center/xrdb
 %{_datadir}/gnome-control-center/*.xml
 %{_datadir}/pixmaps/*
@@ -336,7 +334,7 @@ fi
 %{_datadir}/desktop-directories/*
 %{_datadir}/dbus-1/services/*
 %{_datadir}/mime/packages/gnome-theme-package.xml
-%{_datadir}/icons/hicolor/*/apps/typing-monitor.*
+%{_datadir}/icons/hicolor/*/apps/*
 %{_datadir}/pkgconfig/gnome-keybindings.pc
 %{_bindir}/*
 %{_libexecdir}/*
