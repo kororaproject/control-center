@@ -328,7 +328,6 @@ fi
 %{_datadir}/gnome-control-center/xrdb
 %{_datadir}/gnome-control-center/pixmaps
 %{_datadir}/gnome-control-center/*.xml
-%{_datadir}/pixmaps/*
 %{_datadir}/gnome/help/control-center
 %{_datadir}/applications/*.desktop
 %{_datadir}/omf/control-center
