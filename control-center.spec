@@ -326,6 +326,7 @@ fi
 %{_datadir}/gnome-control-center/keybindings/*.xml
 %{_datadir}/gnome-control-center/glade
 %{_datadir}/gnome-control-center/xrdb
+%{_datadir}/gnome-control-center/pixmaps
 %{_datadir}/gnome-control-center/*.xml
 %{_datadir}/pixmaps/*
 %{_datadir}/gnome/help/control-center
