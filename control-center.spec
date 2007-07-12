@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.5
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -40,6 +40,9 @@ Patch3: control-center-2.19.1-search.patch
 # help
 # FIXME: need to get this filed upstream
 Patch4: control-center-2.16.0-about-me-help.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=456308
+Patch5: default-apps-edit.patch
 
 # ubuntu has a better patch for this in the works
 # apparently http://blog.omma.net/?p=16
@@ -185,6 +188,7 @@ utilities.
 #%patch1 -p1 -b .finish
 %patch3 -p1 -b .search
 %patch4 -p1 -b .about-me-help
+%patch5 -p1 -b .default-apps-edit
 
 #%patch12 -p1 -b .start-at-helper
 %patch13 -p1 -b .no-gnome-common
@@ -367,6 +371,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Jul 12 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.5-2
+- Tiny improvement to the default applications capplet
+
 * Tue Jul 10 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.5-1 
 - Update to 2.19.5
 
