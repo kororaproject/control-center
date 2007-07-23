@@ -2,7 +2,7 @@
 
 %define pango_version 1.0.99.020703
 %define glib2_version 2.13.0
-%define gtk2_version 2.6.0
+%define gtk2_version 2.11.6
 %define gconf2_version 1.2.0
 %define gnome_desktop_version 2.18.0-2
 %define libgnome_version 2.3.0
@@ -59,6 +59,9 @@ Patch13: control-center-2.19.3-no-gnome-common.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=430889
 # disable for now, upstream plans conflicting changes
 #Patch16: control-center-2.18.0-be-more-async.patch
+
+# fixed in upstream svn
+Patch17: control-center-tooltips.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.17.91-passwd.patch
@@ -194,6 +197,7 @@ utilities.
 %patch13 -p1 -b .no-gnome-common
 #%patch14 -p1 -b .gnome-bg
 #%patch16 -p1 -b .be-more-async
+%patch17 -p1 -b .tooltips
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -371,6 +375,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Jul 23 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.5-3
+- Port to new GTK+ tooltips API
+
 * Thu Jul 12 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.5-2
 - Tiny improvement to the default applications capplet
 
