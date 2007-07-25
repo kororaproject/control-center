@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.5
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -375,6 +375,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Wed Jul 25 2007 Jesse Keating <jkeating@redhat.com> - 2.19.5-4
+- Rebuild for RH #249435
+
 * Mon Jul 23 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.5-3
 - Port to new GTK+ tooltips API
 
