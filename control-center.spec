@@ -235,9 +235,6 @@ sed -i -e "s/OnlyShowIn=GNOME;/OnlyShowIn=;/"  \
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/gnome/wm-properties
 
 # We don't want these
-rm $RPM_BUILD_ROOT%{_datadir}/applications/gnome-default-applications-accessibility.desktop
-rm $RPM_BUILD_ROOT%{_datadir}/applications/gnome-at-mobility.desktop
-rm $RPM_BUILD_ROOT%{_datadir}/applications/gnome-at-visual.desktop
 rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/autostart
 rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/cursor-fonts
 
