@@ -21,8 +21,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.19.5
-Release: 4%{?dist}
+Version: 2.19.6
+Release: 1%{?dist}
 Epoch: 1
 License: GPL/LGPL
 Group: User Interface/Desktops
@@ -41,9 +41,6 @@ Patch3: control-center-2.19.1-search.patch
 # FIXME: need to get this filed upstream
 Patch4: control-center-2.16.0-about-me-help.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=456308
-Patch5: default-apps-edit.patch
-
 # ubuntu has a better patch for this in the works
 # apparently http://blog.omma.net/?p=16
 # We should either wait for it to get upstream, or
@@ -59,9 +56,6 @@ Patch13: control-center-2.19.3-no-gnome-common.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=430889
 # disable for now, upstream plans conflicting changes
 #Patch16: control-center-2.18.0-be-more-async.patch
-
-# fixed in upstream svn
-Patch17: control-center-tooltips.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.17.91-passwd.patch
@@ -191,13 +185,11 @@ utilities.
 #%patch1 -p1 -b .finish
 %patch3 -p1 -b .search
 %patch4 -p1 -b .about-me-help
-%patch5 -p1 -b .default-apps-edit
 
 #%patch12 -p1 -b .start-at-helper
 %patch13 -p1 -b .no-gnome-common
 #%patch14 -p1 -b .gnome-bg
 #%patch16 -p1 -b .be-more-async
-%patch17 -p1 -b .tooltips
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -375,6 +367,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Jul 30 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.6-1
+- Update to 2.19.6
+
 * Wed Jul 25 2007 Jesse Keating <jkeating@redhat.com> - 2.19.5-4
 - Rebuild for RH #249435
 
