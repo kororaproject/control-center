@@ -22,9 +22,9 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
-License: GPL/LGPL
+License: GPLv2+
 Group: User Interface/Desktops
 Source: http://download.gnome.org/sources/gnome-control-center/2.19/gnome-control-center-%{version}.tar.bz2
 
@@ -317,9 +317,7 @@ fi
 
 %files -f %{gettext_package}.lang
 %defattr(-, root, root)
-
-%doc AUTHORS COPYING ChangeLog NEWS README
-
+%doc AUTHORS COPYING NEWS README
 %{_datadir}/gnome-control-center/keybindings/*.xml
 %{_datadir}/gnome-control-center/glade
 %{_datadir}/gnome-control-center/xrdb
@@ -364,6 +362,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Fri Aug  3 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.6-2
+- Update the license field
+
 * Mon Jul 30 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.6-1
 - Update to 2.19.6
 
