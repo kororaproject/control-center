@@ -22,9 +22,9 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.6
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
-License: GPLv2+
+License: GPLv2+ and GFDL+
 Group: User Interface/Desktops
 Source: http://download.gnome.org/sources/gnome-control-center/2.19/gnome-control-center-%{version}.tar.bz2
 
@@ -87,9 +87,8 @@ Requires: usermode >= %{usermode_version}
 Requires: gnome-desktop >= %{gnome_desktop_version}
 Requires: dbus-x11
 Requires: control-center-filesystem = %{epoch}:%{version}-%{release}
-# for /usr/share/gnome
-# see https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=247276
-Requires: gnome-session
+# for /usr/share/pkgconfig
+Requires: pkgconfig
 
 BuildRequires: autoconf automake libtool
 BuildRequires: esound-devel
@@ -251,7 +250,7 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/mime/subclasses
 rm -f $RPM_BUILD_ROOT%{_datadir}/mime/mime.cache
 rm -f $RPM_BUILD_ROOT%{_datadir}/applications/mimeinfo.cache
 
-%find_lang %{gettext_package}
+%find_lang %{gettext_package} --all-name --with-gnome
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -323,7 +322,6 @@ fi
 %{_datadir}/gnome-control-center/xrdb
 %{_datadir}/gnome-control-center/pixmaps
 %{_datadir}/gnome-control-center/*.xml
-%{_datadir}/gnome/help/control-center
 %{_datadir}/applications/*.desktop
 %{_datadir}/omf/control-center
 %{_datadir}/desktop-directories/*
@@ -362,6 +360,10 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Aug  6 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.6-3
+- Update the license field again
+- Use %%find_lang for help files, too
+
 * Fri Aug  3 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.6-2
 - Update the license field
 
