@@ -21,8 +21,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.19.6
-Release: 3%{?dist}
+Version: 2.19.90
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL+
 Group: User Interface/Desktops
@@ -360,6 +360,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Aug 13 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.90-1
+- Update to 2.19.90
+
 * Mon Aug  6 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.6-3
 - Update the license field again
 - Use %%find_lang for help files, too
