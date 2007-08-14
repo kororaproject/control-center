@@ -58,8 +58,8 @@ Patch13: control-center-2.19.3-no-gnome-common.patch
 #Patch16: control-center-2.18.0-be-more-async.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
-Patch95: control-center-2.17.91-passwd.patch
-Patch96: control-center-2.19.3-gecos.patch
+Patch95: control-center-2.19.91-passwd.patch
+Patch96: control-center-2.19.90-gecos.patch
 
 # change default wallpaper directory to where we ship our
 # backgrounds
@@ -204,7 +204,7 @@ autoreconf
 sed -i -e 's/@ENABLE_SK_TRUE@_s/_s/' help/Makefile.in
 
 # Add -Wno-error to silence gswitchit
-%configure --disable-static --disable-gstreamer --enable-alsa CFLAGS="$RPM_OPT_FLAGS -Wno-error" --enable-aboutme --disable-scrollkeeper
+%configure --disable-static --enable-gstreamer --enable-alsa CFLAGS="$RPM_OPT_FLAGS -Wno-error" --enable-aboutme --disable-scrollkeeper
 make
 
 %install
@@ -329,8 +329,28 @@ fi
 %{_datadir}/mime/packages/gnome-theme-package.xml
 %{_datadir}/icons/hicolor/*/apps/*
 %{_datadir}/pkgconfig/gnome-keybindings.pc
-%{_bindir}/*
-%{_libexecdir}/*
+# list all binaries explicitly, so we notice if one goes missing
+%{_bindir}/gnome-about-me
+%{_bindir}/gnome-accessibility-keyboard-properties
+%{_bindir}/gnome-appearance-properties
+%{_bindir}/gnome-at-mobility
+%{_bindir}/gnome-at-properties
+%{_bindir}/gnome-at-visual
+%{_bindir}/gnome-control-center
+%{_bindir}/gnome-default-applications-properties
+%{_bindir}/gnome-display-properties
+%{_bindir}/gnome-font-viewer
+%{_bindir}/gnome-keybinding-properties
+%{_bindir}/gnome-keyboard-properties
+%{_bindir}/gnome-mouse-properties
+%{_bindir}/gnome-network-properties
+%{_bindir}/gnome-sound-properties
+%{_bindir}/gnome-theme-thumbnailer
+%{_bindir}/gnome-thumbnail-font
+%{_bindir}/gnome-typing-monitor
+%{_bindir}/gnome-window-properties
+%{_bindir}/themus-theme-applier
+%{_libexecdir}/gnome-settings-daemon
 %{_libdir}/nautilus/extensions-1.0/*
 %{_libdir}/*.so.*
 %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas  
@@ -362,6 +382,7 @@ fi
 %changelog
 * Mon Aug 13 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.90-1
 - Update to 2.19.90
+- Build the sound capplet again
 
 * Mon Aug  6 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.6-3
 - Update the license field again
