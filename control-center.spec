@@ -343,7 +343,7 @@ fi
 %{_bindir}/gnome-keybinding-properties
 %{_bindir}/gnome-keyboard-properties
 %{_bindir}/gnome-mouse-properties
-%{_bindir}/gnome-network-properties
+%{_bindir}/gnome-network-preferences
 %{_bindir}/gnome-sound-properties
 %{_bindir}/gnome-theme-thumbnailer
 %{_bindir}/gnome-thumbnail-font
