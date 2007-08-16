@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.90
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL+
 Group: User Interface/Desktops
@@ -51,7 +51,7 @@ Patch4: control-center-2.16.0-about-me-help.patch
 Patch13: control-center-2.19.3-no-gnome-common.patch
 
 # FIXME: figure out how this applies to the new appearance capplet
-#Patch14: control-center-2.19.1-gnome-bg.patch
+Patch14: gnome-bg.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=430889
 # disable for now, upstream plans conflicting changes
@@ -187,7 +187,7 @@ utilities.
 
 #%patch12 -p1 -b .start-at-helper
 %patch13 -p1 -b .no-gnome-common
-#%patch14 -p1 -b .gnome-bg
+%patch14 -p1 -b .gnome-bg
 #%patch16 -p1 -b .be-more-async
 
 # vendor configuration patches
@@ -380,6 +380,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Aug 16 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.90-2
+- Port Soerens background patch to the appearance capplet
+
 * Mon Aug 13 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.90-1
 - Update to 2.19.90
 - Build the sound capplet again
