@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.90
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL+
 Group: User Interface/Desktops
@@ -380,6 +380,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Fri Aug 17 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.90-3
+- Improve tooltips for slide shows
+
 * Thu Aug 16 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.90-2
 - Port Soerens background patch to the appearance capplet
 
