@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.19.90
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL+
 Group: User Interface/Desktops
@@ -52,6 +52,10 @@ Patch13: control-center-2.19.3-no-gnome-common.patch
 
 # FIXME: figure out how this applies to the new appearance capplet
 Patch14: gnome-bg.patch
+
+# Fix some useless warnings in libslab
+# http://bugzilla.gnome.org/show_bug.cgi?id=439398
+Patch15: gnome-control-center-2.19.90-no-warnings.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=430889
 # disable for now, upstream plans conflicting changes
@@ -188,6 +192,9 @@ utilities.
 #%patch12 -p1 -b .start-at-helper
 %patch13 -p1 -b .no-gnome-common
 %patch14 -p1 -b .gnome-bg
+pushd libslab
+%patch15 -p0 -b .warnings
+popd
 #%patch16 -p1 -b .be-more-async
 
 # vendor configuration patches
@@ -380,6 +387,10 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Aug 20 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.90-4
+- Kill some shell warnings (#239439)
+- Remove outdated, unapplied patches
+
 * Fri Aug 17 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.90-3
 - Improve tooltips for slide shows
 

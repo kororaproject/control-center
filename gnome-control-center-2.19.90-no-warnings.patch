@@ -1,0 +1,97 @@
+Index: libslab-utils.c
+===================================================================
+--- libslab-utils.c	(revision 314)
++++ libslab-utils.c	(working copy)
+@@ -248,47 +248,46 @@
+ 	value  = gconf_client_get (client, key, & error);
+ 
+ 	if (error || ! value)
+-		libslab_handle_g_error (& error, "%s: error getting %s", G_STRFUNC, key);
+-	else {
+-		switch (value->type) {
+-			case GCONF_VALUE_STRING:
+-				retval = (gpointer) g_strdup (gconf_value_get_string (value));
+-				break;
++		return retval;
+ 
+-			case GCONF_VALUE_INT:
+-				retval = GINT_TO_POINTER (gconf_value_get_int (value));
+-				break;
++	switch (value->type) {
++	case GCONF_VALUE_STRING:
++		retval = (gpointer) g_strdup (gconf_value_get_string (value));
++		break;
+ 
+-			case GCONF_VALUE_BOOL:
+-				retval = GINT_TO_POINTER (gconf_value_get_bool (value));
+-				break;
++	case GCONF_VALUE_INT:
++		retval = GINT_TO_POINTER (gconf_value_get_int (value));
++		break;
+ 
+-			case GCONF_VALUE_LIST:
+-				list = NULL;
+-				slist = gconf_value_get_list (value);
++	case GCONF_VALUE_BOOL:
++		retval = GINT_TO_POINTER (gconf_value_get_bool (value));
++		break;
+ 
+-				for (node = slist; node; node = node->next) {
+-					value_i = (GConfValue *) node->data;
++	case GCONF_VALUE_LIST:
++		list = NULL;
++		slist = gconf_value_get_list (value);
+ 
+-					if (value_i->type == GCONF_VALUE_STRING)
+-						list = g_list_append (
+-							list, g_strdup (
+-								gconf_value_get_string (value_i)));
+-					else if (value_i->type == GCONF_VALUE_INT)
+-						list = g_list_append (
+-							list, GINT_TO_POINTER (
+-								gconf_value_get_int (value_i)));
+-					else
+-						;
+-				}
++		for (node = slist; node; node = node->next) {
++			value_i = (GConfValue *) node->data;
+ 
+-				retval = (gpointer) list;
++			if (value_i->type == GCONF_VALUE_STRING)
++				list = g_list_append (
++				    list, g_strdup (
++					gconf_value_get_string (value_i)));
++			else if (value_i->type == GCONF_VALUE_INT)
++				list = g_list_append (
++				    list, GINT_TO_POINTER (
++					gconf_value_get_int (value_i)));
++			else
++				;
++		}
+ 
+-				break;
++		retval = (gpointer) list;
+ 
+-			default:
+-				break;
+-		}
++		break;
++
++	default:
++		break;
+ 	}
+ 
+ 	g_object_unref (client);
+Index: bookmark-agent.c
+===================================================================
+--- bookmark-agent.c	(revision 314)
++++ bookmark-agent.c	(working copy)
+@@ -752,6 +752,8 @@
+ 
+ 	gint i;
+ 
++	if (!priv->store_path)
++		return;
+ 
+ 	if (! (priv->store_path && g_bookmark_file_load_from_file (priv->store, priv->store_path, & error))) {
+ 		g_bookmark_file_free (priv->store);
