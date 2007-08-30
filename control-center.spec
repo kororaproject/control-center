@@ -21,8 +21,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.19.90
-Release: 4%{?dist}
+Version: 2.19.91
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL+
 Group: User Interface/Desktops
@@ -387,6 +387,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Aug 30 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.91.-1
+- Update to 2.19.91
+
 * Mon Aug 20 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.90-4
 - Kill some shell warnings (#239439)
 - Remove outdated, unapplied patches
