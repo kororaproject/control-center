@@ -71,7 +71,7 @@ Patch96: control-center-2.19.90-gecos.patch
 #Patch98: control-center-2.9.4-filesel.patch
 
 # change default preferred apps to programs we ship
-Patch99: control-center-2.19.1-default-apps.patch
+Patch99: control-center-2.19.91-default-apps.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
@@ -389,6 +389,7 @@ fi
 %changelog
 * Thu Aug 30 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.91.-1
 - Update to 2.19.91
+- Update the background and the default-apps patches
 
 * Mon Aug 20 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.90-4
 - Kill some shell warnings (#239439)

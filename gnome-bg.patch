@@ -462,7 +462,7 @@ diff -up gnome-control-center-2.19.90/capplets/appearance/gnome-wp-item.c.gnome-
  }
  
  void gnome_wp_item_update_description (GnomeWPItem * item) {
-@@ -356,16 +237,22 @@ void gnome_wp_item_update_description (G
+@@ -356,6 +237,12 @@ void gnome_wp_item_update_description (G
    if (!strcmp (item->filename, "(none)")) {
      item->description = g_strdup (item->name);
    } else {
@@ -471,14 +471,11 @@ diff -up gnome-control-center-2.19.90/capplets/appearance/gnome-wp-item.c.gnome-
 +    if (strcmp (item->fileinfo->mime_type, "application/xml") == 0)
 +      description = _("Slide show");
 +    else
-+      description = gnome_vfs_mime_get_description (item->fileinfo->mime_type); 
++      description = gnome_vfs_mime_get_description (item->fileinfo->mime_type);
+     gchar *dirname = g_path_get_dirname (item->filename);
      /* translators: <b>wallpaper name</b>
       * mime type, x pixel(s) by y pixel(s)
-      * Folder: /path/to/file
-      */
-     item->description =
--        g_markup_printf_escaped (_("<b>%s</b>\n"
-+         g_markup_printf_escaped (_("<b>%s</b>\n"
+@@ -366,7 +253,7 @@ void gnome_wp_item_update_description (G
                                     "%s, %d %s by %d %s\n"
                                     "Folder: %s"),
                                   item->name,
@@ -486,7 +483,7 @@ diff -up gnome-control-center-2.19.90/capplets/appearance/gnome-wp-item.c.gnome-
 +                                 description,
                                   item->width,
                                   ngettext ("pixel", "pixels", item->width),
-                                  item->height,
+
 diff -up gnome-control-center-2.19.90/gnome-settings-daemon/gnome-settings-background.c.gnome-bg gnome-control-center-2.19.90/gnome-settings-daemon/gnome-settings-background.c
 --- gnome-control-center-2.19.90/gnome-settings-daemon/gnome-settings-background.c.gnome-bg	2007-07-02 08:30:05.000000000 -0400
 +++ gnome-control-center-2.19.90/gnome-settings-daemon/gnome-settings-background.c	2007-08-17 10:09:20.000000000 -0400
