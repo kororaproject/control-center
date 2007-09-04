@@ -21,7 +21,7 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.19.91
+Version: 2.19.92
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL+
@@ -330,7 +330,6 @@ fi
 %{_datadir}/gnome-control-center/pixmaps
 %{_datadir}/gnome-control-center/*.xml
 %{_datadir}/applications/*.desktop
-%{_datadir}/omf/control-center
 %{_datadir}/desktop-directories/*
 %{_datadir}/dbus-1/services/*
 %{_datadir}/mime/packages/gnome-theme-package.xml
@@ -387,6 +386,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Sep  4 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.92-1
+- Update to 2.19.92
+
 * Thu Aug 30 2007 - Bastien Nocera <bnocera@redhat.com> - 2.19.91.-1
 - Update to 2.19.91
 - Update the background and the default-apps patches
