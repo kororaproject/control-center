@@ -21,12 +21,12 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.19.92
+Version: 2.20.0
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL+
 Group: User Interface/Desktops
-Source: http://download.gnome.org/sources/gnome-control-center/2.19/gnome-control-center-%{version}.tar.bz2
+Source: http://download.gnome.org/sources/gnome-control-center/2.20/gnome-control-center-%{version}.tar.bz2
 
 # Remove "Apply" button and just have "Close" instead
 # FIXME: figure out how this applies to the new appearance capplet
@@ -386,6 +386,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Sep 17 2007 Matthias Clasen <mclasen@redhat.com> - 2.20.0-1
+- Update to 2.20.0
+
 * Tue Sep  4 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.92-1
 - Update to 2.19.92
 
