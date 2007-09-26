@@ -21,7 +21,7 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.20.0
+Version: 2.20.0.1
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL+
@@ -72,6 +72,12 @@ Patch96: control-center-2.19.90-gecos.patch
 
 # change default preferred apps to programs we ship
 Patch99: control-center-2.19.91-default-apps.patch
+
+Patch200: 26_add_touchpad_to_mouse_settings.patch
+Patch201: 27_add_touchpad_to_settings_daemon.patch
+Patch202: 28_fixup_touchpad_config.patch
+Patch203: 95_desktop-effects-integration.patch
+Patch204: composite.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
@@ -202,6 +208,12 @@ popd
 %patch96 -p1 -b .gecos
 #%patch98 -p1 -b .filesel
 %patch99 -p1 -b .default-apps
+
+%patch200 -p1 -b .touchpad-mouse-settings
+%patch201 -p1 -b .touchpad-settings-daemon
+%patch202 -p1 -b .touchpad-fixup
+%patch203 -p1 -b .desktop-effects-integration
+%patch204 -p1 -b .composite
 
 %build
 
@@ -386,6 +398,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Wed Sep 26 2007 Matthias Clasen <mclasen@redhat.com> - 2.20.0.1-1
+- Update to 2.20.0.1 (small bug fixes)
+
 * Mon Sep 17 2007 Matthias Clasen <mclasen@redhat.com> - 2.20.0-1
 - Update to 2.20.0
 
