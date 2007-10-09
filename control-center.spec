@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.20.0.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL+
 Group: User Interface/Desktops
@@ -61,6 +61,9 @@ Patch15: gnome-control-center-2.19.90-no-warnings.patch
 # disable for now, upstream plans conflicting changes
 #Patch16: control-center-2.18.0-be-more-async.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=485076
+Patch20: gnome-control-center-default-to-xf86-keysyms.patch
+
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.19.91-passwd.patch
 Patch96: control-center-2.19.90-gecos.patch
@@ -72,12 +75,6 @@ Patch96: control-center-2.19.90-gecos.patch
 
 # change default preferred apps to programs we ship
 Patch99: control-center-2.19.91-default-apps.patch
-
-Patch200: 26_add_touchpad_to_mouse_settings.patch
-Patch201: 27_add_touchpad_to_settings_daemon.patch
-Patch202: 28_fixup_touchpad_config.patch
-Patch203: 95_desktop-effects-integration.patch
-Patch204: composite.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
@@ -202,18 +199,13 @@ pushd libslab
 %patch15 -p0 -b .warnings
 popd
 #%patch16 -p1 -b .be-more-async
+%patch20 -p0 -b .xf86-defaults
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
 %patch96 -p1 -b .gecos
 #%patch98 -p1 -b .filesel
 %patch99 -p1 -b .default-apps
-
-%patch200 -p1 -b .touchpad-mouse-settings
-%patch201 -p1 -b .touchpad-settings-daemon
-%patch202 -p1 -b .touchpad-fixup
-%patch203 -p1 -b .desktop-effects-integration
-%patch204 -p1 -b .composite
 
 %build
 
@@ -398,6 +390,12 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Oct 09 2007 - Bastien Nocera <bnocera@redhat.com> - 2.20.0.1-2
+- Add patch to make XF86* keysyms the default for audio keybindings,
+  so that we work out-of-the-box when the rights keymap is selected
+  (#324931)
+- Fix build
+
 * Wed Sep 26 2007 Matthias Clasen <mclasen@redhat.com> - 2.20.0.1-1
 - Update to 2.20.0.1 (small bug fixes)
 
