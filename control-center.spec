@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.20.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL+
 Group: User Interface/Desktops
@@ -237,6 +237,10 @@ sed -i -e "s/OnlyShowIn=GNOME;/OnlyShowIn=;/"  \
 sed -i -e "s/OnlyShowIn=GNOME;/OnlyShowIn=;/"  \
   $RPM_BUILD_ROOT%{_datadir}/applications/gnome-themus-theme-applier.desktop
 
+# https://bugzilla.redhat.com/show_bug.cgi?id=161489
+sed -i -e "s/OnlyShowIn=GNOME;//"  \
+  $RPM_BUILD_ROOT%{_datadir}/applications/gnome-default-applications.desktop
+
 # we do want this
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/gnome/wm-properties
 
@@ -386,6 +390,10 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Oct 18 2007 - Bastien Nocera <bnocera@redhat.com> - 2.20.1-2
+- Remove OnlyShowIn GNOME from the default apps, so that KDE users
+  can change their mailto: handlers easily (#161489)
+
 * Mon Oct 15 2007 - Bastien Nocera <bnocera@redhat.com> - 2.20.1-1
 - Update to 2.20.1
 
