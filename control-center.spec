@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.20.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL+
 Group: User Interface/Desktops
@@ -40,6 +40,9 @@ Patch3: control-center-2.19.1-search.patch
 # help
 # FIXME: need to get this filed upstream
 Patch4: control-center-2.16.0-about-me-help.patch
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=330501
+Patch5: control-center-2.20.1-more-key-defaults.patch
 
 # ubuntu has a better patch for this in the works
 # apparently http://blog.omma.net/?p=16
@@ -188,7 +191,9 @@ utilities.
 #%patch1 -p1 -b .finish
 %patch3 -p1 -b .search
 %patch4 -p1 -b .about-me-help
-
+pushd schemas/
+%patch5 -p0 -b .more-default-keys
+popd
 #%patch12 -p1 -b .start-at-helper
 %patch13 -p1 -b .no-gnome-common
 %patch14 -p1 -b .gnome-bg
@@ -390,6 +395,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Oct 18 2007 - Bastien Nocera <bnocera@redhat.com> - 2.20.1-3
+- Bind more default keys in the keybindings capplet (#330501)
+
 * Thu Oct 18 2007 - Bastien Nocera <bnocera@redhat.com> - 2.20.1-2
 - Remove OnlyShowIn GNOME from the default apps, so that KDE users
   can change their mailto: handlers easily (#161489)
