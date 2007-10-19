@@ -15,14 +15,14 @@
 %define fontconfig_version 1.0.0
 %define redhat_menus_version 1.8
 %define metacity_version 2.5.3
-%define libxklavier_version 1.14
+%define libxklavier_version 3.2
 %define gnome_menus_version 2.11.1
 %define usermode_version 1.83
 
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.20.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL+
 Group: User Interface/Desktops
@@ -395,6 +395,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Fri Oct 19 2007 - Ray Strode <rstrode@redhat.com> - 2.20.1-4
+- Update libxklavier buildreq (bug 339731)
+
 * Thu Oct 18 2007 - Bastien Nocera <bnocera@redhat.com> - 2.20.1-3
 - Bind more default keys in the keybindings capplet (#330501)
 
