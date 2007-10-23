@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.20.1
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL+
 Group: User Interface/Desktops
@@ -395,6 +395,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Oct 23 2007 Matthias Clasen <mclasen@redhat.com> - 2.20.1-5
+- Rebuild against new dbus-glib
+
 * Fri Oct 19 2007 - Ray Strode <rstrode@redhat.com> - 2.20.1-4
 - Update libxklavier buildreq (bug 339731)
 
