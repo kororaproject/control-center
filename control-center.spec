@@ -75,6 +75,8 @@ Patch96: control-center-2.19.90-gecos.patch
 
 # change default preferred apps to programs we ship
 Patch99: control-center-2.19.91-default-apps.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=489973
+Patch100: orca-command.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
@@ -207,6 +209,7 @@ popd
 %patch96 -p1 -b .gecos
 #%patch98 -p1 -b .filesel
 %patch99 -p1 -b .default-apps
+%patch100 -p1 -b .orca-command
 
 %build
 
@@ -395,6 +398,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Wed Oct 24 2007  Matthias Clasen <mclasen@redhat.com> - 2.20.1-6
+- Fix the orca command in the default applications capplet (#351471)
+ 
 * Tue Oct 23 2007 Matthias Clasen <mclasen@redhat.com> - 2.20.1-5
 - Rebuild against new dbus-glib
 
