@@ -1,0 +1,116 @@
+Index: capplets/sound/sound-properties-capplet.c
+===================================================================
+--- capplets/sound/sound-properties-capplet.c	(revision 8231)
++++ capplets/sound/sound-properties-capplet.c	(working copy)
+@@ -953,11 +953,7 @@
+ 			      WID ("chat_audio_capture_test"),
+ 			      "gconfaudiosrc" AUDIO_TEST_IN_BETWEEN "gconfaudiosink profile=chat");
+ 
+-#ifdef HAVE_ESD
+-	peditor = gconf_peditor_new_boolean (NULL, ENABLE_ESD_KEY, WID ("enable_toggle"), NULL);
+-	gconf_peditor_widget_set_guard (GCONF_PROPERTY_EDITOR (peditor), WID ("events_toggle"));
+-	gconf_peditor_widget_set_guard (GCONF_PROPERTY_EDITOR (peditor), WID ("events_vbox"));
+-#else
++#ifndef HAVE_ESD
+ 	gtk_widget_hide (WID ("enable_toggle"));
+ #endif
+ 	gconf_peditor_new_boolean (NULL, EVENT_SOUNDS_KEY, WID ("events_toggle"), NULL);
+@@ -994,7 +990,7 @@
+ 	gboolean val_bool, def;
+ 
+ 	client = gconf_client_get_default ();
+-	COPY_FROM_LEGACY (bool, "/desktop/gnome/sound/enable_esd", "/sound/system/settings/start_esd=false");
++	COPY_FROM_LEGACY (bool, "/desktop/gnome/sound/enable_esd", "/sound/system/settings/start_esd=true");
+ 	COPY_FROM_LEGACY (bool, "/desktop/gnome/sound/event_sounds", "/sound/system/settings/event_sounds=false");
+ 	g_object_unref (G_OBJECT (client));
+ }
+Index: capplets/sound/sound-properties.glade
+===================================================================
+--- capplets/sound/sound-properties.glade	(revision 8231)
++++ capplets/sound/sound-properties.glade	(working copy)
+@@ -92,7 +92,7 @@
+ 	      <property name="visible">True</property>
+ 	      <property name="orientation">GTK_PROGRESS_LEFT_TO_RIGHT</property>
+ 	      <property name="fraction">0</property>
+-	      <property name="pulse_step">0.05</property>
++	      <property name="pulse_step">0.0500000007451</property>
+ 	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+ 	    </widget>
+ 	    <packing>
+@@ -321,10 +321,10 @@
+ 				<widget class="GtkButton" id="sounds_playback_test">
+ 				  <property name="visible">True</property>
+ 				  <property name="can_focus">True</property>
++				  <property name="label" translatable="yes">Test</property>
++				  <property name="use_underline">True</property>
+ 				  <property name="relief">GTK_RELIEF_NORMAL</property>
+ 				  <property name="focus_on_click">True</property>
+-			 	  <property name="label" translatable="yes">Test</property>
+-				  <property name="use_underline">True</property>
+ 				</widget>
+ 				<packing>
+ 				  <property name="padding">0</property>
+@@ -460,10 +460,10 @@
+ 				<widget class="GtkButton" id="music_playback_test">
+ 				  <property name="visible">True</property>
+ 				  <property name="can_focus">True</property>
+-				  <property name="relief">GTK_RELIEF_NORMAL</property>
+-				  <property name="focus_on_click">True</property>
+ 				  <property name="label" translatable="yes">Test</property>
+ 				  <property name="use_underline">True</property>
++				  <property name="relief">GTK_RELIEF_NORMAL</property>
++				  <property name="focus_on_click">True</property>
+ 				</widget>
+ 				<packing>
+ 				  <property name="padding">0</property>
+@@ -605,10 +605,10 @@
+ 				    <widget class="GtkButton" id="chat_audio_playback_test">
+ 				      <property name="visible">True</property>
+ 				      <property name="can_focus">True</property>
+-				      <property name="relief">GTK_RELIEF_NORMAL</property>
+-				      <property name="focus_on_click">True</property>
+ 				      <property name="label" translatable="yes">Test</property>
+ 				      <property name="use_underline">True</property>
++				      <property name="relief">GTK_RELIEF_NORMAL</property>
++				      <property name="focus_on_click">True</property>
+ 				    </widget>
+ 				    <packing>
+ 				      <property name="padding">0</property>
+@@ -692,10 +692,10 @@
+ 				    <widget class="GtkButton" id="chat_audio_capture_test">
+ 				      <property name="visible">True</property>
+ 				      <property name="can_focus">True</property>
+-				      <property name="relief">GTK_RELIEF_NORMAL</property>
+-				      <property name="focus_on_click">True</property>
+ 				      <property name="label" translatable="yes">Test</property>
+ 				      <property name="use_underline">True</property>
++				      <property name="relief">GTK_RELIEF_NORMAL</property>
++				      <property name="focus_on_click">True</property>
+ 				    </widget>
+ 				    <packing>
+ 				      <property name="padding">0</property>
+@@ -947,23 +947,7 @@
+ 	      <property name="spacing">6</property>
+ 
+ 	      <child>
+-		<widget class="GtkCheckButton" id="enable_toggle">
+-		  <property name="visible">True</property>
+-		  <property name="can_focus">True</property>
+-		  <property name="label" translatable="yes">E_nable software sound mixing (ESD)</property>
+-		  <property name="use_underline">True</property>
+-		  <property name="relief">GTK_RELIEF_NORMAL</property>
+-		  <property name="focus_on_click">True</property>
+-		  <property name="active">False</property>
+-		  <property name="inconsistent">False</property>
+-		  <property name="draw_indicator">True</property>
+-		  <signal name="toggled" handler="enable_toggled_cb"/>
+-		</widget>
+-		<packing>
+-		  <property name="padding">0</property>
+-		  <property name="expand">False</property>
+-		  <property name="fill">False</property>
+-		</packing>
++		<placeholder/>
+ 	      </child>
+ 
+ 	      <child>

@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.20.1
-Release: 6%{?dist}
+Release: 7%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL+
 Group: User Interface/Desktops
@@ -43,6 +43,8 @@ Patch4: control-center-2.16.0-about-me-help.patch
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=330501
 Patch5: control-center-2.20.1-more-key-defaults.patch
+
+Patch6: control-center-2.20.0-enable-sound-by-default.patch
 
 # ubuntu has a better patch for this in the works
 # apparently http://blog.omma.net/?p=16
@@ -195,6 +197,7 @@ utilities.
 %patch4 -p1 -b .about-me-help
 pushd schemas/
 %patch5 -p0 -b .more-default-keys
+%patch6 -p0 -b .enable-sound
 popd
 #%patch12 -p1 -b .start-at-helper
 %patch13 -p1 -b .no-gnome-common
@@ -398,6 +401,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Oct 30 2007 - Bastien Nocera <bnocera@redhat.com> - 2.20.1-7
+- Remove useless "start esd" preference
+
 * Wed Oct 24 2007  Matthias Clasen <mclasen@redhat.com> - 2.20.1-6
 - Fix the orca command in the default applications capplet (#351471)
  
