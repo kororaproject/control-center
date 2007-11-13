@@ -41,9 +41,6 @@ Patch3: control-center-2.19.1-search.patch
 # FIXME: need to get this filed upstream
 Patch4: control-center-2.16.0-about-me-help.patch
 
-# https://bugzilla.redhat.com/show_bug.cgi?id=330501
-Patch5: control-center-2.20.1-more-key-defaults.patch
-
 Patch6: control-center-2.20.0-enable-sound-by-default.patch
 
 # ubuntu has a better patch for this in the works
@@ -77,8 +74,6 @@ Patch96: control-center-2.19.90-gecos.patch
 
 # change default preferred apps to programs we ship
 Patch99: control-center-2.19.91-default-apps.patch
-# http://bugzilla.gnome.org/show_bug.cgi?id=489973
-Patch100: orca-command.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
@@ -195,10 +190,7 @@ utilities.
 #%patch1 -p1 -b .finish
 %patch3 -p1 -b .search
 %patch4 -p1 -b .about-me-help
-pushd schemas/
-%patch5 -p0 -b .more-default-keys
 %patch6 -p0 -b .enable-sound
-popd
 #%patch12 -p1 -b .start-at-helper
 %patch13 -p1 -b .no-gnome-common
 %patch14 -p1 -b .gnome-bg
@@ -212,7 +204,6 @@ popd
 %patch96 -p1 -b .gecos
 #%patch98 -p1 -b .filesel
 %patch99 -p1 -b .default-apps
-%patch100 -p1 -b .orca-command
 
 %build
 
