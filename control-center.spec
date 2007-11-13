@@ -1,6 +1,5 @@
 %define gettext_package gnome-control-center-2.0
 
-%define pango_version 1.0.99.020703
 %define glib2_version 2.13.0
 %define gtk2_version 2.11.6
 %define gconf2_version 1.2.0
@@ -18,15 +17,16 @@
 %define libxklavier_version 3.2
 %define gnome_menus_version 2.11.1
 %define usermode_version 1.83
+%define libgnomekbd_version 2.21
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.20.1
-Release: 7%{?dist}
+Version: 2.21.2
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL+
 Group: User Interface/Desktops
-Source: http://download.gnome.org/sources/gnome-control-center/2.20/gnome-control-center-%{version}.tar.bz2
+Source: http://download.gnome.org/sources/gnome-control-center/2.21/gnome-control-center-%{version}.tar.bz2
 
 # Remove "Apply" button and just have "Close" instead
 # FIXME: figure out how this applies to the new appearance capplet
@@ -103,9 +103,10 @@ Requires: pkgconfig
 
 BuildRequires: autoconf automake libtool
 BuildRequires: esound-devel
-BuildRequires: pango-devel >= %{pango_version}
+BuildRequires: pango-devel 
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gtk2-devel >= %{gtk2_version}
+BuildRequires: librsvg2-devel
 BuildRequires: GConf2-devel >= %{gconf2_version}
 BuildRequires: gnome-desktop-devel >= %{gnome_desktop_version}
 BuildRequires: libgnomeui-devel >= %{libgnomeui_version}
@@ -116,7 +117,6 @@ BuildRequires: gnome-vfs2-devel >= %{gnome_vfs2_version}
 BuildRequires: bonobo-activation-devel
 BuildRequires: fontconfig-devel >= %{fontconfig_version}
 BuildRequires: desktop-file-utils >= %{desktop_file_utils_version}
-BuildRequires: metacity >= %{metacity_version}
 BuildRequires: metacity-devel >= %{metacity_version}
 BuildRequires: libxklavier-devel >= %{libxklavier_version}
 BuildRequires: libXcursor-devel
@@ -126,7 +126,7 @@ BuildRequires: eel2-devel
 BuildRequires: gettext
 BuildRequires: gnome-menus-devel >= %{gnome_menus_version}
 BuildRequires: gnome-panel-devel
-BuildRequires: libgnomekbd-devel
+BuildRequires: libgnomekbd-devel >= %{libgnomekbd_version}
 # For intltool:
 BuildRequires: perl(XML::Parser) 
 BuildRequires: evolution-data-server-devel >= 1.9.1
@@ -287,7 +287,8 @@ gconftool-2 --makefile-install-rule 						\
    %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas	\
    %{_sysconfdir}/gconf/schemas/fontilus.schemas			\
    %{_sysconfdir}/gconf/schemas/control-center.schemas			\
-   %{_sysconfdir}/gconf/schemas/themus.schemas > /dev/null || :
+   %{_sysconfdir}/gconf/schemas/themus.schemas				\
+     > /dev/null || :
 update-desktop-database --quiet %{_datadir}/applications
 update-mime-database %{_datadir}/mime > /dev/null
 touch --no-create %{_datadir}/icons/hicolor
