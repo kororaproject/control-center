@@ -355,6 +355,7 @@ fi
 %{_bindir}/gnome-font-viewer
 %{_bindir}/gnome-keybinding-properties
 %{_bindir}/gnome-keyboard-properties
+%{_bindir}/gnome-localization-properties
 %{_bindir}/gnome-mouse-properties
 %{_bindir}/gnome-network-preferences
 %{_bindir}/gnome-sound-properties
@@ -375,6 +376,7 @@ fi
 %{_sysconfdir}/gconf/schemas/control-center.schemas
 %{_sysconfdir}/gnome-vfs-2.0/modules/*.conf
 %{_sysconfdir}/xdg/menus/gnomecc.menu
+%{_sysconfdir}/xdg/autostart/gnome-at-session.desktop
 %{_libdir}/gnome-vfs-2.0/modules/*.so
 %{_libdir}/window-manager-settings/*.so
 
@@ -393,6 +395,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Nov 13 2007 Matthias Clasen <mclasen@redhat.com> - 2.21.2-1
+- Update to 2.21.2
+
 * Tue Oct 30 2007 - Bastien Nocera <bnocera@redhat.com> - 2.20.1-7
 - Remove useless "start esd" preference
 
