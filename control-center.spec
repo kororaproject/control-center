@@ -22,56 +22,32 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.21.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
-License: GPLv2+ and GFDL+
+License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 Source: http://download.gnome.org/sources/gnome-control-center/2.21/gnome-control-center-%{version}.tar.bz2
 
-# Remove "Apply" button and just have "Close" instead
-# FIXME: figure out how this applies to the new appearance capplet
-#Patch1: control-center-2.15.4-finish.patch
-
 # Optionally bring up beagle or tracker if available
-# FIXME: need to get this filed upstream
-Patch3: control-center-2.19.1-search.patch
-
-# drop help button from a dialog that doesn't have
-# help
-# FIXME: need to get this filed upstream
-Patch4: control-center-2.16.0-about-me-help.patch
-
-Patch6: control-center-2.20.0-enable-sound-by-default.patch
-
-# ubuntu has a better patch for this in the works
-# apparently http://blog.omma.net/?p=16
-# We should either wait for it to get upstream, or
-# hunt through the 6.1MB (!!) patch file against
-# control-center
-#Patch12: control-center-2.16.0-start-at-helper.patch
-
-Patch13: control-center-2.19.3-no-gnome-common.patch
-
-# FIXME: figure out how this applies to the new appearance capplet
-Patch14: gnome-bg.patch
-
+# http://bugzilla.gnome.org/show_bug.cgi?id=497802 
+Patch0: control-center-2.19.1-search.patch
+# drop help button from a dialog that doesn't have help
+# http://bugzilla.gnome.org/show_bug.cgi?id=497803 
+Patch1: control-center-2.16.0-about-me-help.patch
+Patch2: control-center-2.20.0-enable-sound-by-default.patch
+Patch3: control-center-2.19.3-no-gnome-common.patch
+Patch4: gnome-bg.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=497807
+Patch5: background-location.patch
 # Fix some useless warnings in libslab
 # http://bugzilla.gnome.org/show_bug.cgi?id=439398
-Patch15: gnome-control-center-2.19.90-no-warnings.patch
-
+Patch6: gnome-control-center-2.19.90-no-warnings.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=430889
 # disable for now, upstream plans conflicting changes
 #Patch16: control-center-2.18.0-be-more-async.patch
-
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.19.91-passwd.patch
 Patch96: control-center-2.19.90-gecos.patch
-
-# change default wallpaper directory to where we ship our
-# backgrounds
-# FIXME: figure out how this applies to the new appearance capplet
-#Patch98: control-center-2.9.4-filesel.patch
-
 # change default preferred apps to programs we ship
 Patch99: control-center-2.19.91-default-apps.patch
 
@@ -109,7 +85,6 @@ BuildRequires: libgnome-devel >= %{libgnome_version}
 BuildRequires: libbonobo-devel >= %{libbonobo_version}
 BuildRequires: libbonoboui-devel >= %{libbonoboui_version}
 BuildRequires: gnome-vfs2-devel >= %{gnome_vfs2_version}
-BuildRequires: bonobo-activation-devel
 BuildRequires: fontconfig-devel >= %{fontconfig_version}
 BuildRequires: desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires: metacity-devel >= %{metacity_version}
@@ -187,22 +162,20 @@ utilities.
 %prep
 %setup -q -n gnome-control-center-%{version}
 
-#%patch1 -p1 -b .finish
-%patch3 -p1 -b .search
-%patch4 -p1 -b .about-me-help
-%patch6 -p0 -b .enable-sound
-#%patch12 -p1 -b .start-at-helper
-%patch13 -p1 -b .no-gnome-common
-%patch14 -p1 -b .gnome-bg
+%patch0 -p1 -b .search
+%patch1 -p1 -b .about-me-help
+%patch2 -p0 -b .enable-sound
+%patch3 -p1 -b .no-gnome-common
+%patch4 -p1 -b .gnome-bg
+%patch5 -p1 -b .background-location
 pushd libslab
-%patch15 -p0 -b .warnings
+%patch6 -p0 -b .warnings
 popd
 #%patch16 -p1 -b .be-more-async
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
 %patch96 -p1 -b .gecos
-#%patch98 -p1 -b .filesel
 %patch99 -p1 -b .default-apps
 
 %build
@@ -213,8 +186,13 @@ autoreconf
 sed -i -e 's/@ENABLE_SK_TRUE@_s/_s/' help/Makefile.in
 
 # Add -Wno-error to silence gswitchit
-%configure --disable-static --enable-gstreamer --enable-alsa CFLAGS="$RPM_OPT_FLAGS -Wno-error" --enable-aboutme --disable-scrollkeeper
-make
+%configure --disable-static \
+	--disable-scrollkeeper \
+	--enable-gstreamer \
+	--enable-alsa \
+	--enable-aboutme \
+	CFLAGS="$RPM_OPT_FLAGS -Wno-error" 
+make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -246,7 +224,7 @@ sed -i -e "s/OnlyShowIn=GNOME;//"  \
 # we do want this
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/gnome/wm-properties
 
-# We don't want these
+# we don't want these
 rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/autostart
 rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/cursor-fonts
 
@@ -395,6 +373,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Sun Nov 18 2007 Matthias Clasen <mclasen@redhat.com> - 2.21.2-2
+- Spec file cleanups
+
 * Tue Nov 13 2007 Matthias Clasen <mclasen@redhat.com> - 2.21.2-1
 - Update to 2.21.2
 
