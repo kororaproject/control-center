@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.21.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -50,6 +50,9 @@ Patch95: control-center-2.19.91-passwd.patch
 Patch96: control-center-2.19.90-gecos.patch
 # change default preferred apps to programs we ship
 Patch99: control-center-2.19.91-default-apps.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=504182
+Patch100: im-setting.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
@@ -177,6 +180,8 @@ popd
 %patch95 -p1 -b .passwd
 %patch96 -p1 -b .gecos
 %patch99 -p1 -b .default-apps
+
+%patch100 -p1 -b .im-setting
 
 %build
 
@@ -373,6 +378,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Dec 18 2007 Matthias Clasen <mclasen@redhat.com> - 2.21.2-3
+- Support the gtk-im-module setting
+
 * Sun Nov 18 2007 Matthias Clasen <mclasen@redhat.com> - 2.21.2-2
 - Spec file cleanups
 
