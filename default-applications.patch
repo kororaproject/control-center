@@ -1,5 +1,6 @@
---- gnome-control-center-2.19.91/capplets/default-applications/gnome-default-applications.xml.in.default-apps	2007-08-21 13:00:36.000000000 +0100
-+++ gnome-control-center-2.19.91/capplets/default-applications/gnome-default-applications.xml.in	2007-08-30 10:09:54.000000000 +0100
+diff -up gnome-control-center-2.21.4/capplets/default-applications/gnome-default-applications.xml.in.default-apps gnome-control-center-2.21.4/capplets/default-applications/gnome-default-applications.xml.in
+--- gnome-control-center-2.21.4/capplets/default-applications/gnome-default-applications.xml.in.default-apps	2007-12-20 17:00:56.000000000 -0500
++++ gnome-control-center-2.21.4/capplets/default-applications/gnome-default-applications.xml.in	2007-12-21 12:23:29.000000000 -0500
 @@ -44,52 +44,12 @@
        <win-command>galeon -w %s</win-command>
      </web-browser>
@@ -92,52 +93,8 @@
      </web-browser>
      <web-browser>
        <_name>Konqueror</_name>
-@@ -167,51 +113,9 @@
- 
-   <mail-readers>
+@@ -153,7 +99,7 @@
      <mail-reader>
--      <_name>Evolution Mail Reader 2.4</_name>
--      <executable>evolution-2.4</executable>
--      <command>evolution-2.4 %s</command>
--      <icon-name>evolution</icon-name>
--      <run-in-terminal>false</run-in-terminal>
--    </mail-reader>
--    <mail-reader>
--      <_name>Evolution Mail Reader 2.2</_name>
--      <executable>evolution-2.2</executable>
--      <command>evolution-2.2 %s</command>
--      <icon-name>evolution</icon-name>
--      <run-in-terminal>false</run-in-terminal>
--    </mail-reader>
--    <mail-reader>
--      <_name>Evolution Mail Reader 2.0</_name>
--      <executable>evolution-2.0</executable>
--      <command>evolution-2.0 %s</command>
--      <icon-name>evolution</icon-name>
--      <run-in-terminal>false</run-in-terminal>
--    </mail-reader>
--    <mail-reader>
--      <_name>Evolution Mail Reader 1.6</_name>
--      <executable>evolution-1.6</executable>
--      <command>evolution-1.6 %s</command>
--      <icon-name>evolution</icon-name>
--      <run-in-terminal>false</run-in-terminal>
--    </mail-reader>
--    <mail-reader>
--      <_name>Evolution Mail Reader 1.5</_name>
--      <executable>evolution-1.5</executable>
--      <command>evolution-1.5 %s</command>
--      <icon-name>evolution</icon-name>
--      <run-in-terminal>false</run-in-terminal>
--    </mail-reader>
--    <mail-reader>
--      <_name>Evolution Mail Reader 1.4</_name>
--      <executable>evolution-1.4</executable>
--      <command>evolution-1.4 %s</command>
--      <icon-name>evolution</icon-name>
--      <run-in-terminal>false</run-in-terminal>
--    </mail-reader>
--    <mail-reader>
        <_name>Evolution Mail Reader</_name>
        <executable>evolution</executable>
 -      <command>evolution %s</command>
@@ -145,7 +102,7 @@
        <icon-name>evolution</icon-name>
        <run-in-terminal>false</run-in-terminal>
      </mail-reader>
-@@ -237,27 +141,13 @@
+@@ -179,27 +125,13 @@
        <run-in-terminal>false</run-in-terminal>
      </mail-reader>
      <mail-reader>
@@ -174,7 +131,7 @@
        <_name>SeaMonkey Mail</_name>
        <executable>seamonkey</executable>
        <command>seamonkey -mail %s</command>
-@@ -286,6 +176,13 @@
+@@ -228,6 +160,13 @@
        <run-in-terminal>false</run-in-terminal>
      </mail-reader>
      <mail-reader>
@@ -188,7 +145,7 @@
        <_name>Sylpheed-Claws</_name>
        <executable>sylpheed-claws</executable>
        <command>sylpheed-claws --compose %s</command>
-@@ -310,6 +207,20 @@
+@@ -252,6 +191,20 @@
        <exec-flag>-e</exec-flag>
      </terminal>
      <terminal>

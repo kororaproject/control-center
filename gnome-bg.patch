@@ -1,6 +1,6 @@
-diff -up gnome-control-center-2.21.2/capplets/appearance/gnome-wp-info.h.gnome-bg gnome-control-center-2.21.2/capplets/appearance/gnome-wp-info.h
---- gnome-control-center-2.21.2/capplets/appearance/gnome-wp-info.h.gnome-bg	2007-05-03 08:33:46.000000000 -0400
-+++ gnome-control-center-2.21.2/capplets/appearance/gnome-wp-info.h	2007-11-13 18:26:59.000000000 -0500
+diff -up gnome-control-center-2.21.4/capplets/appearance/gnome-wp-info.h.gnome-bg gnome-control-center-2.21.4/capplets/appearance/gnome-wp-info.h
+--- gnome-control-center-2.21.4/capplets/appearance/gnome-wp-info.h.gnome-bg	2007-05-31 17:54:56.000000000 -0400
++++ gnome-control-center-2.21.4/capplets/appearance/gnome-wp-info.h	2007-12-21 12:14:44.000000000 -0500
 @@ -40,7 +40,6 @@ struct _GnomeWPInfo {
  
  GnomeWPInfo * gnome_wp_info_new (const gchar * uri,
@@ -9,9 +9,9 @@ diff -up gnome-control-center-2.21.2/capplets/appearance/gnome-wp-info.h.gnome-b
  void gnome_wp_info_free (GnomeWPInfo * info);
  
  #endif
-diff -up gnome-control-center-2.21.2/capplets/appearance/gnome-wp-xml.c.gnome-bg gnome-control-center-2.21.2/capplets/appearance/gnome-wp-xml.c
---- gnome-control-center-2.21.2/capplets/appearance/gnome-wp-xml.c.gnome-bg	2007-11-03 13:53:43.000000000 -0400
-+++ gnome-control-center-2.21.2/capplets/appearance/gnome-wp-xml.c	2007-11-13 18:26:59.000000000 -0500
+diff -up gnome-control-center-2.21.4/capplets/appearance/gnome-wp-xml.c.gnome-bg gnome-control-center-2.21.4/capplets/appearance/gnome-wp-xml.c
+--- gnome-control-center-2.21.4/capplets/appearance/gnome-wp-xml.c.gnome-bg	2007-12-20 17:00:54.000000000 -0500
++++ gnome-control-center-2.21.4/capplets/appearance/gnome-wp-xml.c	2007-12-21 12:14:44.000000000 -0500
 @@ -231,7 +231,11 @@ static void gnome_wp_xml_load_xml (Appea
  	g_hash_table_insert (data->wp_hash, wp->filename, wp);
        } else {
@@ -24,9 +24,9 @@ diff -up gnome-control-center-2.21.2/capplets/appearance/gnome-wp-xml.c.gnome-bg
      }
    }
    xmlFreeDoc (wplist);
-diff -up gnome-control-center-2.21.2/capplets/appearance/gnome-wp-info.c.gnome-bg gnome-control-center-2.21.2/capplets/appearance/gnome-wp-info.c
---- gnome-control-center-2.21.2/capplets/appearance/gnome-wp-info.c.gnome-bg	2007-05-03 08:33:46.000000000 -0400
-+++ gnome-control-center-2.21.2/capplets/appearance/gnome-wp-info.c	2007-11-13 18:26:59.000000000 -0500
+diff -up gnome-control-center-2.21.4/capplets/appearance/gnome-wp-info.c.gnome-bg gnome-control-center-2.21.4/capplets/appearance/gnome-wp-info.c
+--- gnome-control-center-2.21.4/capplets/appearance/gnome-wp-info.c.gnome-bg	2007-05-31 17:54:56.000000000 -0400
++++ gnome-control-center-2.21.4/capplets/appearance/gnome-wp-info.c	2007-12-21 12:14:44.000000000 -0500
 @@ -67,27 +67,6 @@ GnomeWPInfo * gnome_wp_info_new (const g
    return new;
  }
@@ -55,9 +55,9 @@ diff -up gnome-control-center-2.21.2/capplets/appearance/gnome-wp-info.c.gnome-b
  void gnome_wp_info_free (GnomeWPInfo * info) {
    if (info == NULL) {
      return;
-diff -up gnome-control-center-2.21.2/capplets/appearance/gnome-wp-item.h.gnome-bg gnome-control-center-2.21.2/capplets/appearance/gnome-wp-item.h
---- gnome-control-center-2.21.2/capplets/appearance/gnome-wp-item.h.gnome-bg	2007-11-03 13:53:43.000000000 -0400
-+++ gnome-control-center-2.21.2/capplets/appearance/gnome-wp-item.h	2007-11-13 18:26:59.000000000 -0500
+diff -up gnome-control-center-2.21.4/capplets/appearance/gnome-wp-item.h.gnome-bg gnome-control-center-2.21.4/capplets/appearance/gnome-wp-item.h
+--- gnome-control-center-2.21.4/capplets/appearance/gnome-wp-item.h.gnome-bg	2007-12-20 17:00:54.000000000 -0500
++++ gnome-control-center-2.21.4/capplets/appearance/gnome-wp-item.h	2007-12-21 12:14:44.000000000 -0500
 @@ -24,6 +24,7 @@
  #include <libgnomeui/gnome-thumbnail.h>
  #include <gnome-wp-info.h>
@@ -95,9 +95,9 @@ diff -up gnome-control-center-2.21.2/capplets/appearance/gnome-wp-item.h.gnome-b
  
  #endif
  
-diff -up gnome-control-center-2.21.2/capplets/appearance/appearance-desktop.c.gnome-bg gnome-control-center-2.21.2/capplets/appearance/appearance-desktop.c
---- gnome-control-center-2.21.2/capplets/appearance/appearance-desktop.c.gnome-bg	2007-11-03 13:53:43.000000000 -0400
-+++ gnome-control-center-2.21.2/capplets/appearance/appearance-desktop.c	2007-11-13 18:26:59.000000000 -0500
+diff -up gnome-control-center-2.21.4/capplets/appearance/appearance-desktop.c.gnome-bg gnome-control-center-2.21.4/capplets/appearance/appearance-desktop.c
+--- gnome-control-center-2.21.4/capplets/appearance/appearance-desktop.c.gnome-bg	2007-12-20 17:00:54.000000000 -0500
++++ gnome-control-center-2.21.4/capplets/appearance/appearance-desktop.c	2007-12-21 12:14:44.000000000 -0500
 @@ -29,6 +29,7 @@
  #include <string.h>
  #include <gconf/gconf-client.h>
@@ -158,9 +158,9 @@ diff -up gnome-control-center-2.21.2/capplets/appearance/appearance-desktop.c.gn
    gtk_tree_path_free (path);
  }
  
-diff -up gnome-control-center-2.21.2/capplets/appearance/gnome-wp-item.c.gnome-bg gnome-control-center-2.21.2/capplets/appearance/gnome-wp-item.c
---- gnome-control-center-2.21.2/capplets/appearance/gnome-wp-item.c.gnome-bg	2007-11-03 13:53:43.000000000 -0400
-+++ gnome-control-center-2.21.2/capplets/appearance/gnome-wp-item.c	2007-11-13 18:36:48.000000000 -0500
+diff -up gnome-control-center-2.21.4/capplets/appearance/gnome-wp-item.c.gnome-bg gnome-control-center-2.21.4/capplets/appearance/gnome-wp-item.c
+--- gnome-control-center-2.21.4/capplets/appearance/gnome-wp-item.c.gnome-bg	2007-12-20 17:00:54.000000000 -0500
++++ gnome-control-center-2.21.4/capplets/appearance/gnome-wp-item.c	2007-12-21 12:21:23.000000000 -0500
 @@ -25,10 +25,56 @@
  #include <gnome.h>
  #include <string.h>
@@ -218,22 +218,17 @@ diff -up gnome-control-center-2.21.2/capplets/appearance/gnome-wp-item.c.gnome-b
  GnomeWPItem * gnome_wp_item_new (const gchar * filename,
  				 GHashTable * wallpapers,
  				 GnomeThumbnailFactory * thumbnails) {
-@@ -45,8 +91,12 @@ GnomeWPItem * gnome_wp_item_new (const g
+@@ -45,8 +91,7 @@ GnomeWPItem * gnome_wp_item_new (const g
  
    item->fileinfo = gnome_wp_info_new (item->filename, thumbnails);
  
 -  if (item->fileinfo != NULL &&
--      !strcmp (item->fileinfo->mime_type, "image/")) {
+-      g_str_has_prefix (item->fileinfo->mime_type, "image/")) {
 +  if (item->fileinfo != NULL) {
-+#if 0
-+      && !strcmp (item->fileinfo->mime_type, "image/")) {
-+#else
-+     
-+#endif
      if (item->name == NULL) {
        if (g_utf8_validate (item->fileinfo->name, -1, NULL))
  	item->name = g_strdup (item->fileinfo->name);
-@@ -88,6 +138,10 @@ GnomeWPItem * gnome_wp_item_new (const g
+@@ -88,6 +133,10 @@ GnomeWPItem * gnome_wp_item_new (const g
      item = NULL;
    }
  
@@ -244,7 +239,7 @@ diff -up gnome-control-center-2.21.2/capplets/appearance/gnome-wp-item.c.gnome-b
    g_object_unref (client);
  
    return item;
-@@ -111,43 +165,14 @@ void gnome_wp_item_free (GnomeWPItem * i
+@@ -111,43 +160,14 @@ void gnome_wp_item_free (GnomeWPItem * i
      gdk_color_free (item->scolor);
  
    gnome_wp_info_free (item->fileinfo);
@@ -290,7 +285,7 @@ diff -up gnome-control-center-2.21.2/capplets/appearance/gnome-wp-item.c.gnome-b
  static void collect_save_options (GdkPixbuf * pixbuf,
  				  gchar *** keys,
  				  gchar *** vals,
-@@ -201,153 +226,18 @@ static void collect_save_options (GdkPix
+@@ -201,153 +221,18 @@ static void collect_save_options (GdkPix
  
  GdkPixbuf * gnome_wp_item_get_thumbnail (GnomeWPItem * item,
  					 GnomeThumbnailFactory * thumbs) {
@@ -456,7 +451,7 @@ diff -up gnome-control-center-2.21.2/capplets/appearance/gnome-wp-item.c.gnome-b
  }
  
  void gnome_wp_item_update_description (GnomeWPItem * item) {
-@@ -356,6 +246,12 @@ void gnome_wp_item_update_description (G
+@@ -356,6 +241,12 @@ void gnome_wp_item_update_description (G
    if (!strcmp (item->filename, "(none)")) {
      item->description = g_strdup (item->name);
    } else {
@@ -469,7 +464,7 @@ diff -up gnome-control-center-2.21.2/capplets/appearance/gnome-wp-item.c.gnome-b
      gchar *dirname = g_path_get_dirname (item->filename);
      /* translators: <b>wallpaper name</b>
       * mime type, x pixel(s) by y pixel(s)
-@@ -366,7 +262,7 @@ void gnome_wp_item_update_description (G
+@@ -365,7 +256,7 @@ void gnome_wp_item_update_description (G
                                     "%s, %d %s by %d %s\n"
                                     "Folder: %s"),
                                   item->name,
@@ -478,9 +473,9 @@ diff -up gnome-control-center-2.21.2/capplets/appearance/gnome-wp-item.c.gnome-b
                                   item->width,
                                   ngettext ("pixel", "pixels", item->width),
                                   item->height,
-diff -up gnome-control-center-2.21.2/gnome-settings-daemon/gnome-settings-background.c.gnome-bg gnome-control-center-2.21.2/gnome-settings-daemon/gnome-settings-background.c
---- gnome-control-center-2.21.2/gnome-settings-daemon/gnome-settings-background.c.gnome-bg	2007-07-02 08:30:05.000000000 -0400
-+++ gnome-control-center-2.21.2/gnome-settings-daemon/gnome-settings-background.c	2007-11-13 18:26:59.000000000 -0500
+diff -up gnome-control-center-2.21.4/gnome-settings-daemon/gnome-settings-background.c.gnome-bg gnome-control-center-2.21.4/gnome-settings-daemon/gnome-settings-background.c
+--- gnome-control-center-2.21.4/gnome-settings-daemon/gnome-settings-background.c.gnome-bg	2007-08-22 17:19:12.000000000 -0400
++++ gnome-control-center-2.21.4/gnome-settings-daemon/gnome-settings-background.c	2007-12-21 12:14:44.000000000 -0500
 @@ -30,11 +30,13 @@
  #include <gdk/gdk.h>
  #include <gdk/gdkx.h>
