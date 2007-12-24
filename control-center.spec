@@ -48,6 +48,7 @@ Patch99: default-applications.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=504182
 Patch100: im-setting.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=505364
 Patch101: gio.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
