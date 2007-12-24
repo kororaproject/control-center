@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.21.4
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -47,6 +47,8 @@ Patch99: default-applications.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=504182
 Patch100: im-setting.patch
+
+Patch101: gio.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
@@ -174,6 +176,7 @@ popd
 %patch99 -p1 -b .default-apps
 
 %patch100 -p1 -b .im-setting
+%patch101 -p1 -b .gio
 
 %build
 
@@ -340,7 +343,7 @@ fi
 %{_bindir}/gnome-window-properties
 %{_bindir}/themus-theme-applier
 %{_libexecdir}/gnome-settings-daemon
-%{_libdir}/nautilus/extensions-1.0/*
+%{_libdir}/nautilus/extensions-2.0/*.so
 %{_libdir}/*.so.*
 %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas  
 %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas
@@ -370,6 +373,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Dec 24 2007 Matthias Clasen <mclasen@redhat.com> - 2.21.4-2
+- Rebuild nautilus extensions against new nautilus
+
 * Fri Dec 21 2007 Matthias Clasen <mclasen@redhat.com> - 2.21.4-1
 - Update to 2.21.4
 

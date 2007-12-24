@@ -1,0 +1,24 @@
+diff -up gnome-control-center-2.21.4/vfs-methods/themus/Makefile.am.gio gnome-control-center-2.21.4/vfs-methods/themus/Makefile.am
+--- gnome-control-center-2.21.4/vfs-methods/themus/Makefile.am.gio	2007-12-24 01:02:22.000000000 -0500
++++ gnome-control-center-2.21.4/vfs-methods/themus/Makefile.am	2007-12-24 01:02:31.000000000 -0500
+@@ -13,7 +13,7 @@ bin_PROGRAMS = gnome-theme-thumbnailer t
+ vfsmoduledir = $(libdir)/gnome-vfs-2.0/modules
+ vfsmodule_LTLIBRARIES = libtheme-method.la
+ 
+-nautilusdir = $(libdir)/nautilus/extensions-1.0
++nautilusdir = $(libdir)/nautilus/extensions-2.0
+ nautilus_LTLIBRARIES = libnautilus-themus.la
+ 
+ libtheme_method_la_LDFLAGS = -module -avoid-version \
+diff -up gnome-control-center-2.21.4/vfs-methods/fontilus/Makefile.am.gio gnome-control-center-2.21.4/vfs-methods/fontilus/Makefile.am
+--- gnome-control-center-2.21.4/vfs-methods/fontilus/Makefile.am.gio	2007-12-24 01:01:21.000000000 -0500
++++ gnome-control-center-2.21.4/vfs-methods/fontilus/Makefile.am	2007-12-24 01:01:31.000000000 -0500
+@@ -19,7 +19,7 @@ gnome_thumbnail_font_SOURCES = ftstream-
+ gnome_font_viewer_LDADD = $(FONT_VIEW_LIBS)
+ gnome_font_viewer_SOURCES = ftstream-vfs.c font-view.c
+ 
+-nautilusdir = $(libdir)/nautilus/extensions-1.0
++nautilusdir = $(libdir)/nautilus/extensions-2.0
+ nautilus_LTLIBRARIES = libnautilus-fontilus.la
+ libnautilus_fontilus_la_LDFLAGS = -module -avoid-version \
+   -export-symbols-regex 'nautilus_module_.*'
