@@ -131,20 +131,6 @@ diff -up gnome-control-center-2.21.4/capplets/default-applications/gnome-default
        <_name>SeaMonkey Mail</_name>
        <executable>seamonkey</executable>
        <command>seamonkey -mail %s</command>
-@@ -228,6 +160,13 @@
-       <run-in-terminal>false</run-in-terminal>
-     </mail-reader>
-     <mail-reader>
-+      <_name>Sylpheed</_name>
-+      <executable>sylpheed</executable>
-+      <command>sylpheed --compose %s</command>
-+      <icon-name>sylpheed</icon-name>
-+      <run-in-terminal>false</run-in-terminal>
-+    </mail-reader>
-+    <mail-reader>
-       <_name>Sylpheed-Claws</_name>
-       <executable>sylpheed-claws</executable>
-       <command>sylpheed-claws --compose %s</command>
 @@ -252,6 +191,20 @@
        <exec-flag>-e</exec-flag>
      </terminal>

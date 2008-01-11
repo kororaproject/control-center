@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.21.4
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -374,6 +374,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Fri Jan 11 2008 - Bastien Nocera <bnocera@redhat.com> - 2.21.4-3
+- Remove duplicated sylpheed entry (#428363)
+
 * Mon Dec 24 2007 Matthias Clasen <mclasen@redhat.com> - 2.21.4-2
 - Rebuild nautilus extensions against new nautilus
 
