@@ -21,8 +21,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.21.4
-Release: 3%{?dist}
+Version: 2.21.5
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -60,6 +60,7 @@ Obsoletes: gnome fontilus
 Conflicts: desktop-backgrounds-basic < 2.0-27
 Conflicts: desktop-backgrounds-extended < 2.0-27
 
+Requires: gnome-settings-daemon
 Requires: redhat-menus >= %{redhat_menus_version}
 Requires: gnome-icon-theme
 Requires: libgail-gnome
@@ -97,6 +98,7 @@ BuildRequires: gettext
 BuildRequires: gnome-menus-devel >= %{gnome_menus_version}
 BuildRequires: gnome-panel-devel
 BuildRequires: libgnomekbd-devel >= %{libgnomekbd_version}
+BuildRequires: gnome-settings-daemon
 # For intltool:
 BuildRequires: perl(XML::Parser) 
 BuildRequires: evolution-data-server-devel >= 1.9.1
@@ -251,10 +253,6 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/ldconfig
 export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
 gconftool-2 --makefile-install-rule 						\
-   %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas \
-   %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas \
-   %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas \
-   %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas	\
    %{_sysconfdir}/gconf/schemas/fontilus.schemas			\
    %{_sysconfdir}/gconf/schemas/control-center.schemas			\
    %{_sysconfdir}/gconf/schemas/themus.schemas				\
@@ -270,14 +268,8 @@ fi
 if [ "$1" -gt 1 ]; then
     export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
     gconftool-2 --makefile-uninstall-rule \
-     %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas \
-     %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas \
-     %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas \
-     %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas \
      %{_sysconfdir}/gconf/schemas/fontilus.schemas \
      %{_sysconfdir}/gconf/schemas/themus.schemas \
-     > /dev/null || :
-    gconftool-2 --makefile-uninstall-rule \
      %{_sysconfdir}/gconf/schemas/control-center.schemas \
      > /dev/null || :
 fi
@@ -286,14 +278,8 @@ fi
 if [ "$1" -eq 0 ]; then
     export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
     gconftool-2 --makefile-uninstall-rule \
-     %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas  \
-     %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas \
-     %{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas \
-     %{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas \
      %{_sysconfdir}/gconf/schemas/fontilus.schemas \
      %{_sysconfdir}/gconf/schemas/themus.schemas \
-     > /dev/null || :
-    gconftool-2 --makefile-uninstall-rule \
      %{_sysconfdir}/gconf/schemas/control-center.schemas \
      > /dev/null || :
 fi
@@ -343,13 +329,8 @@ fi
 %{_bindir}/gnome-typing-monitor
 %{_bindir}/gnome-window-properties
 %{_bindir}/themus-theme-applier
-%{_libexecdir}/gnome-settings-daemon
 %{_libdir}/nautilus/extensions-2.0/*.so
 %{_libdir}/*.so.*
-%{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_default_editor.schemas  
-%{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_keybindings.schemas
-%{_sysconfdir}/gconf/schemas/apps_gnome_settings_daemon_screensaver.schemas
-%{_sysconfdir}/gconf/schemas/desktop_gnome_font_rendering.schemas
 %{_sysconfdir}/gconf/schemas/fontilus.schemas
 %{_sysconfdir}/gconf/schemas/themus.schemas
 %{_sysconfdir}/gconf/schemas/control-center.schemas
@@ -374,6 +355,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Jan 17 2008 - Bastien Nocera <bnocera@redhat.com> - 2.21.5-1
+- Update to 2.21.5
+
 * Fri Jan 11 2008 - Bastien Nocera <bnocera@redhat.com> - 2.21.4-3
 - Remove duplicated sylpheed entry (#428363)
 
