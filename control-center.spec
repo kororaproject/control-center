@@ -30,7 +30,6 @@ Source: http://download.gnome.org/sources/gnome-control-center/2.21/gnome-contro
 
 Patch2: control-center-2.20.0-enable-sound-by-default.patch
 Patch3: control-center-2.19.3-no-gnome-common.patch
-Patch4: gnome-bg.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=497807
 Patch5: background-location.patch
 # Fix some useless warnings in libslab
@@ -44,12 +43,6 @@ Patch95: control-center-2.19.91-passwd.patch
 Patch96: control-center-2.19.90-gecos.patch
 # change default preferred apps to programs we ship
 Patch99: default-applications.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=504182
-Patch100: im-setting.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=505364
-Patch101: gio.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
@@ -166,7 +159,6 @@ utilities.
 
 %patch2 -p0 -b .enable-sound
 %patch3 -p1 -b .no-gnome-common
-%patch4 -p1 -b .gnome-bg
 %patch5 -p1 -b .background-location
 pushd libslab
 %patch6 -p0 -b .warnings
@@ -177,9 +169,6 @@ popd
 %patch95 -p1 -b .passwd
 %patch96 -p1 -b .gecos
 %patch99 -p1 -b .default-apps
-
-%patch100 -p1 -b .im-setting
-%patch101 -p1 -b .gio
 
 %build
 
