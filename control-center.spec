@@ -193,6 +193,13 @@ export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 make install DESTDIR=$RPM_BUILD_ROOT
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 
+for i in apps_gnome_settings_daemon_default_editor.schemas		\
+	    apps_gnome_settings_daemon_keybindings.schemas		\
+	    apps_gnome_settings_daemon_screensaver.schemas		\
+	    desktop_gnome_font_rendering.schemas ; do			\
+	    rm -f $RPM_BUILD_ROOT%{_sysconfdir}/gconf/schemas/$i ;	\
+done
+
 # Add a "valid" OnlyShowIn entry, otherwise desktop-file-install complains
 sed -i -e "s/OnlyShowIn=;/OnlyShowIn=GNOME;/"  \
   $RPM_BUILD_ROOT%{_datadir}/applications/gnome-theme-installer.desktop
@@ -287,18 +294,15 @@ fi
 %doc AUTHORS COPYING NEWS README
 %{_datadir}/gnome-control-center/keybindings/*.xml
 %{_datadir}/gnome-control-center/glade
-%{_datadir}/gnome-control-center/xrdb
 %{_datadir}/gnome-control-center/pixmaps
 %{_datadir}/gnome-control-center/*.xml
 %{_datadir}/applications/*.desktop
 %{_datadir}/desktop-directories/*
-%{_datadir}/dbus-1/services/*
 %{_datadir}/mime/packages/gnome-theme-package.xml
 %{_datadir}/icons/hicolor/*/apps/*
 %{_datadir}/pkgconfig/gnome-keybindings.pc
 # list all binaries explicitly, so we notice if one goes missing
 %{_bindir}/gnome-about-me
-%{_bindir}/gnome-accessibility-keyboard-properties
 %{_bindir}/gnome-appearance-properties
 %{_bindir}/gnome-at-mobility
 %{_bindir}/gnome-at-properties
@@ -309,7 +313,6 @@ fi
 %{_bindir}/gnome-font-viewer
 %{_bindir}/gnome-keybinding-properties
 %{_bindir}/gnome-keyboard-properties
-%{_bindir}/gnome-localization-properties
 %{_bindir}/gnome-mouse-properties
 %{_bindir}/gnome-network-preferences
 %{_bindir}/gnome-sound-properties
@@ -332,7 +335,6 @@ fi
 %files devel
 %defattr(-,root,root)
 %{_includedir}/gnome-window-settings-2.0
-%{_includedir}/gnome-settings-daemon-2.0
 %{_libdir}/libgnome-window-settings.so
 %{_libdir}/pkgconfig/*
 
