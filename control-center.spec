@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.21.5
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -35,9 +35,8 @@ Patch5: background-location.patch
 # Fix some useless warnings in libslab
 # http://bugzilla.gnome.org/show_bug.cgi?id=439398
 Patch6: gnome-control-center-2.19.90-no-warnings.patch
-# http://bugzilla.gnome.org/show_bug.cgi?id=430889
-# disable for now, upstream plans conflicting changes
-#Patch16: control-center-2.18.0-be-more-async.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=511306
+Patch7: no-fonts.patch
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.19.91-passwd.patch
 Patch96: control-center-2.19.90-gecos.patch
@@ -163,7 +162,7 @@ utilities.
 pushd libslab
 %patch6 -p0 -b .warnings
 popd
-#%patch16 -p1 -b .be-more-async
+%patch7 -p1 -b .no-fonts
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -346,6 +345,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Jan 22 2008  Matthias Clasen <mclasen@redhat.com> - 2.21.5-2
+- Disable font folder support
+
 * Thu Jan 17 2008 - Bastien Nocera <bnocera@redhat.com> - 2.21.5-1
 - Update to 2.21.5
 
