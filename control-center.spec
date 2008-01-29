@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.21.5
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -42,6 +42,8 @@ Patch95: control-center-2.19.91-passwd.patch
 Patch96: control-center-2.19.90-gecos.patch
 # change default preferred apps to programs we ship
 Patch99: default-applications.patch
+
+Patch100: add-randr12-capplet.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
@@ -168,6 +170,8 @@ popd
 %patch95 -p1 -b .passwd
 %patch96 -p1 -b .gecos
 %patch99 -p1 -b .default-apps
+
+%patch100 -p1 -b .add-randr12-capplet
 
 %build
 
@@ -345,6 +349,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Jan 29 2008 Soren Sandmann <sandmann@redhat.com> - 2.21.5-3
+- Add new randr 1.2 capplet
+
 * Tue Jan 22 2008  Matthias Clasen <mclasen@redhat.com> - 2.21.5-2
 - Disable font folder support
 
