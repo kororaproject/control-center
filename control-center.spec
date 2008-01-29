@@ -21,8 +21,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.21.5
-Release: 4%{?dist}
+Version: 2.21.90
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -349,6 +349,10 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Jan 29 2008 - Bastien Nocera <bnocera@redhat.com> - 2.21.90
+- Update to 2.21.90
+- Update RandR applet patch to apply
+
 * Tue Jan 29 2008 Soren Sandmann <sandmann@redhat.com> - 2.21.5-4
 - BuildRequire gnome-desktop 2.21.90 
 
