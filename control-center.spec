@@ -3,7 +3,7 @@
 %define glib2_version 2.13.0
 %define gtk2_version 2.11.6
 %define gconf2_version 1.2.0
-%define gnome_desktop_version 2.18.0-2
+%define gnome_desktop_version 2.21.90-2
 %define libgnome_version 2.3.0
 %define libbonobo_version 2.3.0
 %define libgnomeui_version 2.3.0
@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.21.5
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -349,6 +349,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Jan 29 2008 Soren Sandmann <sandmann@redhat.com> - 2.21.5-4
+- BuildRequire gnome-desktop 2.21.90 
+
 * Tue Jan 29 2008 Soren Sandmann <sandmann@redhat.com> - 2.21.5-3
 - Add new randr 1.2 capplet
 
