@@ -1,6 +1,6 @@
-diff -up /dev/null gnome-control-center-2.21.5/capplets/display/edid.h
---- /dev/null	2008-01-26 11:28:38.229690233 -0500
-+++ gnome-control-center-2.21.5/capplets/display/edid.h	2008-01-29 16:47:04.000000000 -0500
+diff -up /dev/null gnome-control-center-2.21.90/capplets/display/edid.h
+--- /dev/null	2008-01-30 11:34:25.225700292 -0500
++++ gnome-control-center-2.21.90/capplets/display/edid.h	2008-01-31 13:18:09.000000000 -0500
 @@ -0,0 +1,169 @@
 +typedef unsigned char uchar;
 +typedef struct MonitorInfo MonitorInfo;
@@ -171,9 +171,9 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/edid.h
 +
 +MonitorInfo *decode_edid (const uchar *data);
 +char *       make_display_name (const MonitorInfo *info);
-diff -up /dev/null gnome-control-center-2.21.5/capplets/display/foo-marshal.c
---- /dev/null	2008-01-26 11:28:38.229690233 -0500
-+++ gnome-control-center-2.21.5/capplets/display/foo-marshal.c	2008-01-29 16:47:04.000000000 -0500
+diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.c
+--- /dev/null	2008-01-30 11:34:25.225700292 -0500
++++ gnome-control-center-2.21.90/capplets/display/foo-marshal.c	2008-01-31 13:18:09.000000000 -0500
 @@ -0,0 +1,279 @@
 +
 +#include	<glib-object.h>
@@ -454,9 +454,9 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/foo-marshal.c
 +            data2);
 +}
 +
-diff -up /dev/null gnome-control-center-2.21.5/capplets/display/edid-parse.c
---- /dev/null	2008-01-26 11:28:38.229690233 -0500
-+++ gnome-control-center-2.21.5/capplets/display/edid-parse.c	2008-01-29 16:47:04.000000000 -0500
+diff -up /dev/null gnome-control-center-2.21.90/capplets/display/edid-parse.c
+--- /dev/null	2008-01-30 11:34:25.225700292 -0500
++++ gnome-control-center-2.21.90/capplets/display/edid-parse.c	2008-01-31 13:18:09.000000000 -0500
 @@ -0,0 +1,551 @@
 +/*
 + * Copyright 2007 Red Hat, Inc.
@@ -1009,9 +1009,9 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/edid-parse.c
 +    
 +    return info;
 +}
-diff -up /dev/null gnome-control-center-2.21.5/capplets/display/foo-marshal.h
---- /dev/null	2008-01-26 11:28:38.229690233 -0500
-+++ gnome-control-center-2.21.5/capplets/display/foo-marshal.h	2008-01-29 16:47:04.000000000 -0500
+diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.h
+--- /dev/null	2008-01-30 11:34:25.225700292 -0500
++++ gnome-control-center-2.21.90/capplets/display/foo-marshal.h	2008-01-31 13:18:09.000000000 -0500
 @@ -0,0 +1,63 @@
 +
 +#ifndef __foo_marshal_MARSHAL_H__
@@ -1076,10 +1076,10 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/foo-marshal.h
 +
 +#endif /* __foo_marshal_MARSHAL_H__ */
 +
-diff -up /dev/null gnome-control-center-2.21.5/capplets/display/scrollarea.c
---- /dev/null	2008-01-26 11:28:38.229690233 -0500
-+++ gnome-control-center-2.21.5/capplets/display/scrollarea.c	2008-01-29 16:47:04.000000000 -0500
-@@ -0,0 +1,1900 @@
+diff -up /dev/null gnome-control-center-2.21.90/capplets/display/scrollarea.c
+--- /dev/null	2008-01-30 11:34:25.225700292 -0500
++++ gnome-control-center-2.21.90/capplets/display/scrollarea.c	2008-01-31 13:18:09.000000000 -0500
+@@ -0,0 +1,1902 @@
 +#include <gdk/gdkprivate.h> /* For GDK_PARENT_RELATIVE_BG */
 +#include "scrollarea.h"
 +#include "foo-marshal.h"
@@ -2068,6 +2068,8 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/scrollarea.c
 +	input_type = FOO_BUTTON_RELEASE;
 +    else if (event->type == GDK_MOTION_NOTIFY)
 +	input_type = FOO_MOTION;
++    else
++	return;
 +    
 +    process_event (scroll_area, input_type, x, y);
 +}
@@ -2980,10 +2982,10 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/scrollarea.c
 +}
 +
 +#endif
-diff -up /dev/null gnome-control-center-2.21.5/capplets/display/monitor-db.c
---- /dev/null	2008-01-26 11:28:38.229690233 -0500
-+++ gnome-control-center-2.21.5/capplets/display/monitor-db.c	2008-01-29 16:47:04.000000000 -0500
-@@ -0,0 +1,637 @@
+diff -up /dev/null gnome-control-center-2.21.90/capplets/display/monitor-db.c
+--- /dev/null	2008-01-30 11:34:25.225700292 -0500
++++ gnome-control-center-2.21.90/capplets/display/monitor-db.c	2008-01-31 13:18:09.000000000 -0500
+@@ -0,0 +1,757 @@
 +#include <stdlib.h>
 +#include <string.h>
 +#include <glib.h>
@@ -3032,71 +3034,59 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/monitor-db.c
 +typedef struct Parser Parser;
 +
 +static void
++emit_configuration (Configuration *config,
++		    GString *string)
++{
++    int j;
++	
++    g_string_append_printf (string, "<configuration>\n");
++    
++    for (j = 0; config->outputs[j] != NULL; ++j)
++    {
++	Output *output = config->outputs[j];
++	
++	g_string_append_printf (
++	    string, "    <output name=\"%s\">\n", output->name);
++	
++	if (output->connected && *output->vendor != '\0')
++	{
++	    g_string_append_printf (
++		string, "        <vendor>%s</vendor>\n", output->vendor);
++	    g_string_append_printf (
++		string, "        <product>0x%04x</product>\n", output->product);
++	    g_string_append_printf (
++		string, "        <serial>0x%08x</serial>\n", output->serial);
++	}
++	
++	/* An unconnected output which is on does not make sense */
++	if (output->connected && output->on)
++	{
++	    g_string_append_printf (
++		string, "        <width>%d</width>\n", output->width);
++	    g_string_append_printf (
++		string, "        <height>%d</height>\n", output->height);
++	    g_string_append_printf (
++		string, "        <rate>%d</rate>\n", output->rate);
++	    g_string_append_printf (
++		string, "        <x>%d</x>\n", output->x);
++	    g_string_append_printf (
++		string, "        <y>%d</y>\n", output->y);
++	}
++	
++	g_string_append_printf (string, "    </output>\n");
++    }
++    
++    g_string_append_printf (string, "</configuration>\n");
++}
++
++static void
 +emit_configurations (Configuration **configs,
 +		     GString        *string)
 +{
 +    int i;
 +
 +    for (i = 0; configs[i] != NULL; ++i)
-+    {
-+	Configuration *config = configs[i];
-+	int j;
-+
-+	g_string_append_printf (string, "<configuration>\n");
-+	
-+	for (j = 0; config->outputs[j] != NULL; ++j)
-+	{
-+	    Output *output = config->outputs[j];
-+	    
-+	    g_string_append_printf (
-+		string, "    <output name=\"%s\">\n", output->name);
-+
-+	    if (output->connected && *output->vendor != '\0')
-+	    {
-+		g_string_append_printf (
-+		    string, "        <vendor>%s</vendor>\n", output->vendor);
-+		g_string_append_printf (
-+		    string, "        <product>0x%04x</product>\n", output->product);
-+		g_string_append_printf (
-+		    string, "        <serial>0x%08x</serial>\n", output->serial);
-+	    }
-+	    
-+	    if (output->on)
-+	    {
-+		g_string_append_printf (
-+		    string, "        <width>%d</width>\n", output->width);
-+		g_string_append_printf (
-+		    string, "        <height>%d</height>\n", output->height);
-+		g_string_append_printf (
-+		    string, "        <rate>%d</rate>\n", output->rate);
-+		g_string_append_printf (
-+		    string, "        <x>%d</x>\n", output->x);
-+		g_string_append_printf (
-+		    string, "        <y>%d</y>\n", output->y);
-+	    }
-+	    
-+	    g_string_append_printf (string, "    </output>\n");
-+	}
-+	
-+	g_string_append_printf (string, "</configuration>\n");
-+    }
-+}
-+
-+gboolean
-+configurations_write (Configuration **configs,
-+		      const gchar *filename,
-+		      GError **error)
-+{
-+    GString *output = g_string_new ("");
-+    gboolean result;
-+
-+    emit_configurations (configs, output);
-+
-+    result = g_file_set_contents (filename, output->str, -1, error);
-+
-+    g_string_free (output, TRUE);
-+
-+    return result;
++	emit_configuration (configs[i], string);
 +}
 +
 +void
@@ -3201,7 +3191,7 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/monitor-db.c
 +	     */
 +	    g_warning ("Malformed monitor configuration file");
 +	    
-+	    parser->output->name = g_strdup ("VGA");
++	    parser->output->name = g_strdup ("default");
 +	}	
 +	parser->output->connected = FALSE;
 +	parser->output->on = FALSE;
@@ -3415,9 +3405,6 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/monitor-db.c
 +    return result;
 +}
 +
-+static gboolean configuration_match (Configuration *c1,
-+				     Configuration *c2);
-+
 +Configuration *
 +configuration_new_current (RWScreen *screen)
 +{
@@ -3426,39 +3413,29 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/monitor-db.c
 +    int i;
 +    RWOutput **rw_outputs = rw_screen_list_outputs (screen);
 +
++#if 0
 +    g_print ("New configuration:\n");
++#endif
 +	
 +    for (i = 0; rw_outputs[i] != NULL; ++i)
 +    {
 +	RWOutput *rw_output = rw_outputs[i];
 +	Output *output = g_new0 (Output, 1);
++	RWMode *mode = NULL;
++	const guint8 *edid_data = rw_output_get_edid_data (rw_output);
 +	RWCrtc *crtc;
-+	
++
 +	output->name = g_strdup (rw_output_get_name (rw_output));
-+
-+	crtc = rw_output_get_crtc (rw_output);
-+	if (crtc)
-+	{
-+	    RWMode *mode = rw_crtc_get_current_mode (crtc);
-+	    
-+	    output->on = TRUE;
-+	    output->width = rw_mode_get_width (mode);
-+	    output->height = rw_mode_get_height (mode);
-+	    output->rate = rw_mode_get_freq (mode);
-+	    
-+	    rw_crtc_get_position (crtc, &output->x, &output->y);
-+
-+	    g_print ("new output %s %d %d\n", output->name, output->width, output->height);
-+	}
-+
 +	output->connected = rw_output_is_connected (rw_output);
 +
-+	g_print ("  Output %s is %sconnected\n", output->name, output->connected? "" : "not ");
-+	
-+	if (output->connected)
++	if (!output->connected)
 +	{
-+	    const guchar *edid_data = rw_output_get_edid_data (rw_output);
-+	    
++	    output->width = -1;
++	    output->height = -1;
++	    output->rate = -1;
++	}
++	else
++	{
 +	    if (edid_data)
 +	    {
 +		MonitorInfo *info = decode_edid (edid_data);
@@ -3468,7 +3445,8 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/monitor-db.c
 +		
 +		output->product = info->product_code;
 +		output->serial = info->serial_number;
-+
++		output->aspect = info->aspect_ratio;
++		
 +		g_free (info);
 +	    }
 +	    else
@@ -3477,14 +3455,62 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/monitor-db.c
 +		output->product = 0;
 +		output->serial = 0;
 +	    }
-+	}
-+	else
-+	{
-+	    output->vendor[0] = '\0';
-+	    output->serial = 0;
-+	    output->product = 0;
++	    
++	    crtc = rw_output_get_crtc (rw_output);
++	    
++	    if (crtc)
++	    {
++		output->on = TRUE;
++		
++		mode = rw_crtc_get_current_mode (crtc);
++		
++		output->width = rw_mode_get_width (mode);
++		output->height = rw_mode_get_height (mode);
++		output->rate = rw_mode_get_freq (mode);
++	    }
++	    else
++	    {
++		output->on = FALSE;
++	    }
++
++	    /* Get preferred size for the monitor */
++	    mode = rw_output_get_preferred_mode (rw_output);
++	    
++	    if (!mode)
++	    {
++		RWMode **modes = rw_output_list_modes (rw_output);
++		
++		/* FIXME: we should pick the "best" mode here, where best is
++		 * sorted wrt
++		 *
++		 * - closest aspect ratio
++		 * - mode area
++		 * - refresh rate
++		 * - We may want to extend randrwrap so that get_preferred
++		 *   returns that - although that could also depend on
++		 *   the crtc.
++		 */
++		if (modes[0])
++		    mode = modes[0];
++	    }
++	    
++	    if (mode)
++	    {
++		output->pref_width = rw_mode_get_width (mode);
++		output->pref_height = rw_mode_get_height (mode);
++	    }
++	    else
++	    {
++		/* Pick some random numbers. This should basically never happen */
++		output->pref_width = 1024;
++		output->pref_height = 768;
++	    }
 +	}
 +	
++#if 0
++	g_print ("  Output %s is %sconnected\n", output->name, output->connected? "" : "not ");
++#endif
++
 +	g_ptr_array_add (a, output);
 +    }
 +
@@ -3566,8 +3592,6 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/monitor-db.c
 +
 +    if (output1->connected != output2->connected)
 +	return FALSE;
-+
-+    g_print ("matched %s to %s\n", output1->name, output2->name);
 +    
 +    return TRUE;
 +}
@@ -3588,9 +3612,31 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/monitor-db.c
 +    return NULL;
 +}
 +
-+static gboolean
-+configuration_match (Configuration *c1,
-+		     Configuration *c2)
++static void
++print_configuration (Configuration *c1)
++{
++    int i;
++
++    for (i = 0; c1->outputs[i] != NULL; ++i)
++    {
++	Output *output = c1->outputs[i];
++
++	g_print ("    output %s\n", output->name);
++	g_print ("        connected: %s (%s-%04x-%08x)\n",
++		 output->connected? "yes" : "no",
++		 strcmp (output->vendor, "") == 0? "none" : output->vendor,
++		 output->product, output->serial);
++	g_print ("        on %s (%d %d %d %d - %d)\n",
++		 output->on? "yes" : "no",
++		 output->x, output->y,
++		 output->width,
++		 output->height,
++		 output->rate);
++    }
++}	
++
++gboolean
++configuration_match (Configuration *c1, Configuration *c2)
 +{
 +    int i;
 +
@@ -3604,6 +3650,16 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/monitor-db.c
 +	    return FALSE;
 +    }
 +
++#if 0
++    g_print ("found existing config:\n");
++
++    print_configuration (c1);
++
++    g_print ("which is equal to current configuration:\n");
++
++    print_configuration (c2);
++#endif
++    
 +    return TRUE;
 +}
 +
@@ -3621,10 +3677,76 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/monitor-db.c
 +
 +    return NULL;
 +}
-diff -up /dev/null gnome-control-center-2.21.5/capplets/display/monitor-db.h
---- /dev/null	2008-01-26 11:28:38.229690233 -0500
-+++ gnome-control-center-2.21.5/capplets/display/monitor-db.h	2008-01-29 16:47:04.000000000 -0500
-@@ -0,0 +1,53 @@
++
++/* Database management */
++static gboolean
++do_free (gpointer data)
++{
++    g_free (data);
++    return FALSE;
++}
++
++static gchar *
++idle_free (gchar *s)
++{
++    g_idle_add (do_free, s);
++
++    return s;
++}
++
++static const gchar *
++get_filename (void)
++{
++    return idle_free (
++	g_build_filename (
++	    g_get_home_dir(), ".gnome2", "monitors.xml", NULL));
++}
++
++gboolean
++configurations_write (Configuration **configs,
++		      const gchar *filename,
++		      GError **error)
++{
++    GString *output = g_string_new ("");
++    gboolean result;
++
++    emit_configurations (configs, output);
++
++    result = g_file_set_contents (filename, output->str, -1, error);
++
++    g_string_free (output, TRUE);
++
++    return result;
++}
++
++gboolean
++configuration_save (Configuration *configuration, GError **err)
++{
++    Configuration **configurations;
++    GString *output = g_string_new("");
++    int i;
++
++    configurations = configurations_read (get_filename(), NULL);
++    
++    if (configurations)
++    {
++	for (i = 0; configurations[i] != NULL; ++i)
++	{
++	    if (!configuration_match (configurations[i], configuration))
++		emit_configuration (configurations[i], output);
++	}
++    }
++
++    emit_configuration (configuration, output);
++
++    configurations_free (configurations);
++    
++    return g_file_set_contents (get_filename(), output->str, -1, err);
++}
+diff -up /dev/null gnome-control-center-2.21.90/capplets/display/monitor-db.h
+--- /dev/null	2008-01-30 11:34:25.225700292 -0500
++++ gnome-control-center-2.21.90/capplets/display/monitor-db.h	2008-01-31 13:18:09.000000000 -0500
+@@ -0,0 +1,95 @@
 +#define I_KNOW_THIS_IS_UNSTABLE_AND_ONLY_IN_FEDORA
 +#include <libgnomeui/randrwrap.h>
 +#include <glib.h>
@@ -3647,6 +3769,9 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/monitor-db.h
 +    char vendor[4];
 +    guint product;
 +    guint serial;
++    double aspect;
++    int pref_width;
++    int pref_height;
 +};
 +
 +struct Configuration
@@ -3654,33 +3779,72 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/monitor-db.h
 +    Output **outputs;
 +};
 +
-+Output         *output_new                (const char     *name,
-+					   gboolean        on,
-+					   int             width,
-+					   int             height,
-+					   int             rate,
-+					   gboolean        connected,
-+					   char            vendor[4],
-+					   guint           product,
-+					   guint           serial);
-+Configuration  *configuration_new         (Output        **outputs);
++void            configuration_free        (Configuration  *configuration);
++gboolean        configuration_save        (Configuration  *configuration,
++					   GError        **err);
++Configuration  *configuration_new_current (RWScreen       *screen);
++gboolean        configuration_match       (Configuration  *config1,
++					   Configuration  *config2);
++
++/* Database management */
++Configuration  *configuration_find        (Configuration **haystack,
++					   Configuration  *needle);
++Configuration **configurations_add        (Configuration **configurations,
++					   Configuration  *configuration);
 +Configuration **configurations_read       (const gchar    *filename,
 +					   GError        **error);
++void            configurations_free       (Configuration **configurations);
 +gboolean        configurations_write      (Configuration **configs,
 +					   const gchar    *filename,
 +					   GError        **error);
-+void            configuration_free        (Configuration  *configuration);
-+Configuration **configurations_add        (Configuration **configurations,
-+					   Configuration  *configuration);
-+void            configurations_free       (Configuration **configurations);
-+void            configurations_dump       (Configuration **configurations);
-+Configuration  *configuration_new_current (RWScreen       *screen);
-+Configuration  *configuration_find        (Configuration **haystack,
-+					   Configuration  *needle);
 +
-diff -up /dev/null gnome-control-center-2.21.5/capplets/display/crtc.h
---- /dev/null	2008-01-26 11:28:38.229690233 -0500
-+++ gnome-control-center-2.21.5/capplets/display/crtc.h	2008-01-29 16:47:04.000000000 -0500
++/* Three different types of settings
++ *
++ *   - What the current setup actually *is*
++ *   - What the setup *should* be according to the xml file
++ *   - What the user is about to set
++ *
++ * A "Configuration" is a mapping from outputs to modes
++ *   - It can be saved, which means any similar setups will be
++ *     overwritten
++ *
++ *   - It can be changed.
++ *
++ *   - It can be created from the current X information
++ *
++ *   - For each output it will report
++ *         - whether the output is on
++ *         - whether the output is connected
++ *         - what modes are available
++ *
++ * It is possible to apply the best match in the database.
++ *
++ *      if (configuration_apply_match (screen, ...))
++ *              ;
++ * 
++ * Capplet:
++ *   - Create new Setup from current
++ *   - Allows user to modify it within hardware restrictions
++ *   - On apply, saves and pokes
++ *   - On hardware changes, replaces setup with new current
++ *
++ * Daemon
++ *   - On login, search for match in database, applies
++ *   - On poke, search for match in database, applies
++ *   - On hardware change
++ *   -     Get old setup
++ *   -     Get new setup
++ *   -     If new setup is in database, apply
++ *   -     else, list monitors that have changed
++ *   -     connection status, turn those off 
++ */
++
++
++
++
+diff -up /dev/null gnome-control-center-2.21.90/capplets/display/crtc.h
+--- /dev/null	2008-01-30 11:34:25.225700292 -0500
++++ gnome-control-center-2.21.90/capplets/display/crtc.h	2008-01-31 13:18:09.000000000 -0500
 @@ -0,0 +1,21 @@
 +#include <gtk/gtk.h>
 +#define I_KNOW_THIS_IS_UNSTABLE_AND_ONLY_IN_FEDORA
@@ -3703,16 +3867,16 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/crtc.h
 +CrtcAssignment *assign_crtcs          (RWScreen       *screen,
 +				       Setting       **settings);
 +void            crtc_assignment_free  (CrtcAssignment *assign);
-diff -up /dev/null gnome-control-center-2.21.5/capplets/display/apply.h
---- /dev/null	2008-01-26 11:28:38.229690233 -0500
-+++ gnome-control-center-2.21.5/capplets/display/apply.h	2008-01-29 16:47:04.000000000 -0500
+diff -up /dev/null gnome-control-center-2.21.90/capplets/display/apply.h
+--- /dev/null	2008-01-30 11:34:25.225700292 -0500
++++ gnome-control-center-2.21.90/capplets/display/apply.h	2008-01-31 13:18:09.000000000 -0500
 @@ -0,0 +1,2 @@
 +/* This should go in g-s-d eventually */
 +void apply_stored_configuration (RWScreen *screen);
-diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
---- /dev/null	2008-01-26 11:28:38.229690233 -0500
-+++ gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c	2008-01-29 16:47:04.000000000 -0500
-@@ -0,0 +1,809 @@
+diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.c
+--- /dev/null	2008-01-30 11:34:25.225700292 -0500
++++ gnome-control-center-2.21.90/capplets/display/xrandr-capplet.c	2008-01-31 13:18:09.000000000 -0500
+@@ -0,0 +1,818 @@
 +/* Monitor Settings. A preference panel for configuring monitors
 + *
 + * Copyright (C) 2007, 2008  Red Hat, Inc.
@@ -3752,7 +3916,6 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +{
 +    RWScreen       *screen;
 +    Configuration  *current_configuration;
-+    Configuration **all_configurations;
 +    Output         *current_output;
 +    
 +    GtkWidget	   *dialog;
@@ -3806,14 +3969,6 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +    return s;
 +}
 +
-+static const gchar *
-+get_filename (void)
-+{
-+    return idle_free (
-+	g_build_filename (
-+	    g_get_home_dir(), ".gnome2", "monitors.xml", NULL));
-+}
-+
 +static int
 +compare_outputs (const void *p1, const void *p2)
 +{
@@ -3828,7 +3983,6 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +		   gpointer data)
 +{
 +    Configuration *current;
-+    Configuration *found;
 +    App *app = data;
 +    int i;
 +    Output *best;
@@ -3836,30 +3990,20 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +    g_print ("screen changed\n");
 +    
 +    current = configuration_new_current (app->screen);
-+    
-+    found = configuration_find (app->all_configurations, current);
-+    if (found)
++
++    if (app->current_configuration &&
++	configuration_match (current, app->current_configuration))
 +    {
-+	g_print ("config found\n");
-+	
 +	configuration_free (current);
-+
-+	current = found;
++	return;
 +    }
-+    else
-+    {
-+	g_print ("config not found, adding\n");
-+
-+	app->all_configurations = configurations_add (
-+	    app->all_configurations, current);
-+    }
-+
-+    g_assert (configuration_find (app->all_configurations, current));
-+
++    
++    if (app->current_configuration)
++	configuration_free (app->current_configuration);
++    
 +    app->current_configuration = current;
 +
 +    /* Sort outputs according to X coordinate */
-+    
 +    for (i = 0; app->current_configuration->outputs[i] != NULL; ++i)
 +	;
 +	
@@ -3867,7 +4011,6 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +	   compare_outputs);
 +
 +    /* Select an output */
-+    
 +    best = NULL;
 +    for (i = 0; app->current_configuration->outputs[i] != NULL; ++i)
 +    {
@@ -3933,7 +4076,6 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +	  GHashTable *table,
 +	  const char *selected)
 +{
-+    /* FIXME: sort the keys */
 +    GtkComboBox *box = GTK_COMBO_BOX (widget);
 +    GList *keys = g_hash_table_get_keys (table);
 +    GList *values = g_hash_table_get_values (table);
@@ -3946,19 +4088,34 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +	GtkTreeIter iter;
 +	char *resolution = list->data;
 +	RWMode *mode = values->data;
-+	int w, h;
-+	
-+	w = rw_mode_get_width (mode);
-+	h = rw_mode_get_height (mode);
-+	
++
 +	gtk_list_store_append (store, &iter);
-+	gtk_list_store_set (store, &iter,
-+			    0, resolution,
-+			    1, w, 
-+			    2, h,
-+			    3, rw_mode_get_freq (mode),
-+			    4, w * h,
-+			    -1);
++	
++	if (mode)
++	{
++	    int w, h;
++	    
++	    w = rw_mode_get_width (mode);
++	    h = rw_mode_get_height (mode);
++	    
++	    gtk_list_store_set (store, &iter,
++				0, resolution,
++				1, w, 
++				2, h,
++				3, rw_mode_get_freq (mode),
++				4, w * h,
++				-1);
++	}
++	else
++	{
++	    gtk_list_store_set (store, &iter,
++				0, resolution,
++				1, 0,
++				2, 0,
++				3, 0,
++				4, 0,
++				-1);
++	}
 +
 +	if (strcmp (selected, resolution) == 0)
 +	{
@@ -4023,6 +4180,11 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +		  g_strdup_printf ("%d Hz",
 +				   app->current_output->rate)));
 +
++    if (!app->current_output->on)
++	gtk_widget_set_sensitive (app->refresh_combo, FALSE);
++    else
++	gtk_widget_set_sensitive (app->refresh_combo, TRUE);
++    
 +    g_hash_table_destroy (rates);
 +}
 +
@@ -4051,12 +4213,16 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +	
 +	g_hash_table_insert (resolutions, resolution, mode);
 +    }
++
++    g_hash_table_insert (resolutions, g_strdup ("Off"), NULL);
 +    
 +    /* Add resolutions */
-+    add_keys (app->resolution_combo, resolutions, idle_free (
++    add_keys (app->resolution_combo, resolutions,
++	      app->current_output->on ? 
++	      idle_free (
 +		  g_strdup_printf ("%d x %d",
 +				   app->current_output->width,
-+				   app->current_output->height)));
++				   app->current_output->height)) : "Off");
 +    
 +    g_hash_table_destroy (resolutions);
 +}
@@ -4075,6 +4241,8 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +
 +    sensitive = app->current_output? TRUE : FALSE;
 +
++    g_print ("rebuild gui, is on: %d\n", app->current_output->on);
++    
 +    rebuild_resolution_combo (app);
 +    rebuild_rate_combo (app);
 +
@@ -4099,8 +4267,10 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +
 +    if (!width)
 +	width = &dummy;
++
 +    if (!height)
 +	height = &dummy;
++
 +    if (!freq)
 +	freq = &dummy;
 +    
@@ -4145,8 +4315,13 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +    {
 +	app->current_output->width = width;
 +	app->current_output->height = height;
-+    }
 +
++	if (width == 0 || height == 0)
++	    app->current_output->on = FALSE;
++	else
++	    app->current_output->on = TRUE;
++    }
++    
 +    if (app->current_configuration)
 +    {
 +	x = 0;
@@ -4229,6 +4404,21 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +}
 +
 +static void
++get_geometry (Output *output, int *w, int *h)
++{
++    if (output->on)
++    {
++	*h = output->height;
++	*w = output->width;
++    }
++    else
++    {
++	*h = output->pref_height;
++	*w = output->pref_width;
++    }
++}
++
++static void
 +on_area_paint (FooScrollArea *area,
 +	       cairo_t	     *cr,
 +	       GdkRectangle  *extent,
@@ -4289,9 +4479,12 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +    for (list = connected_outputs; list != NULL; list = list->next)
 +    {
 +	Output *output = list->data;
++	int w, h;
 +
-+	total_pixels += output->width;
-+	max_height = MAX (max_height, output->height);
++	get_geometry (output, &w, &h);
++	
++	total_pixels += w;
++	max_height = MAX (max_height, h);
 +    }
 +
 +    scale = (double)available / total_pixels;
@@ -4302,16 +4495,23 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +    for (list = connected_outputs; list != NULL; list = list->next)
 +    {
 +	Output *output = list->data;
-+	int w = output->width * scale + 0.5;
 +	PangoLayout *layout = get_display_name (app, output);
++	int w, h;
 +
++	get_geometry (output, &w, &h);
++	
++	w = w * scale + 0.5;
 +	g_print ("%s (%p) geometry %d %d %d\n", output->name, output,
-+		 output->width, output->height, output->rate);
++		 w, h, output->rate);
 +	
 +	cairo_rectangle (cr, x, MARGIN, w, (int)(
-+			     output->height * scale + 0.5));
++			     h * scale + 0.5));
 +
-+	cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 1.0);
++	if (output->on)
++	    cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 1.0);
++	else
++	    cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 1.0);
++
 +	cairo_fill_preserve (cr);
 +
 +	foo_scroll_area_add_input_from_fill (area, cr, on_output_event,
@@ -4365,30 +4565,10 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +static void
 +apply (App *app)
 +{
-+#if 0
-+    GPtrArray *array = g_ptr_array_new ();
-+#endif
-+
-+    g_print ("apply\n");
-+ 
-+    if (configurations_write (app->all_configurations,
-+			      get_filename(), NULL))
-+    {
-+	g_print ("wrote\n");
-+
-+	configurations_dump (app->all_configurations);
-+	
-+	apply_stored_configuration (app->screen);
-+
-+	g_print ("done applying\n");
-+    }
++    GError *err = NULL;
 +    
-+#if 0
-+    g_print ("This is where we should actually set the mode, \n");
-+    g_print ("and if accepted, write the configuration file\n");
-+    g_print ("Well, we should check if the mode is possible\n");
-+    g_print ("write the configuration file and signal gsd to set the mode\n");
-+#endif
++    if (configuration_save (app->current_configuration, &err))
++	apply_stored_configuration (app->screen);
 +}
 +
 +static gboolean
@@ -4405,7 +4585,7 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +run_application (App *app)
 +{
 +#ifndef GLADEDIR
-+#define GLADEDIR ""
++#define GLADEDIR "."
 +#endif
 +#define GLADE_FILE GLADEDIR "/display-capplet.glade"
 +    GladeXML *xml;
@@ -4458,13 +4638,6 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +    align = glade_xml_get_widget (xml, "align");
 +
 +    gtk_container_add (GTK_CONTAINER (align), app->area);
-+
-+    app->all_configurations = configurations_read (get_filename(), NULL);
-+    if (!app->all_configurations)
-+    {
-+	app->all_configurations = g_malloc (sizeof (gpointer));
-+	*(app->all_configurations) = NULL;
-+    }
 +
 +    g_timeout_add (3000, refresh, app);
 +
@@ -4522,10 +4695,10 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/xrandr-capplet.c
 +    
 +    return 0;
 +}
-diff -up /dev/null gnome-control-center-2.21.5/capplets/display/crtc.c
---- /dev/null	2008-01-26 11:28:38.229690233 -0500
-+++ gnome-control-center-2.21.5/capplets/display/crtc.c	2008-01-29 16:47:04.000000000 -0500
-@@ -0,0 +1,291 @@
+diff -up /dev/null gnome-control-center-2.21.90/capplets/display/crtc.c
+--- /dev/null	2008-01-30 11:34:25.225700292 -0500
++++ gnome-control-center-2.21.90/capplets/display/crtc.c	2008-01-31 13:18:09.000000000 -0500
+@@ -0,0 +1,322 @@
 +#include <gtk/gtk.h>
 +#define I_KNOW_THIS_IS_UNSTABLE_AND_ONLY_IN_FEDORA
 +#include <libgnomeui/randrwrap.h>
@@ -4699,13 +4872,17 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/crtc.c
 +void
 +crtc_assignment_apply (CrtcAssignment *assign)
 +{
-+    GList *crtcs = g_hash_table_get_keys (assign->info);
++    GList *active_crtcs = g_hash_table_get_keys (assign->info);
++    RWCrtc **all_crtcs = rw_screen_list_crtcs (assign->screen);
 +    GList *list;
 +    int width, height;
 +    GTimer *timer;
-+    
-+    width = height = 0;
-+    for (list = crtcs; list != NULL; list = list->next)
++    int i;
++    int min_width, max_width, min_height, max_height;
++
++    /* Compute size of the screen */
++    width = height = 1;
++    for (list = active_crtcs; list != NULL; list = list->next)
 +    {
 +	RWCrtc *crtc = list->data;
 +	CrtcInfo *info = g_hash_table_lookup (assign->info, crtc);
@@ -4713,11 +4890,25 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/crtc.c
 +	width = MAX (width, info->x + rw_mode_get_width (info->mode));
 +	height = MAX (height, info->y + rw_mode_get_height (info->mode));
 +    }
++    g_list_free (active_crtcs);
 +
-+    /* Turn off CRTC's that are displaying outside the new screen area */
-+    for (list = crtcs; list != NULL; list = list->next)
++#if 0
++    rw_screen_get_range (
++	assign->screen, &min_width, &max_width, &min_height, &max_height);
++
++    width = MAX (min_width, width);
++    width = MIN (max_width, width);
++    height = MAX (min_height, height);
++    height = MIN (max_height, height);
++#endif
++    /* FIXME - get ranges from rw */
++    width = MAX (1024, width);
++    height = MAX (768, height);
++    
++    /* Turn off all crtcs currently displaying outside the new screen */
++    for (i = 0; all_crtcs[i] != NULL; ++i)
 +    {
-+	RWCrtc *crtc = list->data;
++	RWCrtc *crtc = all_crtcs[i];
 +	RWMode *mode = rw_crtc_get_current_mode (crtc);
 +	int x, y;
 +
@@ -4733,24 +4924,37 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/crtc.c
 +	}
 +    }
 +
-+    g_list_free (crtcs);
-+    
++    /* Turn off all CRTC's that are not in the assignment */
++    for (i = 0; all_crtcs[i] != NULL; ++i)
++    {
++	RWCrtc *crtc = all_crtcs[i];
++	
++	if (!g_hash_table_lookup (assign->info, crtc))
++	    rw_crtc_set_config (crtc, 0, 0, NULL, NULL, 0);
++    }
++
 +    /* FIXME: What do we do about physical size?
 +     *
 +     * As far as this function is concerned, probably just pass the problem up to
-+     * the callers. There, the best possibility might be to pick the sum of physical
-+     * sizes, but the reality is that the physical size of an X screen is a meaningless
-+     * concept in a randr 1.2 enabled world.
++     * the callers. There, the best possibility might be to pick the sum of
++     * physical sizes, but the reality is that the physical size of an X screen is
++     * meaningless concept in a randr 1.2 world.
 +     */
 +    timer = g_timer_new ();
++    g_print ("setting size to %d %d\n", width, height);
++    
 +    rw_screen_set_size (assign->screen, width, height, 300, 230);
 +
++    gdk_flush ();
++    
 +    g_print ("time to set screen size: %f\n", g_timer_elapsed (timer, NULL));
 +
 +    g_timer_reset (timer);
 +    
 +    g_hash_table_foreach (assign->info, configure_crtc, NULL);
 +
++    gdk_flush ();
++    
 +    g_print ("time to configure crtc's: %f\n", g_timer_elapsed (timer, NULL));
 +}
 +
@@ -4817,9 +5021,9 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/crtc.c
 +	return NULL;
 +    }
 +}
-diff -up /dev/null gnome-control-center-2.21.5/capplets/display/display-capplet.glade
---- /dev/null	2008-01-26 11:28:38.229690233 -0500
-+++ gnome-control-center-2.21.5/capplets/display/display-capplet.glade	2008-01-29 16:47:04.000000000 -0500
+diff -up /dev/null gnome-control-center-2.21.90/capplets/display/display-capplet.glade
+--- /dev/null	2008-01-30 11:34:25.225700292 -0500
++++ gnome-control-center-2.21.90/capplets/display/display-capplet.glade	2008-01-31 13:17:45.000000000 -0500
 @@ -0,0 +1,363 @@
 +<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
 +<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
@@ -5184,9 +5388,9 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/display-capplet.
 +</widget>
 +
 +</glade-interface>
-diff -up /dev/null gnome-control-center-2.21.5/capplets/display/scrollarea.h
---- /dev/null	2008-01-26 11:28:38.229690233 -0500
-+++ gnome-control-center-2.21.5/capplets/display/scrollarea.h	2008-01-29 16:47:04.000000000 -0500
+diff -up /dev/null gnome-control-center-2.21.90/capplets/display/scrollarea.h
+--- /dev/null	2008-01-30 11:34:25.225700292 -0500
++++ gnome-control-center-2.21.90/capplets/display/scrollarea.h	2008-01-31 13:18:09.000000000 -0500
 @@ -0,0 +1,107 @@
 +#include <cairo/cairo.h>
 +#include <gtk/gtk.h>
@@ -5295,9 +5499,9 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/scrollarea.h
 +void foo_scroll_area_auto_scroll (FooScrollArea *scroll_area,
 +				  FooScrollAreaEvent *event);
 +void foo_scroll_area_end_auto_scroll (FooScrollArea *scroll_area);
-diff -up /dev/null gnome-control-center-2.21.5/capplets/display/display-name.c
---- /dev/null	2008-01-26 11:28:38.229690233 -0500
-+++ gnome-control-center-2.21.5/capplets/display/display-name.c	2008-01-29 16:47:04.000000000 -0500
+diff -up /dev/null gnome-control-center-2.21.90/capplets/display/display-name.c
+--- /dev/null	2008-01-30 11:34:25.225700292 -0500
++++ gnome-control-center-2.21.90/capplets/display/display-name.c	2008-01-31 13:18:09.000000000 -0500
 @@ -0,0 +1,161 @@
 +/*
 + * Copyright 2007 Red Hat, Inc.
@@ -5460,9 +5664,9 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/display-name.c
 +    
 +    return result;
 +}
-diff -up gnome-control-center-2.21.5/capplets/display/Makefile.am.add-randr12-capplet gnome-control-center-2.21.5/capplets/display/Makefile.am
---- gnome-control-center-2.21.5/capplets/display/Makefile.am.add-randr12-capplet	2008-01-03 11:22:06.000000000 -0500
-+++ gnome-control-center-2.21.5/capplets/display/Makefile.am	2008-01-29 16:47:04.000000000 -0500
+diff -up gnome-control-center-2.21.90/capplets/display/Makefile.am.add-randr12-capplet gnome-control-center-2.21.90/capplets/display/Makefile.am
+--- gnome-control-center-2.21.90/capplets/display/Makefile.am.add-randr12-capplet	2008-01-29 07:22:35.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/Makefile.am	2008-01-31 13:17:45.000000000 -0500
 @@ -1,9 +1,27 @@
  # This is used in GNOMECC_CAPPLETS_CFLAGS
  cappletname = display
@@ -5492,10 +5696,10 @@ diff -up gnome-control-center-2.21.5/capplets/display/Makefile.am.add-randr12-ca
  gnome_display_properties_LDFLAGS = -export-dynamic
  gnome_display_properties_LDADD = \
  	$(DISPLAY_CAPPLET_LIBS) \
-diff -up /dev/null gnome-control-center-2.21.5/capplets/display/apply.c
---- /dev/null	2008-01-26 11:28:38.229690233 -0500
-+++ gnome-control-center-2.21.5/capplets/display/apply.c	2008-01-29 16:47:04.000000000 -0500
-@@ -0,0 +1,178 @@
+diff -up /dev/null gnome-control-center-2.21.90/capplets/display/apply.c
+--- /dev/null	2008-01-30 11:34:25.225700292 -0500
++++ gnome-control-center-2.21.90/capplets/display/apply.c	2008-01-31 13:18:09.000000000 -0500
+@@ -0,0 +1,200 @@
 +#include "crtc.h"
 +#include "monitor-db.h"
 +
@@ -5550,7 +5754,7 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/apply.c
 +	RWMode **modes = rw_output_list_modes (rw_output);
 +	int i;
 +
-+	if (!output->connected)
++	if (!output->connected || !output->on)
 +	{
 +	    g_print ("%s is not connected\n", output->name);
 +	    push (settings, rw_output, NULL, 0, 0);
@@ -5574,18 +5778,18 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/apply.c
 +			 rw_mode_get_width (mode),
 +			 rw_mode_get_height (mode),
 +			 rw_mode_get_freq (mode));
-+	    
++		
 +		if (rw_mode_get_width (mode) == output->width	&&
 +		    rw_mode_get_height (mode) == output->height	&&
 +		    rw_mode_get_freq (mode) == output->rate)
 +		{
 +		    push (settings, rw_output, mode, output->x, 0);
-+
++		    
 +		    result = foreach_setting_list (
 +			screen, settings, outputs + 1, func, data);
-+
++		    
 +		    pop (settings);
-+
++		    
 +		    if (result)
 +			break;
 +		}
@@ -5593,8 +5797,6 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/apply.c
 +	}
 +    }
 +
-+    g_print ("returning %d\n", result);
-+    
 +    return result;
 +}
 +
@@ -5674,3 +5876,27 @@ diff -up /dev/null gnome-control-center-2.21.5/capplets/display/apply.c
 +
 +    g_free (file);
 +}
++
++/* Some potentially useful code */
++    
++#if 0
++    found = configuration_find (app->all_configurations, current);
++    if (found)
++    {
++	g_print ("config found\n");
++	
++	configuration_free (current);
++
++	current = found;
++    }
++    else
++    {
++	g_print ("config not found, adding\n");
++
++	app->all_configurations = configurations_add (
++	    app->all_configurations, current);
++    }
++
++    g_assert (configuration_find (app->all_configurations, current));
++
++#endif
