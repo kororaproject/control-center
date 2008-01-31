@@ -1,6 +1,6 @@
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/edid.h
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/edid.h	2008-01-31 13:18:09.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/edid.h	2008-01-31 14:18:37.000000000 -0500
 @@ -0,0 +1,169 @@
 +typedef unsigned char uchar;
 +typedef struct MonitorInfo MonitorInfo;
@@ -173,7 +173,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/edid.h
 +char *       make_display_name (const MonitorInfo *info);
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.c
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/foo-marshal.c	2008-01-31 13:18:09.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/foo-marshal.c	2008-01-31 14:18:37.000000000 -0500
 @@ -0,0 +1,279 @@
 +
 +#include	<glib-object.h>
@@ -456,7 +456,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.c
 +
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/edid-parse.c
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/edid-parse.c	2008-01-31 13:18:09.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/edid-parse.c	2008-01-31 14:18:37.000000000 -0500
 @@ -0,0 +1,551 @@
 +/*
 + * Copyright 2007 Red Hat, Inc.
@@ -1011,7 +1011,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/edid-parse.c
 +}
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.h
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/foo-marshal.h	2008-01-31 13:18:09.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/foo-marshal.h	2008-01-31 14:18:37.000000000 -0500
 @@ -0,0 +1,63 @@
 +
 +#ifndef __foo_marshal_MARSHAL_H__
@@ -1078,7 +1078,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.h
 +
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/scrollarea.c
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/scrollarea.c	2008-01-31 13:18:09.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/scrollarea.c	2008-01-31 14:18:37.000000000 -0500
 @@ -0,0 +1,1902 @@
 +#include <gdk/gdkprivate.h> /* For GDK_PARENT_RELATIVE_BG */
 +#include "scrollarea.h"
@@ -2984,8 +2984,8 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/scrollarea.c
 +#endif
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/monitor-db.c
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/monitor-db.c	2008-01-31 13:18:09.000000000 -0500
-@@ -0,0 +1,757 @@
++++ gnome-control-center-2.21.90/capplets/display/monitor-db.c	2008-01-31 14:18:37.000000000 -0500
+@@ -0,0 +1,759 @@
 +#include <stdlib.h>
 +#include <string.h>
 +#include <glib.h>
@@ -3218,9 +3218,11 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/monitor-db.c
 +    {
 +	g_ptr_array_add (parser->outputs, parser->output);
 +
++#if 0
 +	g_print (
 +	    "%s output %s\n", parser->output->connected?
 +	    "Connected" : "Unconnected", parser->output->name);
++#endif
 +	
 +	parser->output = NULL;
 +    }
@@ -3735,17 +3737,17 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/monitor-db.c
 +	    if (!configuration_match (configurations[i], configuration))
 +		emit_configuration (configurations[i], output);
 +	}
++
++	configurations_free (configurations);
 +    }
 +
 +    emit_configuration (configuration, output);
 +
-+    configurations_free (configurations);
-+    
 +    return g_file_set_contents (get_filename(), output->str, -1, err);
 +}
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/monitor-db.h
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/monitor-db.h	2008-01-31 13:18:09.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/monitor-db.h	2008-01-31 14:18:37.000000000 -0500
 @@ -0,0 +1,95 @@
 +#define I_KNOW_THIS_IS_UNSTABLE_AND_ONLY_IN_FEDORA
 +#include <libgnomeui/randrwrap.h>
@@ -3844,7 +3846,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/monitor-db.h
 +
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/crtc.h
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/crtc.h	2008-01-31 13:18:09.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/crtc.h	2008-01-31 14:18:37.000000000 -0500
 @@ -0,0 +1,21 @@
 +#include <gtk/gtk.h>
 +#define I_KNOW_THIS_IS_UNSTABLE_AND_ONLY_IN_FEDORA
@@ -3869,14 +3871,14 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/crtc.h
 +void            crtc_assignment_free  (CrtcAssignment *assign);
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/apply.h
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/apply.h	2008-01-31 13:18:09.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/apply.h	2008-01-31 14:18:37.000000000 -0500
 @@ -0,0 +1,2 @@
 +/* This should go in g-s-d eventually */
 +void apply_stored_configuration (RWScreen *screen);
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.c
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/xrandr-capplet.c	2008-01-31 13:18:09.000000000 -0500
-@@ -0,0 +1,818 @@
++++ gnome-control-center-2.21.90/capplets/display/xrandr-capplet.c	2008-01-31 14:18:37.000000000 -0500
+@@ -0,0 +1,824 @@
 +/* Monitor Settings. A preference panel for configuring monitors
 + *
 + * Copyright (C) 2007, 2008  Red Hat, Inc.
@@ -3987,8 +3989,6 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.
 +    int i;
 +    Output *best;
 +
-+    g_print ("screen changed\n");
-+    
 +    current = configuration_new_current (app->screen);
 +
 +    if (app->current_configuration &&
@@ -4150,15 +4150,20 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.
 +static void
 +rebuild_rate_combo (App *app)
 +{
-+    GHashTable *rates = g_hash_table_new_full (
-+	g_str_hash, g_str_equal, (GFreeFunc)g_free, NULL);
-+    int i;
++    GHashTable *rates;
 +    RWMode **modes;
++    int i;
 +
 +    clear_combo (app->refresh_combo);
 +
++    gtk_widget_set_sensitive (
++	app->refresh_combo, app->current_output && app->current_output->on);
++
 +    if (!(modes = get_current_modes (app)))
 +	return;
++    
++    rates = g_hash_table_new_full (
++	g_str_hash, g_str_equal, (GFreeFunc)g_free, NULL);
 +    
 +    for (i = 0; modes[i] != NULL; ++i)
 +    {
@@ -4180,12 +4185,8 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.
 +		  g_strdup_printf ("%d Hz",
 +				   app->current_output->rate)));
 +
-+    if (!app->current_output->on)
-+	gtk_widget_set_sensitive (app->refresh_combo, FALSE);
-+    else
-+	gtk_widget_set_sensitive (app->refresh_combo, TRUE);
-+    
 +    g_hash_table_destroy (rates);
++    
 +}
 +
 +static void
@@ -4241,13 +4242,18 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.
 +
 +    sensitive = app->current_output? TRUE : FALSE;
 +
++#if 0
 +    g_print ("rebuild gui, is on: %d\n", app->current_output->on);
++#endif
 +    
 +    rebuild_resolution_combo (app);
 +    rebuild_rate_combo (app);
 +
 +    gtk_widget_set_sensitive (app->resolution_combo, sensitive);
-+    gtk_widget_set_sensitive (app->refresh_combo, sensitive);
++
++#if 0
++    g_print ("sensitive: %d, on: %d\n", sensitive, app->current_output->on);
++#endif
 +    gtk_widget_set_sensitive (app->rotation_combo, sensitive);
 +    gtk_widget_set_sensitive (app->panel_checkbox, sensitive);
 +
@@ -4501,8 +4507,10 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.
 +	get_geometry (output, &w, &h);
 +	
 +	w = w * scale + 0.5;
++#if 0
 +	g_print ("%s (%p) geometry %d %d %d\n", output->name, output,
 +		 w, h, output->rate);
++#endif
 +	
 +	cairo_rectangle (cr, x, MARGIN, w, (int)(
 +			     h * scale + 0.5));
@@ -4697,8 +4705,8 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.
 +}
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/crtc.c
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/crtc.c	2008-01-31 13:18:09.000000000 -0500
-@@ -0,0 +1,322 @@
++++ gnome-control-center-2.21.90/capplets/display/crtc.c	2008-01-31 14:18:37.000000000 -0500
+@@ -0,0 +1,317 @@
 +#include <gtk/gtk.h>
 +#define I_KNOW_THIS_IS_UNSTABLE_AND_ONLY_IN_FEDORA
 +#include <libgnomeui/randrwrap.h>
@@ -4859,14 +4867,14 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/crtc.c
 +			    (RWOutput **)info->outputs->pdata,
 +			    info->outputs->len))
 +    {
-+	g_print ("succeeded\n");
++	g_print ("succeeded");
 +    }
 +    else
 +    {
-+	g_print ("failed\n");
++	g_print ("failed");
 +    }
 +
-+    g_print (" - %f seconds\n", g_timer_elapsed (timer, NULL));
++    g_print (" in %f seconds\n", g_timer_elapsed (timer, NULL));
 +}
 +
 +void
@@ -4892,18 +4900,13 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/crtc.c
 +    }
 +    g_list_free (active_crtcs);
 +
-+#if 0
-+    rw_screen_get_range (
++    rw_screen_get_ranges (
 +	assign->screen, &min_width, &max_width, &min_height, &max_height);
 +
 +    width = MAX (min_width, width);
 +    width = MIN (max_width, width);
 +    height = MAX (min_height, height);
 +    height = MIN (max_height, height);
-+#endif
-+    /* FIXME - get ranges from rw */
-+    width = MAX (1024, width);
-+    height = MAX (768, height);
 +    
 +    /* Turn off all crtcs currently displaying outside the new screen */
 +    for (i = 0; all_crtcs[i] != NULL; ++i)
@@ -5023,7 +5026,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/crtc.c
 +}
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/display-capplet.glade
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/display-capplet.glade	2008-01-31 13:17:45.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/display-capplet.glade	2008-01-31 13:20:11.000000000 -0500
 @@ -0,0 +1,363 @@
 +<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
 +<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
@@ -5390,7 +5393,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/display-capplet
 +</glade-interface>
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/scrollarea.h
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/scrollarea.h	2008-01-31 13:18:09.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/scrollarea.h	2008-01-31 14:18:37.000000000 -0500
 @@ -0,0 +1,107 @@
 +#include <cairo/cairo.h>
 +#include <gtk/gtk.h>
@@ -5501,7 +5504,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/scrollarea.h
 +void foo_scroll_area_end_auto_scroll (FooScrollArea *scroll_area);
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/display-name.c
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/display-name.c	2008-01-31 13:18:09.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/display-name.c	2008-01-31 14:18:37.000000000 -0500
 @@ -0,0 +1,161 @@
 +/*
 + * Copyright 2007 Red Hat, Inc.
@@ -5666,7 +5669,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/display-name.c
 +}
 diff -up gnome-control-center-2.21.90/capplets/display/Makefile.am.add-randr12-capplet gnome-control-center-2.21.90/capplets/display/Makefile.am
 --- gnome-control-center-2.21.90/capplets/display/Makefile.am.add-randr12-capplet	2008-01-29 07:22:35.000000000 -0500
-+++ gnome-control-center-2.21.90/capplets/display/Makefile.am	2008-01-31 13:17:45.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/Makefile.am	2008-01-31 13:20:11.000000000 -0500
 @@ -1,9 +1,27 @@
  # This is used in GNOMECC_CAPPLETS_CFLAGS
  cappletname = display
@@ -5698,8 +5701,8 @@ diff -up gnome-control-center-2.21.90/capplets/display/Makefile.am.add-randr12-c
  	$(DISPLAY_CAPPLET_LIBS) \
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/apply.c
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/apply.c	2008-01-31 13:18:09.000000000 -0500
-@@ -0,0 +1,200 @@
++++ gnome-control-center-2.21.90/capplets/display/apply.c	2008-01-31 14:18:37.000000000 -0500
+@@ -0,0 +1,210 @@
 +#include "crtc.h"
 +#include "monitor-db.h"
 +
@@ -5756,7 +5759,9 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/apply.c
 +
 +	if (!output->connected || !output->on)
 +	{
++#if 0
 +	    g_print ("%s is not connected\n", output->name);
++#endif
 +	    push (settings, rw_output, NULL, 0, 0);
 +
 +	    result = foreach_setting_list (screen, settings, outputs + 1, func, data);
@@ -5767,17 +5772,21 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/apply.c
 +	{
 +	    result = FALSE;
 +
++#if 0
 +	    g_print ("%s modes (%p)\n", output->name, output);
++#endif
 +	    
 +	    for (i = 0; modes[i] != NULL; ++i)
 +	    {
 +		RWMode *mode = modes[i];
 +		
++#if 0
 +		g_print ("%d x %d x %d   match mode   %d x %d x %d\n",
 +			 output->width, output->height, output->rate,
 +			 rw_mode_get_width (mode),
 +			 rw_mode_get_height (mode),
 +			 rw_mode_get_freq (mode));
++#endif
 +		
 +		if (rw_mode_get_width (mode) == output->width	&&
 +		    rw_mode_get_height (mode) == output->height	&&
@@ -5807,10 +5816,13 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/apply.c
 +    CrtcAssignment *assignment;
 +    int i;
 +
++#if 0
 +    g_print ("found setting\n");
++#endif
 +    
 +    assignment = assign_crtcs (screen, settings);
-+
++    
++#if 0
 +    for (i = 0; settings[i] != NULL; ++i)
 +    {
 +	RWMode *mode = settings[i]->mode;
@@ -5829,6 +5841,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/apply.c
 +	    g_print ("off\n");
 +	}
 +    }
++#endif
 +    
 +    if (assignment)
 +    {

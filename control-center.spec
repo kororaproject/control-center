@@ -349,6 +349,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Jan 29 2008 Soren Sandmann <sandmann@redhat.com> - 2.21.90-4
+- Update randr capplet
+
 * Thu Jan 29 2008 Soren Sandmann <sandmann@redhat.com> - 2.21.90-3
 - Update randr capplet
 
