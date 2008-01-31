@@ -1,6 +1,6 @@
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/edid.h
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/edid.h	2008-01-31 14:18:37.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/edid.h	2008-01-31 16:51:14.000000000 -0500
 @@ -0,0 +1,169 @@
 +typedef unsigned char uchar;
 +typedef struct MonitorInfo MonitorInfo;
@@ -173,7 +173,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/edid.h
 +char *       make_display_name (const MonitorInfo *info);
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.c
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/foo-marshal.c	2008-01-31 14:18:37.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/foo-marshal.c	2008-01-31 16:51:14.000000000 -0500
 @@ -0,0 +1,279 @@
 +
 +#include	<glib-object.h>
@@ -456,7 +456,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.c
 +
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/edid-parse.c
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/edid-parse.c	2008-01-31 14:18:37.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/edid-parse.c	2008-01-31 16:51:14.000000000 -0500
 @@ -0,0 +1,551 @@
 +/*
 + * Copyright 2007 Red Hat, Inc.
@@ -1011,7 +1011,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/edid-parse.c
 +}
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.h
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/foo-marshal.h	2008-01-31 14:18:37.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/foo-marshal.h	2008-01-31 16:51:14.000000000 -0500
 @@ -0,0 +1,63 @@
 +
 +#ifndef __foo_marshal_MARSHAL_H__
@@ -1078,7 +1078,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.h
 +
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/scrollarea.c
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/scrollarea.c	2008-01-31 14:18:37.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/scrollarea.c	2008-01-31 16:51:14.000000000 -0500
 @@ -0,0 +1,1902 @@
 +#include <gdk/gdkprivate.h> /* For GDK_PARENT_RELATIVE_BG */
 +#include "scrollarea.h"
@@ -2984,7 +2984,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/scrollarea.c
 +#endif
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/monitor-db.c
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/monitor-db.c	2008-01-31 14:18:37.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/monitor-db.c	2008-01-31 16:51:14.000000000 -0500
 @@ -0,0 +1,759 @@
 +#include <stdlib.h>
 +#include <string.h>
@@ -3747,7 +3747,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/monitor-db.c
 +}
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/monitor-db.h
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/monitor-db.h	2008-01-31 14:18:37.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/monitor-db.h	2008-01-31 16:51:14.000000000 -0500
 @@ -0,0 +1,95 @@
 +#define I_KNOW_THIS_IS_UNSTABLE_AND_ONLY_IN_FEDORA
 +#include <libgnomeui/randrwrap.h>
@@ -3846,7 +3846,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/monitor-db.h
 +
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/crtc.h
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/crtc.h	2008-01-31 14:18:37.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/crtc.h	2008-01-31 16:51:14.000000000 -0500
 @@ -0,0 +1,21 @@
 +#include <gtk/gtk.h>
 +#define I_KNOW_THIS_IS_UNSTABLE_AND_ONLY_IN_FEDORA
@@ -3871,14 +3871,14 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/crtc.h
 +void            crtc_assignment_free  (CrtcAssignment *assign);
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/apply.h
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/apply.h	2008-01-31 14:18:37.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/apply.h	2008-01-31 16:51:14.000000000 -0500
 @@ -0,0 +1,2 @@
 +/* This should go in g-s-d eventually */
 +void apply_stored_configuration (RWScreen *screen);
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.c
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/xrandr-capplet.c	2008-01-31 14:18:37.000000000 -0500
-@@ -0,0 +1,824 @@
++++ gnome-control-center-2.21.90/capplets/display/xrandr-capplet.c	2008-01-31 16:51:14.000000000 -0500
+@@ -0,0 +1,829 @@
 +/* Monitor Settings. A preference panel for configuring monitors
 + *
 + * Copyright (C) 2007, 2008  Red Hat, Inc.
@@ -3925,7 +3925,8 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.
 +    GtkWidget	   *refresh_combo;
 +    GtkWidget	   *rotation_combo;
 +    GtkWidget	   *panel_checkbox;
-+
++    GtkWidget	   *panel_label;
++    
 +    GtkWidget      *area;
 +    gboolean	    ignore_gui_changes;
 +};
@@ -4623,7 +4624,8 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.
 +
 +
 +    app->panel_checkbox = glade_xml_get_widget (xml, "panel_checkbox");
-+
++    app->panel_label = glade_xml_get_widget (xml, "panel_label");
++    
 +    make_text_combo (app->resolution_combo, 4);
 +    make_text_combo (app->refresh_combo, 3);
 +    make_text_combo (app->rotation_combo, -1);
@@ -4651,6 +4653,9 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.
 +
 +    on_screen_changed (app->screen, app);
 +    rebuild_gui (app);
++
++    gtk_widget_hide (app->panel_checkbox);
++    gtk_widget_hide (app->panel_label);
 +    
 +restart:
 +    switch (gtk_dialog_run (GTK_DIALOG (app->dialog)))
@@ -4705,7 +4710,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.
 +}
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/crtc.c
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/crtc.c	2008-01-31 14:18:37.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/crtc.c	2008-01-31 16:51:14.000000000 -0500
 @@ -0,0 +1,317 @@
 +#include <gtk/gtk.h>
 +#define I_KNOW_THIS_IS_UNSTABLE_AND_ONLY_IN_FEDORA
@@ -5026,8 +5031,8 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/crtc.c
 +}
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/display-capplet.glade
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/display-capplet.glade	2008-01-31 13:20:11.000000000 -0500
-@@ -0,0 +1,363 @@
++++ gnome-control-center-2.21.90/capplets/display/display-capplet.glade	2008-01-31 16:51:14.000000000 -0500
+@@ -0,0 +1,399 @@
 +<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
 +<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 +
@@ -5271,7 +5276,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/display-capplet
 +		  </child>
 +
 +		  <child>
-+		    <widget class="GtkLabel" id="label4">
++		    <widget class="GtkLabel" id="panel_label">
 +		      <property name="visible">True</property>
 +		      <property name="label" translatable="yes">Include _Panel</property>
 +		      <property name="use_underline">True</property>
@@ -5379,6 +5384,42 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/display-capplet
 +	      <property name="fill">True</property>
 +	    </packing>
 +	  </child>
++
++	  <child>
++	    <widget class="GtkLabel" id="label6">
++	      <property name="visible">True</property>
++	      <property name="can_focus">True</property>
++	      <property name="label" translatable="yes">
++If you report bugs in this control panel (please do!),  make sure you
++attach the file
++
++                          /var/log/Xorg.0.log
++
++plus the names and models of the monitors, including laptops, you are using. 
++
++Thank you, and yes, this text will go away before F9.
++
++</property>
++	      <property name="use_underline">False</property>
++	      <property name="use_markup">True</property>
++	      <property name="justify">GTK_JUSTIFY_LEFT</property>
++	      <property name="wrap">False</property>
++	      <property name="selectable">True</property>
++	      <property name="xalign">0.5</property>
++	      <property name="yalign">0.5</property>
++	      <property name="xpad">0</property>
++	      <property name="ypad">0</property>
++	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
++	      <property name="width_chars">-1</property>
++	      <property name="single_line_mode">False</property>
++	      <property name="angle">0</property>
++	    </widget>
++	    <packing>
++	      <property name="padding">0</property>
++	      <property name="expand">False</property>
++	      <property name="fill">False</property>
++	    </packing>
++	  </child>
 +	</widget>
 +	<packing>
 +	  <property name="padding">0</property>
@@ -5393,7 +5434,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/display-capplet
 +</glade-interface>
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/scrollarea.h
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/scrollarea.h	2008-01-31 14:18:37.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/scrollarea.h	2008-01-31 16:51:14.000000000 -0500
 @@ -0,0 +1,107 @@
 +#include <cairo/cairo.h>
 +#include <gtk/gtk.h>
@@ -5504,7 +5545,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/scrollarea.h
 +void foo_scroll_area_end_auto_scroll (FooScrollArea *scroll_area);
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/display-name.c
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/display-name.c	2008-01-31 14:18:37.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/display-name.c	2008-01-31 16:51:14.000000000 -0500
 @@ -0,0 +1,161 @@
 +/*
 + * Copyright 2007 Red Hat, Inc.
@@ -5669,7 +5710,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/display-name.c
 +}
 diff -up gnome-control-center-2.21.90/capplets/display/Makefile.am.add-randr12-capplet gnome-control-center-2.21.90/capplets/display/Makefile.am
 --- gnome-control-center-2.21.90/capplets/display/Makefile.am.add-randr12-capplet	2008-01-29 07:22:35.000000000 -0500
-+++ gnome-control-center-2.21.90/capplets/display/Makefile.am	2008-01-31 13:20:11.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/Makefile.am	2008-01-31 14:45:57.000000000 -0500
 @@ -1,9 +1,27 @@
  # This is used in GNOMECC_CAPPLETS_CFLAGS
  cappletname = display
@@ -5701,8 +5742,8 @@ diff -up gnome-control-center-2.21.90/capplets/display/Makefile.am.add-randr12-c
  	$(DISPLAY_CAPPLET_LIBS) \
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/apply.c
 --- /dev/null	2008-01-30 11:34:25.225700292 -0500
-+++ gnome-control-center-2.21.90/capplets/display/apply.c	2008-01-31 14:18:37.000000000 -0500
-@@ -0,0 +1,210 @@
++++ gnome-control-center-2.21.90/capplets/display/apply.c	2008-01-31 16:51:14.000000000 -0500
+@@ -0,0 +1,212 @@
 +#include "crtc.h"
 +#include "monitor-db.h"
 +
@@ -5814,7 +5855,9 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/apply.c
 +{
 +    RWScreen *screen = data;
 +    CrtcAssignment *assignment;
++#if 0
 +    int i;
++#endif
 +
 +#if 0
 +    g_print ("found setting\n");
