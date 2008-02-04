@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.21.90
-Release: 6%{?dist}
+Release: 7%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -349,6 +349,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Feb 4 2008 Soren Sandmann <sandmann@redhat.com> - 2.21.90-7
+- Update randr capplet
+
 * Mon Feb 4 2008 Soren Sandmann <sandmann@redhat.com> - 2.21.90-6
 - Update randr capplet - now with rotation
 
