@@ -54,7 +54,7 @@ Obsoletes: gnome fontilus
 Conflicts: desktop-backgrounds-basic < 2.0-27
 Conflicts: desktop-backgrounds-extended < 2.0-27
 
-Requires: gnome-settings-daemon
+Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
 Requires: gnome-icon-theme
 Requires: libgail-gnome
@@ -349,6 +349,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Feb 12 2008 Soren Sandmann <sandmann@redhat.com> - 2.21.90-8
+- Update randr capplet
+
 * Mon Feb 4 2008 Soren Sandmann <sandmann@redhat.com> - 2.21.90-7
 - Update randr capplet
 
