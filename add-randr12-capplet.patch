@@ -1,6 +1,6 @@
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.c
 --- /dev/null	2008-02-13 09:53:53.228642516 -0500
-+++ gnome-control-center-2.21.90/capplets/display/foo-marshal.c	2008-02-13 13:11:33.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/foo-marshal.c	2008-02-15 20:33:42.000000000 -0500
 @@ -0,0 +1,279 @@
 +
 +#include	<glib-object.h>
@@ -283,7 +283,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.c
 +
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.h
 --- /dev/null	2008-02-13 09:53:53.228642516 -0500
-+++ gnome-control-center-2.21.90/capplets/display/foo-marshal.h	2008-02-13 13:11:33.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/foo-marshal.h	2008-02-15 20:33:42.000000000 -0500
 @@ -0,0 +1,63 @@
 +
 +#ifndef __foo_marshal_MARSHAL_H__
@@ -350,7 +350,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.h
 +
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/scrollarea.c
 --- /dev/null	2008-02-13 09:53:53.228642516 -0500
-+++ gnome-control-center-2.21.90/capplets/display/scrollarea.c	2008-02-13 13:11:33.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/scrollarea.c	2008-02-15 20:33:42.000000000 -0500
 @@ -0,0 +1,1902 @@
 +#include <gdk/gdkprivate.h> /* For GDK_PARENT_RELATIVE_BG */
 +#include "scrollarea.h"
@@ -2256,8 +2256,8 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/scrollarea.c
 +#endif
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.c
 --- /dev/null	2008-02-13 09:53:53.228642516 -0500
-+++ gnome-control-center-2.21.90/capplets/display/xrandr-capplet.c	2008-02-13 13:11:33.000000000 -0500
-@@ -0,0 +1,961 @@
++++ gnome-control-center-2.21.90/capplets/display/xrandr-capplet.c	2008-02-15 20:33:42.000000000 -0500
+@@ -0,0 +1,963 @@
 +/* Monitor Settings. A preference panel for configuring monitors
 + *
 + * Copyright (C) 2007, 2008  Red Hat, Inc.
@@ -2368,12 +2368,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.
 +
 +    current = configuration_new_current (app->screen);
 +
-+    if (app->current_configuration &&
-+	configuration_match (current, app->current_configuration))
-+    {
-+	configuration_free (current);
-+	return;
-+    }
++    g_print ("New configuration\n");
 +    
 +    if (app->current_configuration)
 +	configuration_free (app->current_configuration);
@@ -2384,7 +2379,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.
 +    {
 +	Output *o = app->current_configuration->outputs[i];
 +	
-+	g_print ("  output: %d %d %d %d\n", o->x, o->y, o->width, o->height);
++	g_print ("  output %s %s: %d %d %d %d\n", o->name, o->on? "on" : "off", o->x, o->y, o->width, o->height);
 +    }
 +    
 +    g_print ("sorting\n");
@@ -3025,10 +3020,17 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.
 +					     output);
 +	
 +	if (output == app->current_output)
-+	    cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, 1.0);
++	{
++	    cairo_set_line_width (cr, 4);
++	    cairo_set_source_rgba (cr, 0.33, 0.43, 0.57, 1.0);
++	}
 +	else
++	{
++	    cairo_set_line_width (cr, 1);
 +	    cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 1.0);
++	}
 +	cairo_stroke (cr);
++	cairo_set_line_width (cr, 2);
 +
 +	cairo_move_to (cr, x + 40, MARGIN + 40);
 +	cairo_set_source_rgb (cr, 0.2, 0.2, 0.8);
@@ -3221,7 +3223,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.
 +}
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/display-capplet.glade
 --- /dev/null	2008-02-13 09:53:53.228642516 -0500
-+++ gnome-control-center-2.21.90/capplets/display/display-capplet.glade	2008-02-13 13:11:33.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/display-capplet.glade	2008-02-15 20:33:42.000000000 -0500
 @@ -0,0 +1,399 @@
 +<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
 +<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
@@ -3624,7 +3626,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/display-capplet
 +</glade-interface>
 diff -up /dev/null gnome-control-center-2.21.90/capplets/display/scrollarea.h
 --- /dev/null	2008-02-13 09:53:53.228642516 -0500
-+++ gnome-control-center-2.21.90/capplets/display/scrollarea.h	2008-02-13 13:11:33.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/scrollarea.h	2008-02-15 20:33:42.000000000 -0500
 @@ -0,0 +1,107 @@
 +#include <cairo/cairo.h>
 +#include <gtk/gtk.h>
@@ -3735,7 +3737,7 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/scrollarea.h
 +void foo_scroll_area_end_auto_scroll (FooScrollArea *scroll_area);
 diff -up gnome-control-center-2.21.90/capplets/display/Makefile.am.add-randr12-capplet gnome-control-center-2.21.90/capplets/display/Makefile.am
 --- gnome-control-center-2.21.90/capplets/display/Makefile.am.add-randr12-capplet	2008-01-29 07:22:35.000000000 -0500
-+++ gnome-control-center-2.21.90/capplets/display/Makefile.am	2008-02-13 10:34:00.000000000 -0500
++++ gnome-control-center-2.21.90/capplets/display/Makefile.am	2008-02-13 13:12:09.000000000 -0500
 @@ -1,9 +1,18 @@
  # This is used in GNOMECC_CAPPLETS_CFLAGS
  cappletname = display
