@@ -13,7 +13,7 @@
 %define xft_version 2.1.7
 %define fontconfig_version 1.0.0
 %define redhat_menus_version 1.8
-%define metacity_version 2.5.3
+%define metacity_version 2.21.21
 %define libxklavier_version 3.2
 %define gnome_menus_version 2.11.1
 %define usermode_version 1.83
