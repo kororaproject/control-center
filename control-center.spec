@@ -21,8 +21,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.21.90
-Release: 10%{?dist}
+Version: 2.21.92
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -35,11 +35,9 @@ Patch5: background-location.patch
 # Fix some useless warnings in libslab
 # http://bugzilla.gnome.org/show_bug.cgi?id=439398
 Patch6: gnome-control-center-2.19.90-no-warnings.patch
-# http://bugzilla.gnome.org/show_bug.cgi?id=511306
-Patch7: no-fonts.patch
 # call the Fedora/RHEL graphical passwd changing apps
-Patch95: control-center-2.19.91-passwd.patch
-Patch96: control-center-2.19.90-gecos.patch
+Patch95: control-center-2.21.92-passwd.patch
+Patch96: gnome-control-center-2.21.92-gecos.patch
 # change default preferred apps to programs we ship
 Patch99: default-applications.patch
 
@@ -164,7 +162,6 @@ utilities.
 pushd libslab
 %patch6 -p0 -b .warnings
 popd
-%patch7 -p1 -b .no-fonts
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -349,6 +346,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Feb 26 2008 Matthias Clasen <mclasen@redhat.com> - 2.21.92-1
+- Update to 2.21.92
+
 * Wed Feb 13 2008 Soren Sandmann <sandmann@redhat.com> - 2.21.90-10
 - Update randr capplet
 

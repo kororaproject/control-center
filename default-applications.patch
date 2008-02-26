@@ -1,7 +1,7 @@
-diff -up gnome-control-center-2.21.4/capplets/default-applications/gnome-default-applications.xml.in.default-apps gnome-control-center-2.21.4/capplets/default-applications/gnome-default-applications.xml.in
---- gnome-control-center-2.21.4/capplets/default-applications/gnome-default-applications.xml.in.default-apps	2007-12-20 17:00:56.000000000 -0500
-+++ gnome-control-center-2.21.4/capplets/default-applications/gnome-default-applications.xml.in	2007-12-21 12:23:29.000000000 -0500
-@@ -44,52 +44,12 @@
+diff -up gnome-control-center-2.21.92/capplets/default-applications/gnome-default-applications.xml.in.default-apps gnome-control-center-2.21.92/capplets/default-applications/gnome-default-applications.xml.in
+--- gnome-control-center-2.21.92/capplets/default-applications/gnome-default-applications.xml.in.default-apps	2008-02-24 18:36:53.000000000 -0500
++++ gnome-control-center-2.21.92/capplets/default-applications/gnome-default-applications.xml.in	2008-02-26 12:23:53.000000000 -0500
+@@ -44,62 +44,22 @@
        <win-command>galeon -w %s</win-command>
      </web-browser>
      <web-browser>
@@ -29,18 +29,19 @@ diff -up gnome-control-center-2.21.4/capplets/default-applications/gnome-default
        <icon-name>firefox</icon-name>
        <run-in-terminal>false</run-in-terminal>
 -      <netscape-remote>true</netscape-remote>
--      <tab-command>firefox -new-tab "%s"</tab-command>
--      <win-command>firefox -new-window "%s"</win-command>
--    </web-browser>
--    <web-browser>
++      <netscape-remote>false</netscape-remote>
+       <tab-command>firefox -new-tab "%s"</tab-command>
+       <win-command>firefox -new-window "%s"</win-command>
+     </web-browser>
+     <web-browser>
 -      <_name>Iceweasel</_name>
 -      <executable>iceweasel</executable>
 -      <command>iceweasel %s</command>
 -      <icon-name>iceweasel</icon-name>
 -      <run-in-terminal>false</run-in-terminal>
 -      <netscape-remote>true</netscape-remote>
--      <tab-command>iceweasel -remote "openurl(%s,new-tab)"</tab-command>
--      <win-command>iceweasel -remote "openurl(%s,new-window)"</win-command>
+-      <tab-command>iceweasel -new-tab "%s"</tab-command>
+-      <win-command>iceweasel -new-window "%s"</win-command>
 -    </web-browser>
 -    <web-browser>
 -      <_name>Mozilla 1.6</_name>
@@ -51,11 +52,10 @@ diff -up gnome-control-center-2.21.4/capplets/default-applications/gnome-default
 -      <netscape-remote>true</netscape-remote>
 -      <tab-command>mozilla-1.6 -remote "openurl(%s,new-tab)"</tab-command>
 -      <win-command>mozilla-1.6 -remote "openurl(%s,new-window)"</win-command>
-+      <netscape-remote>false</netscape-remote>
-     </web-browser>
-     <web-browser>
+-    </web-browser>
+-    <web-browser>
        <_name>Mozilla</_name>
-@@ -97,9 +57,7 @@
+       <executable>mozilla</executable>
        <command>mozilla %s</command>
        <icon-name>mozilla-icon</icon-name>
        <run-in-terminal>false</run-in-terminal>
@@ -66,7 +66,7 @@ diff -up gnome-control-center-2.21.4/capplets/default-applications/gnome-default
      </web-browser>
      <web-browser>
        <_name>SeaMonkey</_name>
-@@ -112,24 +70,12 @@
+@@ -112,24 +72,12 @@
        <win-command>seamonkey -remote "openurl(%s,new-window)"</win-command>
      </web-browser>
      <web-browser>
@@ -93,7 +93,7 @@ diff -up gnome-control-center-2.21.4/capplets/default-applications/gnome-default
      </web-browser>
      <web-browser>
        <_name>Konqueror</_name>
-@@ -153,7 +99,7 @@
+@@ -153,7 +101,7 @@
      <mail-reader>
        <_name>Evolution Mail Reader</_name>
        <executable>evolution</executable>
@@ -102,10 +102,17 @@ diff -up gnome-control-center-2.21.4/capplets/default-applications/gnome-default
        <icon-name>evolution</icon-name>
        <run-in-terminal>false</run-in-terminal>
      </mail-reader>
-@@ -179,27 +125,13 @@
+@@ -172,34 +120,13 @@
        <run-in-terminal>false</run-in-terminal>
      </mail-reader>
      <mail-reader>
+-      <_name>Icedove</_name>
+-      <executable>icedove</executable>
+-      <command>icedove %s</command>
+-      <icon-name>icedove</icon-name>
+-      <run-in-terminal>false</run-in-terminal>
+-    </mail-reader>
+-    <mail-reader>
 -      <_name>Thunderbird</_name>
 +      <_name>Thunderbird Mail</_name>
        <executable>thunderbird</executable>
@@ -131,7 +138,21 @@ diff -up gnome-control-center-2.21.4/capplets/default-applications/gnome-default
        <_name>SeaMonkey Mail</_name>
        <executable>seamonkey</executable>
        <command>seamonkey -mail %s</command>
-@@ -252,6 +191,20 @@
+@@ -207,13 +134,6 @@
+       <run-in-terminal>false</run-in-terminal>
+     </mail-reader>
+     <mail-reader>
+-      <_name>Iceape Mail</_name>
+-      <executable>iceape</executable>
+-      <command>iceape -mail %s</command>
+-      <icon-name>iceape</icon-name>
+-      <run-in-terminal>false</run-in-terminal>
+-    </mail-reader>
+-    <mail-reader>
+       <_name>Mutt</_name>
+       <executable>mutt</executable>
+       <command>mutt %s</command>
+@@ -252,6 +172,20 @@
        <exec-flag>-e</exec-flag>
      </terminal>
      <terminal>
