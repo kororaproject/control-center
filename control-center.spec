@@ -27,6 +27,7 @@ Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 Source: http://download.gnome.org/sources/gnome-control-center/2.21/gnome-control-center-%{version}.tar.bz2
+Source1: po.tar.gz
 
 Patch2: control-center-2.20.0-enable-sound-by-default.patch
 Patch3: control-center-2.19.3-no-gnome-common.patch
@@ -155,6 +156,7 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
+tar xzf %{SOURCE1}
 
 %patch2 -p0 -b .enable-sound
 %patch3 -p1 -b .no-gnome-common
