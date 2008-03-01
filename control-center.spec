@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.21.92
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -36,6 +36,10 @@ Patch5: background-location.patch
 # Fix some useless warnings in libslab
 # http://bugzilla.gnome.org/show_bug.cgi?id=439398
 Patch6: gnome-control-center-2.19.90-no-warnings.patch
+
+# sent to gnome-i18n@gnome.org
+Patch7: broken-schema-translations.patch
+
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.21.92-passwd.patch
 Patch96: gnome-control-center-2.21.92-gecos.patch
@@ -164,6 +168,7 @@ tar xzf %{SOURCE1}
 pushd libslab
 %patch6 -p0 -b .warnings
 popd
+%patch7 -p1 -b .broken-schema-translations
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -348,6 +353,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Fri Feb 29 2008 Matthias Clasen <mclasen@redhat.com> - 2.21.92-2
+- Fix broken schema translations
+
 * Tue Feb 26 2008 Matthias Clasen <mclasen@redhat.com> - 2.21.92-1
 - Update to 2.21.92
 

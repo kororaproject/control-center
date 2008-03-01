@@ -1,0 +1,24 @@
+diff -up gnome-control-center-2.21.92/po/as.po.broken-schema-translations gnome-control-center-2.21.92/po/as.po
+--- gnome-control-center-2.21.92/po/as.po.broken-schema-translations	2008-02-29 23:40:36.000000000 -0500
++++ gnome-control-center-2.21.92/po/as.po	2008-02-29 23:40:58.000000000 -0500
+@@ -3101,7 +3101,7 @@ msgstr "ফাইলেৰ নাম স
+ msgid ""
+ "[Change Theme;gtk-theme-selector.desktop,Set Preferred Applications;default-"
+ "applications.desktop,Add Printer;gnome-cups-manager.desktop]"
+-msgstr "থিম অনুপ্ৰয়োগ ডিফল্ট যোগ কৰক প্ৰিন্টাৰ"
++msgstr ""
+ 
+ #: ../shell/control-center.schemas.in.h:14
+ msgid "if true, the control-center will close when a \"Common Task\" is activated"
+diff -up gnome-control-center-2.21.92/po/fi.po.broken-schema-translations gnome-control-center-2.21.92/po/fi.po
+--- gnome-control-center-2.21.92/po/fi.po.broken-schema-translations	2008-02-29 23:32:18.000000000 -0500
++++ gnome-control-center-2.21.92/po/fi.po	2008-02-29 23:32:35.000000000 -0500
+@@ -3142,7 +3142,7 @@ msgid ""
+ "[Change Theme;gtk-theme-selector.desktop,Set Preferred Applications;default-"
+ "applications.desktop,Add Printer;gnome-cups-manager.desktop]"
+ msgstr ""
+-"Vaihda teemaa;gtk-theme-selector.desktop,Aseta ensisijaiset sovellukset;"
++"[Vaihda teemaa;gtk-theme-selector.desktop,Aseta ensisijaiset sovellukset;"
+ "default-applications.desktop, Lisää tulostin;gnome-cups-manager.desktop]"
+ 
+ #: ../shell/control-center.schemas.in.h:14
