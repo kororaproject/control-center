@@ -1,6 +1,428 @@
-diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.c
---- /dev/null	2008-02-13 09:53:53.228642516 -0500
-+++ gnome-control-center-2.21.90/capplets/display/foo-marshal.c	2008-02-15 20:33:42.000000000 -0500
+diff -up /dev/null gnome-control-center-2.21.92/capplets/display/display-capplet.glade
+--- /dev/null	2008-02-19 17:35:05.543056439 -0500
++++ gnome-control-center-2.21.92/capplets/display/display-capplet.glade	2008-03-02 17:36:13.000000000 -0500
+@@ -0,0 +1,418 @@
++<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
++<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
++
++<glade-interface>
++
++<widget class="GtkDialog" id="dialog">
++  <property name="border_width">18</property>
++  <property name="title" translatable="yes"></property>
++  <property name="type">GTK_WINDOW_TOPLEVEL</property>
++  <property name="window_position">GTK_WIN_POS_NONE</property>
++  <property name="modal">False</property>
++  <property name="resizable">True</property>
++  <property name="destroy_with_parent">False</property>
++  <property name="decorated">True</property>
++  <property name="skip_taskbar_hint">False</property>
++  <property name="skip_pager_hint">False</property>
++  <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
++  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
++  <property name="focus_on_map">True</property>
++  <property name="urgency_hint">False</property>
++  <property name="has_separator">False</property>
++
++  <child internal-child="vbox">
++    <widget class="GtkVBox" id="dialog-vbox1">
++      <property name="visible">True</property>
++      <property name="homogeneous">False</property>
++      <property name="spacing">0</property>
++
++      <child internal-child="action_area">
++	<widget class="GtkHButtonBox" id="dialog-action_area1">
++	  <property name="visible">True</property>
++	  <property name="layout_style">GTK_BUTTONBOX_END</property>
++
++	  <child>
++	    <widget class="GtkButton" id="helpbutton1">
++	      <property name="visible">True</property>
++	      <property name="can_default">True</property>
++	      <property name="can_focus">True</property>
++	      <property name="label">gtk-help</property>
++	      <property name="use_stock">True</property>
++	      <property name="relief">GTK_RELIEF_NORMAL</property>
++	      <property name="focus_on_click">True</property>
++	      <property name="response_id">-11</property>
++	    </widget>
++	  </child>
++
++	  <child>
++	    <widget class="GtkButton" id="button1">
++	      <property name="visible">True</property>
++	      <property name="can_default">True</property>
++	      <property name="can_focus">True</property>
++	      <property name="label">gtk-apply</property>
++	      <property name="use_stock">True</property>
++	      <property name="relief">GTK_RELIEF_NORMAL</property>
++	      <property name="focus_on_click">True</property>
++	      <property name="response_id">-10</property>
++	    </widget>
++	  </child>
++
++	  <child>
++	    <widget class="GtkButton" id="button2">
++	      <property name="visible">True</property>
++	      <property name="can_default">True</property>
++	      <property name="can_focus">True</property>
++	      <property name="label">gtk-close</property>
++	      <property name="use_stock">True</property>
++	      <property name="relief">GTK_RELIEF_NORMAL</property>
++	      <property name="focus_on_click">True</property>
++	      <property name="response_id">-7</property>
++	    </widget>
++	  </child>
++	</widget>
++	<packing>
++	  <property name="padding">0</property>
++	  <property name="expand">False</property>
++	  <property name="fill">True</property>
++	  <property name="pack_type">GTK_PACK_END</property>
++	</packing>
++      </child>
++
++      <child>
++	<widget class="GtkVBox" id="vbox1">
++	  <property name="visible">True</property>
++	  <property name="homogeneous">False</property>
++	  <property name="spacing">12</property>
++
++	  <child>
++	    <widget class="GtkLabel" id="label1">
++	      <property name="visible">True</property>
++	      <property name="label" translatable="yes">&lt;b&gt;Monitor Resolution Settings&lt;/b&gt;</property>
++	      <property name="use_underline">False</property>
++	      <property name="use_markup">True</property>
++	      <property name="justify">GTK_JUSTIFY_LEFT</property>
++	      <property name="wrap">False</property>
++	      <property name="selectable">False</property>
++	      <property name="xalign">0</property>
++	      <property name="yalign">0.5</property>
++	      <property name="xpad">0</property>
++	      <property name="ypad">0</property>
++	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
++	      <property name="width_chars">-1</property>
++	      <property name="single_line_mode">False</property>
++	      <property name="angle">0</property>
++	    </widget>
++	    <packing>
++	      <property name="padding">0</property>
++	      <property name="expand">False</property>
++	      <property name="fill">False</property>
++	    </packing>
++	  </child>
++
++	  <child>
++	    <widget class="GtkCheckButton" id="clone_checkbox">
++	      <property name="visible">True</property>
++	      <property name="can_focus">True</property>
++	      <property name="label" translatable="yes">Mirror Screens (the clone wars)</property>
++	      <property name="use_underline">True</property>
++	      <property name="relief">GTK_RELIEF_NORMAL</property>
++	      <property name="focus_on_click">True</property>
++	      <property name="active">False</property>
++	      <property name="inconsistent">False</property>
++	      <property name="draw_indicator">True</property>
++	    </widget>
++	    <packing>
++	      <property name="padding">0</property>
++	      <property name="expand">False</property>
++	      <property name="fill">False</property>
++	    </packing>
++	  </child>
++
++	  <child>
++	    <widget class="GtkAlignment" id="align">
++	      <property name="visible">True</property>
++	      <property name="xalign">0.5</property>
++	      <property name="yalign">0.5</property>
++	      <property name="xscale">1</property>
++	      <property name="yscale">1</property>
++	      <property name="top_padding">0</property>
++	      <property name="bottom_padding">0</property>
++	      <property name="left_padding">0</property>
++	      <property name="right_padding">0</property>
++
++	      <child>
++		<placeholder/>
++	      </child>
++	    </widget>
++	    <packing>
++	      <property name="padding">0</property>
++	      <property name="expand">True</property>
++	      <property name="fill">True</property>
++	    </packing>
++	  </child>
++
++	  <child>
++	    <widget class="GtkAlignment" id="alignment1">
++	      <property name="visible">True</property>
++	      <property name="xalign">0.5</property>
++	      <property name="yalign">0.5</property>
++	      <property name="xscale">1</property>
++	      <property name="yscale">1</property>
++	      <property name="top_padding">12</property>
++	      <property name="bottom_padding">24</property>
++	      <property name="left_padding">24</property>
++	      <property name="right_padding">24</property>
++
++	      <child>
++		<widget class="GtkTable" id="table1">
++		  <property name="visible">True</property>
++		  <property name="n_rows">2</property>
++		  <property name="n_columns">4</property>
++		  <property name="homogeneous">False</property>
++		  <property name="row_spacing">12</property>
++		  <property name="column_spacing">12</property>
++
++		  <child>
++		    <widget class="GtkLabel" id="label2">
++		      <property name="visible">True</property>
++		      <property name="label" translatable="yes">_Resolution</property>
++		      <property name="use_underline">True</property>
++		      <property name="use_markup">False</property>
++		      <property name="justify">GTK_JUSTIFY_LEFT</property>
++		      <property name="wrap">False</property>
++		      <property name="selectable">False</property>
++		      <property name="xalign">0</property>
++		      <property name="yalign">0.5</property>
++		      <property name="xpad">0</property>
++		      <property name="ypad">0</property>
++		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
++		      <property name="width_chars">-1</property>
++		      <property name="single_line_mode">False</property>
++		      <property name="angle">0</property>
++		    </widget>
++		    <packing>
++		      <property name="left_attach">0</property>
++		      <property name="right_attach">1</property>
++		      <property name="top_attach">0</property>
++		      <property name="bottom_attach">1</property>
++		      <property name="x_options">fill</property>
++		      <property name="y_options"></property>
++		    </packing>
++		  </child>
++
++		  <child>
++		    <widget class="GtkLabel" id="label3">
++		      <property name="visible">True</property>
++		      <property name="label" translatable="yes">Re_fresh Rate:</property>
++		      <property name="use_underline">True</property>
++		      <property name="use_markup">False</property>
++		      <property name="justify">GTK_JUSTIFY_LEFT</property>
++		      <property name="wrap">False</property>
++		      <property name="selectable">False</property>
++		      <property name="xalign">0</property>
++		      <property name="yalign">0.5</property>
++		      <property name="xpad">0</property>
++		      <property name="ypad">0</property>
++		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
++		      <property name="width_chars">-1</property>
++		      <property name="single_line_mode">False</property>
++		      <property name="angle">0</property>
++		    </widget>
++		    <packing>
++		      <property name="left_attach">0</property>
++		      <property name="right_attach">1</property>
++		      <property name="top_attach">1</property>
++		      <property name="bottom_attach">2</property>
++		      <property name="x_options">fill</property>
++		      <property name="y_options"></property>
++		    </packing>
++		  </child>
++
++		  <child>
++		    <widget class="GtkComboBox" id="resolution_combo">
++		      <property name="visible">True</property>
++		      <property name="add_tearoffs">False</property>
++		      <property name="focus_on_click">True</property>
++		    </widget>
++		    <packing>
++		      <property name="left_attach">1</property>
++		      <property name="right_attach">2</property>
++		      <property name="top_attach">0</property>
++		      <property name="bottom_attach">1</property>
++		      <property name="y_options">fill</property>
++		    </packing>
++		  </child>
++
++		  <child>
++		    <widget class="GtkComboBox" id="refresh_combo">
++		      <property name="visible">True</property>
++		      <property name="add_tearoffs">False</property>
++		      <property name="focus_on_click">True</property>
++		    </widget>
++		    <packing>
++		      <property name="left_attach">1</property>
++		      <property name="right_attach">2</property>
++		      <property name="top_attach">1</property>
++		      <property name="bottom_attach">2</property>
++		      <property name="x_options">fill</property>
++		      <property name="y_options">fill</property>
++		    </packing>
++		  </child>
++
++		  <child>
++		    <widget class="GtkLabel" id="panel_label">
++		      <property name="visible">True</property>
++		      <property name="label" translatable="yes">Include _Panel</property>
++		      <property name="use_underline">True</property>
++		      <property name="use_markup">False</property>
++		      <property name="justify">GTK_JUSTIFY_LEFT</property>
++		      <property name="wrap">False</property>
++		      <property name="selectable">False</property>
++		      <property name="xalign">0</property>
++		      <property name="yalign">0.5</property>
++		      <property name="xpad">0</property>
++		      <property name="ypad">0</property>
++		      <property name="mnemonic_widget">panel_checkbox</property>
++		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
++		      <property name="width_chars">-1</property>
++		      <property name="single_line_mode">False</property>
++		      <property name="angle">0</property>
++		    </widget>
++		    <packing>
++		      <property name="left_attach">2</property>
++		      <property name="right_attach">3</property>
++		      <property name="top_attach">0</property>
++		      <property name="bottom_attach">1</property>
++		      <property name="x_options">fill</property>
++		      <property name="y_options"></property>
++		    </packing>
++		  </child>
++
++		  <child>
++		    <widget class="GtkLabel" id="label5">
++		      <property name="visible">True</property>
++		      <property name="label" translatable="yes">R_otation</property>
++		      <property name="use_underline">True</property>
++		      <property name="use_markup">False</property>
++		      <property name="justify">GTK_JUSTIFY_LEFT</property>
++		      <property name="wrap">False</property>
++		      <property name="selectable">False</property>
++		      <property name="xalign">0</property>
++		      <property name="yalign">0.5</property>
++		      <property name="xpad">0</property>
++		      <property name="ypad">0</property>
++		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
++		      <property name="width_chars">-1</property>
++		      <property name="single_line_mode">False</property>
++		      <property name="angle">0</property>
++		    </widget>
++		    <packing>
++		      <property name="left_attach">2</property>
++		      <property name="right_attach">3</property>
++		      <property name="top_attach">1</property>
++		      <property name="bottom_attach">2</property>
++		      <property name="x_options">fill</property>
++		      <property name="y_options"></property>
++		    </packing>
++		  </child>
++
++		  <child>
++		    <widget class="GtkComboBox" id="rotation_combo">
++		      <property name="visible">True</property>
++		      <property name="items" translatable="yes">Normal
++Left
++Right
++Upside-down
++</property>
++		      <property name="add_tearoffs">False</property>
++		      <property name="focus_on_click">True</property>
++		    </widget>
++		    <packing>
++		      <property name="left_attach">3</property>
++		      <property name="right_attach">4</property>
++		      <property name="top_attach">1</property>
++		      <property name="bottom_attach">2</property>
++		      <property name="y_options">fill</property>
++		    </packing>
++		  </child>
++
++		  <child>
++		    <widget class="GtkCheckButton" id="panel_checkbox">
++		      <property name="visible">True</property>
++		      <property name="can_focus">True</property>
++		      <property name="relief">GTK_RELIEF_NORMAL</property>
++		      <property name="focus_on_click">True</property>
++		      <property name="active">False</property>
++		      <property name="inconsistent">False</property>
++		      <property name="draw_indicator">True</property>
++
++		      <child>
++			<placeholder/>
++		      </child>
++		    </widget>
++		    <packing>
++		      <property name="left_attach">3</property>
++		      <property name="right_attach">4</property>
++		      <property name="top_attach">0</property>
++		      <property name="bottom_attach">1</property>
++		      <property name="x_options">fill</property>
++		      <property name="y_options"></property>
++		    </packing>
++		  </child>
++		</widget>
++	      </child>
++	    </widget>
++	    <packing>
++	      <property name="padding">0</property>
++	      <property name="expand">False</property>
++	      <property name="fill">True</property>
++	    </packing>
++	  </child>
++
++	  <child>
++	    <widget class="GtkLabel" id="label6">
++	      <property name="visible">True</property>
++	      <property name="can_focus">True</property>
++	      <property name="label" translatable="yes">
++If you report bugs in this control panel (please do!), make sure you
++attach the file
++
++                          /var/log/Xorg.0.log
++
++plus the names and models of the monitors, including laptops, you are using. 
++
++Thank you, and yes, this text will go away before F9.
++
++</property>
++	      <property name="use_underline">False</property>
++	      <property name="use_markup">True</property>
++	      <property name="justify">GTK_JUSTIFY_LEFT</property>
++	      <property name="wrap">False</property>
++	      <property name="selectable">True</property>
++	      <property name="xalign">0.5</property>
++	      <property name="yalign">0.5</property>
++	      <property name="xpad">0</property>
++	      <property name="ypad">0</property>
++	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
++	      <property name="width_chars">-1</property>
++	      <property name="single_line_mode">False</property>
++	      <property name="angle">0</property>
++	    </widget>
++	    <packing>
++	      <property name="padding">0</property>
++	      <property name="expand">False</property>
++	      <property name="fill">False</property>
++	    </packing>
++	  </child>
++	</widget>
++	<packing>
++	  <property name="padding">0</property>
++	  <property name="expand">True</property>
++	  <property name="fill">True</property>
++	</packing>
++      </child>
++    </widget>
++  </child>
++</widget>
++
++</glade-interface>
+diff -up /dev/null gnome-control-center-2.21.92/capplets/display/foo-marshal.c
+--- /dev/null	2008-02-19 17:35:05.543056439 -0500
++++ gnome-control-center-2.21.92/capplets/display/foo-marshal.c	2008-03-02 17:36:13.000000000 -0500
 @@ -0,0 +1,279 @@
 +
 +#include	<glib-object.h>
@@ -281,9 +703,1123 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.c
 +            data2);
 +}
 +
-diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.h
---- /dev/null	2008-02-13 09:53:53.228642516 -0500
-+++ gnome-control-center-2.21.90/capplets/display/foo-marshal.h	2008-02-15 20:33:42.000000000 -0500
+diff -up /dev/null gnome-control-center-2.21.92/capplets/display/xrandr-capplet.c
+--- /dev/null	2008-02-19 17:35:05.543056439 -0500
++++ gnome-control-center-2.21.92/capplets/display/xrandr-capplet.c	2008-03-02 17:36:13.000000000 -0500
+@@ -0,0 +1,976 @@
++/* Monitor Settings. A preference panel for configuring monitors
++ *
++ * Copyright (C) 2007, 2008  Red Hat, Inc.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ * 
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++ *
++ * Author: Soren Sandmann <sandmann@redhat.com>
++ */
++
++#include <gtk/gtk.h>
++#include <glade/glade.h>
++#include <string.h>
++#include <stdlib.h>
++#include "scrollarea.h"
++#define I_KNOW_THIS_IS_UNSTABLE_AND_ONLY_IN_FEDORA
++#include <libgnomeui/randrwrap.h>
++#include <libgnomeui/monitor-db.h>
++#include <gdk/gdkx.h>
++#include <X11/Xlib.h>
++
++typedef struct App App;
++
++struct App
++{
++    RWScreen       *screen;
++    Configuration  *current_configuration;
++    Output         *current_output;
++    
++    GtkWidget	   *dialog;
++    GtkListStore   *resolution_store;
++    GtkWidget	   *resolution_combo;
++    GtkWidget	   *refresh_combo;
++    GtkWidget	   *rotation_combo;
++    GtkWidget	   *panel_checkbox;
++    GtkWidget	   *panel_label;
++    GtkWidget	   *clone_checkbox;
++    
++    GtkWidget      *area;
++    gboolean	    ignore_gui_changes;
++};
++
++static void rebuild_gui (App *app);
++static void on_rate_changed (GtkComboBox *box, gpointer data);
++
++#if 0
++static void
++show_error (const GError *err)
++{
++    if (!err)
++	return;
++    
++    GtkWidget *dialog = gtk_message_dialog_new (
++	NULL,
++	GTK_DIALOG_DESTROY_WITH_PARENT,
++	GTK_MESSAGE_WARNING,
++	GTK_BUTTONS_OK, err->message);
++    
++    gtk_window_set_title (GTK_WINDOW (dialog), "");
++    
++    gtk_dialog_run (GTK_DIALOG (dialog));
++    gtk_widget_destroy (dialog);
++}
++#endif
++
++static gboolean
++do_free (gpointer data)
++{
++    g_free (data);
++    return FALSE;
++}
++
++static gchar *
++idle_free (gchar *s)
++{
++    g_idle_add (do_free, s);
++
++    return s;
++}
++
++static int
++compare_outputs (const void *p1, const void *p2)
++{
++    Output *const *o1 = p1;
++    Output *const *o2 = p2;
++
++    return (**o1).x - (**o2).x;
++}
++
++static void
++on_screen_changed (RWScreen *scr,
++		   gpointer data)
++{
++    Configuration *current;
++    App *app = data;
++    int i;
++    Output *best;
++
++    current = configuration_new_current (app->screen);
++
++    g_print ("New configuration\n");
++    
++    if (app->current_configuration)
++	configuration_free (app->current_configuration);
++    
++    app->current_configuration = current;
++
++    for (i = 0; app->current_configuration->outputs[i] != NULL; ++i)
++    {
++	Output *o = app->current_configuration->outputs[i];
++	
++	g_print ("  output %s %s: %d %d %d %d\n", o->name, o->on? "on" : "off", o->x, o->y, o->width, o->height);
++    }
++    
++    g_print ("sorting\n");
++    /* Sort outputs according to X coordinate */
++    for (i = 0; app->current_configuration->outputs[i] != NULL; ++i)
++	;
++	
++    qsort (app->current_configuration->outputs, i, sizeof (Output *),
++	   compare_outputs);
++
++    for (i = 0; app->current_configuration->outputs[i] != NULL; ++i)
++    {
++	Output *o = app->current_configuration->outputs[i];
++	
++	g_print ("  output: %d %d %d %d\n", o->x, o->y, o->width, o->height);
++    }
++    
++    /* Select an output */
++    best = NULL;
++    for (i = 0; app->current_configuration->outputs[i] != NULL; ++i)
++    {
++	Output *output = app->current_configuration->outputs[i];
++
++	if (output->connected)
++	{
++	    char *cur_name =
++		app->current_output? app->current_output->name : NULL;
++
++	    if ((cur_name && strcmp (output->name, cur_name) == 0) || !best)
++		best = output;
++	}
++    }
++
++    app->current_output = best;
++
++    rebuild_gui (app);
++}
++
++static void
++on_viewport_changed (FooScrollArea *scroll_area,
++		     GdkRectangle  *old_viewport,
++		     GdkRectangle  *new_viewport)
++{
++    foo_scroll_area_set_size (scroll_area,
++			      new_viewport->width,
++			      new_viewport->height);
++
++    foo_scroll_area_invalidate (scroll_area);
++}
++
++static void
++layout_set_font (PangoLayout *layout, const char *font)
++{
++    PangoFontDescription *desc =
++	pango_font_description_from_string (font);
++
++    if (desc)
++    {
++	pango_layout_set_font_description (layout, desc);
++
++	pango_font_description_free (desc);
++    }
++}
++
++static void
++clear_combo (GtkWidget *widget)
++{
++    GtkComboBox *box = GTK_COMBO_BOX (widget);
++    GtkTreeModel *model = gtk_combo_box_get_model (box);
++    if (!model)
++    {
++	g_print ("asdf\n");
++	return;
++    }
++    GtkListStore *store = GTK_LIST_STORE (model);
++
++    gtk_list_store_clear (store);
++}
++
++typedef struct
++{
++    const char *text;
++    gboolean found;
++    GtkTreeIter iter;
++} ForeachInfo;
++
++static gboolean
++foreach (GtkTreeModel *model,
++	 GtkTreePath *path,
++	 GtkTreeIter *iter,
++	 gpointer data)
++{
++    ForeachInfo *info = data;
++    char *text = NULL;
++
++    gtk_tree_model_get (model, iter, 0, &text, -1);
++
++    g_assert (text != NULL);
++    
++    if (strcmp (info->text, text) == 0)
++    {
++	info->found = TRUE;
++	info->iter = *iter;
++	return TRUE;
++    }
++
++    return FALSE;
++}
++
++static void
++add_key (GtkWidget *widget,
++	 const char *text,
++	 int width, int height, int rate,
++	 RWRotation rotation)
++{
++    ForeachInfo info;
++    GtkComboBox *box = GTK_COMBO_BOX (widget);
++    GtkTreeModel *model = gtk_combo_box_get_model (box);
++    GtkListStore *store = GTK_LIST_STORE (model);
++    gboolean retval;
++
++    info.text = text;
++    info.found = FALSE;
++    
++    gtk_tree_model_foreach (model, foreach, &info);
++
++    if (!info.found)
++    {
++	GtkTreeIter iter;
++	gtk_list_store_append (store, &iter);
++
++	gtk_list_store_set (store, &iter,
++			    0, text,
++			    1, width,
++			    2, height,
++			    3, rate,
++			    4, width * height,
++			    5, rotation,
++			    -1);
++
++	retval = TRUE;
++    }
++    else
++    {
++	retval = FALSE;
++    }
++}
++
++static gboolean
++combo_select (GtkWidget *widget, const char *text)
++{
++    GtkComboBox *box = GTK_COMBO_BOX (widget);
++    GtkTreeModel *model = gtk_combo_box_get_model (box);
++    ForeachInfo info;
++
++    info.text = text;
++    info.found = FALSE;
++    
++    gtk_tree_model_foreach (model, foreach, &info);
++
++    if (!info.found)
++	return FALSE;
++
++    gtk_combo_box_set_active_iter (box, &info.iter);
++    return TRUE;
++}
++
++static RWMode **
++get_current_modes (App *app)
++{
++    RWOutput *output;
++    
++    if (!app->current_output)
++	return NULL;
++
++    output = rw_screen_get_output_by_name (
++	app->screen, app->current_output->name);
++
++    if (!output)
++	return NULL;
++
++    return rw_output_list_modes (output);
++}
++
++static void
++rebuild_rotation_combo (App *app)
++{
++    typedef struct
++    {
++	RWRotation	rotation;
++	const char *	name;
++    } RotationInfo;
++    static const RotationInfo rotations[] = {
++	{ RW_ROTATION_0, "Normal" },
++	{ RW_ROTATION_90, "Left" },
++	{ RW_ROTATION_270, "Right" },
++	{ RW_ROTATION_180, "Upside Down" },
++    };
++    const char *selection;
++    RWRotation current;
++    int i;
++    
++    clear_combo (app->rotation_combo);
++
++    gtk_widget_set_sensitive (
++	app->rotation_combo, app->current_output && app->current_output->on);
++    
++    if (!app->current_output)
++	return;
++    
++    current = app->current_output->rotation;
++
++    selection = NULL;
++    for (i = 0; i < G_N_ELEMENTS (rotations); ++i)
++    {
++	const RotationInfo *info = &(rotations[i]);
++	
++	app->current_output->rotation = info->rotation;
++
++	if (configuration_applicable (app->current_configuration, app->screen))
++	{
++ 	    add_key (app->rotation_combo, info->name, 0, 0, 0, info->rotation);
++
++	    if (info->rotation == current)
++		selection = info->name;
++	}
++    }
++
++    app->current_output->rotation = current;
++    
++    if (!(selection && combo_select (app->rotation_combo, selection)))
++	combo_select (app->rotation_combo, "Normal");
++}
++
++#define idle_free_printf(x) idle_free (g_strdup_printf (x))
++
++static void
++rebuild_rate_combo (App *app)
++{
++    GHashTable *rates;
++    RWMode **modes;
++    int best;
++    int i;
++
++    clear_combo (app->refresh_combo);
++
++    gtk_widget_set_sensitive (
++	app->refresh_combo, app->current_output && app->current_output->on);
++
++    if (!(modes = get_current_modes (app)))
++	return;
++    
++    rates = g_hash_table_new_full (
++	g_str_hash, g_str_equal, (GFreeFunc)g_free, NULL);
++    
++    best = -1;
++    for (i = 0; modes[i] != NULL; ++i)
++    {
++	RWMode *mode = modes[i];
++	int width, height, rate;
++
++	width = rw_mode_get_width (mode);
++	height = rw_mode_get_height (mode);
++	rate = rw_mode_get_freq (mode);
++
++	if (width == app->current_output->width		&&
++	    height == app->current_output->height)
++	{
++	    add_key (app->refresh_combo,
++		     idle_free (g_strdup_printf ("%d Hz", rate)),
++		     0, 0, rate, -1);
++
++	    if (rate > best)
++		best = rate;
++	}
++    }
++
++    if (!combo_select (app->refresh_combo, idle_free (g_strdup_printf ("%d Hz", app->current_output->rate))))
++	combo_select (app->refresh_combo, idle_free (g_strdup_printf ("%d Hz", best)));
++}
++
++static void
++rebuild_resolution_combo (App *app)
++{
++    int i;
++    RWMode **modes;
++    int best_w, best_h;
++    const char *current;
++
++    clear_combo (app->resolution_combo);
++    
++    if (!(modes = get_current_modes (app)))
++	return;
++
++    best_w = 0;
++    best_h = 0;
++    for (i = 0; modes[i] != NULL; ++i)
++    {
++	int width, height;
++
++	width = rw_mode_get_width (modes[i]);
++	height = rw_mode_get_height (modes[i]);
++	
++	add_key (app->resolution_combo,
++		 idle_free (g_strdup_printf ("%d x %d", width, height)),
++		 width, height, 0, -1);
++
++	if (width * height > best_w * best_h)
++	{
++	    best_w = width;
++	    best_h = height;
++	}
++    }
++
++    add_key (app->resolution_combo, "Off", 0, 0, 0, 0);
++
++    if (!app->current_output->on)
++    {
++	current = "Off";
++    }
++    else
++    {
++	current = idle_free (g_strdup_printf ("%d x %d",
++					      app->current_output->width,
++					      app->current_output->height));
++    }
++	     
++
++    if (!combo_select (app->resolution_combo, current))
++    {
++	combo_select (app->resolution_combo,
++		      idle_free (
++			  g_strdup_printf ("%d x %d", best_w, best_h)));
++    }
++}
++
++static void
++rebuild_gui (App *app)
++{
++    gboolean sensitive;
++
++    /* We would break spectacularly if we recursed, so
++     * just assert if that happens
++     */
++    g_assert (app->ignore_gui_changes == FALSE);
++    
++    app->ignore_gui_changes = TRUE;
++
++    sensitive = app->current_output? TRUE : FALSE;
++
++#if 0
++    g_print ("rebuild gui, is on: %d\n", app->current_output->on);
++#endif
++    
++    rebuild_resolution_combo (app);
++    rebuild_rate_combo (app);
++    rebuild_rotation_combo (app);
++
++    gtk_widget_set_sensitive (app->resolution_combo, sensitive);
++
++#if 0
++    g_print ("sensitive: %d, on: %d\n", sensitive, app->current_output->on);
++#endif
++    gtk_widget_set_sensitive (app->panel_checkbox, sensitive);
++
++    app->ignore_gui_changes = FALSE;
++}
++
++static gboolean
++get_mode (GtkWidget *widget, int *width, int *height, int *freq, RWRotation *rot)
++{
++    GtkTreeIter iter;
++    GtkTreeModel *model;
++    GtkComboBox *box = GTK_COMBO_BOX (widget);
++    int dummy;
++
++    if (!gtk_combo_box_get_active_iter (box, &iter))
++	return FALSE;
++
++    if (!width)
++	width = &dummy;
++
++    if (!height)
++	height = &dummy;
++
++    if (!freq)
++	freq = &dummy;
++
++    if (!rot)
++	rot = (RWRotation *)&dummy;
++    
++    model = gtk_combo_box_get_model (box);
++    gtk_tree_model_get (model, &iter,
++			1, width,
++			2, height,
++			3, freq,
++			5, rot,
++			-1);
++
++    return TRUE;
++
++}
++
++static void
++on_rotation_changed (GtkComboBox *box, gpointer data)
++{
++    App *app = data;
++    RWRotation rotation;
++
++    if (!app->current_output)
++	return;
++
++    if (get_mode (app->rotation_combo, NULL, NULL, NULL, &rotation))
++	app->current_output->rotation = rotation;
++
++    foo_scroll_area_invalidate (FOO_SCROLL_AREA (app->area));
++}
++
++static void
++on_rate_changed (GtkComboBox *box, gpointer data)
++{
++    App *app = data;
++    int rate;
++
++    if (!app->current_output)
++	return;
++
++    if (get_mode (app->refresh_combo, NULL, NULL, &rate, NULL))
++	app->current_output->rate = rate;
++
++    foo_scroll_area_invalidate (FOO_SCROLL_AREA (app->area));
++}
++
++static void
++on_resolution_changed (GtkComboBox *box, gpointer data)
++{
++    App *app = data;
++    int width;
++    int height;
++    int i;
++    int x;
++
++    if (!app->current_output)
++	return;
++
++    if (get_mode (app->resolution_combo, &width, &height, NULL, NULL))
++    {
++	app->current_output->width = width;
++	app->current_output->height = height;
++
++	if (width == 0 || height == 0)
++	    app->current_output->on = FALSE;
++	else
++	    app->current_output->on = TRUE;
++    }
++    
++    if (app->current_configuration)
++    {
++	x = 0;
++	for (i = 0; app->current_configuration->outputs[i] != NULL; ++i)
++	{
++	    Output *output = app->current_configuration->outputs[i];
++	    
++	    if (output->connected)
++	    {
++		output->x = x;
++		
++		x += output->width;
++	    }
++	}
++    }
++    
++    rebuild_rate_combo (app);
++    rebuild_rotation_combo (app);
++    
++    foo_scroll_area_invalidate (FOO_SCROLL_AREA (app->area));
++}
++
++static void
++on_clone_changed (GtkWidget *box, gpointer data)
++{
++    App *app = data;
++
++    g_print ("clone changed\n");
++}
++
++static void
++on_output_event (FooScrollArea *area,
++		 FooScrollAreaEvent *event,
++		 gpointer data)
++{
++    Output *output = data;
++    App *app = g_object_get_data (G_OBJECT (area), "app");
++
++    if (event->type == FOO_BUTTON_PRESS)
++    {
++	app->current_output = output;
++
++	rebuild_gui (app);
++	
++	foo_scroll_area_invalidate (area);
++    }
++}
++
++#if 0
++static void
++on_canvas_event (FooScrollArea *area,
++		 FooScrollAreaEvent *event,
++		 gpointer data)
++{
++    App *app = g_object_get_data (G_OBJECT (area), "app");
++    
++    if (event->type == FOO_BUTTON_PRESS)
++    {
++	app->current_output = NULL;
++
++	rebuild_gui (app);
++
++	foo_scroll_area_invalidate (area);
++    }
++}
++#endif
++
++static PangoLayout *
++get_display_name (App *app,
++		  Output *output)
++{
++    return gtk_widget_create_pango_layout (
++	GTK_WIDGET (app->area), output->display_name);
++}
++
++static void
++get_geometry (Output *output, int *w, int *h)
++{
++    if (output->on)
++    {
++	*h = output->height;
++	*w = output->width;
++    }
++    else
++    {
++	*h = output->pref_height;
++	*w = output->pref_width;
++    }
++}
++
++static void
++on_area_paint (FooScrollArea *area,
++	       cairo_t	     *cr,
++	       GdkRectangle  *extent,
++	       GdkRegion     *region,
++	       gpointer	      data)
++{
++    App *app = data;
++    GdkRectangle viewport;
++    int i;
++    int available;
++    int total_pixels;
++    int max_height;
++    double scale;
++    GList *connected_outputs = NULL;
++    GList *list;
++    int n_monitors;
++
++    foo_scroll_area_get_viewport (area, &viewport);
++
++    cairo_set_source_rgba (cr, 0.72, 0.78, 0.87, 1.0);
++
++    cairo_rectangle (cr,
++		     viewport.x, viewport.y,
++		     viewport.width, viewport.height);
++
++    cairo_fill_preserve (cr);
++
++#if 0
++    foo_scroll_area_add_input_from_fill (area, cr, on_canvas_event, NULL);
++#endif
++    
++    cairo_set_source_rgba (cr, 0.44, 0.59, 0.76, 1.0);
++
++    cairo_stroke (cr);
++
++    if (!app->current_configuration)
++	return;
++    
++#define SPACE 36
++#define MARGIN  24
++
++    for (i = 0; app->current_configuration->outputs[i] != NULL; ++i)
++    {
++	Output *output = app->current_configuration->outputs[i];
++
++	if (output->connected)
++	    connected_outputs = g_list_prepend (connected_outputs, output);
++    }
++
++    connected_outputs = g_list_reverse (connected_outputs);
++    
++    n_monitors = g_list_length (connected_outputs);
++
++    available = viewport.width - 2 * MARGIN - (n_monitors - 1) * SPACE;
++
++    total_pixels = 0;
++    max_height = 0;
++    for (list = connected_outputs; list != NULL; list = list->next)
++    {
++	Output *output = list->data;
++	int w, h;
++
++	get_geometry (output, &w, &h);
++	
++	total_pixels += w;
++	max_height = MAX (max_height, h);
++    }
++
++    scale = (double)available / total_pixels;
++
++    scale = MIN ((double)(viewport.height - 2 * MARGIN) / max_height, scale);
++    
++    int x = MARGIN;
++    for (list = connected_outputs; list != NULL; list = list->next)
++    {
++	Output *output = list->data;
++	PangoLayout *layout = get_display_name (app, output);
++	int w, h;
++
++	get_geometry (output, &w, &h);
++	
++	w = w * scale + 0.5;
++#if 0
++	g_print ("%s (%p) geometry %d %d %d\n", output->name, output,
++		 w, h, output->rate);
++#endif
++	
++	cairo_rectangle (cr, x, MARGIN, w, (int)(
++			     h * scale + 0.5));
++
++	if (output->on)
++	    cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 1.0);
++	else
++	    cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 1.0);
++
++	cairo_fill_preserve (cr);
++
++	foo_scroll_area_add_input_from_fill (area, cr, on_output_event,
++					     output);
++	
++	if (output == app->current_output)
++	{
++	    cairo_set_line_width (cr, 4);
++	    cairo_set_source_rgba (cr, 0.33, 0.43, 0.57, 1.0);
++	}
++	else
++	{
++	    cairo_set_line_width (cr, 1);
++	    cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 1.0);
++	}
++	cairo_stroke (cr);
++	cairo_set_line_width (cr, 2);
++
++	cairo_move_to (cr, x + 40, MARGIN + 40);
++	cairo_set_source_rgb (cr, 0.2, 0.2, 0.8);
++	layout_set_font (layout, "Sans Bold 18");
++	pango_cairo_show_layout (cr, layout);
++	g_object_unref (layout);
++	
++	x += w + SPACE;
++    }
++}
++
++static void
++make_text_combo (GtkWidget *widget, int sort_column)
++{
++    GtkComboBox *box = GTK_COMBO_BOX (widget);
++    GtkListStore *store = gtk_list_store_new (
++	6,
++	G_TYPE_STRING,		/* Text */
++	G_TYPE_INT,		/* Width */	
++	G_TYPE_INT,		/* Height */
++	G_TYPE_INT,		/* Frequency */
++	G_TYPE_INT,		/* Width * Height */
++	G_TYPE_INT);		/* Rotation */
++	
++    GtkCellRenderer *cell;
++
++    gtk_cell_layout_clear (GTK_CELL_LAYOUT (widget));
++    
++    gtk_combo_box_set_model (box, GTK_TREE_MODEL (store));
++
++    cell = gtk_cell_renderer_text_new ();
++    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (box), cell, TRUE);
++    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (box), cell,
++				    "text", 0,
++				    NULL);
++
++    if (sort_column != -1)
++    {
++	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (store),
++					      sort_column,
++					      GTK_SORT_DESCENDING);
++    }
++}
++
++static Atom
++gnome_randr_atom (void)
++{
++    static Atom atom = None;
++
++    if (!atom)
++    {
++	atom = XInternAtom (gdk_x11_get_default_xdisplay(),
++			    "_GNOME_RANDR_ATOM", FALSE);
++    }
++
++    return atom;
++}
++
++static void
++apply (App *app)
++{
++    GError *err = NULL;
++    
++    if (configuration_save (app->current_configuration, &err))
++    {
++	XEvent message;
++
++	message.xclient.type = ClientMessage;
++	message.xclient.message_type = gnome_randr_atom();
++	message.xclient.format = 8;
++
++	g_print ("Sending client message\n");
++
++	XSendEvent (gdk_x11_get_default_xdisplay(),
++		    gdk_x11_get_default_root_xwindow(),
++		    FALSE,
++		    StructureNotifyMask, &message);
++    }
++}
++
++static void
++run_application (App *app)
++{
++#ifndef GLADEDIR
++#define GLADEDIR "."
++#endif
++#define GLADE_FILE GLADEDIR "/display-capplet.glade"
++    GladeXML *xml;
++    GtkWidget *align;
++
++    xml = glade_xml_new (GLADE_FILE, NULL, NULL);
++    if (!xml)
++    {
++	g_warning ("Could not open " GLADE_FILE);
++	return;
++    }
++    
++    app->screen = rw_screen_new (gdk_screen_get_default(),
++				 on_screen_changed, app);
++
++    app->dialog = glade_xml_get_widget (xml, "dialog");
++
++    app->resolution_combo = glade_xml_get_widget (xml, "resolution_combo");
++    g_signal_connect (app->resolution_combo, "changed",
++		      G_CALLBACK (on_resolution_changed), app);
++
++    app->refresh_combo = glade_xml_get_widget (xml, "refresh_combo");
++    g_signal_connect (app->refresh_combo, "changed",
++		      G_CALLBACK (on_rate_changed), app);
++
++    app->rotation_combo = glade_xml_get_widget (xml, "rotation_combo");
++    g_signal_connect (app->rotation_combo, "changed",
++		      G_CALLBACK (on_rotation_changed), app);
++
++    app->clone_checkbox = glade_xml_get_widget (xml, "clone_checkbox");
++    g_signal_connect (app->clone_checkbox, "toggled",
++		      G_CALLBACK (on_clone_changed), app);
++
++    app->panel_checkbox = glade_xml_get_widget (xml, "panel_checkbox");
++    app->panel_label = glade_xml_get_widget (xml, "panel_label");
++
++    make_text_combo (app->resolution_combo, 4);
++    make_text_combo (app->refresh_combo, 3);
++    make_text_combo (app->rotation_combo, -1);
++    
++    g_assert (app->panel_checkbox);
++    
++    /* Scroll Area */
++    app->area = (GtkWidget *)foo_scroll_area_new ();
++
++    g_object_set_data (G_OBJECT (app->area), "app", app);
++    
++    /* FIXME: this should be computed dynamically */
++    foo_scroll_area_set_min_size (FOO_SCROLL_AREA (app->area), -1, 200);
++    gtk_widget_show (app->area);
++    g_signal_connect (app->area, "paint",
++		      G_CALLBACK (on_area_paint), app);
++    g_signal_connect (app->area, "viewport_changed",
++		      G_CALLBACK (on_viewport_changed), app);
++
++    align = glade_xml_get_widget (xml, "align");
++
++    gtk_container_add (GTK_CONTAINER (align), app->area);
++
++    on_screen_changed (app->screen, app);
++    rebuild_gui (app);
++
++    gtk_widget_hide (app->panel_checkbox);
++    gtk_widget_hide (app->panel_label);
++    
++restart:
++    switch (gtk_dialog_run (GTK_DIALOG (app->dialog)))
++    {
++    default:
++	g_print ("Unknown response\n");
++	/* Fall Through */
++    case GTK_RESPONSE_DELETE_EVENT:
++    case GTK_RESPONSE_CLOSE:
++	g_print ("Close\n");
++	break;
++
++    case GTK_RESPONSE_HELP:
++	g_print ("Help\n");
++	goto restart;
++	break;
++
++    case GTK_RESPONSE_APPLY:
++	apply (app);
++	goto restart;
++	break;
++    }
++
++    gtk_widget_destroy (app->dialog);
++}
++
++int
++main (int argc, char **argv)
++{
++    App *app;
++    
++#if 0
++    bindtextdomain (GETTEXT_PACKAGE, DESKTOPEFFECTSLOCALEDIR);
++    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
++    textdomain (GETTEXT_PACKAGE);
++#endif
++    
++    gtk_init (&argc, &argv);
++
++    app = g_new0 (App, 1);
++
++    run_application (app);
++    
++    return 0;
++}
+diff -up gnome-control-center-2.21.92/capplets/display/Makefile.am.add-randr12-capplet gnome-control-center-2.21.92/capplets/display/Makefile.am
+--- gnome-control-center-2.21.92/capplets/display/Makefile.am.add-randr12-capplet	2007-12-21 20:25:10.000000000 -0500
++++ gnome-control-center-2.21.92/capplets/display/Makefile.am	2008-03-02 17:35:56.000000000 -0500
+@@ -1,9 +1,18 @@
+ # This is used in GNOMECC_CAPPLETS_CFLAGS
+ cappletname = display
+ 
++gladedir = $(pkgdatadir)/glade
++dist_glade_DATA = display-capplet.glade
++
+ bin_PROGRAMS = gnome-display-properties
+ 
+-gnome_display_properties_SOURCES = main.c
++gnome_display_properties_SOURCES = \
++	xrandr-capplet.c	   \
++        scrollarea.c               \
++        foo-marshal.c		   \
++        scrollarea.h               \
++        foo-marshal.h	
++
+ gnome_display_properties_LDFLAGS = -export-dynamic
+ gnome_display_properties_LDADD = \
+ 	$(DISPLAY_CAPPLET_LIBS) \
+diff -up /dev/null gnome-control-center-2.21.92/capplets/display/scrollarea.h
+--- /dev/null	2008-02-19 17:35:05.543056439 -0500
++++ gnome-control-center-2.21.92/capplets/display/scrollarea.h	2008-03-02 17:36:13.000000000 -0500
+@@ -0,0 +1,107 @@
++#include <cairo/cairo.h>
++#include <gtk/gtk.h>
++
++#define FOO_TYPE_SCROLL_AREA            (foo_scroll_area_get_type ())
++#define FOO_SCROLL_AREA(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FOO_TYPE_SCROLL_AREA, FooScrollArea))
++#define FOO_SCROLL_AREA_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass),  FOO_TYPE_SCROLL_AREA, FooScrollAreaClass))
++#define FOO_IS_SCROLL_AREA(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FOO_TYPE_SCROLL_AREA))
++#define FOO_IS_SCROLL_AREA_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass),  FOO_TYPE_SCROLL_AREA))
++#define FOO_SCROLL_AREA_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj),  FOO_TYPE_SCROLL_AREA, FooScrollAreaClass))
++
++typedef struct FooScrollArea FooScrollArea;
++typedef struct FooScrollAreaClass FooScrollAreaClass;
++typedef struct FooScrollAreaPrivate FooScrollAreaPrivate;
++typedef struct FooScrollAreaEvent FooScrollAreaEvent;
++
++typedef enum
++{
++    FOO_BUTTON_PRESS,
++    FOO_BUTTON_RELEASE,
++    FOO_MOTION
++} FooScrollAreaEventType;
++
++struct FooScrollAreaEvent
++{
++    FooScrollAreaEventType	type;
++    int				x;
++    int				y;
++};
++
++typedef void (* FooScrollAreaEventFunc) (FooScrollArea      *area,
++					 FooScrollAreaEvent *event,
++					 gpointer            data);
++
++struct FooScrollArea
++{
++    GtkContainer parent_instance;
++
++    FooScrollAreaPrivate *priv;
++};
++
++struct FooScrollAreaClass
++{
++    GtkContainerClass parent_class;
++
++    void (*set_scroll_adjustments) (FooScrollArea *scroll_area,
++				    GtkAdjustment *hadjustment,
++				    GtkAdjustment *vadjustment);
++
++    void (*viewport_changed) (FooScrollArea *scroll_area,
++			      GdkRectangle  *old_viewport,
++			      GdkRectangle  *new_viewport);
++
++    void (*paint) (FooScrollArea *scroll_area,
++		   cairo_t       *cr,
++		   GdkRectangle  *extents,
++		   GdkRegion     *region);
++};
++
++GType foo_scroll_area_get_type (void);
++
++FooScrollArea *foo_scroll_area_new (void);
++
++/* Set the requisition for the widget. */
++void	      foo_scroll_area_set_min_size (FooScrollArea *scroll_area,
++					    int		   min_width,
++					    int            min_height);
++
++/* Set how much of the canvas can be scrolled into view */
++void	      foo_scroll_area_set_size (FooScrollArea	       *scroll_area,
++					int			width,
++					int			height);
++void	      foo_scroll_area_set_size_fixed_y (FooScrollArea  *scroll_area,
++						int		width,
++						int		height,
++						int		old_y,
++						int		new_y);
++void	      foo_scroll_area_set_viewport_pos (FooScrollArea  *scroll_area,
++						int		x,
++						int		y);
++void	      foo_scroll_area_get_viewport (FooScrollArea *scroll_area,
++					    GdkRectangle  *viewport);
++void          foo_scroll_area_add_input_from_stroke (FooScrollArea           *scroll_area,
++						     cairo_t	                *cr,
++						     FooScrollAreaEventFunc   func,
++						     gpointer                 data);
++void          foo_scroll_area_add_input_from_fill (FooScrollArea *scroll_area,
++						      cairo_t	      *cr,
++						      FooScrollAreaEventFunc func,
++						      gpointer       data);
++void          foo_scroll_area_invalidate_region (FooScrollArea *area,
++						 GdkRegion     *region);
++void	      foo_scroll_area_invalidate (FooScrollArea *scroll_area);
++void	      foo_scroll_area_invalidate_rect (FooScrollArea *scroll_area,
++					       int	      x,
++					       int	      y,
++					       int	      width,
++					       int	      height);
++void foo_scroll_area_begin_grab (FooScrollArea *scroll_area,
++				 FooScrollAreaEventFunc func,
++				 gpointer       input_data);
++void foo_scroll_area_end_grab (FooScrollArea *scroll_area);
++gboolean foo_scroll_area_is_grabbed (FooScrollArea *scroll_area);
++
++void foo_scroll_area_begin_auto_scroll (FooScrollArea *scroll_area);
++void foo_scroll_area_auto_scroll (FooScrollArea *scroll_area,
++				  FooScrollAreaEvent *event);
++void foo_scroll_area_end_auto_scroll (FooScrollArea *scroll_area);
+diff -up /dev/null gnome-control-center-2.21.92/capplets/display/foo-marshal.h
+--- /dev/null	2008-02-19 17:35:05.543056439 -0500
++++ gnome-control-center-2.21.92/capplets/display/foo-marshal.h	2008-03-02 17:36:13.000000000 -0500
 @@ -0,0 +1,63 @@
 +
 +#ifndef __foo_marshal_MARSHAL_H__
@@ -348,9 +1884,9 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/foo-marshal.h
 +
 +#endif /* __foo_marshal_MARSHAL_H__ */
 +
-diff -up /dev/null gnome-control-center-2.21.90/capplets/display/scrollarea.c
---- /dev/null	2008-02-13 09:53:53.228642516 -0500
-+++ gnome-control-center-2.21.90/capplets/display/scrollarea.c	2008-02-15 20:33:42.000000000 -0500
+diff -up /dev/null gnome-control-center-2.21.92/capplets/display/scrollarea.c
+--- /dev/null	2008-02-19 17:35:05.543056439 -0500
++++ gnome-control-center-2.21.92/capplets/display/scrollarea.c	2008-03-02 17:36:13.000000000 -0500
 @@ -0,0 +1,1902 @@
 +#include <gdk/gdkprivate.h> /* For GDK_PARENT_RELATIVE_BG */
 +#include "scrollarea.h"
@@ -2254,1507 +3790,3 @@ diff -up /dev/null gnome-control-center-2.21.90/capplets/display/scrollarea.c
 +}
 +
 +#endif
-diff -up /dev/null gnome-control-center-2.21.90/capplets/display/xrandr-capplet.c
---- /dev/null	2008-02-13 09:53:53.228642516 -0500
-+++ gnome-control-center-2.21.90/capplets/display/xrandr-capplet.c	2008-02-15 20:33:42.000000000 -0500
-@@ -0,0 +1,963 @@
-+/* Monitor Settings. A preference panel for configuring monitors
-+ *
-+ * Copyright (C) 2007, 2008  Red Hat, Inc.
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ * 
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, write to the Free Software
-+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-+ *
-+ * Author: Soren Sandmann <sandmann@redhat.com>
-+ */
-+
-+#include <gtk/gtk.h>
-+#include <glade/glade.h>
-+#include <string.h>
-+#include <stdlib.h>
-+#include "scrollarea.h"
-+#define I_KNOW_THIS_IS_UNSTABLE_AND_ONLY_IN_FEDORA
-+#include <libgnomeui/randrwrap.h>
-+#include <libgnomeui/monitor-db.h>
-+#include <gdk/gdkx.h>
-+#include <X11/Xlib.h>
-+
-+typedef struct App App;
-+
-+struct App
-+{
-+    RWScreen       *screen;
-+    Configuration  *current_configuration;
-+    Output         *current_output;
-+    
-+    GtkWidget	   *dialog;
-+    GtkListStore   *resolution_store;
-+    GtkWidget	   *resolution_combo;
-+    GtkWidget	   *refresh_combo;
-+    GtkWidget	   *rotation_combo;
-+    GtkWidget	   *panel_checkbox;
-+    GtkWidget	   *panel_label;
-+    
-+    GtkWidget      *area;
-+    gboolean	    ignore_gui_changes;
-+};
-+
-+static void rebuild_gui (App *app);
-+static void on_rate_changed (GtkComboBox *box, gpointer data);
-+
-+#if 0
-+static void
-+show_error (const GError *err)
-+{
-+    if (!err)
-+	return;
-+    
-+    GtkWidget *dialog = gtk_message_dialog_new (
-+	NULL,
-+	GTK_DIALOG_DESTROY_WITH_PARENT,
-+	GTK_MESSAGE_WARNING,
-+	GTK_BUTTONS_OK, err->message);
-+    
-+    gtk_window_set_title (GTK_WINDOW (dialog), "");
-+    
-+    gtk_dialog_run (GTK_DIALOG (dialog));
-+    gtk_widget_destroy (dialog);
-+}
-+#endif
-+
-+static gboolean
-+do_free (gpointer data)
-+{
-+    g_free (data);
-+    return FALSE;
-+}
-+
-+static gchar *
-+idle_free (gchar *s)
-+{
-+    g_idle_add (do_free, s);
-+
-+    return s;
-+}
-+
-+static int
-+compare_outputs (const void *p1, const void *p2)
-+{
-+    Output *const *o1 = p1;
-+    Output *const *o2 = p2;
-+
-+    return (**o1).x - (**o2).x;
-+}
-+
-+static void
-+on_screen_changed (RWScreen *scr,
-+		   gpointer data)
-+{
-+    Configuration *current;
-+    App *app = data;
-+    int i;
-+    Output *best;
-+
-+    current = configuration_new_current (app->screen);
-+
-+    g_print ("New configuration\n");
-+    
-+    if (app->current_configuration)
-+	configuration_free (app->current_configuration);
-+    
-+    app->current_configuration = current;
-+
-+    for (i = 0; app->current_configuration->outputs[i] != NULL; ++i)
-+    {
-+	Output *o = app->current_configuration->outputs[i];
-+	
-+	g_print ("  output %s %s: %d %d %d %d\n", o->name, o->on? "on" : "off", o->x, o->y, o->width, o->height);
-+    }
-+    
-+    g_print ("sorting\n");
-+    /* Sort outputs according to X coordinate */
-+    for (i = 0; app->current_configuration->outputs[i] != NULL; ++i)
-+	;
-+	
-+    qsort (app->current_configuration->outputs, i, sizeof (Output *),
-+	   compare_outputs);
-+
-+    for (i = 0; app->current_configuration->outputs[i] != NULL; ++i)
-+    {
-+	Output *o = app->current_configuration->outputs[i];
-+	
-+	g_print ("  output: %d %d %d %d\n", o->x, o->y, o->width, o->height);
-+    }
-+    
-+    /* Select an output */
-+    best = NULL;
-+    for (i = 0; app->current_configuration->outputs[i] != NULL; ++i)
-+    {
-+	Output *output = app->current_configuration->outputs[i];
-+
-+	if (output->connected)
-+	{
-+	    char *cur_name =
-+		app->current_output? app->current_output->name : NULL;
-+
-+	    if ((cur_name && strcmp (output->name, cur_name) == 0) || !best)
-+		best = output;
-+	}
-+    }
-+
-+    app->current_output = best;
-+
-+    rebuild_gui (app);
-+}
-+
-+static void
-+on_viewport_changed (FooScrollArea *scroll_area,
-+		     GdkRectangle  *old_viewport,
-+		     GdkRectangle  *new_viewport)
-+{
-+    foo_scroll_area_set_size (scroll_area,
-+			      new_viewport->width,
-+			      new_viewport->height);
-+
-+    foo_scroll_area_invalidate (scroll_area);
-+}
-+
-+static void
-+layout_set_font (PangoLayout *layout, const char *font)
-+{
-+    PangoFontDescription *desc =
-+	pango_font_description_from_string (font);
-+
-+    if (desc)
-+    {
-+	pango_layout_set_font_description (layout, desc);
-+
-+	pango_font_description_free (desc);
-+    }
-+}
-+
-+static void
-+clear_combo (GtkWidget *widget)
-+{
-+    GtkComboBox *box = GTK_COMBO_BOX (widget);
-+    GtkTreeModel *model = gtk_combo_box_get_model (box);
-+    if (!model)
-+    {
-+	g_print ("asdf\n");
-+	return;
-+    }
-+    GtkListStore *store = GTK_LIST_STORE (model);
-+
-+    gtk_list_store_clear (store);
-+}
-+
-+typedef struct
-+{
-+    const char *text;
-+    gboolean found;
-+    GtkTreeIter iter;
-+} ForeachInfo;
-+
-+static gboolean
-+foreach (GtkTreeModel *model,
-+	 GtkTreePath *path,
-+	 GtkTreeIter *iter,
-+	 gpointer data)
-+{
-+    ForeachInfo *info = data;
-+    char *text = NULL;
-+
-+    gtk_tree_model_get (model, iter, 0, &text, -1);
-+
-+    g_assert (text != NULL);
-+    
-+    if (strcmp (info->text, text) == 0)
-+    {
-+	info->found = TRUE;
-+	info->iter = *iter;
-+	return TRUE;
-+    }
-+
-+    return FALSE;
-+}
-+
-+static void
-+add_key (GtkWidget *widget,
-+	 const char *text,
-+	 int width, int height, int rate,
-+	 RWRotation rotation)
-+{
-+    ForeachInfo info;
-+    GtkComboBox *box = GTK_COMBO_BOX (widget);
-+    GtkTreeModel *model = gtk_combo_box_get_model (box);
-+    GtkListStore *store = GTK_LIST_STORE (model);
-+    gboolean retval;
-+
-+    info.text = text;
-+    info.found = FALSE;
-+    
-+    gtk_tree_model_foreach (model, foreach, &info);
-+
-+    if (!info.found)
-+    {
-+	GtkTreeIter iter;
-+	gtk_list_store_append (store, &iter);
-+
-+	gtk_list_store_set (store, &iter,
-+			    0, text,
-+			    1, width,
-+			    2, height,
-+			    3, rate,
-+			    4, width * height,
-+			    5, rotation,
-+			    -1);
-+
-+	retval = TRUE;
-+    }
-+    else
-+    {
-+	retval = FALSE;
-+    }
-+}
-+
-+static gboolean
-+combo_select (GtkWidget *widget, const char *text)
-+{
-+    GtkComboBox *box = GTK_COMBO_BOX (widget);
-+    GtkTreeModel *model = gtk_combo_box_get_model (box);
-+    ForeachInfo info;
-+
-+    info.text = text;
-+    info.found = FALSE;
-+    
-+    gtk_tree_model_foreach (model, foreach, &info);
-+
-+    if (!info.found)
-+	return FALSE;
-+
-+    gtk_combo_box_set_active_iter (box, &info.iter);
-+    return TRUE;
-+}
-+
-+static RWMode **
-+get_current_modes (App *app)
-+{
-+    RWOutput *output;
-+    
-+    if (!app->current_output)
-+	return NULL;
-+
-+    output = rw_screen_get_output_by_name (
-+	app->screen, app->current_output->name);
-+
-+    if (!output)
-+	return NULL;
-+
-+    return rw_output_list_modes (output);
-+}
-+
-+static void
-+rebuild_rotation_combo (App *app)
-+{
-+    typedef struct
-+    {
-+	RWRotation	rotation;
-+	const char *	name;
-+    } RotationInfo;
-+    static const RotationInfo rotations[] = {
-+	{ RW_ROTATION_0, "Normal" },
-+	{ RW_ROTATION_90, "Left" },
-+	{ RW_ROTATION_270, "Right" },
-+	{ RW_ROTATION_180, "Upside Down" },
-+    };
-+    const char *selection;
-+    RWRotation current;
-+    int i;
-+    
-+    clear_combo (app->rotation_combo);
-+
-+    gtk_widget_set_sensitive (
-+	app->rotation_combo, app->current_output && app->current_output->on);
-+    
-+    if (!app->current_output)
-+	return;
-+    
-+    current = app->current_output->rotation;
-+
-+    selection = NULL;
-+    for (i = 0; i < G_N_ELEMENTS (rotations); ++i)
-+    {
-+	const RotationInfo *info = &(rotations[i]);
-+	
-+	app->current_output->rotation = info->rotation;
-+
-+	if (configuration_applicable (app->current_configuration, app->screen))
-+	{
-+ 	    add_key (app->rotation_combo, info->name, 0, 0, 0, info->rotation);
-+
-+	    if (info->rotation == current)
-+		selection = info->name;
-+	}
-+    }
-+
-+    app->current_output->rotation = current;
-+    
-+    if (!(selection && combo_select (app->rotation_combo, selection)))
-+	combo_select (app->rotation_combo, "Normal");
-+}
-+
-+#define idle_free_printf(x) idle_free (g_strdup_printf (x))
-+
-+static void
-+rebuild_rate_combo (App *app)
-+{
-+    GHashTable *rates;
-+    RWMode **modes;
-+    int best;
-+    int i;
-+
-+    clear_combo (app->refresh_combo);
-+
-+    gtk_widget_set_sensitive (
-+	app->refresh_combo, app->current_output && app->current_output->on);
-+
-+    if (!(modes = get_current_modes (app)))
-+	return;
-+    
-+    rates = g_hash_table_new_full (
-+	g_str_hash, g_str_equal, (GFreeFunc)g_free, NULL);
-+    
-+    best = -1;
-+    for (i = 0; modes[i] != NULL; ++i)
-+    {
-+	RWMode *mode = modes[i];
-+	int width, height, rate;
-+
-+	width = rw_mode_get_width (mode);
-+	height = rw_mode_get_height (mode);
-+	rate = rw_mode_get_freq (mode);
-+
-+	if (width == app->current_output->width		&&
-+	    height == app->current_output->height)
-+	{
-+	    add_key (app->refresh_combo,
-+		     idle_free (g_strdup_printf ("%d Hz", rate)),
-+		     0, 0, rate, -1);
-+
-+	    if (rate > best)
-+		best = rate;
-+	}
-+    }
-+
-+    if (!combo_select (app->refresh_combo, idle_free (g_strdup_printf ("%d Hz", app->current_output->rate))))
-+	combo_select (app->refresh_combo, idle_free (g_strdup_printf ("%d Hz", best)));
-+}
-+
-+static void
-+rebuild_resolution_combo (App *app)
-+{
-+    int i;
-+    RWMode **modes;
-+    int best_w, best_h;
-+    const char *current;
-+
-+    clear_combo (app->resolution_combo);
-+    
-+    if (!(modes = get_current_modes (app)))
-+	return;
-+
-+    best_w = 0;
-+    best_h = 0;
-+    for (i = 0; modes[i] != NULL; ++i)
-+    {
-+	int width, height;
-+
-+	width = rw_mode_get_width (modes[i]);
-+	height = rw_mode_get_height (modes[i]);
-+	
-+	add_key (app->resolution_combo,
-+		 idle_free (g_strdup_printf ("%d x %d", width, height)),
-+		 width, height, 0, -1);
-+
-+	if (width * height > best_w * best_h)
-+	{
-+	    best_w = width;
-+	    best_h = height;
-+	}
-+    }
-+
-+    add_key (app->resolution_combo, "Off", 0, 0, 0, 0);
-+
-+    if (!app->current_output->on)
-+    {
-+	current = "Off";
-+    }
-+    else
-+    {
-+	current = idle_free (g_strdup_printf ("%d x %d",
-+					      app->current_output->width,
-+					      app->current_output->height));
-+    }
-+	     
-+
-+    if (!combo_select (app->resolution_combo, current))
-+    {
-+	combo_select (app->resolution_combo,
-+		      idle_free (
-+			  g_strdup_printf ("%d x %d", best_w, best_h)));
-+    }
-+}
-+
-+static void
-+rebuild_gui (App *app)
-+{
-+    gboolean sensitive;
-+
-+    /* We would break spectacularly if we recursed, so
-+     * just assert if that happens
-+     */
-+    g_assert (app->ignore_gui_changes == FALSE);
-+    
-+    app->ignore_gui_changes = TRUE;
-+
-+    sensitive = app->current_output? TRUE : FALSE;
-+
-+#if 0
-+    g_print ("rebuild gui, is on: %d\n", app->current_output->on);
-+#endif
-+    
-+    rebuild_resolution_combo (app);
-+    rebuild_rate_combo (app);
-+    rebuild_rotation_combo (app);
-+
-+    gtk_widget_set_sensitive (app->resolution_combo, sensitive);
-+
-+#if 0
-+    g_print ("sensitive: %d, on: %d\n", sensitive, app->current_output->on);
-+#endif
-+    gtk_widget_set_sensitive (app->panel_checkbox, sensitive);
-+
-+    app->ignore_gui_changes = FALSE;
-+}
-+
-+static gboolean
-+get_mode (GtkWidget *widget, int *width, int *height, int *freq, RWRotation *rot)
-+{
-+    GtkTreeIter iter;
-+    GtkTreeModel *model;
-+    GtkComboBox *box = GTK_COMBO_BOX (widget);
-+    int dummy;
-+
-+    if (!gtk_combo_box_get_active_iter (box, &iter))
-+	return FALSE;
-+
-+    if (!width)
-+	width = &dummy;
-+
-+    if (!height)
-+	height = &dummy;
-+
-+    if (!freq)
-+	freq = &dummy;
-+
-+    if (!rot)
-+	rot = (RWRotation *)&dummy;
-+    
-+    model = gtk_combo_box_get_model (box);
-+    gtk_tree_model_get (model, &iter,
-+			1, width,
-+			2, height,
-+			3, freq,
-+			5, rot,
-+			-1);
-+
-+    return TRUE;
-+
-+}
-+
-+static void
-+on_rotation_changed (GtkComboBox *box, gpointer data)
-+{
-+    App *app = data;
-+    RWRotation rotation;
-+
-+    if (!app->current_output)
-+	return;
-+
-+    if (get_mode (app->rotation_combo, NULL, NULL, NULL, &rotation))
-+	app->current_output->rotation = rotation;
-+
-+    foo_scroll_area_invalidate (FOO_SCROLL_AREA (app->area));
-+}
-+
-+static void
-+on_rate_changed (GtkComboBox *box, gpointer data)
-+{
-+    App *app = data;
-+    int rate;
-+
-+    if (!app->current_output)
-+	return;
-+
-+    if (get_mode (app->refresh_combo, NULL, NULL, &rate, NULL))
-+	app->current_output->rate = rate;
-+
-+    foo_scroll_area_invalidate (FOO_SCROLL_AREA (app->area));
-+}
-+
-+static void
-+on_resolution_changed (GtkComboBox *box, gpointer data)
-+{
-+    App *app = data;
-+    int width;
-+    int height;
-+    int i;
-+    int x;
-+
-+    if (!app->current_output)
-+	return;
-+
-+    if (get_mode (app->resolution_combo, &width, &height, NULL, NULL))
-+    {
-+	app->current_output->width = width;
-+	app->current_output->height = height;
-+
-+	if (width == 0 || height == 0)
-+	    app->current_output->on = FALSE;
-+	else
-+	    app->current_output->on = TRUE;
-+    }
-+    
-+    if (app->current_configuration)
-+    {
-+	x = 0;
-+	for (i = 0; app->current_configuration->outputs[i] != NULL; ++i)
-+	{
-+	    Output *output = app->current_configuration->outputs[i];
-+	    
-+	    if (output->connected)
-+	    {
-+		output->x = x;
-+		
-+		x += output->width;
-+	    }
-+	}
-+    }
-+    
-+    rebuild_rate_combo (app);
-+    rebuild_rotation_combo (app);
-+    
-+    foo_scroll_area_invalidate (FOO_SCROLL_AREA (app->area));
-+}
-+
-+static void
-+on_output_event (FooScrollArea *area,
-+		 FooScrollAreaEvent *event,
-+		 gpointer data)
-+{
-+    Output *output = data;
-+    App *app = g_object_get_data (G_OBJECT (area), "app");
-+
-+    if (event->type == FOO_BUTTON_PRESS)
-+    {
-+	app->current_output = output;
-+
-+	rebuild_gui (app);
-+	
-+	foo_scroll_area_invalidate (area);
-+    }
-+}
-+
-+#if 0
-+static void
-+on_canvas_event (FooScrollArea *area,
-+		 FooScrollAreaEvent *event,
-+		 gpointer data)
-+{
-+    App *app = g_object_get_data (G_OBJECT (area), "app");
-+    
-+    if (event->type == FOO_BUTTON_PRESS)
-+    {
-+	app->current_output = NULL;
-+
-+	rebuild_gui (app);
-+
-+	foo_scroll_area_invalidate (area);
-+    }
-+}
-+#endif
-+
-+static PangoLayout *
-+get_display_name (App *app,
-+		  Output *output)
-+{
-+    return gtk_widget_create_pango_layout (
-+	GTK_WIDGET (app->area), output->display_name);
-+}
-+
-+static void
-+get_geometry (Output *output, int *w, int *h)
-+{
-+    if (output->on)
-+    {
-+	*h = output->height;
-+	*w = output->width;
-+    }
-+    else
-+    {
-+	*h = output->pref_height;
-+	*w = output->pref_width;
-+    }
-+}
-+
-+static void
-+on_area_paint (FooScrollArea *area,
-+	       cairo_t	     *cr,
-+	       GdkRectangle  *extent,
-+	       GdkRegion     *region,
-+	       gpointer	      data)
-+{
-+    App *app = data;
-+    GdkRectangle viewport;
-+    int i;
-+    int available;
-+    int total_pixels;
-+    int max_height;
-+    double scale;
-+    GList *connected_outputs = NULL;
-+    GList *list;
-+    int n_monitors;
-+
-+    foo_scroll_area_get_viewport (area, &viewport);
-+
-+    cairo_set_source_rgba (cr, 0.72, 0.78, 0.87, 1.0);
-+
-+    cairo_rectangle (cr,
-+		     viewport.x, viewport.y,
-+		     viewport.width, viewport.height);
-+
-+    cairo_fill_preserve (cr);
-+
-+#if 0
-+    foo_scroll_area_add_input_from_fill (area, cr, on_canvas_event, NULL);
-+#endif
-+    
-+    cairo_set_source_rgba (cr, 0.44, 0.59, 0.76, 1.0);
-+
-+    cairo_stroke (cr);
-+
-+    if (!app->current_configuration)
-+	return;
-+    
-+#define SPACE 36
-+#define MARGIN  24
-+
-+    for (i = 0; app->current_configuration->outputs[i] != NULL; ++i)
-+    {
-+	Output *output = app->current_configuration->outputs[i];
-+
-+	if (output->connected)
-+	    connected_outputs = g_list_prepend (connected_outputs, output);
-+    }
-+
-+    connected_outputs = g_list_reverse (connected_outputs);
-+    
-+    n_monitors = g_list_length (connected_outputs);
-+
-+    available = viewport.width - 2 * MARGIN - (n_monitors - 1) * SPACE;
-+
-+    total_pixels = 0;
-+    max_height = 0;
-+    for (list = connected_outputs; list != NULL; list = list->next)
-+    {
-+	Output *output = list->data;
-+	int w, h;
-+
-+	get_geometry (output, &w, &h);
-+	
-+	total_pixels += w;
-+	max_height = MAX (max_height, h);
-+    }
-+
-+    scale = (double)available / total_pixels;
-+
-+    scale = MIN ((double)(viewport.height - 2 * MARGIN) / max_height, scale);
-+    
-+    int x = MARGIN;
-+    for (list = connected_outputs; list != NULL; list = list->next)
-+    {
-+	Output *output = list->data;
-+	PangoLayout *layout = get_display_name (app, output);
-+	int w, h;
-+
-+	get_geometry (output, &w, &h);
-+	
-+	w = w * scale + 0.5;
-+#if 0
-+	g_print ("%s (%p) geometry %d %d %d\n", output->name, output,
-+		 w, h, output->rate);
-+#endif
-+	
-+	cairo_rectangle (cr, x, MARGIN, w, (int)(
-+			     h * scale + 0.5));
-+
-+	if (output->on)
-+	    cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 1.0);
-+	else
-+	    cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 1.0);
-+
-+	cairo_fill_preserve (cr);
-+
-+	foo_scroll_area_add_input_from_fill (area, cr, on_output_event,
-+					     output);
-+	
-+	if (output == app->current_output)
-+	{
-+	    cairo_set_line_width (cr, 4);
-+	    cairo_set_source_rgba (cr, 0.33, 0.43, 0.57, 1.0);
-+	}
-+	else
-+	{
-+	    cairo_set_line_width (cr, 1);
-+	    cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 1.0);
-+	}
-+	cairo_stroke (cr);
-+	cairo_set_line_width (cr, 2);
-+
-+	cairo_move_to (cr, x + 40, MARGIN + 40);
-+	cairo_set_source_rgb (cr, 0.2, 0.2, 0.8);
-+	layout_set_font (layout, "Sans Bold 18");
-+	pango_cairo_show_layout (cr, layout);
-+	g_object_unref (layout);
-+	
-+	x += w + SPACE;
-+    }
-+}
-+
-+static void
-+make_text_combo (GtkWidget *widget, int sort_column)
-+{
-+    GtkComboBox *box = GTK_COMBO_BOX (widget);
-+    GtkListStore *store = gtk_list_store_new (
-+	6,
-+	G_TYPE_STRING,		/* Text */
-+	G_TYPE_INT,		/* Width */	
-+	G_TYPE_INT,		/* Height */
-+	G_TYPE_INT,		/* Frequency */
-+	G_TYPE_INT,		/* Width * Height */
-+	G_TYPE_INT);		/* Rotation */
-+	
-+    GtkCellRenderer *cell;
-+
-+    gtk_cell_layout_clear (GTK_CELL_LAYOUT (widget));
-+    
-+    gtk_combo_box_set_model (box, GTK_TREE_MODEL (store));
-+
-+    cell = gtk_cell_renderer_text_new ();
-+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (box), cell, TRUE);
-+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (box), cell,
-+				    "text", 0,
-+				    NULL);
-+
-+    if (sort_column != -1)
-+    {
-+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (store),
-+					      sort_column,
-+					      GTK_SORT_DESCENDING);
-+    }
-+}
-+
-+static Atom
-+gnome_randr_atom (void)
-+{
-+    static Atom atom = None;
-+
-+    if (!atom)
-+    {
-+	atom = XInternAtom (gdk_x11_get_default_xdisplay(),
-+			    "_GNOME_RANDR_ATOM", FALSE);
-+    }
-+
-+    return atom;
-+}
-+
-+static void
-+apply (App *app)
-+{
-+    GError *err = NULL;
-+    
-+    if (configuration_save (app->current_configuration, &err))
-+    {
-+	XEvent message;
-+
-+	message.xclient.type = ClientMessage;
-+	message.xclient.message_type = gnome_randr_atom();
-+	message.xclient.format = 8;
-+
-+	g_print ("Sending client message\n");
-+
-+	XSendEvent (gdk_x11_get_default_xdisplay(),
-+		    gdk_x11_get_default_root_xwindow(),
-+		    FALSE,
-+		    StructureNotifyMask, &message);
-+    }
-+}
-+
-+static void
-+run_application (App *app)
-+{
-+#ifndef GLADEDIR
-+#define GLADEDIR "."
-+#endif
-+#define GLADE_FILE GLADEDIR "/display-capplet.glade"
-+    GladeXML *xml;
-+    GtkWidget *align;
-+
-+    xml = glade_xml_new (GLADE_FILE, NULL, NULL);
-+    if (!xml)
-+    {
-+	g_warning ("Could not open " GLADE_FILE);
-+	return;
-+    }
-+    
-+    app->screen = rw_screen_new (gdk_screen_get_default(),
-+				 on_screen_changed, app);
-+
-+    app->dialog = glade_xml_get_widget (xml, "dialog");
-+
-+    app->resolution_combo = glade_xml_get_widget (xml, "resolution_combo");
-+    g_signal_connect (app->resolution_combo, "changed",
-+		      G_CALLBACK (on_resolution_changed), app);
-+
-+    app->refresh_combo = glade_xml_get_widget (xml, "refresh_combo");
-+    g_signal_connect (app->refresh_combo, "changed",
-+		      G_CALLBACK (on_rate_changed), app);
-+
-+    app->rotation_combo = glade_xml_get_widget (xml, "rotation_combo");
-+    g_signal_connect (app->rotation_combo, "changed",
-+		      G_CALLBACK (on_rotation_changed), app);
-+
-+    app->panel_checkbox = glade_xml_get_widget (xml, "panel_checkbox");
-+    app->panel_label = glade_xml_get_widget (xml, "panel_label");
-+
-+    make_text_combo (app->resolution_combo, 4);
-+    make_text_combo (app->refresh_combo, 3);
-+    make_text_combo (app->rotation_combo, -1);
-+    
-+    g_assert (app->panel_checkbox);
-+    
-+    /* Scroll Area */
-+    app->area = (GtkWidget *)foo_scroll_area_new ();
-+
-+    g_object_set_data (G_OBJECT (app->area), "app", app);
-+    
-+    /* FIXME: this should be computed dynamically */
-+    foo_scroll_area_set_min_size (FOO_SCROLL_AREA (app->area), -1, 200);
-+    gtk_widget_show (app->area);
-+    g_signal_connect (app->area, "paint",
-+		      G_CALLBACK (on_area_paint), app);
-+    g_signal_connect (app->area, "viewport_changed",
-+		      G_CALLBACK (on_viewport_changed), app);
-+
-+    align = glade_xml_get_widget (xml, "align");
-+
-+    gtk_container_add (GTK_CONTAINER (align), app->area);
-+
-+    on_screen_changed (app->screen, app);
-+    rebuild_gui (app);
-+
-+    gtk_widget_hide (app->panel_checkbox);
-+    gtk_widget_hide (app->panel_label);
-+    
-+restart:
-+    switch (gtk_dialog_run (GTK_DIALOG (app->dialog)))
-+    {
-+    default:
-+	g_print ("Unknown response\n");
-+	/* Fall Through */
-+    case GTK_RESPONSE_DELETE_EVENT:
-+    case GTK_RESPONSE_CLOSE:
-+	g_print ("Close\n");
-+	break;
-+
-+    case GTK_RESPONSE_HELP:
-+	g_print ("Help\n");
-+	goto restart;
-+	break;
-+
-+    case GTK_RESPONSE_APPLY:
-+	apply (app);
-+	goto restart;
-+	break;
-+    }
-+
-+    gtk_widget_destroy (app->dialog);
-+}
-+
-+int
-+main (int argc, char **argv)
-+{
-+    App *app;
-+    
-+#if 0
-+    bindtextdomain (GETTEXT_PACKAGE, DESKTOPEFFECTSLOCALEDIR);
-+    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-+    textdomain (GETTEXT_PACKAGE);
-+#endif
-+    
-+    gtk_init (&argc, &argv);
-+
-+    app = g_new0 (App, 1);
-+
-+    run_application (app);
-+    
-+    return 0;
-+}
-diff -up /dev/null gnome-control-center-2.21.90/capplets/display/display-capplet.glade
---- /dev/null	2008-02-13 09:53:53.228642516 -0500
-+++ gnome-control-center-2.21.90/capplets/display/display-capplet.glade	2008-02-15 20:33:42.000000000 -0500
-@@ -0,0 +1,399 @@
-+<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
-+<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
-+
-+<glade-interface>
-+
-+<widget class="GtkDialog" id="dialog">
-+  <property name="border_width">18</property>
-+  <property name="title" translatable="yes"></property>
-+  <property name="type">GTK_WINDOW_TOPLEVEL</property>
-+  <property name="window_position">GTK_WIN_POS_NONE</property>
-+  <property name="modal">False</property>
-+  <property name="resizable">True</property>
-+  <property name="destroy_with_parent">False</property>
-+  <property name="decorated">True</property>
-+  <property name="skip_taskbar_hint">False</property>
-+  <property name="skip_pager_hint">False</property>
-+  <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
-+  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
-+  <property name="focus_on_map">True</property>
-+  <property name="urgency_hint">False</property>
-+  <property name="has_separator">False</property>
-+
-+  <child internal-child="vbox">
-+    <widget class="GtkVBox" id="dialog-vbox1">
-+      <property name="visible">True</property>
-+      <property name="homogeneous">False</property>
-+      <property name="spacing">0</property>
-+
-+      <child internal-child="action_area">
-+	<widget class="GtkHButtonBox" id="dialog-action_area1">
-+	  <property name="visible">True</property>
-+	  <property name="layout_style">GTK_BUTTONBOX_END</property>
-+
-+	  <child>
-+	    <widget class="GtkButton" id="helpbutton1">
-+	      <property name="visible">True</property>
-+	      <property name="can_default">True</property>
-+	      <property name="can_focus">True</property>
-+	      <property name="label">gtk-help</property>
-+	      <property name="use_stock">True</property>
-+	      <property name="relief">GTK_RELIEF_NORMAL</property>
-+	      <property name="focus_on_click">True</property>
-+	      <property name="response_id">-11</property>
-+	    </widget>
-+	  </child>
-+
-+	  <child>
-+	    <widget class="GtkButton" id="button1">
-+	      <property name="visible">True</property>
-+	      <property name="can_default">True</property>
-+	      <property name="can_focus">True</property>
-+	      <property name="label">gtk-apply</property>
-+	      <property name="use_stock">True</property>
-+	      <property name="relief">GTK_RELIEF_NORMAL</property>
-+	      <property name="focus_on_click">True</property>
-+	      <property name="response_id">-10</property>
-+	    </widget>
-+	  </child>
-+
-+	  <child>
-+	    <widget class="GtkButton" id="button2">
-+	      <property name="visible">True</property>
-+	      <property name="can_default">True</property>
-+	      <property name="can_focus">True</property>
-+	      <property name="label">gtk-close</property>
-+	      <property name="use_stock">True</property>
-+	      <property name="relief">GTK_RELIEF_NORMAL</property>
-+	      <property name="focus_on_click">True</property>
-+	      <property name="response_id">-7</property>
-+	    </widget>
-+	  </child>
-+	</widget>
-+	<packing>
-+	  <property name="padding">0</property>
-+	  <property name="expand">False</property>
-+	  <property name="fill">True</property>
-+	  <property name="pack_type">GTK_PACK_END</property>
-+	</packing>
-+      </child>
-+
-+      <child>
-+	<widget class="GtkVBox" id="vbox1">
-+	  <property name="visible">True</property>
-+	  <property name="homogeneous">False</property>
-+	  <property name="spacing">12</property>
-+
-+	  <child>
-+	    <widget class="GtkLabel" id="label1">
-+	      <property name="visible">True</property>
-+	      <property name="label" translatable="yes">&lt;b&gt;Monitor Resolution Settings&lt;/b&gt;</property>
-+	      <property name="use_underline">False</property>
-+	      <property name="use_markup">True</property>
-+	      <property name="justify">GTK_JUSTIFY_LEFT</property>
-+	      <property name="wrap">False</property>
-+	      <property name="selectable">False</property>
-+	      <property name="xalign">0</property>
-+	      <property name="yalign">0.5</property>
-+	      <property name="xpad">0</property>
-+	      <property name="ypad">0</property>
-+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-+	      <property name="width_chars">-1</property>
-+	      <property name="single_line_mode">False</property>
-+	      <property name="angle">0</property>
-+	    </widget>
-+	    <packing>
-+	      <property name="padding">0</property>
-+	      <property name="expand">False</property>
-+	      <property name="fill">False</property>
-+	    </packing>
-+	  </child>
-+
-+	  <child>
-+	    <widget class="GtkAlignment" id="align">
-+	      <property name="visible">True</property>
-+	      <property name="xalign">0.5</property>
-+	      <property name="yalign">0.5</property>
-+	      <property name="xscale">1</property>
-+	      <property name="yscale">1</property>
-+	      <property name="top_padding">0</property>
-+	      <property name="bottom_padding">0</property>
-+	      <property name="left_padding">0</property>
-+	      <property name="right_padding">0</property>
-+
-+	      <child>
-+		<placeholder/>
-+	      </child>
-+	    </widget>
-+	    <packing>
-+	      <property name="padding">0</property>
-+	      <property name="expand">True</property>
-+	      <property name="fill">True</property>
-+	    </packing>
-+	  </child>
-+
-+	  <child>
-+	    <widget class="GtkAlignment" id="alignment1">
-+	      <property name="visible">True</property>
-+	      <property name="xalign">0.5</property>
-+	      <property name="yalign">0.5</property>
-+	      <property name="xscale">1</property>
-+	      <property name="yscale">1</property>
-+	      <property name="top_padding">12</property>
-+	      <property name="bottom_padding">24</property>
-+	      <property name="left_padding">24</property>
-+	      <property name="right_padding">24</property>
-+
-+	      <child>
-+		<widget class="GtkTable" id="table1">
-+		  <property name="visible">True</property>
-+		  <property name="n_rows">2</property>
-+		  <property name="n_columns">4</property>
-+		  <property name="homogeneous">False</property>
-+		  <property name="row_spacing">12</property>
-+		  <property name="column_spacing">12</property>
-+
-+		  <child>
-+		    <widget class="GtkLabel" id="label2">
-+		      <property name="visible">True</property>
-+		      <property name="label" translatable="yes">_Resolution</property>
-+		      <property name="use_underline">True</property>
-+		      <property name="use_markup">False</property>
-+		      <property name="justify">GTK_JUSTIFY_LEFT</property>
-+		      <property name="wrap">False</property>
-+		      <property name="selectable">False</property>
-+		      <property name="xalign">0</property>
-+		      <property name="yalign">0.5</property>
-+		      <property name="xpad">0</property>
-+		      <property name="ypad">0</property>
-+		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-+		      <property name="width_chars">-1</property>
-+		      <property name="single_line_mode">False</property>
-+		      <property name="angle">0</property>
-+		    </widget>
-+		    <packing>
-+		      <property name="left_attach">0</property>
-+		      <property name="right_attach">1</property>
-+		      <property name="top_attach">0</property>
-+		      <property name="bottom_attach">1</property>
-+		      <property name="x_options">fill</property>
-+		      <property name="y_options"></property>
-+		    </packing>
-+		  </child>
-+
-+		  <child>
-+		    <widget class="GtkLabel" id="label3">
-+		      <property name="visible">True</property>
-+		      <property name="label" translatable="yes">Re_fresh Rate:</property>
-+		      <property name="use_underline">True</property>
-+		      <property name="use_markup">False</property>
-+		      <property name="justify">GTK_JUSTIFY_LEFT</property>
-+		      <property name="wrap">False</property>
-+		      <property name="selectable">False</property>
-+		      <property name="xalign">0</property>
-+		      <property name="yalign">0.5</property>
-+		      <property name="xpad">0</property>
-+		      <property name="ypad">0</property>
-+		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-+		      <property name="width_chars">-1</property>
-+		      <property name="single_line_mode">False</property>
-+		      <property name="angle">0</property>
-+		    </widget>
-+		    <packing>
-+		      <property name="left_attach">0</property>
-+		      <property name="right_attach">1</property>
-+		      <property name="top_attach">1</property>
-+		      <property name="bottom_attach">2</property>
-+		      <property name="x_options">fill</property>
-+		      <property name="y_options"></property>
-+		    </packing>
-+		  </child>
-+
-+		  <child>
-+		    <widget class="GtkComboBox" id="resolution_combo">
-+		      <property name="visible">True</property>
-+		      <property name="add_tearoffs">False</property>
-+		      <property name="focus_on_click">True</property>
-+		    </widget>
-+		    <packing>
-+		      <property name="left_attach">1</property>
-+		      <property name="right_attach">2</property>
-+		      <property name="top_attach">0</property>
-+		      <property name="bottom_attach">1</property>
-+		      <property name="y_options">fill</property>
-+		    </packing>
-+		  </child>
-+
-+		  <child>
-+		    <widget class="GtkComboBox" id="refresh_combo">
-+		      <property name="visible">True</property>
-+		      <property name="add_tearoffs">False</property>
-+		      <property name="focus_on_click">True</property>
-+		    </widget>
-+		    <packing>
-+		      <property name="left_attach">1</property>
-+		      <property name="right_attach">2</property>
-+		      <property name="top_attach">1</property>
-+		      <property name="bottom_attach">2</property>
-+		      <property name="x_options">fill</property>
-+		      <property name="y_options">fill</property>
-+		    </packing>
-+		  </child>
-+
-+		  <child>
-+		    <widget class="GtkLabel" id="panel_label">
-+		      <property name="visible">True</property>
-+		      <property name="label" translatable="yes">Include _Panel</property>
-+		      <property name="use_underline">True</property>
-+		      <property name="use_markup">False</property>
-+		      <property name="justify">GTK_JUSTIFY_LEFT</property>
-+		      <property name="wrap">False</property>
-+		      <property name="selectable">False</property>
-+		      <property name="xalign">0</property>
-+		      <property name="yalign">0.5</property>
-+		      <property name="xpad">0</property>
-+		      <property name="ypad">0</property>
-+		      <property name="mnemonic_widget">panel_checkbox</property>
-+		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-+		      <property name="width_chars">-1</property>
-+		      <property name="single_line_mode">False</property>
-+		      <property name="angle">0</property>
-+		    </widget>
-+		    <packing>
-+		      <property name="left_attach">2</property>
-+		      <property name="right_attach">3</property>
-+		      <property name="top_attach">0</property>
-+		      <property name="bottom_attach">1</property>
-+		      <property name="x_options">fill</property>
-+		      <property name="y_options"></property>
-+		    </packing>
-+		  </child>
-+
-+		  <child>
-+		    <widget class="GtkLabel" id="label5">
-+		      <property name="visible">True</property>
-+		      <property name="label" translatable="yes">R_otation</property>
-+		      <property name="use_underline">True</property>
-+		      <property name="use_markup">False</property>
-+		      <property name="justify">GTK_JUSTIFY_LEFT</property>
-+		      <property name="wrap">False</property>
-+		      <property name="selectable">False</property>
-+		      <property name="xalign">0</property>
-+		      <property name="yalign">0.5</property>
-+		      <property name="xpad">0</property>
-+		      <property name="ypad">0</property>
-+		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-+		      <property name="width_chars">-1</property>
-+		      <property name="single_line_mode">False</property>
-+		      <property name="angle">0</property>
-+		    </widget>
-+		    <packing>
-+		      <property name="left_attach">2</property>
-+		      <property name="right_attach">3</property>
-+		      <property name="top_attach">1</property>
-+		      <property name="bottom_attach">2</property>
-+		      <property name="x_options">fill</property>
-+		      <property name="y_options"></property>
-+		    </packing>
-+		  </child>
-+
-+		  <child>
-+		    <widget class="GtkComboBox" id="rotation_combo">
-+		      <property name="visible">True</property>
-+		      <property name="items" translatable="yes">Normal
-+Left
-+Right
-+Upside-down
-+</property>
-+		      <property name="add_tearoffs">False</property>
-+		      <property name="focus_on_click">True</property>
-+		    </widget>
-+		    <packing>
-+		      <property name="left_attach">3</property>
-+		      <property name="right_attach">4</property>
-+		      <property name="top_attach">1</property>
-+		      <property name="bottom_attach">2</property>
-+		      <property name="y_options">fill</property>
-+		    </packing>
-+		  </child>
-+
-+		  <child>
-+		    <widget class="GtkCheckButton" id="panel_checkbox">
-+		      <property name="visible">True</property>
-+		      <property name="can_focus">True</property>
-+		      <property name="relief">GTK_RELIEF_NORMAL</property>
-+		      <property name="focus_on_click">True</property>
-+		      <property name="active">False</property>
-+		      <property name="inconsistent">False</property>
-+		      <property name="draw_indicator">True</property>
-+
-+		      <child>
-+			<placeholder/>
-+		      </child>
-+		    </widget>
-+		    <packing>
-+		      <property name="left_attach">3</property>
-+		      <property name="right_attach">4</property>
-+		      <property name="top_attach">0</property>
-+		      <property name="bottom_attach">1</property>
-+		      <property name="x_options">fill</property>
-+		      <property name="y_options"></property>
-+		    </packing>
-+		  </child>
-+		</widget>
-+	      </child>
-+	    </widget>
-+	    <packing>
-+	      <property name="padding">0</property>
-+	      <property name="expand">False</property>
-+	      <property name="fill">True</property>
-+	    </packing>
-+	  </child>
-+
-+	  <child>
-+	    <widget class="GtkLabel" id="label6">
-+	      <property name="visible">True</property>
-+	      <property name="can_focus">True</property>
-+	      <property name="label" translatable="yes">
-+If you report bugs in this control panel (please do!), make sure you
-+attach the file
-+
-+                          /var/log/Xorg.0.log
-+
-+plus the names and models of the monitors, including laptops, you are using. 
-+
-+Thank you, and yes, this text will go away before F9.
-+
-+</property>
-+	      <property name="use_underline">False</property>
-+	      <property name="use_markup">True</property>
-+	      <property name="justify">GTK_JUSTIFY_LEFT</property>
-+	      <property name="wrap">False</property>
-+	      <property name="selectable">True</property>
-+	      <property name="xalign">0.5</property>
-+	      <property name="yalign">0.5</property>
-+	      <property name="xpad">0</property>
-+	      <property name="ypad">0</property>
-+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-+	      <property name="width_chars">-1</property>
-+	      <property name="single_line_mode">False</property>
-+	      <property name="angle">0</property>
-+	    </widget>
-+	    <packing>
-+	      <property name="padding">0</property>
-+	      <property name="expand">False</property>
-+	      <property name="fill">False</property>
-+	    </packing>
-+	  </child>
-+	</widget>
-+	<packing>
-+	  <property name="padding">0</property>
-+	  <property name="expand">True</property>
-+	  <property name="fill">True</property>
-+	</packing>
-+      </child>
-+    </widget>
-+  </child>
-+</widget>
-+
-+</glade-interface>
-diff -up /dev/null gnome-control-center-2.21.90/capplets/display/scrollarea.h
---- /dev/null	2008-02-13 09:53:53.228642516 -0500
-+++ gnome-control-center-2.21.90/capplets/display/scrollarea.h	2008-02-15 20:33:42.000000000 -0500
-@@ -0,0 +1,107 @@
-+#include <cairo/cairo.h>
-+#include <gtk/gtk.h>
-+
-+#define FOO_TYPE_SCROLL_AREA            (foo_scroll_area_get_type ())
-+#define FOO_SCROLL_AREA(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FOO_TYPE_SCROLL_AREA, FooScrollArea))
-+#define FOO_SCROLL_AREA_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass),  FOO_TYPE_SCROLL_AREA, FooScrollAreaClass))
-+#define FOO_IS_SCROLL_AREA(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FOO_TYPE_SCROLL_AREA))
-+#define FOO_IS_SCROLL_AREA_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass),  FOO_TYPE_SCROLL_AREA))
-+#define FOO_SCROLL_AREA_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj),  FOO_TYPE_SCROLL_AREA, FooScrollAreaClass))
-+
-+typedef struct FooScrollArea FooScrollArea;
-+typedef struct FooScrollAreaClass FooScrollAreaClass;
-+typedef struct FooScrollAreaPrivate FooScrollAreaPrivate;
-+typedef struct FooScrollAreaEvent FooScrollAreaEvent;
-+
-+typedef enum
-+{
-+    FOO_BUTTON_PRESS,
-+    FOO_BUTTON_RELEASE,
-+    FOO_MOTION
-+} FooScrollAreaEventType;
-+
-+struct FooScrollAreaEvent
-+{
-+    FooScrollAreaEventType	type;
-+    int				x;
-+    int				y;
-+};
-+
-+typedef void (* FooScrollAreaEventFunc) (FooScrollArea      *area,
-+					 FooScrollAreaEvent *event,
-+					 gpointer            data);
-+
-+struct FooScrollArea
-+{
-+    GtkContainer parent_instance;
-+
-+    FooScrollAreaPrivate *priv;
-+};
-+
-+struct FooScrollAreaClass
-+{
-+    GtkContainerClass parent_class;
-+
-+    void (*set_scroll_adjustments) (FooScrollArea *scroll_area,
-+				    GtkAdjustment *hadjustment,
-+				    GtkAdjustment *vadjustment);
-+
-+    void (*viewport_changed) (FooScrollArea *scroll_area,
-+			      GdkRectangle  *old_viewport,
-+			      GdkRectangle  *new_viewport);
-+
-+    void (*paint) (FooScrollArea *scroll_area,
-+		   cairo_t       *cr,
-+		   GdkRectangle  *extents,
-+		   GdkRegion     *region);
-+};
-+
-+GType foo_scroll_area_get_type (void);
-+
-+FooScrollArea *foo_scroll_area_new (void);
-+
-+/* Set the requisition for the widget. */
-+void	      foo_scroll_area_set_min_size (FooScrollArea *scroll_area,
-+					    int		   min_width,
-+					    int            min_height);
-+
-+/* Set how much of the canvas can be scrolled into view */
-+void	      foo_scroll_area_set_size (FooScrollArea	       *scroll_area,
-+					int			width,
-+					int			height);
-+void	      foo_scroll_area_set_size_fixed_y (FooScrollArea  *scroll_area,
-+						int		width,
-+						int		height,
-+						int		old_y,
-+						int		new_y);
-+void	      foo_scroll_area_set_viewport_pos (FooScrollArea  *scroll_area,
-+						int		x,
-+						int		y);
-+void	      foo_scroll_area_get_viewport (FooScrollArea *scroll_area,
-+					    GdkRectangle  *viewport);
-+void          foo_scroll_area_add_input_from_stroke (FooScrollArea           *scroll_area,
-+						     cairo_t	                *cr,
-+						     FooScrollAreaEventFunc   func,
-+						     gpointer                 data);
-+void          foo_scroll_area_add_input_from_fill (FooScrollArea *scroll_area,
-+						      cairo_t	      *cr,
-+						      FooScrollAreaEventFunc func,
-+						      gpointer       data);
-+void          foo_scroll_area_invalidate_region (FooScrollArea *area,
-+						 GdkRegion     *region);
-+void	      foo_scroll_area_invalidate (FooScrollArea *scroll_area);
-+void	      foo_scroll_area_invalidate_rect (FooScrollArea *scroll_area,
-+					       int	      x,
-+					       int	      y,
-+					       int	      width,
-+					       int	      height);
-+void foo_scroll_area_begin_grab (FooScrollArea *scroll_area,
-+				 FooScrollAreaEventFunc func,
-+				 gpointer       input_data);
-+void foo_scroll_area_end_grab (FooScrollArea *scroll_area);
-+gboolean foo_scroll_area_is_grabbed (FooScrollArea *scroll_area);
-+
-+void foo_scroll_area_begin_auto_scroll (FooScrollArea *scroll_area);
-+void foo_scroll_area_auto_scroll (FooScrollArea *scroll_area,
-+				  FooScrollAreaEvent *event);
-+void foo_scroll_area_end_auto_scroll (FooScrollArea *scroll_area);
-diff -up gnome-control-center-2.21.90/capplets/display/Makefile.am.add-randr12-capplet gnome-control-center-2.21.90/capplets/display/Makefile.am
---- gnome-control-center-2.21.90/capplets/display/Makefile.am.add-randr12-capplet	2008-01-29 07:22:35.000000000 -0500
-+++ gnome-control-center-2.21.90/capplets/display/Makefile.am	2008-02-13 13:12:09.000000000 -0500
-@@ -1,9 +1,18 @@
- # This is used in GNOMECC_CAPPLETS_CFLAGS
- cappletname = display
- 
-+gladedir = $(pkgdatadir)/glade
-+dist_glade_DATA = display-capplet.glade
-+
- bin_PROGRAMS = gnome-display-properties
- 
--gnome_display_properties_SOURCES = main.c
-+gnome_display_properties_SOURCES = \
-+	xrandr-capplet.c	   \
-+        scrollarea.c               \
-+        foo-marshal.c		   \
-+        scrollarea.h               \
-+        foo-marshal.h	
-+
- gnome_display_properties_LDFLAGS = -export-dynamic
- gnome_display_properties_LDADD = \
- 	$(DISPLAY_CAPPLET_LIBS) \
