@@ -21,13 +21,12 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.21.92
-Release: 3%{?dist}
+Version: 2.22.0
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
-Source: http://download.gnome.org/sources/gnome-control-center/2.21/gnome-control-center-%{version}.tar.bz2
-Source1: po.tar.gz
+Source: http://download.gnome.org/sources/gnome-control-center/2.22/gnome-control-center-%{version}.tar.bz2
 
 Patch2: control-center-2.20.0-enable-sound-by-default.patch
 Patch3: control-center-2.19.3-no-gnome-common.patch
@@ -36,9 +35,6 @@ Patch5: background-location.patch
 # Fix some useless warnings in libslab
 # http://bugzilla.gnome.org/show_bug.cgi?id=439398
 Patch6: gnome-control-center-2.19.90-no-warnings.patch
-
-# sent to gnome-i18n@gnome.org
-Patch7: broken-schema-translations.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.21.92-passwd.patch
@@ -160,7 +156,6 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
-tar xzf %{SOURCE1}
 
 %patch2 -p0 -b .enable-sound
 %patch3 -p1 -b .no-gnome-common
@@ -168,7 +163,6 @@ tar xzf %{SOURCE1}
 pushd libslab
 %patch6 -p0 -b .warnings
 popd
-%patch7 -p1 -b .broken-schema-translations
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -353,6 +347,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Mar 10 2008 Matthias Clasen <mclasen@redhat.com> - 2.22.0-1
+- Update to 2.22.0
+
 * Sun Mar  2 2008 Soren Sandmann <sandmann@redhat.com> - 2.21.92-3
 - Update randr
 
