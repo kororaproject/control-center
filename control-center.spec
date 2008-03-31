@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.22.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -35,6 +35,10 @@ Patch5: background-location.patch
 # Fix some useless warnings in libslab
 # http://bugzilla.gnome.org/show_bug.cgi?id=439398
 Patch6: gnome-control-center-2.19.90-no-warnings.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=513988
+Patch7: gnome-control-center-2.22.0-keybinding-xml-encoding.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=524813
+Patch8: gnome-control-center-2.22.0-caps-lock-bindables.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.21.92-passwd.patch
@@ -163,6 +167,8 @@ utilities.
 pushd libslab
 %patch6 -p0 -b .warnings
 popd
+%patch7 -p0 -b .keybindings-encoding
+%patch8 -p0 -b .esc-backspace-bindables
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -347,6 +353,10 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Mar 31 2008 - Bastien Nocera <bnocera@redhat.com> - 2.22.0-3
+- Fix warnings in the keybindings capplet when in non-UTF-8 locale
+- Fix Esc/Backspace being bindable when CapsLock is on (#427123)
+
 * Thu Mar 20 2008 Soren Sandmann <sandmann@redhat.com> - 2.22.0-2
 - Update randr
 
