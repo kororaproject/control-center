@@ -353,7 +353,7 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
-* Thu Mar 20 2008 Soren Sandmann <sandmann@redhat.com> - 2.22.0-4
+* Thu Apr 5 2008 Soren Sandmann <sandmann@redhat.com> - 2.22.0-4
 - Better clone mode support. Remove debug text.
 
 * Mon Mar 31 2008 - Bastien Nocera <bnocera@redhat.com> - 2.22.0-3
