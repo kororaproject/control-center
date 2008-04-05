@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.22.0
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -353,6 +353,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Mar 20 2008 Soren Sandmann <sandmann@redhat.com> - 2.22.0-4
+- Better clone mode support. Remove debug text.
+
 * Mon Mar 31 2008 - Bastien Nocera <bnocera@redhat.com> - 2.22.0-3
 - Fix warnings in the keybindings capplet when in non-UTF-8 locale
 - Fix Esc/Backspace being bindable when CapsLock is on (#427123)

@@ -1,6 +1,6 @@
 diff -up /dev/null gnome-control-center-2.22.0/capplets/display/scrollarea.c
 --- /dev/null	2008-03-16 00:14:46.954006998 -0400
-+++ gnome-control-center-2.22.0/capplets/display/scrollarea.c	2008-03-20 01:22:02.000000000 -0400
++++ gnome-control-center-2.22.0/capplets/display/scrollarea.c	2008-04-05 12:33:31.000000000 -0400
 @@ -0,0 +1,1902 @@
 +#include <gdk/gdkprivate.h> /* For GDK_PARENT_RELATIVE_BG */
 +#include "scrollarea.h"
@@ -1906,7 +1906,7 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/scrollarea.c
 +#endif
 diff -up /dev/null gnome-control-center-2.22.0/capplets/display/foo-marshal.c
 --- /dev/null	2008-03-16 00:14:46.954006998 -0400
-+++ gnome-control-center-2.22.0/capplets/display/foo-marshal.c	2008-03-20 01:22:02.000000000 -0400
++++ gnome-control-center-2.22.0/capplets/display/foo-marshal.c	2008-04-05 12:33:31.000000000 -0400
 @@ -0,0 +1,279 @@
 +
 +#include	<glib-object.h>
@@ -2189,7 +2189,7 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/foo-marshal.c
 +
 diff -up /dev/null gnome-control-center-2.22.0/capplets/display/foo-marshal.h
 --- /dev/null	2008-03-16 00:14:46.954006998 -0400
-+++ gnome-control-center-2.22.0/capplets/display/foo-marshal.h	2008-03-20 01:22:02.000000000 -0400
++++ gnome-control-center-2.22.0/capplets/display/foo-marshal.h	2008-04-05 12:33:31.000000000 -0400
 @@ -0,0 +1,63 @@
 +
 +#ifndef __foo_marshal_MARSHAL_H__
@@ -2256,7 +2256,7 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/foo-marshal.h
 +
 diff -up gnome-control-center-2.22.0/capplets/display/Makefile.am.add-randr12-capplet gnome-control-center-2.22.0/capplets/display/Makefile.am
 --- gnome-control-center-2.22.0/capplets/display/Makefile.am.add-randr12-capplet	2008-01-03 11:22:06.000000000 -0500
-+++ gnome-control-center-2.22.0/capplets/display/Makefile.am	2008-03-20 01:20:09.000000000 -0400
++++ gnome-control-center-2.22.0/capplets/display/Makefile.am	2008-03-20 01:28:43.000000000 -0400
 @@ -1,9 +1,18 @@
  # This is used in GNOMECC_CAPPLETS_CFLAGS
  cappletname = display
@@ -2279,7 +2279,7 @@ diff -up gnome-control-center-2.22.0/capplets/display/Makefile.am.add-randr12-ca
  	$(DISPLAY_CAPPLET_LIBS) \
 diff -up /dev/null gnome-control-center-2.22.0/capplets/display/scrollarea.h
 --- /dev/null	2008-03-16 00:14:46.954006998 -0400
-+++ gnome-control-center-2.22.0/capplets/display/scrollarea.h	2008-03-20 01:22:02.000000000 -0400
++++ gnome-control-center-2.22.0/capplets/display/scrollarea.h	2008-04-05 12:33:31.000000000 -0400
 @@ -0,0 +1,107 @@
 +#include <cairo/cairo.h>
 +#include <gtk/gtk.h>
@@ -2390,8 +2390,8 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/scrollarea.h
 +void foo_scroll_area_end_auto_scroll (FooScrollArea *scroll_area);
 diff -up /dev/null gnome-control-center-2.22.0/capplets/display/display-capplet.glade
 --- /dev/null	2008-03-16 00:14:46.954006998 -0400
-+++ gnome-control-center-2.22.0/capplets/display/display-capplet.glade	2008-03-20 01:22:02.000000000 -0400
-@@ -0,0 +1,418 @@
++++ gnome-control-center-2.22.0/capplets/display/display-capplet.glade	2008-04-05 12:33:31.000000000 -0400
+@@ -0,0 +1,417 @@
 +<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
 +<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 +
@@ -2765,7 +2765,6 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/display-capplet.
 +
 +	  <child>
 +	    <widget class="GtkLabel" id="label6">
-+	      <property name="visible">True</property>
 +	      <property name="can_focus">True</property>
 +	      <property name="label" translatable="yes">
 +If you report bugs in this control panel (please do!), make sure you
@@ -2812,8 +2811,8 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/display-capplet.
 +</glade-interface>
 diff -up /dev/null gnome-control-center-2.22.0/capplets/display/xrandr-capplet.c
 --- /dev/null	2008-03-16 00:14:46.954006998 -0400
-+++ gnome-control-center-2.22.0/capplets/display/xrandr-capplet.c	2008-03-20 01:22:02.000000000 -0400
-@@ -0,0 +1,1478 @@
++++ gnome-control-center-2.22.0/capplets/display/xrandr-capplet.c	2008-04-05 12:33:31.000000000 -0400
+@@ -0,0 +1,1593 @@
 +/* Monitor Settings. A preference panel for configuring monitors
 + *
 + * Copyright (C) 2007, 2008  Red Hat, Inc.
@@ -2946,12 +2945,14 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/xrandr-capplet.c
 +    qsort (app->current_configuration->outputs, i, sizeof (Output *),
 +	   compare_outputs);
 +
++#if 0
 +    for (i = 0; app->current_configuration->outputs[i] != NULL; ++i)
 +    {
 +	Output *o = app->current_configuration->outputs[i];
 +	
 +	g_print ("  output: %d %d %d %d\n", o->x, o->y, o->width, o->height);
 +    }
++#endif
 +    
 +    /* Select an output */
 +    best = NULL;
@@ -3098,21 +3099,102 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/xrandr-capplet.c
 +    return TRUE;
 +}
 +
++static gboolean
++has_similar_mode (RWOutput *output, RWMode *mode)
++{
++    int i;
++    RWMode **modes = rw_output_list_modes (output);
++    int width = rw_mode_get_width (mode);
++    int height = rw_mode_get_height (mode);
++
++    for (i = 0; modes[i] != NULL; ++i)
++    {
++	RWMode *m = modes[i];
++
++	if (rw_mode_get_width (m) == width	&&
++	    rw_mode_get_height (m) == height)
++	{
++	    return TRUE;
++	}
++    }
++
++    return FALSE;
++}
++
++static RWMode **
++list_clone_modes (Configuration *config, RWScreen *screen)
++{
++    int i;
++    GPtrArray *result;
++    RWMode **modes;
++
++    for (i = 0; config->outputs[i] != NULL; ++i)
++    {
++	if (config->outputs[i]->connected)
++	{
++	    RWOutput *output =
++		rw_screen_get_output_by_name (screen, config->outputs[i]->name);
++
++	    modes = rw_output_list_modes (output);
++	}
++    }
++
++    if (!modes)
++	return NULL;
++
++    result = g_ptr_array_new ();
++
++    for (i = 0; modes[i] != NULL; ++i)
++    {
++	gboolean valid = TRUE;
++	int j;
++	
++	for (j = 0; config->outputs[j] != NULL; ++j)
++	{
++	    if (config->outputs[j]->connected)
++	    {
++		RWOutput *output = rw_screen_get_output_by_name (
++		    screen, config->outputs[j]->name);
++
++		if (!has_similar_mode (output, modes[i]))
++		{
++		    valid = FALSE;
++		    break;
++		}
++	    }
++	}
++
++	if (valid)
++	    g_ptr_array_add (result, modes[i]);
++    }
++
++    g_ptr_array_add (result, NULL);
++    
++    return (RWMode **)g_ptr_array_free (result, FALSE);
++}
++
 +static RWMode **
 +get_current_modes (App *app)
 +{
 +    RWOutput *output;
-+    
-+    if (!app->current_output)
-+	return NULL;
 +
-+    output = rw_screen_get_output_by_name (
-+	app->screen, app->current_output->name);
-+
-+    if (!output)
-+	return NULL;
-+
-+    return rw_output_list_modes (output);
++    if (app->current_configuration->clone)
++    {
++	return list_clone_modes (app->current_configuration, app->screen);
++    }
++    else
++    {
++	if (!app->current_output)
++	    return NULL;
++	
++	output = rw_screen_get_output_by_name (
++	    app->screen, app->current_output->name);
++	
++	if (!output)
++	    return NULL;
++	
++	return rw_output_list_modes (output);
++    }
 +}
 +
 +static void
@@ -3297,6 +3379,11 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/xrandr-capplet.c
 +    gtk_widget_set_sensitive (app->panel_checkbox, sensitive);
 +
 +    app->ignore_gui_changes = FALSE;
++
++    if (app->current_configuration && app->current_configuration->clone)
++	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (app->clone_checkbox), TRUE);
++    else
++	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (app->clone_checkbox), FALSE);
 +}
 +
 +static gboolean
@@ -3412,7 +3499,26 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/xrandr-capplet.c
 +static void
 +on_clone_changed (GtkWidget *box, gpointer data)
 +{
-+    g_print ("clone changed\n");
++    App *app = data;
++
++    app->current_configuration->clone =
++	gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (app->clone_checkbox));
++
++    if (app->current_configuration->clone)
++    {
++	int i;
++
++	for (i = 0; app->current_configuration->outputs[i]; ++i)
++	{
++	    if (app->current_configuration->outputs[i]->connected)
++	    {
++		app->current_output = app->current_configuration->outputs[i];
++		break;
++	    }
++	}
++    }
++    
++    rebuild_gui (app);
 +}
 +
 +static void
@@ -3430,8 +3536,8 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/xrandr-capplet.c
 +    }
 +}
 +
-+#define SPACE 5
-+#define MARGIN  5
++#define SPACE 15
++#define MARGIN  15
 +
 +static GList *
 +list_connected_outputs (App *app, int *total_w, int *total_h)
@@ -3567,12 +3673,6 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/xrandr-capplet.c
 +	return FALSE;
 +    
 +    return overlap (snapper->y1, snapper->y2, snappee->y1, snappee->y2);
-+}
-+
-+static int
-+dist_squared (const Snap *snap)
-+{
-+    return snap->dx * snap->dx + snap->dy * snap->dy;
 +}
 +
 +static void
@@ -3960,8 +4060,15 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/xrandr-capplet.c
 +get_display_name (App *app,
 +		  Output *output)
 +{
++    const char *text;
++    
++    if (app->current_configuration->clone)
++	text = "Cloned Output";
++    else
++	text = output->display_name;
++
 +    return gtk_widget_create_pango_layout (
-+	GTK_WIDGET (app->area), output->display_name);
++	GTK_WIDGET (app->area), text);
 +}
 +
 +#define BACKGROUND_FILL_RGBA	0.72, 0.78, 0.87, 1.0
@@ -4004,7 +4111,6 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/xrandr-capplet.c
 +    PangoLayout *layout = get_display_name (app, output);
 +    PangoRectangle extent;
 +    GdkRectangle viewport;
-+    double pixel_w, pixel_h;
 +
 +    cairo_save (cr);
 +    
@@ -4017,6 +4123,9 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/xrandr-capplet.c
 +	     w, h, output->rate);
 +#endif
 +
++    viewport.height -= 2 * MARGIN;
++    viewport.width -= 2 * MARGIN;
++    
 +    x = output->x * scale + MARGIN + (viewport.width - total_w * scale) / 2.0;
 +    y = output->y * scale + MARGIN + (viewport.height - total_h * scale) / 2.0;
 +
@@ -4057,19 +4166,19 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/xrandr-capplet.c
 +    cairo_stroke (cr);
 +    cairo_set_line_width (cr, 2);
 +
++    layout_set_font (layout, "Sans Bold 12");
++    
 +    pango_layout_get_pixel_extents (layout, NULL, &extent);
 +
 +    extent.x = x + ((w * scale + 0.5) - extent.width) / 2;
 +    extent.y = y + ((h * scale + 0.5) - extent.height) / 2;
-+    
++
 +    cairo_move_to (cr, extent.x, extent.y);
 +    
 +    if (output->on)
 +	cairo_set_source_rgb (cr, 0.2, 0.2, 0.8);
 +    else
 +	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
-+    
-+    layout_set_font (layout, "Sans Bold 12");
 +    
 +    pango_cairo_show_layout (cr, layout);
 +    g_object_unref (layout);
@@ -4102,7 +4211,12 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/xrandr-capplet.c
 +#endif
 +    
 +    for (list = connected_outputs; list != NULL; list = list->next)
++    {
 +	paint_output (app, cr, g_list_position (connected_outputs, list));
++
++	if (app->current_configuration->clone)
++	    break;
++    }
 +}
 +
 +static void
