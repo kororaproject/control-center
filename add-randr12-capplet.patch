@@ -1,6 +1,6 @@
 diff -up /dev/null gnome-control-center-2.22.0/capplets/display/scrollarea.c
 --- /dev/null	2008-03-16 00:14:46.954006998 -0400
-+++ gnome-control-center-2.22.0/capplets/display/scrollarea.c	2008-04-07 13:50:17.000000000 -0400
++++ gnome-control-center-2.22.0/capplets/display/scrollarea.c	2008-04-07 15:13:42.000000000 -0400
 @@ -0,0 +1,1902 @@
 +#include <gdk/gdkprivate.h> /* For GDK_PARENT_RELATIVE_BG */
 +#include "scrollarea.h"
@@ -1906,7 +1906,7 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/scrollarea.c
 +#endif
 diff -up /dev/null gnome-control-center-2.22.0/capplets/display/foo-marshal.c
 --- /dev/null	2008-03-16 00:14:46.954006998 -0400
-+++ gnome-control-center-2.22.0/capplets/display/foo-marshal.c	2008-04-07 13:50:17.000000000 -0400
++++ gnome-control-center-2.22.0/capplets/display/foo-marshal.c	2008-04-07 15:13:42.000000000 -0400
 @@ -0,0 +1,279 @@
 +
 +#include	<glib-object.h>
@@ -2189,7 +2189,7 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/foo-marshal.c
 +
 diff -up /dev/null gnome-control-center-2.22.0/capplets/display/foo-marshal.h
 --- /dev/null	2008-03-16 00:14:46.954006998 -0400
-+++ gnome-control-center-2.22.0/capplets/display/foo-marshal.h	2008-04-07 13:50:17.000000000 -0400
++++ gnome-control-center-2.22.0/capplets/display/foo-marshal.h	2008-04-07 15:13:42.000000000 -0400
 @@ -0,0 +1,63 @@
 +
 +#ifndef __foo_marshal_MARSHAL_H__
@@ -2279,7 +2279,7 @@ diff -up gnome-control-center-2.22.0/capplets/display/Makefile.am.add-randr12-ca
  	$(DISPLAY_CAPPLET_LIBS) \
 diff -up /dev/null gnome-control-center-2.22.0/capplets/display/scrollarea.h
 --- /dev/null	2008-03-16 00:14:46.954006998 -0400
-+++ gnome-control-center-2.22.0/capplets/display/scrollarea.h	2008-04-07 13:50:17.000000000 -0400
++++ gnome-control-center-2.22.0/capplets/display/scrollarea.h	2008-04-07 15:13:42.000000000 -0400
 @@ -0,0 +1,107 @@
 +#include <cairo/cairo.h>
 +#include <gtk/gtk.h>
@@ -2390,8 +2390,8 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/scrollarea.h
 +void foo_scroll_area_end_auto_scroll (FooScrollArea *scroll_area);
 diff -up /dev/null gnome-control-center-2.22.0/capplets/display/display-capplet.glade
 --- /dev/null	2008-03-16 00:14:46.954006998 -0400
-+++ gnome-control-center-2.22.0/capplets/display/display-capplet.glade	2008-04-07 13:50:17.000000000 -0400
-@@ -0,0 +1,412 @@
++++ gnome-control-center-2.22.0/capplets/display/display-capplet.glade	2008-04-07 15:13:42.000000000 -0400
+@@ -0,0 +1,387 @@
 +<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
 +<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 +
@@ -2399,7 +2399,7 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/display-capplet.
 +
 +<widget class="GtkDialog" id="dialog">
 +  <property name="border_width">18</property>
-+  <property name="title" translatable="yes"></property>
++  <property name="title" translatable="yes">Monitor Resolution Settings</property>
 +  <property name="type">GTK_WINDOW_TOPLEVEL</property>
 +  <property name="window_position">GTK_WIN_POS_NONE</property>
 +  <property name="modal">False</property>
@@ -2491,35 +2491,10 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/display-capplet.
 +	      <property name="spacing">12</property>
 +
 +	      <child>
-+		<widget class="GtkLabel" id="label1">
-+		  <property name="visible">True</property>
-+		  <property name="label" translatable="yes">&lt;b&gt;Monitor Resolution Settings&lt;/b&gt;</property>
-+		  <property name="use_underline">False</property>
-+		  <property name="use_markup">True</property>
-+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
-+		  <property name="wrap">False</property>
-+		  <property name="selectable">False</property>
-+		  <property name="xalign">0</property>
-+		  <property name="yalign">0.5</property>
-+		  <property name="xpad">0</property>
-+		  <property name="ypad">0</property>
-+		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-+		  <property name="width_chars">-1</property>
-+		  <property name="single_line_mode">False</property>
-+		  <property name="angle">0</property>
-+		</widget>
-+		<packing>
-+		  <property name="padding">0</property>
-+		  <property name="expand">False</property>
-+		  <property name="fill">False</property>
-+		</packing>
-+	      </child>
-+
-+	      <child>
 +		<widget class="GtkCheckButton" id="clone_checkbox">
 +		  <property name="visible">True</property>
 +		  <property name="can_focus">True</property>
-+		  <property name="label" translatable="yes">Mirror Screens (the clone wars)</property>
++		  <property name="label" translatable="yes">Mirror Screens</property>
 +		  <property name="use_underline">True</property>
 +		  <property name="relief">GTK_RELIEF_NORMAL</property>
 +		  <property name="focus_on_click">True</property>
@@ -2806,7 +2781,7 @@ diff -up /dev/null gnome-control-center-2.22.0/capplets/display/display-capplet.
 +</glade-interface>
 diff -up /dev/null gnome-control-center-2.22.0/capplets/display/xrandr-capplet.c
 --- /dev/null	2008-03-16 00:14:46.954006998 -0400
-+++ gnome-control-center-2.22.0/capplets/display/xrandr-capplet.c	2008-04-07 13:50:17.000000000 -0400
++++ gnome-control-center-2.22.0/capplets/display/xrandr-capplet.c	2008-04-07 15:13:42.000000000 -0400
 @@ -0,0 +1,1624 @@
 +/* Monitor Settings. A preference panel for configuring monitors
 + *
