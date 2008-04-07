@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.22.0
-Release: 5%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -353,6 +353,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Apr 7 2008 Soren Sandmann <sandmann@redhat.com> - 2.22.0-6
+- Disallow turning off the only active screen
+
 * Mon Apr 7 2008 Soren Sandmann <sandmann@redhat.com> - 2.22.0-5
 - Add detect displays button; fix clone text
 
