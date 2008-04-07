@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.22.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -353,6 +353,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Apr 7 2008 Soren Sandmann <sandmann@redhat.com> - 2.22.0-5
+- Add detect displays button; fix clone text
+
 * Thu Apr 5 2008 Soren Sandmann <sandmann@redhat.com> - 2.22.0-4
 - Better clone mode support. Remove debug text.
 
