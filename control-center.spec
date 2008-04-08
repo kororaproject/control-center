@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.22.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -37,6 +37,8 @@ Patch5: background-location.patch
 Patch6: gnome-control-center-2.19.90-no-warnings.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=524813
 Patch7: gnome-control-center-2.22.0-caps-lock-bindables.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=526944 
+Patch8: no-gdmsetup.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.21.92-passwd.patch
@@ -166,6 +168,7 @@ pushd libslab
 %patch6 -p0 -b .warnings
 popd
 %patch7 -p0 -b .esc-backspace-bindables
+%patch8 -p1 -b .no-gdmsetup
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -350,8 +353,11 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
-* Tue Apr 08 2008 - Bastien Nocera <bnocera@redhat.com> - 2.20.1-1
-- Update to 2.20.1
+* Tue Apr  8 2008 Matthias Clasen <mclasen@redhat.com> - 2.22.1-2
+- Remove a nonfunctional button from the a11y preferences
+
+* Tue Apr 08 2008 - Bastien Nocera <bnocera@redhat.com> - 2.22.1-1
+- Update to 2.22.1
 
 * Mon Apr 7 2008 Soren Sandmann <sandmann@redhat.com> - 2.22.0-7
 - Add window title, improve wording in label
