@@ -13,7 +13,7 @@
 %define xft_version 2.1.7
 %define fontconfig_version 1.0.0
 %define redhat_menus_version 1.8
-%define metacity_version 2.21.21
+%define metacity_version 2.23.1
 %define libxklavier_version 3.2
 %define gnome_menus_version 2.11.1
 %define usermode_version 1.83
@@ -21,12 +21,12 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.22.1
-Release: 2%{?dist}
+Version: 2.23.1
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
-Source: http://download.gnome.org/sources/gnome-control-center/2.22/gnome-control-center-%{version}.tar.bz2
+Source: http://download.gnome.org/sources/gnome-control-center/2.23/gnome-control-center-%{version}.tar.bz2
 
 Patch2: control-center-2.20.0-enable-sound-by-default.patch
 Patch3: control-center-2.19.3-no-gnome-common.patch
@@ -35,10 +35,6 @@ Patch5: background-location.patch
 # Fix some useless warnings in libslab
 # http://bugzilla.gnome.org/show_bug.cgi?id=439398
 Patch6: gnome-control-center-2.19.90-no-warnings.patch
-# http://bugzilla.gnome.org/show_bug.cgi?id=524813
-Patch7: gnome-control-center-2.22.0-caps-lock-bindables.patch
-# http://bugzilla.gnome.org/show_bug.cgi?id=526944 
-Patch8: no-gdmsetup.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.21.92-passwd.patch
@@ -167,8 +163,6 @@ utilities.
 pushd libslab
 %patch6 -p0 -b .warnings
 popd
-%patch7 -p0 -b .esc-backspace-bindables
-%patch8 -p1 -b .no-gdmsetup
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -353,6 +347,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Fri Apr 25 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.1-1
+- Update to 2.23.1
+
 * Tue Apr  8 2008 Matthias Clasen <mclasen@redhat.com> - 2.22.1-2
 - Remove a nonfunctional button from the a11y preferences
 
