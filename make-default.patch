@@ -100,7 +100,7 @@ diff -up gnome-control-center-2.23.1/capplets/appearance/appearance-desktop.c.ma
  void
 diff -up gnome-control-center-2.23.1/capplets/appearance/Makefile.am.make-default gnome-control-center-2.23.1/capplets/appearance/Makefile.am
 --- gnome-control-center-2.23.1/capplets/appearance/Makefile.am.make-default	2008-04-21 11:26:34.000000000 -0400
-+++ gnome-control-center-2.23.1/capplets/appearance/Makefile.am	2008-05-03 00:42:39.000000000 -0400
++++ gnome-control-center-2.23.1/capplets/appearance/Makefile.am	2008-05-03 00:54:32.000000000 -0400
 @@ -42,7 +42,8 @@ gnome_appearance_properties_LDADD = \
  	$(top_builddir)/capplets/common/libcommon.la \
  	$(GNOMECC_CAPPLETS_LIBS) \
@@ -125,7 +125,7 @@ diff -up gnome-control-center-2.23.1/capplets/appearance/Makefile.am.make-defaul
  CLEANFILES = $(GNOMECC_CAPPLETS_CLEANFILES)
 +
 +polkitdir = $(datadir)/PolicyKit/policy
-+polkit_in_files = org.gnome.gconf.defaults.policy.in
++polkit_in_files = org.gnome.controlcenter.defaults.policy.in
 +
 +@INTLTOOL_POLICY_RULE@
 +polkit_DATA = $(polkit_in_files:.policy.in=.policy)
@@ -134,9 +134,9 @@ diff -up gnome-control-center-2.23.1/capplets/appearance/Makefile.am.make-defaul
 +	$(POLKIT_POLICY_FILE_VALIDATE) $(polkit_DATA)
 +
 +EXTRA_DIST = $(polkit_in_files)
-diff -up /dev/null gnome-control-center-2.23.1/capplets/appearance/org.gnome.gconf.defaults.policy.in
+diff -up /dev/null gnome-control-center-2.23.1/capplets/appearance/org.gnome.controlcenter.defaults.policy.in
 --- /dev/null	2008-05-02 17:32:00.296272090 -0400
-+++ gnome-control-center-2.23.1/capplets/appearance/org.gnome.gconf.defaults.policy.in	2008-05-03 00:29:49.000000000 -0400
++++ gnome-control-center-2.23.1/capplets/appearance/org.gnome.controlcenter.defaults.policy.in	2008-05-03 00:29:49.000000000 -0400
 @@ -0,0 +1,20 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<!DOCTYPE policyconfig PUBLIC

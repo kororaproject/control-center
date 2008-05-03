@@ -336,6 +336,7 @@ fi
 %{_sysconfdir}/xdg/autostart/gnome-at-session.desktop
 %{_libdir}/gnome-vfs-2.0/modules/*.so
 %{_libdir}/window-manager-settings/*.so
+%{_datadir}/PolicyKit/policy/*
 
 %files devel
 %defattr(-,root,root)
