@@ -35,7 +35,6 @@ Patch5: background-location.patch
 # Fix some useless warnings in libslab
 # http://bugzilla.gnome.org/show_bug.cgi?id=439398
 Patch6: gnome-control-center-2.19.90-no-warnings.patch
-#
 Patch7: make-default.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
@@ -167,7 +166,6 @@ utilities.
 pushd libslab
 %patch6 -p0 -b .warnings
 popd
-%patch7 -p1 -b .make-default
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -175,6 +173,7 @@ popd
 %patch99 -p1 -b .default-apps
 
 %patch100 -p1 -b .add-randr12-capplet
+%patch7 -p1 -b .make-default
 
 %build
 
