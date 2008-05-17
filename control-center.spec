@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.23.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -44,6 +44,9 @@ Patch96: gnome-control-center-2.21.92-gecos.patch
 Patch99: default-applications.patch
 
 Patch100: add-randr12-capplet.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=533611
+Patch101: notification-theme.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
@@ -174,6 +177,8 @@ popd
 
 %patch100 -p1 -b .add-randr12-capplet
 %patch7 -p1 -b .make-default
+
+%patch101 -p1 -b .notification-theme
 
 %build
 
@@ -352,6 +357,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Sat May 17 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.1-4
+- Support notication themes in the appearance capplet
+
 * Tue May 13 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.1-3
 - Rebuild against newer libs
 
