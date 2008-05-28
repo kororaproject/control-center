@@ -14,7 +14,7 @@
 %define fontconfig_version 1.0.0
 %define redhat_menus_version 1.8
 %define metacity_version 2.23.1
-%define libxklavier_version 3.2
+%define libxklavier_version 3.6
 %define gnome_menus_version 2.11.1
 %define usermode_version 1.83
 %define libgnomekbd_version 2.21
@@ -38,8 +38,8 @@ Patch6: gnome-control-center-2.19.90-no-warnings.patch
 Patch7: make-default.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
-Patch95: control-center-2.21.92-passwd.patch
-Patch96: gnome-control-center-2.21.92-gecos.patch
+Patch95: control-center-2.23.2-passwd.patch
+Patch96: control-center-2.23.2-gecos.patch
 # change default preferred apps to programs we ship
 Patch99: default-applications.patch
 
@@ -96,7 +96,6 @@ BuildRequires: gnome-menus-devel >= %{gnome_menus_version}
 BuildRequires: gnome-panel-devel
 BuildRequires: libgnomekbd-devel >= %{libgnomekbd_version}
 BuildRequires: gnome-settings-daemon-devel
-BuildRequires: iso-codes-devel
 # For intltool:
 BuildRequires: perl(XML::Parser) 
 BuildRequires: evolution-data-server-devel >= 1.9.1
