@@ -21,8 +21,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.23.1
-Release: 4%{?dist}
+Version: 2.23.2
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -357,6 +357,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue May 27 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.2-1
+- Update to 2.23.2
+
 * Sat May 17 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.1-4
 - Support notication themes in the appearance capplet
 
