@@ -1,23 +1,23 @@
-diff -up gnome-control-center-2.23.1/capplets/appearance/theme-save.c.notification-theme gnome-control-center-2.23.1/capplets/appearance/theme-save.c
---- gnome-control-center-2.23.1/capplets/appearance/theme-save.c.notification-theme	2008-01-03 11:22:05.000000000 -0500
-+++ gnome-control-center-2.23.1/capplets/appearance/theme-save.c	2008-05-17 14:55:20.000000000 -0400
-@@ -242,6 +242,12 @@ write_theme_to_disk (GnomeThemeMetaInfo 
+diff -up gnome-control-center-2.23.2/capplets/appearance/theme-save.c.notification-theme gnome-control-center-2.23.2/capplets/appearance/theme-save.c
+--- gnome-control-center-2.23.2/capplets/appearance/theme-save.c.notification-theme	2008-05-17 12:46:56.000000000 -0400
++++ gnome-control-center-2.23.2/capplets/appearance/theme-save.c	2008-05-27 23:46:17.000000000 -0400
+@@ -234,6 +234,12 @@ write_theme_to_disk (GnomeThemeMetaInfo 
      g_free (str);
    }
  
 +  if (theme_info->notification_theme_name) {
 +    str = g_strdup_printf ("NotificationTheme=%s\n", theme_info->notification_theme_name);
-+    gnome_vfs_write (handle, str, strlen (str), &bytes_written);
++    g_output_stream_write (output, str, strlen (str), NULL, NULL);
 +    g_free (str);
 +  }
 +
    if (save_background) {
      client = gconf_client_get_default ();
      current_background = gconf_client_get_string (client, BACKGROUND_KEY, NULL);
-diff -up gnome-control-center-2.23.1/capplets/common/gnome-theme-apply.c.notification-theme gnome-control-center-2.23.1/capplets/common/gnome-theme-apply.c
---- gnome-control-center-2.23.1/capplets/common/gnome-theme-apply.c.notification-theme	2008-03-27 09:01:32.000000000 -0400
-+++ gnome-control-center-2.23.1/capplets/common/gnome-theme-apply.c	2008-05-17 14:58:16.000000000 -0400
-@@ -30,6 +30,7 @@
+diff -up gnome-control-center-2.23.2/capplets/common/gnome-theme-apply.c.notification-theme gnome-control-center-2.23.2/capplets/common/gnome-theme-apply.c
+--- gnome-control-center-2.23.2/capplets/common/gnome-theme-apply.c.notification-theme	2008-05-17 12:46:59.000000000 -0400
++++ gnome-control-center-2.23.2/capplets/common/gnome-theme-apply.c	2008-05-27 23:45:00.000000000 -0400
+@@ -34,6 +34,7 @@
  #define CURSOR_FONT_KEY   "/desktop/gnome/peripherals/mouse/cursor_font"
  #define CURSOR_THEME_KEY   "/desktop/gnome/peripherals/mouse/cursor_theme"
  #define CURSOR_SIZE_KEY    "/desktop/gnome/peripherals/mouse/cursor_size"
@@ -25,7 +25,7 @@ diff -up gnome-control-center-2.23.1/capplets/common/gnome-theme-apply.c.notific
  
  #define compare(x,y) (!x && y) || (x && !y) || (x && y && strcmp (x, y))
  
-@@ -38,6 +39,7 @@ gnome_meta_theme_set (GnomeThemeMetaInfo
+@@ -42,6 +43,7 @@ gnome_meta_theme_set (GnomeThemeMetaInfo
  {
    GConfClient *client;
    gchar *old_key;
@@ -33,7 +33,7 @@ diff -up gnome-control-center-2.23.1/capplets/common/gnome-theme-apply.c.notific
    gint old_key_int;
    GnomeWindowManager *window_manager;
    GnomeWMSettings wm_settings;
-@@ -94,6 +96,17 @@ gnome_meta_theme_set (GnomeThemeMetaInfo
+@@ -98,6 +100,17 @@ gnome_meta_theme_set (GnomeThemeMetaInfo
      }
    g_free (old_key);
  
@@ -51,10 +51,10 @@ diff -up gnome-control-center-2.23.1/capplets/common/gnome-theme-apply.c.notific
    /* Set the cursor theme key */
  #ifdef HAVE_XCURSOR
    old_key = gconf_client_get_string (client, CURSOR_THEME_KEY, NULL);
-diff -up gnome-control-center-2.23.1/capplets/common/gnome-theme-info.c.notification-theme gnome-control-center-2.23.1/capplets/common/gnome-theme-info.c
---- gnome-control-center-2.23.1/capplets/common/gnome-theme-info.c.notification-theme	2008-01-03 11:22:07.000000000 -0500
-+++ gnome-control-center-2.23.1/capplets/common/gnome-theme-info.c	2008-05-17 14:55:20.000000000 -0400
-@@ -24,6 +24,7 @@
+diff -up gnome-control-center-2.23.2/capplets/common/gnome-theme-info.c.notification-theme gnome-control-center-2.23.2/capplets/common/gnome-theme-info.c
+--- gnome-control-center-2.23.2/capplets/common/gnome-theme-info.c.notification-theme	2008-05-17 12:46:59.000000000 -0400
++++ gnome-control-center-2.23.2/capplets/common/gnome-theme-info.c	2008-05-27 23:45:00.000000000 -0400
+@@ -25,6 +25,7 @@
  #define METACITY_THEME_KEY "X-GNOME-Metatheme/MetacityTheme"
  #define ICON_THEME_KEY "X-GNOME-Metatheme/IconTheme"
  #define CURSOR_THEME_KEY "X-GNOME-Metatheme/CursorTheme"
@@ -62,8 +62,8 @@ diff -up gnome-control-center-2.23.1/capplets/common/gnome-theme-info.c.notifica
  #define CURSOR_SIZE_KEY "X-GNOME-Metatheme/CursorSize"
  #define SOUND_THEME_KEY "X-GNOME-Metatheme/SoundTheme"
  #define APPLICATION_FONT_KEY "X-GNOME-Metatheme/ApplicationFont"
-@@ -326,6 +327,10 @@ gnome_theme_read_meta_theme (GnomeVFSURI
-     }
+@@ -335,6 +336,10 @@ gnome_theme_read_meta_theme (GFile *meta
+   }
    meta_theme_info->icon_theme_name = g_strdup (str);
  
 +  str = gnome_desktop_item_get_string (meta_theme_ditem, NOTIFICATION_THEME_KEY);
@@ -73,7 +73,7 @@ diff -up gnome-control-center-2.23.1/capplets/common/gnome-theme-info.c.notifica
    str = gnome_desktop_item_get_string (meta_theme_ditem, CURSOR_THEME_KEY);
    if (str != NULL) {
      meta_theme_info->cursor_theme_name = g_strdup (str);
-@@ -1718,6 +1723,7 @@ gnome_theme_meta_info_free (GnomeThemeMe
+@@ -1596,6 +1601,7 @@ gnome_theme_meta_info_free (GnomeThemeMe
    g_free (meta_theme_info->gtk_color_scheme);
    g_free (meta_theme_info->icon_theme_name);
    g_free (meta_theme_info->metacity_theme_name);
@@ -81,7 +81,7 @@ diff -up gnome-control-center-2.23.1/capplets/common/gnome-theme-info.c.notifica
    g_free (meta_theme_info);
  }
  
-@@ -1796,6 +1802,9 @@ gnome_theme_meta_info_compare (GnomeThem
+@@ -1697,6 +1703,9 @@ gnome_theme_meta_info_compare (GnomeThem
    cmp = safe_strcmp (a->icon_theme_name, b->icon_theme_name);
    if (cmp != 0) return cmp;
  
@@ -91,10 +91,10 @@ diff -up gnome-control-center-2.23.1/capplets/common/gnome-theme-info.c.notifica
    cmp = safe_strcmp (a->sound_theme_name, b->sound_theme_name);
    if (cmp != 0) return cmp;
  
-diff -up gnome-control-center-2.23.1/capplets/common/gnome-theme-info.h.notification-theme gnome-control-center-2.23.1/capplets/common/gnome-theme-info.h
---- gnome-control-center-2.23.1/capplets/common/gnome-theme-info.h.notification-theme	2008-01-03 11:22:07.000000000 -0500
-+++ gnome-control-center-2.23.1/capplets/common/gnome-theme-info.h	2008-05-17 14:55:20.000000000 -0400
-@@ -102,6 +102,7 @@ struct _GnomeThemeMetaInfo
+diff -up gnome-control-center-2.23.2/capplets/common/gnome-theme-info.h.notification-theme gnome-control-center-2.23.2/capplets/common/gnome-theme-info.h
+--- gnome-control-center-2.23.2/capplets/common/gnome-theme-info.h.notification-theme	2008-05-17 12:46:59.000000000 -0400
++++ gnome-control-center-2.23.2/capplets/common/gnome-theme-info.h	2008-05-27 23:45:00.000000000 -0400
+@@ -100,6 +100,7 @@ struct _GnomeThemeMetaInfo
    gchar *gtk_color_scheme;
    gchar *metacity_theme_name;
    gchar *icon_theme_name;
