@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.23.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -36,6 +36,8 @@ Patch5: background-location.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=439398
 Patch6: gnome-control-center-2.19.90-no-warnings.patch
 Patch7: make-default.patch
+# minor build breakage in gtk, will be fixed in the next gtk release
+Patch8: gtkmarshal.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.23.2-passwd.patch
@@ -168,6 +170,7 @@ utilities.
 pushd libslab
 %patch6 -p0 -b .warnings
 popd
+%patch8 -p1 -b .gtkmarshal
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -356,6 +359,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Jun  3 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.2-2
+- Make changing default backgrounds work better
+
 * Tue May 27 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.2-1
 - Update to 2.23.2
 

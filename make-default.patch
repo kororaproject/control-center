@@ -1,7 +1,7 @@
-diff -up gnome-control-center-2.23.1/capplets/appearance/appearance-desktop.c.make-default gnome-control-center-2.23.1/capplets/appearance/appearance-desktop.c
---- gnome-control-center-2.23.1/capplets/appearance/appearance-desktop.c.make-default	2008-05-03 00:29:49.000000000 -0400
-+++ gnome-control-center-2.23.1/capplets/appearance/appearance-desktop.c	2008-05-03 00:29:49.000000000 -0400
-@@ -31,6 +31,9 @@
+diff -up gnome-control-center-2.23.2/capplets/appearance/appearance-desktop.c.make-default gnome-control-center-2.23.2/capplets/appearance/appearance-desktop.c
+--- gnome-control-center-2.23.2/capplets/appearance/appearance-desktop.c.make-default	2008-06-03 08:36:59.000000000 -0400
++++ gnome-control-center-2.23.2/capplets/appearance/appearance-desktop.c	2008-06-03 08:41:14.000000000 -0400
+@@ -32,6 +32,9 @@
  #define GNOME_DESKTOP_USE_UNSTABLE_API
  #include <libgnomeui/gnome-bg.h>
  
@@ -11,13 +11,14 @@ diff -up gnome-control-center-2.23.1/capplets/appearance/appearance-desktop.c.ma
  enum {
    TARGET_URI_LIST,
    TARGET_BGIMAGE
-@@ -890,6 +893,49 @@ wp_select_after_realize (GtkWidget *widg
+@@ -907,6 +910,52 @@ wp_select_after_realize (GtkWidget *widg
    select_item (data, item, TRUE);
  }
  
 +static void
 +set_background (GtkAction *action, gpointer data)
 +{
++  AppearanceData *adata = (AppearanceData *)data;
 +  DBusGProxy *proxy;
 +  DBusGConnection *connection;
 +  GError *error;
@@ -30,6 +31,8 @@ diff -up gnome-control-center-2.23.1/capplets/appearance/appearance-desktop.c.ma
 +    "/desktop/gnome/background/secondary_color",
 +    NULL
 +  };
++
++  gconf_client_suggest_sync (adata->client, NULL);
 +
 +  error = NULL;
 +  connection = dbus_g_bus_get (DBUS_BUS_SYSTEM, &error);
@@ -61,7 +64,7 @@ diff -up gnome-control-center-2.23.1/capplets/appearance/appearance-desktop.c.ma
  void
  desktop_init (AppearanceData *data,
  	      const gchar **uris)
-@@ -899,6 +945,9 @@ desktop_init (AppearanceData *data,
+@@ -916,6 +965,9 @@ desktop_init (AppearanceData *data,
    GtkFileFilter *filter;
    const gchar *pictures;
    const gchar *start_dir;
@@ -71,7 +74,7 @@ diff -up gnome-control-center-2.23.1/capplets/appearance/appearance-desktop.c.ma
  
    g_object_set (gtk_settings_get_default (), "gtk-tooltip-timeout", 500, NULL);
  
-@@ -1069,6 +1118,26 @@ desktop_init (AppearanceData *data,
+@@ -1084,6 +1136,25 @@ desktop_init (AppearanceData *data,
  
    g_signal_connect (data->wp_filesel, "update-preview",
                      (GCallback) wp_update_preview, data);
@@ -93,14 +96,13 @@ diff -up gnome-control-center-2.23.1/capplets/appearance/appearance-desktop.c.ma
 +  button = polkit_gnome_action_create_button (action);
 +  gtk_box_pack_end (GTK_BOX (box), button, FALSE, FALSE, 0);
 +
-+  g_signal_connect (action, "activate", 
-+                    G_CALLBACK (set_background), NULL);
++  g_signal_connect (action, "activate", G_CALLBACK (set_background), data);
  }
  
  void
-diff -up gnome-control-center-2.23.1/capplets/appearance/Makefile.am.make-default gnome-control-center-2.23.1/capplets/appearance/Makefile.am
---- gnome-control-center-2.23.1/capplets/appearance/Makefile.am.make-default	2008-04-21 11:26:34.000000000 -0400
-+++ gnome-control-center-2.23.1/capplets/appearance/Makefile.am	2008-05-03 00:54:32.000000000 -0400
+diff -up gnome-control-center-2.23.2/capplets/appearance/Makefile.am.make-default gnome-control-center-2.23.2/capplets/appearance/Makefile.am
+--- gnome-control-center-2.23.2/capplets/appearance/Makefile.am.make-default	2008-05-17 12:46:56.000000000 -0400
++++ gnome-control-center-2.23.2/capplets/appearance/Makefile.am	2008-06-03 08:42:05.000000000 -0400
 @@ -42,7 +42,8 @@ gnome_appearance_properties_LDADD = \
  	$(top_builddir)/capplets/common/libcommon.la \
  	$(GNOMECC_CAPPLETS_LIBS) \
@@ -119,64 +121,14 @@ diff -up gnome-control-center-2.23.1/capplets/appearance/Makefile.am.make-defaul
  	-DGNOMELOCALEDIR="\"$(datadir)/locale\"" \
  	-DGNOMECC_DATA_DIR="\"$(pkgdatadir)\"" \
  	-DGNOMECC_GLADE_DIR="\"$(gladedir)\"" \
-@@ -61,3 +63,14 @@ INCLUDES = \
- 	-DWALLPAPER_DATADIR="\"$(wallpaperdir)\""
- 
- CLEANFILES = $(GNOMECC_CAPPLETS_CLEANFILES)
-+
-+polkitdir = $(datadir)/PolicyKit/policy
-+polkit_in_files = org.gnome.controlcenter.defaults.policy.in
-+
-+@INTLTOOL_POLICY_RULE@
-+polkit_DATA = $(polkit_in_files:.policy.in=.policy)
-+
-+check:
-+	$(POLKIT_POLICY_FILE_VALIDATE) $(polkit_DATA)
-+
-+EXTRA_DIST = $(polkit_in_files)
-diff -up /dev/null gnome-control-center-2.23.1/capplets/appearance/org.gnome.controlcenter.defaults.policy.in
---- /dev/null	2008-05-02 17:32:00.296272090 -0400
-+++ gnome-control-center-2.23.1/capplets/appearance/org.gnome.controlcenter.defaults.policy.in	2008-05-03 00:29:49.000000000 -0400
-@@ -0,0 +1,20 @@
-+<?xml version="1.0" encoding="UTF-8"?>
-+<!DOCTYPE policyconfig PUBLIC
-+ "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
-+ "http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
-+<policyconfig>
-+  <vendor>The GNOME Project</vendor>
-+  <vendor_url>http://www.gnome.org</vendor_url>
-+  <icon_name>gnome-settings-theme</icon_name>
-+
-+  <action id="org.gnome.gconf.defaults.set-default-background">
-+    <description>Change the default background image</description>
-+    <message>Privileges are required to change the default background</message>
-+    <defaults>
-+      <allow_inactive>no</allow_inactive>
-+      <allow_active>auth_admin</allow_active>
-+    </defaults>
-+    <annotate key="org.gnome.gconf.defaults.set-system.prefix">/desktop/gnome/background</annotate>
-+  </action>
-+
-+</policyconfig>
-diff -up gnome-control-center-2.23.1/configure.in.make-default gnome-control-center-2.23.1/configure.in
---- gnome-control-center-2.23.1/configure.in.make-default	2008-05-03 00:29:49.000000000 -0400
-+++ gnome-control-center-2.23.1/configure.in	2008-05-03 00:29:49.000000000 -0400
-@@ -105,6 +105,7 @@ PKG_CHECK_MODULES(TYPING, glib-2.0 > 2.1
- PKG_CHECK_MODULES(LIBBACKGROUND, glib-2.0 gobject-2.0 gdk-2.0 gconf-2.0)
+diff -up gnome-control-center-2.23.2/configure.in.make-default gnome-control-center-2.23.2/configure.in
+--- gnome-control-center-2.23.2/configure.in.make-default	2008-06-03 08:36:59.000000000 -0400
++++ gnome-control-center-2.23.2/configure.in	2008-06-03 08:36:59.000000000 -0400
+@@ -104,6 +104,7 @@ PKG_CHECK_MODULES(METACITY, libmetacity-
+ PKG_CHECK_MODULES(TYPING, glib-2.0 > 2.11 gconf-2.0 gtk+-2.0)
  PKG_CHECK_MODULES(LIBSOUNDS, gio-2.0 libgnome-2.0 libgnomeui-2.0)
  PKG_CHECK_MODULES(GSD_DBUS, gnome-settings-daemon)
 +PKG_CHECK_MODULES(POLKIT_GNOME, polkit-gnome)
  
  gtk_lib_dir=`$PKG_CONFIG --variable libdir gtk+-2.0`
  gtk_binary_version=`$PKG_CONFIG --variable gtk_binary_version gtk+-2.0`
-diff -up gnome-control-center-2.23.1/po/POTFILES.in.make-default gnome-control-center-2.23.1/po/POTFILES.in
---- gnome-control-center-2.23.1/po/POTFILES.in.make-default	2008-01-29 07:56:35.000000000 -0500
-+++ gnome-control-center-2.23.1/po/POTFILES.in	2008-05-03 00:29:49.000000000 -0400
-@@ -21,6 +21,7 @@ capplets/appearance/data/gnome-theme-ins
- capplets/appearance/data/gnome-theme-package.xml.in
- capplets/appearance/gnome-wp-info.c
- capplets/appearance/gnome-wp-item.c
-+capplets/appearance/org.gnome.gconf.defaults.policy.in
- capplets/appearance/theme-installer.c
- capplets/appearance/theme-save.c
- capplets/appearance/theme-util.c
