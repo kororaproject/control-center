@@ -321,7 +321,6 @@ fi
 %{_bindir}/gnome-mouse-properties
 %{_bindir}/gnome-network-preferences
 %{_bindir}/gnome-sound-properties
-%{_bindir}/gnome-theme-thumbnailer
 %{_bindir}/gnome-thumbnail-font
 %{_bindir}/gnome-typing-monitor
 %{_bindir}/gnome-window-properties
