@@ -215,16 +215,12 @@ done
 # Add a "valid" OnlyShowIn entry, otherwise desktop-file-install complains
 sed -i -e "s/OnlyShowIn=;/OnlyShowIn=GNOME;/"  \
   $RPM_BUILD_ROOT%{_datadir}/applications/gnome-theme-installer.desktop
-sed -i -e "s/OnlyShowIn=;/OnlyShowIn=GNOME;/"  \
-  $RPM_BUILD_ROOT%{_datadir}/applications/themus-theme-applier.desktop
 
 desktop-file-install --vendor gnome --delete-original			\
   --dir $RPM_BUILD_ROOT%{_datadir}/applications				\
   --add-only-show-in GNOME						\
   $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
-sed -i -e "s/OnlyShowIn=GNOME;/OnlyShowIn=;/"  \
-  $RPM_BUILD_ROOT%{_datadir}/applications/gnome-theme-installer.desktop
 sed -i -e "s/OnlyShowIn=GNOME;/OnlyShowIn=;/"  \
   $RPM_BUILD_ROOT%{_datadir}/applications/gnome-themus-theme-applier.desktop
 
@@ -263,7 +259,6 @@ export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
 gconftool-2 --makefile-install-rule 						\
    %{_sysconfdir}/gconf/schemas/fontilus.schemas			\
    %{_sysconfdir}/gconf/schemas/control-center.schemas			\
-   %{_sysconfdir}/gconf/schemas/themus.schemas				\
      > /dev/null || :
 update-desktop-database --quiet %{_datadir}/applications
 update-mime-database %{_datadir}/mime > /dev/null
@@ -277,7 +272,6 @@ if [ "$1" -gt 1 ]; then
     export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
     gconftool-2 --makefile-uninstall-rule \
      %{_sysconfdir}/gconf/schemas/fontilus.schemas \
-     %{_sysconfdir}/gconf/schemas/themus.schemas \
      %{_sysconfdir}/gconf/schemas/control-center.schemas \
      > /dev/null || :
 fi
@@ -287,7 +281,6 @@ if [ "$1" -eq 0 ]; then
     export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
     gconftool-2 --makefile-uninstall-rule \
      %{_sysconfdir}/gconf/schemas/fontilus.schemas \
-     %{_sysconfdir}/gconf/schemas/themus.schemas \
      %{_sysconfdir}/gconf/schemas/control-center.schemas \
      > /dev/null || :
 fi
@@ -332,11 +325,9 @@ fi
 %{_bindir}/gnome-thumbnail-font
 %{_bindir}/gnome-typing-monitor
 %{_bindir}/gnome-window-properties
-%{_bindir}/themus-theme-applier
 %{_libdir}/nautilus/extensions-2.0/*.so
 %{_libdir}/*.so.*
 %{_sysconfdir}/gconf/schemas/fontilus.schemas
-%{_sysconfdir}/gconf/schemas/themus.schemas
 %{_sysconfdir}/gconf/schemas/control-center.schemas
 %{_sysconfdir}/gnome-vfs-2.0/modules/*.conf
 %{_sysconfdir}/xdg/menus/gnomecc.menu
