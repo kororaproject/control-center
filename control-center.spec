@@ -222,7 +222,7 @@ desktop-file-install --vendor gnome --delete-original			\
   $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 sed -i -e "s/OnlyShowIn=GNOME;/OnlyShowIn=;/"  \
-  $RPM_BUILD_ROOT%{_datadir}/applications/gnome-themus-theme-applier.desktop
+  $RPM_BUILD_ROOT%{_datadir}/applications/gnome-theme-installer.desktop
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=161489
 sed -i -e "s/OnlyShowIn=GNOME;//"  \
