@@ -21,8 +21,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.23.2
-Release: 2%{?dist}
+Version: 2.23.3
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -358,6 +358,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Wed Jun  4 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.3-1
+- Update to 2.23.3
+
 * Tue Jun  3 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.2-2
 - Make changing default backgrounds work better
 
