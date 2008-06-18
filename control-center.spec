@@ -21,7 +21,7 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.23.3
+Version: 2.23.4
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
@@ -348,6 +348,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Wed Jun 18 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.4-1
+- Update to 2.23.4
+
 * Wed Jun  4 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.3-1
 - Update to 2.23.3
 
