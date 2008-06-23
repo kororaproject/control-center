@@ -22,11 +22,12 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.23.4
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 Source: http://download.gnome.org/sources/gnome-control-center/2.23/gnome-control-center-%{version}.tar.bz2
+Source1: org.gnome.control-center.defaultbackground.policy
 
 Patch2: control-center-2.20.0-enable-sound-by-default.patch
 Patch3: control-center-2.19.3-no-gnome-common.patch
@@ -239,6 +240,9 @@ sed -i -e "s/OnlyShowIn=GNOME;//"  \
 # we do want this
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/gnome/wm-properties
 
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/PolicyKit/policy
+install -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/PolicyKit/policy
+
 # we don't want these
 rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/autostart
 rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/cursor-fonts
@@ -316,6 +320,7 @@ fi
 %{_datadir}/desktop-directories/*
 %{_datadir}/mime/packages/gnome-theme-package.xml
 %{_datadir}/icons/hicolor/*/apps/*
+%{_datadir}/PolicyKit/policy/*
 %{_datadir}/pkgconfig/gnome-keybindings.pc
 # list all binaries explicitly, so we notice if one goes missing
 %{_bindir}/gnome-about-me
@@ -359,6 +364,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Jun 23 2008 Ray Strode <rstrode@redhat.com> - 2.23.4-3
+- Install bg capplet .policy file
+
 * Fri Jun 20 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.4-2
 - Use standard icon names for capplets where available
 
