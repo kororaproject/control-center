@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.23.4
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -31,11 +31,6 @@ Source1: org.gnome.control-center.defaultbackground.policy
 
 Patch2: control-center-2.20.0-enable-sound-by-default.patch
 Patch3: control-center-2.19.3-no-gnome-common.patch
-# http://bugzilla.gnome.org/show_bug.cgi?id=497807
-Patch5: background-location.patch
-# Fix some useless warnings in libslab
-# http://bugzilla.gnome.org/show_bug.cgi?id=439398
-Patch6: gnome-control-center-2.19.90-no-warnings.patch
 Patch7: make-default.patch
 # minor build breakage in gtk, will be fixed in the next gtk release
 Patch8: gtkmarshal.patch
@@ -174,10 +169,6 @@ utilities.
 
 %patch2 -p0 -b .enable-sound
 %patch3 -p1 -b .no-gnome-common
-%patch5 -p1 -b .background-location
-pushd libslab
-%patch6 -p0 -b .warnings
-popd
 %patch8 -p1 -b .gtkmarshal
 %patch9 -p1 -b .standard-icon
 
@@ -364,6 +355,10 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Jul 14 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.4-4
+- Drop some obsolete patches
+- Fix an issue with the notification-theme support (#455329)
+
 * Mon Jun 23 2008 Ray Strode <rstrode@redhat.com> - 2.23.4-3
 - Install bg capplet .policy file
 
