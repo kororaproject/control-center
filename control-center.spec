@@ -34,14 +34,8 @@ Patch7: make-default.patch
 # minor build breakage in gtk, will be fixed in the next gtk release
 Patch8: gtkmarshal.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=539336
-# http://bugzilla.gnome.org/show_bug.cgi?id=539338
-# http://bugzilla.gnome.org/show_bug.cgi?id=539339
-# http://bugzilla.gnome.org/show_bug.cgi?id=539340
-# http://bugzilla.gnome.org/show_bug.cgi?id=539343
-
 # http://bugzilla.gnome.org/show_bug.cgi?id=542979
-#Patch10: gcc-libcanberra-support-5.patch
+Patch10: gcc-libcanberra-support-8.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.23.2-passwd.patch
@@ -166,7 +160,7 @@ utilities.
 
 %patch3 -p1 -b .no-gnome-common
 %patch8 -p1 -b .gtkmarshal
-#%patch10 -p0 -b .libcanberra
+%patch10 -p0 -b .libcanberra
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -343,6 +337,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Jul 24 2008 - Bastien Nocera <bnocera@redhat.com> - 2.23.5-2
+- Update the libcanberra patch
+
 * Thu Jul 24 2008 Soren Sandmann <sandmann@redhat.com> - 2.23.5-1
 - Update the packaged files to match reality.
 

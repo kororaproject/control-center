@@ -1,8 +1,8 @@
 Index: configure.in
 ===================================================================
---- configure.in	(revision 8792)
+--- configure.in	(revision 8795)
 +++ configure.in	(working copy)
-@@ -242,30 +242,6 @@
+@@ -244,30 +244,6 @@
  AM_GCONF_SOURCE_2
  
  dnl ==============================================
@@ -33,7 +33,7 @@ Index: configure.in
  dnl GStreamer section
  dnl ==============================================
  GST_MAJORMINOR=auto
-@@ -300,15 +276,22 @@
+@@ -302,15 +278,22 @@
  AC_SUBST(GST_LIBS)
  AC_SUBST(GST_CFLAGS)
  
@@ -59,7 +59,7 @@ Index: configure.in
  dnl ==============================================
  dnl Define the main variables
  dnl ==============================================
-@@ -377,7 +360,6 @@
+@@ -379,7 +362,6 @@
  help/Makefile
  libslab/Makefile
  libslab/libslab.pc
@@ -69,19 +69,19 @@ Index: configure.in
  po/Makefile.in
 Index: Makefile.am
 ===================================================================
---- Makefile.am	(revision 8792)
+--- Makefile.am	(revision 8795)
 +++ Makefile.am	(working copy)
 @@ -1,4 +1,4 @@
--SUBDIRS = po libsounds libwindow-settings libslab capplets shell help vfs-methods $(TYPING_BREAK)
-+SUBDIRS = po libwindow-settings libslab capplets shell help $(TYPING_BREAK)
+-SUBDIRS = po libsounds libwindow-settings libslab capplets shell help
++SUBDIRS = po libwindow-settings libslab capplets shell help
  
- ACLOCAL_AMFLAGS = -I m4
- 
+ if HAVE_TYPING_BREAK
+ SUBDIRS += typing-break
 Index: capplets/sound/sound-theme-file-utils.c
 ===================================================================
 --- capplets/sound/sound-theme-file-utils.c	(revision 0)
 +++ capplets/sound/sound-theme-file-utils.c	(revision 0)
-@@ -0,0 +1,154 @@
+@@ -0,0 +1,152 @@
 +/* -*- mode: c; style: linux -*- */
 +/* -*- c-basic-offset: 2 -*- */
 +
@@ -105,31 +105,36 @@ Index: capplets/sound/sound-theme-file-utils.c
 + */
 +
 +#include <config.h>
++#include <glib/gstdio.h>
 +#include <gio/gio.h>
 +
 +#define CUSTOM_THEME_NAME	"__custom"
 +
-+GFile *
-+custom_theme_dir_path (void)
++char *
++custom_theme_dir_path (const char *child)
 +{
++	static char *dir = NULL;
 +	const char *data_dir;
-+	GFile *file;
-+	char *dir;
 +
-+	data_dir = g_get_user_data_dir ();
-+	dir = g_build_filename (data_dir, "sounds", CUSTOM_THEME_NAME, NULL);
-+	file = g_file_new_for_path (dir);
-+	g_free (dir);
++	if (dir == NULL) {
++		data_dir = g_get_user_data_dir ();
++		dir = g_build_filename (data_dir, "sounds", CUSTOM_THEME_NAME, NULL);
++	}
++	if (child == NULL)
++		return g_strdup (dir);
 +
-+	return file;
++	return g_build_filename (dir, child, NULL);
 +}
 +
 +void
 +delete_custom_theme_dir (void)
 +{
++	char *dir;
 +	GFile *file;
 +
-+	file = custom_theme_dir_path ();
++	dir = custom_theme_dir_path (NULL);
++	file = g_file_new_for_path (dir);
++	g_free (dir);
 +	/* FIXME we shouldn't be using the trash here, but it's faster/easier */
 +	g_file_trash (file, NULL, NULL);
 +	g_object_unref (file);
@@ -138,14 +143,16 @@ Index: capplets/sound/sound-theme-file-utils.c
 +}
 +
 +static void
-+delete_one_file (GFile *parent, const char *sound_name, const char *pattern)
++delete_one_file (const char *sound_name, const char *pattern)
 +{
 +	GFile *file;
-+	char *name;
++	char *name, *filename;
 +
 +	name = g_strdup_printf (pattern, sound_name);
-+	file = g_file_get_child (parent, name);
++	filename = custom_theme_dir_path (name);
 +	g_free (name);
++	file = g_file_new_for_path (filename);
++	g_free (filename);
 +	/* FIXME we shouldn't be using the trash here, but it's faster/easier */
 +	g_file_trash (file, NULL, NULL);
 +	g_object_unref (file);
@@ -154,29 +161,20 @@ Index: capplets/sound/sound-theme-file-utils.c
 +void
 +delete_old_files (char **sounds)
 +{
-+	static const char *patterns[] = { "%s.ogg", "%s.wav", NULL };
-+	GFile *dir;
-+	guint i, j;
++	guint i;
 +
-+	dir = custom_theme_dir_path ();
 +	for (i = 0; sounds[i] != NULL; i++) {
-+		for (j = 0; patterns[j] != NULL; j++) {
-+			delete_one_file (dir, sounds[i], patterns[j]);
-+		}
++		delete_one_file (sounds[i], "%s.ogg");
 +	}
-+	g_object_unref (dir);
 +}
 +
 +void
 +delete_disabled_files (char **sounds)
 +{
-+	GFile *dir;
 +	guint i;
 +
-+	dir = custom_theme_dir_path ();
 +	for (i = 0; sounds[i] != NULL; i++)
-+		delete_one_file (dir, sounds[i], "%s.disabled");
-+	g_object_unref (dir);
++		delete_one_file (sounds[i], "%s.disabled");
 +}
 +
 +static void
@@ -194,92 +192,51 @@ Index: capplets/sound/sound-theme-file-utils.c
 +void
 +add_disabled_file (char **sounds)
 +{
-+	GFile *dir;
 +	guint i;
 +
-+	dir = custom_theme_dir_path ();
 +	for (i = 0; sounds[i] != NULL; i++) {
 +		GFile *file;
-+		char *name;
++		char *name, *filename;
 +
 +		name = g_strdup_printf ("%s.disabled", sounds[i]);
-+		file = g_file_get_child (dir, name);
++		filename = custom_theme_dir_path (name);
 +		g_free (name);
++		file = g_file_new_for_path (filename);
++		g_free (filename);
 +
 +		create_one_file (file);
 +		g_object_unref (file);
 +	}
-+	g_object_unref (dir);
 +}
 +
 +void
 +add_custom_file (char **sounds, const char *filename)
 +{
-+	GFile *dir;
 +	guint i;
 +
-+	dir = custom_theme_dir_path ();
 +	for (i = 0; sounds[i] != NULL; i++) {
 +		GFile *file;
-+		char *name;
++		char *name, *path;
 +
-+		//FIXME get the right suffix from the target file
++		/* We use *.ogg because it's the first type of file that
++		 * libcanberra looks at */
 +		name = g_strdup_printf ("%s.ogg", sounds[i]);
-+		file = g_file_get_child (dir, name);
++		path = custom_theme_dir_path (name);
 +		g_free (name);
-+
 +		/* In case there's already a link there, delete it */
-+		g_file_trash (file, NULL, NULL);
++		g_unlink (path);
++		file = g_file_new_for_path (path);
++		g_free (path);
++
++		/* Create the link */
 +		g_file_make_symbolic_link (file, filename, NULL, NULL);
 +		g_object_unref (file);
 +	}
-+	g_object_unref (dir);
 +}
 +
-Index: capplets/sound/sound-theme-file-utils.h
-===================================================================
---- capplets/sound/sound-theme-file-utils.h	(revision 0)
-+++ capplets/sound/sound-theme-file-utils.h	(revision 0)
-@@ -0,0 +1,36 @@
-+/* -*- mode: c; style: linux -*- */
-+/* -*- c-basic-offset: 2 -*- */
-+
-+/* sound-theme-file-utils.h
-+ * Copyright (C) 2008 Bastien Nocera <hadess@hadess.net>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2, or (at your option)
-+ * any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, write to the Free Software
-+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-+ * 02111-1307, USA.
-+ */
-+#ifndef __SOUND_THEME_FILE_UTILSHH__
-+#define __SOUND_THEME_HH__
-+
-+#include <gio/gio.h>
-+
-+GFile *custom_theme_dir_path (void);
-+
-+void delete_custom_theme_dir (void);
-+void delete_old_files (char **sounds);
-+void delete_disabled_files (char **sounds);
-+
-+void add_disabled_file (char **sounds);
-+void add_custom_file (char **sounds, const char *filename);
-+
-+#endif /* __SOUND_THEME_FILE_UTILS_HH__ */
 Index: capplets/sound/sound-properties-capplet.c
 ===================================================================
---- capplets/sound/sound-properties-capplet.c	(revision 8792)
+--- capplets/sound/sound-properties-capplet.c	(revision 8795)
 +++ capplets/sound/sound-properties-capplet.c	(working copy)
 @@ -35,7 +35,6 @@
  
@@ -475,9 +432,50 @@ Index: capplets/sound/sound-properties-capplet.c
  			gtk_main ();
  			gconf_change_set_unref (changeset);
  			g_object_unref (dialog);
+Index: capplets/sound/sound-theme-file-utils.h
+===================================================================
+--- capplets/sound/sound-theme-file-utils.h	(revision 0)
++++ capplets/sound/sound-theme-file-utils.h	(revision 0)
+@@ -0,0 +1,36 @@
++/* -*- mode: c; style: linux -*- */
++/* -*- c-basic-offset: 2 -*- */
++
++/* sound-theme-file-utils.h
++ * Copyright (C) 2008 Bastien Nocera <hadess@hadess.net>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2, or (at your option)
++ * any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
++ * 02111-1307, USA.
++ */
++#ifndef __SOUND_THEME_FILE_UTILSHH__
++#define __SOUND_THEME_HH__
++
++#include <gio/gio.h>
++
++char *custom_theme_dir_path (const char *child);
++
++void delete_custom_theme_dir (void);
++void delete_old_files (char **sounds);
++void delete_disabled_files (char **sounds);
++
++void add_disabled_file (char **sounds);
++void add_custom_file (char **sounds, const char *filename);
++
++#endif /* __SOUND_THEME_FILE_UTILS_HH__ */
 Index: capplets/sound/sound-properties.glade
 ===================================================================
---- capplets/sound/sound-properties.glade	(revision 8792)
+--- capplets/sound/sound-properties.glade	(revision 8795)
 +++ capplets/sound/sound-properties.glade	(working copy)
 @@ -92,7 +92,7 @@
  	      <property name="visible">True</property>
@@ -1011,11 +1009,43 @@ Index: capplets/sound/sound-theme-definition.h
 +	{ -1, -1, NULL, { NULL } }
 +};
 +
+Index: capplets/sound/Makefile.am
+===================================================================
+--- capplets/sound/Makefile.am	(revision 8795)
++++ capplets/sound/Makefile.am	(working copy)
+@@ -4,15 +4,23 @@
+ bin_PROGRAMS = gnome-sound-properties
+ 
+ gnome_sound_properties_LDADD = \
+-	$(top_builddir)/libsounds/libsounds.la \
+ 	$(GNOMECC_CAPPLETS_LIBS) \
+-	$(SOUND_CAPPLET_LIBS) \
++	$(CANBERRA_LIBS) $(SOUND_CAPPLET_LIBS) \
+ 	$(HAL_LIBS)
+-gnome_sound_properties_SOURCES = sound-properties-capplet.c pipeline-tests.h pipeline-tests.c mixer-support.h mixer-support.c
++gnome_sound_properties_SOURCES =				\
++	sound-properties-capplet.c				\
++	pipeline-tests.h					\
++	pipeline-tests.c					\
++	mixer-support.h						\
++	mixer-support.c						\
++	sound-theme.c						\
++	sound-theme.h						\
++	sound-theme-file-utils.c				\
++	sound-theme-file-utils.h
+ 
+ INCLUDES = \
+ 	$(GNOMECC_CAPPLETS_CFLAGS) \
+-	$(SOUND_CAPPLET_CFLAGS) \
++	$(CANBERRA_CFLAGS) $(SOUND_CAPPLET_CFLAGS) \
+ 	$(HAL_CFLAGS) \
+ 	-DGNOMELOCALEDIR="\"$(datadir)/locale\"" \
+ 	-DGNOMECC_DATA_DIR="\"$(pkgdatadir)\"" \
 Index: capplets/sound/sound-theme.c
 ===================================================================
 --- capplets/sound/sound-theme.c	(revision 0)
 +++ capplets/sound/sound-theme.c	(revision 0)
-@@ -0,0 +1,1058 @@
+@@ -0,0 +1,1069 @@
 +/* -*- mode: c; style: linux -*- */
 +/* -*- c-basic-offset: 2 -*- */
 +
@@ -1044,6 +1074,7 @@ Index: capplets/sound/sound-theme.c
 +#include <gio/gio.h>
 +#include <glade/glade.h>
 +#include <gconf/gconf-client.h>
++#include <canberra-gtk.h>
 +
 +#include "sound-theme.h"
 +#include "capplet-util.h"
@@ -1161,6 +1192,8 @@ Index: capplets/sound/sound-theme.c
 +						  "Name",
 +						  NULL,
 +						  NULL);
++
++	/* Save the parent theme, if there's one */
 +	if (parent != NULL) {
 +		*parent = g_key_file_get_string (file,
 +						 "Sound Theme",
@@ -1181,16 +1214,11 @@ Index: capplets/sound/sound-theme.c
 +
 +	parent = NULL;
 +
++	/* Get the parent, if we're checking the custom theme */
 +	if (strcmp (key, CUSTOM_THEME_NAME) == 0) {
-+		GFile *dir, *index;
 +		char *name, *path;
 +
-+		dir = custom_theme_dir_path ();
-+		index = g_file_get_child (dir, "index.theme");
-+		g_object_unref (dir);
-+		path = g_file_get_path (index);
-+		g_object_unref (index);
-+
++		path = custom_theme_dir_path ("index.theme");
 +		name = load_index_theme_name (path, &parent);
 +		g_free (name);
 +		g_free (path);
@@ -1365,7 +1393,7 @@ Index: capplets/sound/sound-theme.c
 +	/* Setup the tree model, 3 columns:
 +	 * - internal theme name/directory
 +	 * - display theme name
-+	 * - the internal id for the parent theme, used for the custom dir */
++	 * - the internal id for the parent theme, used for the custom theme */
 +	store = gtk_list_store_new (THEME_NUM_COLS, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 +
 +	/* Add the themes to a combobox */
@@ -1617,18 +1645,18 @@ Index: capplets/sound/sound-theme.c
 +static void
 +save_custom_theme (GtkTreeModel *model, const char *parent)
 +{
-+	GFile *file, *index;
 +	GKeyFile *keyfile;
 +	char *data, *path;
 +
-+	file = custom_theme_dir_path ();
++	/* Create the custom directory */
++	path = custom_theme_dir_path (NULL);
++	g_mkdir_with_parents (path, 0644);
++	g_free (path);
 +
-+	//FIXME
-+	//g_file_make_directory_with_parents (file, NULL, NULL);
-+	g_file_make_directory (file, NULL, NULL);
++	/* Save the sounds themselves */
 +	gtk_tree_model_foreach (model, (GtkTreeModelForeachFunc) save_sounds, NULL);
 +
-+	/* Save to index.theme */
++	/* Set the data for index.theme */
 +	keyfile = g_key_file_new ();
 +	g_key_file_set_string (keyfile, "Sound Theme", "Name", _("Custom"));
 +	g_key_file_set_string (keyfile, "Sound Theme", "Inherits", parent);
@@ -1636,11 +1664,10 @@ Index: capplets/sound/sound-theme.c
 +	data = g_key_file_to_data (keyfile, NULL, NULL);
 +	g_key_file_free (keyfile);
 +
-+	index = g_file_get_child (file, "index.theme");
-+	g_object_unref (file);
-+	path = g_file_get_path (index);
-+	g_object_unref (index);
++	/* Save the index.theme */
++	path = custom_theme_dir_path ("index.theme");
 +	g_file_set_contents (path, data, -1, NULL);
++	g_free (path);
 +	g_free (data);
 +}
 +
@@ -1717,7 +1744,6 @@ Index: capplets/sound/sound-theme.c
 +		save_custom_theme (model, parent);
 +		g_free (parent);
 +
-+
 +		set_combox_for_theme_name (dialog, CUSTOM_THEME_NAME);
 +	}
 +}
@@ -1784,6 +1810,7 @@ Index: capplets/sound/sound-theme.c
 +						    -1);
 +				break;
 +			}
++			g_assert_not_reached ();
 +		}
 +
 +		if (gtk_tree_model_iter_next (model, &iter) == FALSE)
@@ -1791,6 +1818,7 @@ Index: capplets/sound/sound-theme.c
 +	}
 +}
 +
++/* Functions to toggle whether the Input feedback sounds are editable */
 +static gboolean
 +input_feedback_foreach (GtkTreeModel *model,
 +			GtkTreePath *path,
@@ -1830,6 +1858,7 @@ Index: capplets/sound/sound-theme.c
 +	set_input_feedback_enabled (dialog, input_feedback_enabled);
 +}
 +
++/* Functions to toggle whether the audible bell sound is editable */
 +static gboolean
 +audible_bell_foreach (GtkTreeModel *model,
 +		      GtkTreePath *path,
@@ -1890,52 +1919,32 @@ Index: capplets/sound/sound-theme.c
 +static int
 +get_file_type (const char *sound_name, char **linked_name)
 +{
-+	GFile *dir, *file;
-+	char *filename;
++	char *name, *filename;
 +
 +	*linked_name = NULL;
 +
-+	dir = custom_theme_dir_path ();
-+	filename = g_strdup_printf ("%s.disabled", sound_name);
-+	file = g_file_get_child (dir, filename);
-+	g_free (filename);
-+	filename = g_file_get_path (file);
-+	g_object_unref (file);
-+
++	name = g_strdup_printf ("%s.disabled", sound_name);
++	filename = custom_theme_dir_path (name);
++	g_free (name);
++	
 +	if (g_file_test (filename, G_FILE_TEST_IS_REGULAR) != FALSE) {
 +		g_free (filename);
-+		g_object_unref (dir);
 +		return SOUND_OFF;
 +	}
-+
-+	filename = g_strdup_printf ("%s.wav", sound_name);
-+	file = g_file_get_child (dir, filename);
 +	g_free (filename);
-+	filename = g_file_get_path (file);
-+	g_object_unref (file);
++
++	/* We only check for .ogg files because those are the
++	 * only ones we create */
++	name = g_strdup_printf ("%s.ogg", sound_name);
++	filename = custom_theme_dir_path (name);
++	g_free (name);
 +
 +	if (g_file_test (filename, G_FILE_TEST_IS_SYMLINK) != FALSE) {
-+		g_object_unref (dir);
 +		*linked_name = g_file_read_link (filename, NULL);
 +		g_free (filename);
 +		return SOUND_CUSTOM;
 +	}
-+
-+	filename = g_strdup_printf ("%s.ogg", sound_name);
-+	file = g_file_get_child (dir, filename);
 +	g_free (filename);
-+	filename = g_file_get_path (file);
-+	g_object_unref (file);
-+
-+	if (g_file_test (filename, G_FILE_TEST_IS_SYMLINK) != FALSE) {
-+		g_object_unref (dir);
-+		*linked_name = g_file_read_link (filename, NULL);
-+		g_free (filename);
-+		return SOUND_CUSTOM;
-+	}
-+
-+	g_free (filename);
-+	g_object_unref (dir);
 +
 +	return SOUND_BUILTIN;
 +}
@@ -1960,8 +1969,37 @@ Index: capplets/sound/sound-theme.c
 +				    FILENAME_COL, filename,
 +				    -1);
 +		g_strfreev (sound_names);
++		g_free (filename);
 +	}
 +	return FALSE;
++}
++
++static void
++treeview_row_activated (GtkTreeView *tree_view,
++			GtkTreePath *path,
++			GtkTreeViewColumn *column,
++			GladeXML *dialog)
++{
++	GtkTreeModel *model;
++	GtkTreeIter iter;
++	char **sound_names;
++	ca_context *ctx;
++
++	model = gtk_tree_view_get_model (tree_view);
++	if (gtk_tree_model_get_iter (model, &iter, path) == FALSE)
++		return;
++
++	gtk_tree_model_get (model, &iter, SOUND_NAMES_COL, &sound_names, -1);
++	if (sound_names == NULL)
++		return;
++
++	ctx = ca_gtk_context_get ();
++	ca_gtk_play_for_widget (GTK_WIDGET (tree_view), 0,
++				CA_PROP_APPLICATION_NAME, _("Sound Preferences"),
++				CA_PROP_EVENT_ID, sound_names[0],
++				CA_PROP_EVENT_DESCRIPTION, _("Testing event sound"),
++				NULL);
++	g_strfreev (sound_names);
 +}
 +
 +void
@@ -2001,6 +2039,9 @@ Index: capplets/sound/sound-theme.c
 +
 +	gtk_tree_view_set_model (GTK_TREE_VIEW (WID ("sounds_treeview")), GTK_TREE_MODEL (store));
 +	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (WID ("sounds_treeview")), FALSE);
++
++	g_signal_connect (G_OBJECT (WID ("sounds_treeview")), "row-activated",
++			  G_CALLBACK (treeview_row_activated), dialog);
 +
 +	/* Fill in the model */
 +	type = CATEGORY_INVALID;
@@ -2074,38 +2115,6 @@ Index: capplets/sound/sound-theme.c
 +	g_object_unref (G_OBJECT (client));
 +}
 +
-Index: capplets/sound/Makefile.am
-===================================================================
---- capplets/sound/Makefile.am	(revision 8792)
-+++ capplets/sound/Makefile.am	(working copy)
-@@ -4,15 +4,23 @@
- bin_PROGRAMS = gnome-sound-properties
- 
- gnome_sound_properties_LDADD = \
--	$(top_builddir)/libsounds/libsounds.la \
- 	$(GNOMECC_CAPPLETS_LIBS) \
--	$(SOUND_CAPPLET_LIBS) \
-+	$(CANBERRA_LIBS) $(SOUND_CAPPLET_LIBS) \
- 	$(HAL_LIBS)
--gnome_sound_properties_SOURCES = sound-properties-capplet.c pipeline-tests.h pipeline-tests.c mixer-support.h mixer-support.c
-+gnome_sound_properties_SOURCES =				\
-+	sound-properties-capplet.c				\
-+	pipeline-tests.h					\
-+	pipeline-tests.c					\
-+	mixer-support.h						\
-+	mixer-support.c						\
-+	sound-theme.c						\
-+	sound-theme.h						\
-+	sound-theme-file-utils.c				\
-+	sound-theme-file-utils.h
- 
- INCLUDES = \
- 	$(GNOMECC_CAPPLETS_CFLAGS) \
--	$(SOUND_CAPPLET_CFLAGS) \
-+	$(CANBERRA_CFLAGS) $(SOUND_CAPPLET_CFLAGS) \
- 	$(HAL_CFLAGS) \
- 	-DGNOMELOCALEDIR="\"$(datadir)/locale\"" \
- 	-DGNOMECC_DATA_DIR="\"$(pkgdatadir)\"" \
 Index: capplets/sound/sound-theme.h
 ===================================================================
 --- capplets/sound/sound-theme.h	(revision 0)
