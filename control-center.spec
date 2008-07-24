@@ -297,15 +297,16 @@ fi
 %defattr(-, root, root)
 %doc AUTHORS COPYING NEWS README
 %{_datadir}/gnome-control-center/keybindings/*.xml
+%{_datadir}/gnome-control-center/default-apps/*.xml
 %{_datadir}/gnome-control-center/glade
 %{_datadir}/gnome-control-center/pixmaps
-%{_datadir}/gnome-control-center/*.xml
 %{_datadir}/applications/*.desktop
 %{_datadir}/desktop-directories/*
 %{_datadir}/mime/packages/gnome-theme-package.xml
 %{_datadir}/icons/hicolor/*/apps/*
 %{_datadir}/PolicyKit/policy/*
 %{_datadir}/pkgconfig/gnome-keybindings.pc
+%{_datadir}/pkgconfig/gnome-default-applications.pc
 # list all binaries explicitly, so we notice if one goes missing
 %{_bindir}/gnome-about-me
 %{_bindir}/gnome-appearance-properties
@@ -315,18 +316,14 @@ fi
 %{_bindir}/gnome-control-center
 %{_bindir}/gnome-default-applications-properties
 %{_bindir}/gnome-display-properties
-%{_bindir}/gnome-font-viewer
 %{_bindir}/gnome-keybinding-properties
 %{_bindir}/gnome-keyboard-properties
 %{_bindir}/gnome-mouse-properties
 %{_bindir}/gnome-network-preferences
 %{_bindir}/gnome-sound-properties
-%{_bindir}/gnome-thumbnail-font
 %{_bindir}/gnome-typing-monitor
 %{_bindir}/gnome-window-properties
-%{_libdir}/nautilus/extensions-2.0/*.so
 %{_libdir}/*.so.*
-%{_sysconfdir}/gconf/schemas/fontilus.schemas
 %{_sysconfdir}/gconf/schemas/control-center.schemas
 %{_sysconfdir}/xdg/menus/gnomecc.menu
 %{_sysconfdir}/xdg/autostart/gnome-at-session.desktop
@@ -346,6 +343,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Jul 24 2008 Soren Sandmann <sandmann@redhat.com> - 2.23.5-1
+- Update the packaged files to match reality.
+
 * Thu Jul 24 2008 Soren Sandmann <sandmann@redhat.com> - 2.23.5-1
 - Update to 2.23.5. Drop randr, standard icon and
   notification theme patches. 
