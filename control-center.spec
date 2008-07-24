@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.23.4
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -355,6 +355,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Jul 24 2008 - Bastien Nocera <bnocera@redhat.com> - 2.23.4-5
+- Remove some obsolete patches
+
 * Mon Jul 14 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.4-4
 - Drop some obsolete patches
 - Fix an issue with the notification-theme support (#455329)
