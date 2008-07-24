@@ -97,6 +97,7 @@ BuildRequires: gnome-panel-devel
 BuildRequires: libgnomekbd-devel >= %{libgnomekbd_version}
 BuildRequires: gnome-settings-daemon-devel
 # For intltool:
+BuildRequires: intltool >= 0.37.1
 BuildRequires: perl(XML::Parser) 
 BuildRequires: evolution-data-server-devel >= 1.9.1
 BuildRequires: libXxf86misc-devel 
