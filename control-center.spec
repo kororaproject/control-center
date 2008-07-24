@@ -182,6 +182,7 @@ sed -i -e 's/@ENABLE_SK_TRUE@_s/_s/' help/Makefile.in
 	--enable-gstreamer \
 	--enable-alsa \
 	--enable-aboutme \
+	--disable-update-mimedb \
 	CFLAGS="$RPM_OPT_FLAGS -Wno-error" 
 make %{?_smp_mflags}
 
@@ -227,19 +228,6 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/cursor-fonts
 
 # remove useless libtool archive files
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
-
-# don't package mime caches
-rm -f $RPM_BUILD_ROOT%{_datadir}/mime/XMLnamespaces
-rm -f $RPM_BUILD_ROOT%{_datadir}/mime/aliases
-rm -f $RPM_BUILD_ROOT%{_datadir}/mime/application/x-gnome-theme-package.xml
-rm -f $RPM_BUILD_ROOT%{_datadir}/mime/globs
-rm -f $RPM_BUILD_ROOT%{_datadir}/mime/globs2
-rm -f $RPM_BUILD_ROOT%{_datadir}/mime/magic
-rm -f $RPM_BUILD_ROOT%{_datadir}/mime/subclasses
-rm -f $RPM_BUILD_ROOT%{_datadir}/mime/mime.cache
-rm -f $RPM_BUILD_ROOT%{_datadir}/mime/generic-icons
-rm -f $RPM_BUILD_ROOT%{_datadir}/mime/icons
-rm -f $RPM_BUILD_ROOT%{_datadir}/applications/mimeinfo.cache
 
 %find_lang %{gettext_package} --all-name --with-gnome
 
