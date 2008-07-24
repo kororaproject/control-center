@@ -3,7 +3,7 @@
 %define glib2_version 2.13.0
 %define gtk2_version 2.11.6
 %define gconf2_version 1.2.0
-%define gnome_desktop_version 2.22.0-6
+%define gnome_desktop_version 2.23.5-1
 %define libgnome_version 2.3.0
 %define libbonobo_version 2.3.0
 %define libgnomeui_version 2.3.0
@@ -21,8 +21,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.23.4
-Release: 6%{?dist}
+Version: 2.23.5
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -39,21 +39,15 @@ Patch8: gtkmarshal.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=539339
 # http://bugzilla.gnome.org/show_bug.cgi?id=539340
 # http://bugzilla.gnome.org/show_bug.cgi?id=539343
-Patch9: standard-icon.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=542979
-Patch10: gcc-libcanberra-support-5.patch
+#Patch10: gcc-libcanberra-support-5.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.23.2-passwd.patch
 Patch96: control-center-2.23.2-gecos.patch
 # change default preferred apps to programs we ship
 Patch99: default-applications.patch
-
-Patch100: add-randr12-capplet.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=533611
-Patch101: notification-theme.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
@@ -171,18 +165,14 @@ utilities.
 
 %patch3 -p1 -b .no-gnome-common
 %patch8 -p1 -b .gtkmarshal
-%patch9 -p1 -b .standard-icon
-%patch10 -p0 -b .libcanberra
+#%patch10 -p0 -b .libcanberra
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
 %patch96 -p1 -b .gecos
 %patch99 -p1 -b .default-apps
 
-%patch100 -p1 -b .add-randr12-capplet
 %patch7 -p1 -b .make-default
-
-%patch101 -p1 -b .notification-theme
 
 %build
 
@@ -355,6 +345,11 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Jul 24 2008 Soren Sandmann <sandmann@redhat.com> - 2.23.5-1
+- Update to 2.23.5. Drop randr, standard icon and
+  notification theme patches. 
+- Comment out libcanberra patch for now since it doesn't apply
+
 * Thu Jul 24 2008 - Bastien Nocera <bnocera@redhat.com> - 2.23.4-6
 - Add patch to support the Free Desktop sound theme spec
 - Remove gnome-vfs-methods as per upstream
