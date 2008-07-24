@@ -22,14 +22,13 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.23.4
-Release: 5%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 Source: http://download.gnome.org/sources/gnome-control-center/2.23/gnome-control-center-%{version}.tar.bz2
 Source1: org.gnome.control-center.defaultbackground.policy
 
-Patch2: control-center-2.20.0-enable-sound-by-default.patch
 Patch3: control-center-2.19.3-no-gnome-common.patch
 Patch7: make-default.patch
 # minor build breakage in gtk, will be fixed in the next gtk release
@@ -41,6 +40,9 @@ Patch8: gtkmarshal.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=539340
 # http://bugzilla.gnome.org/show_bug.cgi?id=539343
 Patch9: standard-icon.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=542979
+Patch10: gcc-libcanberra-support-5.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.23.2-passwd.patch
@@ -76,7 +78,6 @@ Requires: control-center-filesystem = %{epoch}:%{version}-%{release}
 Requires: pkgconfig
 
 BuildRequires: autoconf automake libtool
-BuildRequires: esound-devel
 BuildRequires: pango-devel 
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gtk2-devel >= %{gtk2_version}
@@ -117,6 +118,7 @@ BuildRequires: dbus-devel >= 0.90
 BuildRequires: dbus-glib-devel >= 0.70
 BuildRequires: scrollkeeper
 BuildRequires: PolicyKit-gnome-devel
+BuildRequires: libcanberra-devel
 
 Requires(preun): GConf2
 Requires(pre): GConf2
@@ -167,10 +169,10 @@ utilities.
 %prep
 %setup -q -n gnome-control-center-%{version}
 
-%patch2 -p0 -b .enable-sound
 %patch3 -p1 -b .no-gnome-common
 %patch8 -p1 -b .gtkmarshal
 %patch9 -p1 -b .standard-icon
+%patch10 -p0 -b .libcanberra
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -335,10 +337,8 @@ fi
 %{_libdir}/*.so.*
 %{_sysconfdir}/gconf/schemas/fontilus.schemas
 %{_sysconfdir}/gconf/schemas/control-center.schemas
-%{_sysconfdir}/gnome-vfs-2.0/modules/*.conf
 %{_sysconfdir}/xdg/menus/gnomecc.menu
 %{_sysconfdir}/xdg/autostart/gnome-at-session.desktop
-%{_libdir}/gnome-vfs-2.0/modules/*.so
 %{_libdir}/window-manager-settings/*.so
 
 %files devel
@@ -355,6 +355,10 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Jul 24 2008 - Bastien Nocera <bnocera@redhat.com> - 2.23.4-6
+- Add patch to support the Free Desktop sound theme spec
+- Remove gnome-vfs-methods as per upstream
+
 * Thu Jul 24 2008 - Bastien Nocera <bnocera@redhat.com> - 2.23.4-5
 - Remove some obsolete patches
 
