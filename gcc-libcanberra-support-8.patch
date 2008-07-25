@@ -422,16 +422,6 @@ Index: capplets/sound/sound-properties-capplet.c
  	COPY_FROM_LEGACY (bool, "/desktop/gnome/sound/event_sounds", "/sound/system/settings/event_sounds=false");
  	g_object_unref (G_OBJECT (client));
  }
-@@ -1203,6 +1121,9 @@
- 			capplet_set_icon (dialog_win, "gnome-sound-properties");
- 			gtk_widget_show (dialog_win);
- 
-+			//FIXME to remove
-+			gtk_notebook_set_current_page (GTK_NOTEBOOK(WID("prefs_widget")), 1);
-+
- 			gtk_main ();
- 			gconf_change_set_unref (changeset);
- 			g_object_unref (dialog);
 Index: capplets/sound/sound-theme-file-utils.h
 ===================================================================
 --- capplets/sound/sound-theme-file-utils.h	(revision 0)

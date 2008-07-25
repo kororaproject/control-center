@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.23.5
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -325,6 +325,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Fri Jul 25 2008 - Bastien Nocera <bnocera@redhat.com> - 2.23.5-3
+- Remove testing hack
+
 * Thu Jul 24 2008 - Bastien Nocera <bnocera@redhat.com> - 2.23.5-2
 - Update the libcanberra patch
 
