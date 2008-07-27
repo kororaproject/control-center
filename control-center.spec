@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.23.5
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -241,9 +241,8 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-gconftool-2 --makefile-install-rule 						\
-   %{_sysconfdir}/gconf/schemas/fontilus.schemas			\
-   %{_sysconfdir}/gconf/schemas/control-center.schemas			\
+gconftool-2 --makefile-install-rule 		       \
+   %{_sysconfdir}/gconf/schemas/control-center.schemas \
      > /dev/null || :
 update-desktop-database --quiet %{_datadir}/applications
 update-mime-database %{_datadir}/mime > /dev/null
@@ -255,19 +254,25 @@ fi
 %pre
 if [ "$1" -gt 1 ]; then
     export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-    gconftool-2 --makefile-uninstall-rule \
-     %{_sysconfdir}/gconf/schemas/fontilus.schemas \
-     %{_sysconfdir}/gconf/schemas/control-center.schemas \
-     > /dev/null || :
+    for f in fontilus.schemas control-center.schemas; do
+        if [ -f %{_sysconfdir}/gconf/schemas/$f ]; then
+            gconftool-2 --makefile-uninstall-rule \
+		%{_sysconfdir}/gconf/schemas/$f \
+                > /dev/null || :
+        fi
+    done
 fi
 
 %preun
 if [ "$1" -eq 0 ]; then
     export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-    gconftool-2 --makefile-uninstall-rule \
-     %{_sysconfdir}/gconf/schemas/fontilus.schemas \
-     %{_sysconfdir}/gconf/schemas/control-center.schemas \
-     > /dev/null || :
+    for f in fontilus.schemas control-center.schemas; do
+        if [ -f %{_sysconfdir}/gconf/schemas/$f ]; then
+            gconftool-2 --makefile-uninstall-rule \
+		%{_sysconfdir}/gconf/schemas/$f \
+                > /dev/null || :
+        fi
+    done
 fi
 
 %postun
@@ -329,6 +334,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Sun Jul 27 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.5-5
+- Fix up gconf schema installation
+
 * Sat Jul 26 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.5-4
 - Use standard icon names in more places
 
