@@ -1,0 +1,45 @@
+diff -up libslab/bookmark-agent.c.icon-names libslab/bookmark-agent.c
+--- libslab/bookmark-agent.c.icon-names	2008-07-28 00:08:35.000000000 -0400
++++ libslab/bookmark-agent.c	2008-07-28 00:09:58.000000000 -0400
+@@ -1144,7 +1144,7 @@ create_dir_item (BookmarkAgent *this, co
+ 	if (! strcmp (uri, "HOME")) {
+ 		uri_new = g_filename_to_uri (g_get_home_dir (), NULL, NULL);
+ 		name    = _("Home");
+-		icon    = "gnome-fs-home";
++		icon    = "user-home";
+ 	}
+ 	else if (! strcmp (uri, "DOCUMENTS")) {
+ 		path = g_build_filename (g_get_home_dir (), "Documents", NULL);
+@@ -1156,7 +1156,7 @@ create_dir_item (BookmarkAgent *this, co
+ 		path = g_build_filename (g_get_home_dir (), "Desktop", NULL);
+ 		name = _("Desktop");
+ 		uri_new = g_filename_to_uri (path, NULL, NULL);
+-		icon = "gnome-fs-desktop";
++		icon = "user-desktop";
+ 		g_free (path);
+ 	}
+ 	else if (! strcmp (uri, "file:///")) {
+diff -up libslab/directory-tile.c.icon-names libslab/directory-tile.c
+--- libslab/directory-tile.c.icon-names	2008-07-28 00:12:30.000000000 -0400
++++ libslab/directory-tile.c	2008-07-28 00:12:49.000000000 -0400
+@@ -332,7 +332,7 @@ load_image (DirectoryTile *tile)
+ 	if (priv->icon_name)
+ 		icon_name = priv->icon_name;
+ 	else
+-		icon_name = "gnome-fs-directory";
++		icon_name = "folder";
+ 
+ 	priv->image_is_broken = slab_load_image (
+ 		GTK_IMAGE (NAMEPLATE_TILE (tile)->image), GTK_ICON_SIZE_DND, icon_name);
+diff -up libslab/document-tile.c.icon-names libslab/document-tile.c
+--- libslab/document-tile.c.icon-names	2008-07-28 00:12:59.000000000 -0400
++++ libslab/document-tile.c	2008-07-28 00:13:19.000000000 -0400
+@@ -437,7 +437,7 @@ load_image (DocumentTile *tile)
+ 		if (priv->force_icon_name)
+ 			icon_id = priv->force_icon_name;
+ 		else
+-			icon_id = "gnome-fs-regular";
++			icon_id = "text-x-preview";
+ 		free_icon_id = FALSE;
+ 
+ 		goto exit;
