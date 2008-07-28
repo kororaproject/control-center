@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.23.5
-Release: 6%{?dist}
+Release: 7%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -337,6 +337,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Jul 28 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.5-7
+- Fix the icon name patch
+
 * Mon Jul 28 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.5-6
 - Use standard icon names in more places
 

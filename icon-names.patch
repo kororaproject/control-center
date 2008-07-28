@@ -6,7 +6,7 @@ diff -up gnome-control-center-2.23.5/capplets/keyboard/gnome-keyboard-properties
  	gtk_button_set_image (GTK_BUTTON (WID ("xkb_reset_to_defaults")), image);
  
 -	image = gtk_image_new_from_icon_name ("gnome-settings-sound", GTK_ICON_SIZE_BUTTON);
-+	image = gtk_image_new_from_icon_name ("preferences-desktop-sound", GTK_ICON_SIZE_BUTTON);
++	image = gtk_image_new_from_icon_name ("gnome-sound-properties", GTK_ICON_SIZE_BUTTON);
  	gtk_button_set_image (GTK_BUTTON (WID ("notifications_button")), image);
  
  	return dialog;
