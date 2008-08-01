@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.23.5
-Release: 7%{?dist}
+Release: 8%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -41,6 +41,8 @@ Patch10: gcc-libcanberra-support-8.patch
 Patch21: icon-names.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=545075 
 Patch22: slab-icon-names.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=545780
+Patch23: input-mouse.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.23.2-passwd.patch
@@ -168,6 +170,7 @@ utilities.
 %patch10 -p0 -b .libcanberra
 %patch21 -p1 -b .icon-names
 %patch22 -p0 -b .slab-icon-names
+%patch23 -p0 -b .input-mouse
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -337,6 +340,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Jul 31 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.5-8
+- Yet more icon fixes
+
 * Mon Jul 28 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.5-7
 - Fix the icon name patch
 
