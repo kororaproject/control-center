@@ -21,12 +21,12 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.24.0
+Version: 2.24.0.1
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
-Source: http://download.gnome.org/sources/gnome-control-center/2.23/gnome-control-center-%{version}.tar.bz2
+Source: http://download.gnome.org/sources/gnome-control-center/2.24/gnome-control-center-%{version}.tar.bz2
 Source1: org.gnome.control-center.defaultbackground.policy
 
 Patch3: control-center-2.19.3-no-gnome-common.patch
@@ -330,6 +330,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Wed Sep 24 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0.1-1
+- Update to 2.24.0.1
+
 * Tue Sep 23 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0-1
 - Update to 2.24.0
 
