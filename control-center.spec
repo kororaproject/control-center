@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.24.0.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -36,6 +36,9 @@ Patch8: gtkmarshal.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=545075 
 Patch22: slab-icon-names.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=554507
+Patch25: ta-schema.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.23.2-passwd.patch
@@ -161,6 +164,7 @@ utilities.
 %patch3 -p1 -b .no-gnome-common
 %patch8 -p1 -b .gtkmarshal
 %patch22 -p0 -b .slab-icon-names
+%patch25 -p1 -b .ta-schema
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -330,6 +334,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Sep 30 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0.1-2
+- Fix a schema mistranslation
+
 * Wed Sep 24 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0.1-1
 - Update to 2.24.0.1
 
