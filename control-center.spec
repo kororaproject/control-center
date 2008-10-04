@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.24.0.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -42,6 +42,9 @@ Patch25: ta-schema.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=554957
 Patch28: capplet-help.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=554962
+Patch29: hv-max.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.23.2-passwd.patch
@@ -169,6 +172,7 @@ utilities.
 %patch22 -p0 -b .slab-icon-names
 %patch25 -p1 -b .ta-schema
 %patch28 -p1 -b .capplet-help
+%patch29 -p1 -b .hv-max
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -338,6 +342,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Sat Oct  4 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0.1-4
+- Fix horizontal/vertical maximization preference
+
 * Sat Oct  4 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0.1-3
 - Fix help buttons in the appearance capplet
 
