@@ -1,0 +1,12 @@
+diff -up gnome-control-center-2.24.0.1/capplets/keyboard/gnome-keyboard-properties-xkbltadd.c.default-layout-toggle gnome-control-center-2.24.0.1/capplets/keyboard/gnome-keyboard-properties-xkbltadd.c
+--- gnome-control-center-2.24.0.1/capplets/keyboard/gnome-keyboard-properties-xkbltadd.c.default-layout-toggle	2008-10-08 14:41:09.000000000 -0400
++++ gnome-control-center-2.24.0.1/capplets/keyboard/gnome-keyboard-properties-xkbltadd.c	2008-10-08 14:41:41.000000000 -0400
+@@ -37,7 +37,7 @@
+ #include "gnome-keyboard-properties-xkb.h"
+ 
+ #define GROUP_SWITCHERS_GROUP "grp"
+-#define DEFAULT_GROUP_SWITCH "grp:alts_toggle"
++#define DEFAULT_GROUP_SWITCH "grp:shift_caps_toggle"
+ #define DEFAULT_VARIANT_ID "__default__"
+ 
+ enum {

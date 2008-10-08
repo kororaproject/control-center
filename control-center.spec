@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.24.0.1
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -45,6 +45,9 @@ Patch28: capplet-help.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=554962
 Patch29: hv-max.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=555591
+Patch30: default-layout-toggle.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.23.2-passwd.patch
@@ -173,6 +176,7 @@ utilities.
 %patch25 -p1 -b .ta-schema
 %patch28 -p1 -b .capplet-help
 %patch29 -p1 -b .hv-max
+%patch30 -p1 -b .default-layout-toggle
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -342,6 +346,10 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Wed Oct  8 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0.1-5
+- Change the default key combination to change keyboard layouts
+  to shift-capslock, since alt-alt doesn't work (#465403)
+
 * Sat Oct  4 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0.1-4
 - Fix horizontal/vertical maximization preference
 
