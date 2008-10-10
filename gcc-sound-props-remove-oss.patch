@@ -1,0 +1,35 @@
+Index: capplets/sound/sound-properties-capplet.c
+===================================================================
+--- capplets/sound/sound-properties-capplet.c	(revision 9054)
++++ capplets/sound/sound-properties-capplet.c	(working copy)
+@@ -280,6 +280,7 @@
+ 	}
+ }
+ 
++#if 0
+ /* Adds an element which supports the GstPropertyProbe interface. Will add
+  * entries for all available devices. Elements should support retrieving the
+  * device-name in NULL state for this to work properly/nicely.
+@@ -347,7 +348,7 @@
+ 	gst_object_unref (element);
+ 	return res;
+ }
+-
++#endif
+ #if USE_HAL
+ static void
+ remove_device (int type, const gchar *pipeline)
+@@ -836,13 +837,6 @@
+ 	add_device (AUDIO_PLAYBACK, "artsdsink", _("Artsd - ART Sound Daemon"), NULL);
+ 	add_device (AUDIO_PLAYBACK, "esdsink", _("ESD - Enlightened Sound Daemon"), NULL);
+ 	add_device (AUDIO_CAPTURE, "esdmon", _("ESD - Enlightened Sound Daemon"), NULL);
+-	/* only show legacy OSS if OSS4 isn't active and working */
+-	if (!add_device_with_probe (AUDIO_PLAYBACK, "oss4sink", "OSS4")) {
+-		add_device (AUDIO_PLAYBACK, "osssink", _("OSS - Open Sound System"), NULL);
+-	}
+-	if (!add_device_with_probe (AUDIO_CAPTURE, "oss4src", "OSS4")) {
+-		add_device (AUDIO_CAPTURE, "osssrc", _("OSS - Open Sound System"), NULL);
+-	}
+ 	add_device (AUDIO_PLAYBACK, "pulsesink", _("PulseAudio Sound Server"), NULL);
+ 	add_device (AUDIO_CAPTURE, "pulsesrc", _("PulseAudio Sound Server"), NULL);
+ 	add_device (AUDIO_CAPTURE, "audiotestsrc wave=triangle is-live=true", _("Test Sound"), NULL);

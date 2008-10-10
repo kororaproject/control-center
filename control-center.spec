@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.24.0.1
-Release: 6%{?dist}
+Release: 7%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -36,6 +36,9 @@ Patch8: gtkmarshal.patch
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=456919
 Patch9: gcc-set-sound-theme-dir.patch
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=466342
+Patch10: gcc-sound-props-remove-oss.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=545075 
 Patch22: slab-icon-names.patch
@@ -176,6 +179,7 @@ utilities.
 %patch3 -p1 -b .no-gnome-common
 %patch8 -p1 -b .gtkmarshal
 %patch9 -p0 -b .default-dir
+%patch10 -p0 -b .no-oss
 %patch22 -p0 -b .slab-icon-names
 %patch25 -p1 -b .ta-schema
 %patch28 -p1 -b .capplet-help
@@ -350,6 +354,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Fri Oct 10 2008 - Bastien Nocera <bnocera@redhat.com> - 2.24.0.1-7
+- Remove OSS from the possible options (#466342)
+
 * Fri Oct 10 2008 - Bastien Nocera <bnocera@redhat.com> - 2.24.0.1-6
 - When a sound is selected with the file chooser in g-s-p, make
   sure to default to /usr/share/sounds if that dir exists
