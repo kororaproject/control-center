@@ -30,6 +30,7 @@ Source: http://download.gnome.org/sources/gnome-control-center/2.24/gnome-contro
 Source1: org.gnome.control-center.defaultbackground.policy
 
 Patch3: control-center-2.19.3-no-gnome-common.patch
+# http://bugzilla.gnome.org/536531
 Patch7: make-default.patch
 # minor build breakage in gtk, will be fixed in the next gtk release
 Patch8: gtkmarshal.patch
