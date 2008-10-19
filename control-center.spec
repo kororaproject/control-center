@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.24.0.1
-Release: 7%{?dist}
+Release: 8%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -55,6 +55,9 @@ Patch29: hv-max.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=555591
 Patch30: default-layout-toggle.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=556967
+Patch31: editable-sections.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.23.2-passwd.patch
@@ -186,6 +189,7 @@ utilities.
 %patch28 -p1 -b .capplet-help
 %patch29 -p1 -b .hv-max
 %patch30 -p1 -b .default-layout-toggle
+%patch31 -p1 -b .editable-sections
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -355,6 +359,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Sun Oct 19 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0.1-8
+- Fix a ui glitch in the keybinding capplet
+
 * Fri Oct 10 2008 - Bastien Nocera <bnocera@redhat.com> - 2.24.0.1-7
 - Remove OSS from the possible options (#466342)
 
