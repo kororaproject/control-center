@@ -1,0 +1,12 @@
+diff -up gnome-control-center-2.24.0.1/capplets/display/display-capplet.glade.no-help gnome-control-center-2.24.0.1/capplets/display/display-capplet.glade
+--- gnome-control-center-2.24.0.1/capplets/display/display-capplet.glade.no-help	2008-11-06 18:44:26.000000000 -0500
++++ gnome-control-center-2.24.0.1/capplets/display/display-capplet.glade	2008-11-06 18:44:41.000000000 -0500
+@@ -219,7 +219,7 @@ Upside-down
+             <property name="layout_style">GTK_BUTTONBOX_END</property>
+             <child>
+               <widget class="GtkButton" id="helpbutton1">
+-                <property name="visible">True</property>
++                <property name="visible">False</property>
+                 <property name="can_focus">True</property>
+                 <property name="can_default">True</property>
+                 <property name="label">gtk-help</property>
