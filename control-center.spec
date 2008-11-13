@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.25.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -185,6 +185,8 @@ utilities.
 
 %patch7 -p1 -b .make-default
 
+libtoolize --force --copy
+
 %build
 
 autoreconf
@@ -346,7 +348,7 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
-* Thu Nov 13 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.1-1
+* Thu Nov 13 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.1-2
 - Update to 2.25.1
 
 * Thu Nov  6 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0.1-9
