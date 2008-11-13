@@ -21,8 +21,8 @@
 
 Summary: GNOME Control Center
 Name: control-center
-Version: 2.24.0.1
-Release: 9%{?dist}
+Version: 2.25.1
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -362,6 +362,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Nonv 13 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.1-1
+- Update to 2.25.1
+
 * Thu Nov  6 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0.1-9
 - Remove a nonworking help button (#470375)
 
