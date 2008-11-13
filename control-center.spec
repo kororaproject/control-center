@@ -35,9 +35,6 @@ Patch7: make-default.patch
 # minor build breakage in gtk, will be fixed in the next gtk release
 Patch8: gtkmarshal.patch
 
-# https://bugzilla.redhat.com/show_bug.cgi?id=456919
-Patch9: gcc-set-sound-theme-dir.patch
-
 # https://bugzilla.redhat.com/show_bug.cgi?id=466342
 Patch10: gcc-sound-props-remove-oss.patch
 
@@ -47,17 +44,8 @@ Patch22: slab-icon-names.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=554507
 Patch25: ta-schema.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=554957
-Patch28: capplet-help.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=554962
-Patch29: hv-max.patch
-
 # http://bugzilla.gnome.org/show_bug.cgi?id=555591
 Patch30: default-layout-toggle.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=556967
-Patch31: editable-sections.patch
 
 Patch32: display-no-help.patch
 
@@ -184,14 +172,10 @@ utilities.
 
 %patch3 -p1 -b .no-gnome-common
 %patch8 -p1 -b .gtkmarshal
-%patch9 -p0 -b .default-dir
 %patch10 -p0 -b .no-oss
 %patch22 -p0 -b .slab-icon-names
 %patch25 -p1 -b .ta-schema
-%patch28 -p1 -b .capplet-help
-%patch29 -p1 -b .hv-max
 %patch30 -p1 -b .default-layout-toggle
-%patch31 -p1 -b .editable-sections
 %patch32 -p1 -b .display-no-help
 
 # vendor configuration patches
@@ -362,7 +346,7 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
-* Thu Nonv 13 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.1-1
+* Thu Nov 13 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.1-1
 - Update to 2.25.1
 
 * Thu Nov  6 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0.1-9

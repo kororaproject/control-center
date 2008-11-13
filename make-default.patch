@@ -1,8 +1,8 @@
-diff -up gnome-control-center-2.23.6/capplets/appearance/appearance-desktop.c.make-default gnome-control-center-2.23.6/capplets/appearance/appearance-desktop.c
---- gnome-control-center-2.23.6/capplets/appearance/appearance-desktop.c.make-default	2008-08-05 07:25:40.000000000 -0400
-+++ gnome-control-center-2.23.6/capplets/appearance/appearance-desktop.c	2008-08-05 13:02:03.000000000 -0400
-@@ -33,6 +33,9 @@
- #define GNOME_DESKTOP_USE_UNSTABLE_API
+diff -up gnome-control-center-2.25.1/capplets/appearance/appearance-desktop.c.make-default gnome-control-center-2.25.1/capplets/appearance/appearance-desktop.c
+--- gnome-control-center-2.25.1/capplets/appearance/appearance-desktop.c.make-default	2008-11-05 09:21:32.000000000 -0500
++++ gnome-control-center-2.25.1/capplets/appearance/appearance-desktop.c	2008-11-13 14:31:40.000000000 -0500
+@@ -32,6 +32,9 @@
+ #include <libgnomeui/gnome-desktop-thumbnail.h>
  #include <libgnomeui/gnome-bg.h>
  
 +#include <dbus/dbus-glib.h>
@@ -11,7 +11,7 @@ diff -up gnome-control-center-2.23.6/capplets/appearance/appearance-desktop.c.ma
  enum {
    TARGET_URI_LIST,
    TARGET_BGIMAGE
-@@ -989,12 +992,61 @@ wp_select_after_realize (GtkWidget *widg
+@@ -988,12 +991,61 @@ wp_select_after_realize (GtkWidget *widg
    select_item (data, item, TRUE);
  }
  
@@ -73,7 +73,7 @@ diff -up gnome-control-center-2.23.6/capplets/appearance/appearance-desktop.c.ma
  
    g_object_set (gtk_settings_get_default (), "gtk-tooltip-timeout", 500, NULL);
  
-@@ -1115,6 +1167,24 @@ desktop_init (AppearanceData *data,
+@@ -1114,6 +1166,24 @@ desktop_init (AppearanceData *data,
    /* create the file selector later to save time on startup */
    data->wp_filesel = NULL;
  
@@ -98,9 +98,9 @@ diff -up gnome-control-center-2.23.6/capplets/appearance/appearance-desktop.c.ma
  }
  
  void
-diff -up gnome-control-center-2.23.6/capplets/appearance/Makefile.am.make-default gnome-control-center-2.23.6/capplets/appearance/Makefile.am
---- gnome-control-center-2.23.6/capplets/appearance/Makefile.am.make-default	2008-08-05 07:25:40.000000000 -0400
-+++ gnome-control-center-2.23.6/capplets/appearance/Makefile.am	2008-08-05 13:02:03.000000000 -0400
+diff -up gnome-control-center-2.25.1/capplets/appearance/Makefile.am.make-default gnome-control-center-2.25.1/capplets/appearance/Makefile.am
+--- gnome-control-center-2.25.1/capplets/appearance/Makefile.am.make-default	2008-11-05 09:21:32.000000000 -0500
++++ gnome-control-center-2.25.1/capplets/appearance/Makefile.am	2008-11-13 14:28:38.000000000 -0500
 @@ -42,7 +42,8 @@ gnome_appearance_properties_LDADD = \
  	$(top_builddir)/capplets/common/libcommon.la \
  	$(GNOMECC_CAPPLETS_LIBS) \
@@ -119,10 +119,10 @@ diff -up gnome-control-center-2.23.6/capplets/appearance/Makefile.am.make-defaul
  	-DGNOMELOCALEDIR="\"$(datadir)/locale\"" \
  	-DGNOMECC_DATA_DIR="\"$(pkgdatadir)\"" \
  	-DGNOMECC_GLADE_DIR="\"$(gladedir)\"" \
-diff -up gnome-control-center-2.23.6/configure.in.make-default gnome-control-center-2.23.6/configure.in
---- gnome-control-center-2.23.6/configure.in.make-default	2008-08-05 13:02:03.000000000 -0400
-+++ gnome-control-center-2.23.6/configure.in	2008-08-05 13:04:17.000000000 -0400
-@@ -104,6 +104,7 @@ PKG_CHECK_MODULES(METACITY, libmetacity-
+diff -up gnome-control-center-2.25.1/configure.in.make-default gnome-control-center-2.25.1/configure.in
+--- gnome-control-center-2.25.1/configure.in.make-default	2008-11-13 14:28:38.000000000 -0500
++++ gnome-control-center-2.25.1/configure.in	2008-11-13 14:28:38.000000000 -0500
+@@ -97,6 +97,7 @@ PKG_CHECK_MODULES(METACITY, libmetacity-
  PKG_CHECK_MODULES(TYPING, glib-2.0 > 2.11 gconf-2.0 gtk+-2.0)
  PKG_CHECK_MODULES(GSD_DBUS, gnome-settings-daemon)
  PKG_CHECK_MODULES(GIO, gio-2.0)
