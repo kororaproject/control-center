@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.25.1
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -244,6 +244,8 @@ install -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/PolicyKit/policy
 rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/autostart
 rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/cursor-fonts
 
+rm $RPM_BUILD_ROOT%{_datadir}/applications/mimeinfo.cache
+
 # remove useless libtool archive files
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
 
@@ -257,6 +259,7 @@ rm -rf $RPM_BUILD_ROOT
 export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
 gconftool-2 --makefile-install-rule 		       \
    %{_sysconfdir}/gconf/schemas/control-center.schemas \
+   %{_sysconfdir}/gconf/schemas/fontilus.schemas \
      > /dev/null || :
 update-desktop-database --quiet %{_datadir}/applications
 update-mime-database %{_datadir}/mime > /dev/null
@@ -328,8 +331,11 @@ fi
 %{_bindir}/gnome-sound-properties
 %{_bindir}/gnome-typing-monitor
 %{_bindir}/gnome-window-properties
+%{_bindir}/gnome-font-viewer
+%{_bindir}/gnome-thumbnail-font
 %{_libdir}/*.so.*
 %{_sysconfdir}/gconf/schemas/control-center.schemas
+%{_sysconfdir}/gconf/schemas/fontilus.schemas
 %{_sysconfdir}/xdg/menus/gnomecc.menu
 %{_sysconfdir}/xdg/autostart/gnome-at-session.desktop
 %{_libdir}/window-manager-settings/*.so
@@ -348,7 +354,7 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
-* Thu Nov 13 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.1-4
+* Thu Nov 13 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.1-5
 - Update to 2.25.1
 
 * Thu Nov  6 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0.1-9
