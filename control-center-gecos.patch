@@ -1,0 +1,385 @@
+diff -up gnome-control-center-2.25.1/capplets/about-me/gnome-about-me.c.gecos gnome-control-center-2.25.1/capplets/about-me/gnome-about-me.c
+--- gnome-control-center-2.25.1/capplets/about-me/gnome-about-me.c.gecos	2008-11-13 21:25:16.000000000 -0500
++++ gnome-control-center-2.25.1/capplets/about-me/gnome-about-me.c	2008-11-13 21:29:22.000000000 -0500
+@@ -34,6 +34,8 @@
+ #include <libebook/e-book.h>
+ 
+ #include "e-image-chooser.h"
++#include <eel/eel-editable-label.h>
++#include <gdk/gdkkeysyms.h>
+ 
+ #include "capplet-util.h"
+ 
+@@ -60,6 +62,7 @@ typedef struct {
+ 	gboolean      	 have_image;
+ 	gboolean      	 image_changed;
+ 	gboolean      	 create_self;
++        gboolean         editing_username;
+ 
+ 	gchar        	*person;
+ 	gchar 		*login;
+@@ -139,7 +142,7 @@ struct WidToCid ids[] = {
+ #define ATTRIBUTE_OTHER "OTHER"
+ 
+ static void about_me_set_address_field (EContactAddress *, guint, gchar *);
+-
++static gchar *about_me_get_address_field (EContactAddress *, guint);
+ 
+ /*** Utility functions ***/
+ static void
+@@ -255,6 +258,50 @@ about_me_commit (GnomeAboutMe *me)
+ 	me->create_self = FALSE;
+ }
+ 
++static void
++update_gecos (GnomeAboutMe *me)
++{
++	const gchar *argv[12];
++	gint i = 0;
++	const gchar *fullname;
++	const gchar *office;
++	const gchar *office_phone;
++	const gchar *home_phone;
++
++	argv[i++] = "/usr/bin/userinfo";
++
++	fullname = e_contact_get_const (me->contact, E_CONTACT_FULL_NAME);
++	office = about_me_get_address_field (me->addr2, ADDRESS_LOCALITY);
++	office_phone = e_contact_get_const (me->contact, E_CONTACT_PHONE_BUSINESS);
++	home_phone = e_contact_get_const (me->contact, E_CONTACT_PHONE_HOME);
++
++	if (fullname) {
++		argv[i++] = "-f";
++		argv[i++] = fullname;
++	}
++ 
++	if (office) {
++		argv[i++] = "-o";
++		argv[i++] = office;
++	}
++ 
++	if (office_phone) {
++		argv[i++] = "-p";
++		argv[i++] = office_phone;
++	}
++
++	if (home_phone) {
++		argv[i++] = "-h";
++		argv[i++] = home_phone;
++	}
++
++	argv[i++] = "-x";
++	argv[i++] = NULL;
++
++	g_spawn_sync (NULL, (gchar **)argv, NULL, 0,
++		      NULL, NULL, NULL, NULL, NULL, NULL);
++}
++
+ static gboolean
+ about_me_commit_from_timeout (GnomeAboutMe *me)
+ {
+@@ -324,22 +371,6 @@ about_me_focus_out (GtkWidget *widget, G
+ 	return FALSE;
+ }
+ 
+-static char *
+-get_user_login (void)
+-{
+-	char buf[LINE_MAX * 4];
+-	struct passwd pwd, *err;
+-
+-	int i;
+-#if defined(__sun) && !defined(_POSIX_PTHREAD_SEMANTICS)
+-	i = getpwuid_r (getuid (), &pwd, buf, sizeof (buf));
+-	return (i != 0) ? g_strdup (pwd.pw_name) : NULL;
+-#else
+-	i = getpwuid_r (getuid (), &pwd, buf, sizeof (buf), &err);
+-	return ((i == 0) && (err == &pwd)) ? g_strdup (pwd.pw_name) : NULL;
+-#endif
+-}
+-
+ /*
+  * Helpers
+  */
+@@ -840,6 +871,8 @@ about_me_button_clicked_cb (GtkDialog *d
+ 			g_source_remove (me->commit_timeout_id);
+ 			about_me_commit (me);
+ 		}
++                 
++                update_gecos (me);
+ 
+ 		about_me_destroy (me);
+ 		gtk_main_quit ();
+@@ -856,6 +889,144 @@ about_me_passwd_clicked_cb (GtkWidget *b
+ 	g_spawn_async (NULL, argv, NULL, 0, NULL, NULL, NULL, NULL);
+ }
+ 
++static GtkWidget *
++find_fullname_editable_label (GnomeAboutMe *me)
++{
++	GtkWidget    *widget;
++	GList        *list;
++	GtkWidget    *c;
++	GladeXML     *dialog;
++
++	dialog = me->dialog;
++
++	widget = WID ("fullnamebox");
++
++	list = gtk_container_get_children (GTK_CONTAINER (widget->parent));
++
++	while (list) {
++		c = list->data;
++
++		if (EEL_IS_EDITABLE_LABEL (c))
++			break;
++
++		c = NULL;
++
++		list = list->next;
++	}
++
++	g_list_free (list);
++
++	return c;
++}
++
++static void
++about_me_button_clicked (GtkWidget      *button,
++			 GnomeAboutMe   *me)
++{
++	GtkWidget    *label;
++	GtkWidget    *entry;
++	PangoFontDescription *font;
++	gint size;
++	const gchar *text;
++
++	label = gtk_bin_get_child (GTK_BIN (button));
++	entry = find_fullname_editable_label (me);
++
++	font = pango_font_description_copy (label->style->font_desc);
++	size = pango_font_description_get_size (font);
++	if (size == 0)
++		size = 10;
++	pango_font_description_set_size (font, size * PANGO_SCALE_XX_LARGE);
++	pango_font_description_set_weight (font, PANGO_WEIGHT_BOLD);
++
++	eel_editable_label_set_font_description (EEL_EDITABLE_LABEL (entry), font);
++	pango_font_description_free (font);
++
++	gtk_misc_set_alignment (GTK_MISC (entry), 0.0, 0.5);
++
++	me->editing_username = TRUE;
++
++	text = gtk_label_get_text (GTK_LABEL (label));
++	eel_editable_label_set_text (EEL_EDITABLE_LABEL (entry), text);
++
++	gtk_widget_hide (button);
++	gtk_widget_show (entry);
++	gtk_widget_grab_focus (entry);
++}
++
++static void 
++stop_editing (GnomeAboutMe *me, gboolean commit)
++{
++	GtkWidget   *button;
++	GtkWidget   *label;
++	GtkWidget   *entry;
++	GtkWidget   *main_dialog;
++	const gchar *text;
++	gchar *str;
++	GladeXML     *dialog;
++
++	if (!me->editing_username)
++		return;
++
++	me->editing_username = FALSE;
++
++	dialog = me->dialog;
++
++	button = WID ("fullnamebox");
++	label = gtk_bin_get_child (GTK_BIN (button));
++	entry = find_fullname_editable_label (me);
++
++	if (commit) {
++		text = eel_editable_label_get_text (EEL_EDITABLE_LABEL (entry));
++		str = g_strdup_printf ("<b><span size=\"xx-large\">%s</span></b>", text);
++		gtk_label_set_markup (GTK_LABEL (label), str);
++		g_free (str);
++
++		g_free (me->username);
++		me->username = g_strdup (text);
++		e_contact_set (me->contact, E_CONTACT_FULL_NAME, me->username);
++
++		main_dialog = WID ("about-me-dialog");
++		str = g_strdup_printf (_("About %s"), me->username);
++		gtk_window_set_title (GTK_WINDOW (main_dialog), str);
++		g_free (str);
++	}
++
++	gtk_widget_hide (entry);
++	gtk_widget_show (button);
++}
++
++static gboolean
++about_me_entry_focus_out (GtkWidget     *entry,
++			  GdkEventFocus *event,
++			  GnomeAboutMe  *me)
++{
++	stop_editing (me, TRUE);
++
++	return FALSE;
++}
++
++static gboolean
++about_me_entry_key_press (GtkWidget    *entry,
++			  GdkEventKey  *event,
++			  GnomeAboutMe *me)
++{
++	switch (event->keyval)
++	{
++	case GDK_Return:
++	case GDK_KP_Enter:
++		stop_editing (me, TRUE);
++		return TRUE;
++	case GDK_Escape:
++		stop_editing (me, FALSE);
++		return TRUE;
++	default:
++		break;
++	}
++
++	return FALSE;
++}
++
+ static gint
+ about_me_setup_dialog (void)
+ {
+@@ -866,6 +1037,8 @@ about_me_setup_dialog (void)
+ 	GError 	     *error = NULL;
+ 	GList        *chain;
+ 	gchar        *str;
++	GtkWidget    *entry;
++	GtkWidget    *button;
+ 
+ 	me = g_new0 (GnomeAboutMe, 1);
+ 
+@@ -946,6 +1119,25 @@ about_me_setup_dialog (void)
+ 	gtk_label_set_markup (GTK_LABEL (widget), str);
+ 	g_free (str);
+ 
++       button = WID ("fullnamebox");
++       g_signal_connect (button, "clicked",
++                         G_CALLBACK (about_me_button_clicked), me);
++
++       entry = eel_editable_label_new (me->username);
++       eel_editable_label_set_line_wrap (EEL_EDITABLE_LABEL (entry), TRUE);
++        gtk_container_add (GTK_CONTAINER (button->parent), entry);
++       gtk_box_reorder_child (GTK_BOX (button->parent), entry, 3);
++       g_signal_connect (entry, "focus-out-event",
++                         G_CALLBACK (about_me_entry_focus_out), me);
++       g_signal_connect (entry, "key-press-event",
++                         G_CALLBACK (about_me_entry_key_press), me);
++
++       gtk_widget_set_no_show_all (button, TRUE);
++       gtk_widget_set_no_show_all (entry, TRUE);
++       gtk_widget_show (widget);
++       gtk_widget_show (button);
++       gtk_widget_hide (entry);
++
+ 	widget = WID ("login");
+ 	gtk_label_set_text (GTK_LABEL (widget), me->login);
+ 
+diff -up gnome-control-center-2.25.1/capplets/about-me/gnome-about-me.glade.gecos gnome-control-center-2.25.1/capplets/about-me/gnome-about-me.glade
+--- gnome-control-center-2.25.1/capplets/about-me/gnome-about-me.glade.gecos	2008-11-05 09:21:33.000000000 -0500
++++ gnome-control-center-2.25.1/capplets/about-me/gnome-about-me.glade	2008-11-13 21:25:16.000000000 -0500
+@@ -101,23 +101,30 @@
+ 		  </child>
+ 
+ 		  <child>
+-		    <widget class="GtkLabel" id="fullname">
+-		      <property name="visible">True</property>
+-		      <property name="label" translatable="yes">Full Name</property>
+-		      <property name="use_underline">False</property>
+-		      <property name="use_markup">False</property>
+-		      <property name="justify">GTK_JUSTIFY_LEFT</property>
+-		      <property name="wrap">False</property>
+-		      <property name="selectable">False</property>
+-		      <property name="xalign">0</property>
+-		      <property name="yalign">0.5</property>
+-		      <property name="xpad">0</property>
+-		      <property name="ypad">0</property>
+-		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+-		      <property name="width_chars">-1</property>
+-		      <property name="single_line_mode">False</property>
+-		      <property name="angle">0</property>
+-		    </widget>
++                    <widget class="GtkButton" id="fullnamebox">
++                      <property name="relief">GTK_RELIEF_NONE</property>
++                      <property name="focus_on_click">True</property>
++ 
++                      <child>
++                        <widget class="GtkLabel" id="fullname">
++                          <property name="visible">True</property>
++                          <property name="label" translatable="yes">Full Name</property>
++                          <property name="use_underline">False</property>
++                          <property name="use_markup">False</property>
++                          <property name="justify">GTK_JUSTIFY_LEFT</property>
++                          <property name="wrap">False</property>
++                          <property name="selectable">False</property>
++                          <property name="xalign">0</property>
++                          <property name="yalign">0.5</property>
++                          <property name="xpad">0</property>
++                          <property name="ypad">0</property>
++                          <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
++                          <property name="width_chars">-1</property>
++                          <property name="single_line_mode">False</property>
++                          <property name="angle">0</property>
++                        </widget>
++                      </child>
++                    </widget>
+ 		    <packing>
+ 		      <property name="padding">0</property>
+ 		      <property name="expand">False</property>
+diff -up gnome-control-center-2.25.1/capplets/about-me/Makefile.am.gecos gnome-control-center-2.25.1/capplets/about-me/Makefile.am
+--- gnome-control-center-2.25.1/capplets/about-me/Makefile.am.gecos	2008-11-05 09:21:33.000000000 -0500
++++ gnome-control-center-2.25.1/capplets/about-me/Makefile.am	2008-11-13 21:25:16.000000000 -0500
+@@ -9,9 +9,6 @@ pixmap_files = 				\
+ 	gnome-about-me-lock-open.png
+ 
+ gnome_about_me_SOURCES =	 	\
+-	eel-alert-dialog.c		\
+-	eel-alert-dialog.h		\
+-	eel-gtk-macros.h		\
+ 	gnome-about-me-password.c	\
+ 	gnome-about-me-password.h	\
+ 	e-image-chooser.c		\
+@@ -24,7 +21,7 @@ bin_PROGRAMS = gnome-about-me
+ pixmapdir = $(pkgdatadir)/pixmaps
+ pixmap_DATA = $(pixmap_files)
+ 
+-gnome_about_me_LDADD = $(GNOMECC_CAPPLETS_LIBS) $(LIBEBOOK_LIBS)
++gnome_about_me_LDADD = $(GNOMECC_CAPPLETS_LIBS) $(LIBEBOOK_LIBS) $(EEL_LIBS)
+ gnome_about_me_LDFLAGS = -export-dynamic
+ 
+ @INTLTOOL_DESKTOP_RULE@
+@@ -38,6 +35,7 @@ glade_DATA = $(glade_files)
+ INCLUDES = \
+ 	$(GNOMECC_CAPPLETS_CFLAGS) \
+ 	$(LIBEBOOK_CFLAGS) \
++	$(EEL_CFLAGS) \
+ 	-DDATADIR="\"$(datadir)\"" \
+ 	-DGNOMECC_DATA_DIR="\"$(pkgdatadir)\"" \
+ 	-DGNOMECC_GLADE_DIR="\"$(gladedir)\"" \
+diff -up gnome-control-center-2.25.1/configure.in.gecos gnome-control-center-2.25.1/configure.in
+--- gnome-control-center-2.25.1/configure.in.gecos	2008-11-13 21:25:16.000000000 -0500
++++ gnome-control-center-2.25.1/configure.in	2008-11-13 21:25:16.000000000 -0500
+@@ -182,6 +182,8 @@ dnl ====================================
+ dnl About-me
+ dnl ==============================================
+ 
++PKG_CHECK_MODULES(EEL, eel-2.0)
++
+ AC_MSG_CHECKING([whether to enable About Me])
+ AC_ARG_ENABLE([aboutme],
+    AC_HELP_STRING([--enable-aboutme],
