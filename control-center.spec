@@ -22,7 +22,7 @@
 Summary: GNOME Control Center
 Name: control-center
 Version: 2.25.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -51,7 +51,7 @@ Patch32: display-no-help.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: control-center-2.23.2-passwd.patch
-Patch96: control-center-2.23.2-gecos.patch
+Patch96: control-center-gecos.patch
 # change default preferred apps to programs we ship
 Patch99: default-applications.patch
 
@@ -348,7 +348,7 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
-* Thu Nov 13 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.1-3
+* Thu Nov 13 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.1-4
 - Update to 2.25.1
 
 * Thu Nov  6 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0.1-9
