@@ -19,14 +19,14 @@
 %define usermode_version 1.83
 %define libgnomekbd_version 2.21
 
-Summary: GNOME Control Center
+Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.25.1
-Release: 5%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
-Source: http://download.gnome.org/sources/gnome-control-center/2.24/gnome-control-center-%{version}.tar.bz2
+Source: http://download.gnome.org/sources/gnome-control-center/2.25/gnome-control-center-%{version}.tar.bz2
 Source1: org.gnome.control-center.defaultbackground.policy
 
 Patch3: control-center-2.19.3-no-gnome-common.patch
@@ -130,30 +130,24 @@ Requires(postun): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(postun): shared-mime-info
 
 %description
-GNOME (the GNU Network Object Model Environment) is an attractive and
-easy-to-use GUI desktop environment. The control-center package
-provides the GNOME Control Center utilities that allow you to setup
-and configure your system's GNOME environment (things like the desktop
-background and theme, the screensaver, system sounds, and mouse
-behavior).
-
-If you install GNOME, you need to install control-center.
+This package contains configuration utilities for the GNOME desktop, which
+allow to configure accessibility options, desktop fonts, keyboard and mouse 
+properties, sound setup, desktop theme and background, user interface 
+properties, screen resolution, and other settings. 
 
 %package devel
-Summary: GNOME Control Center development libraries and header files
+Summary: Development files for the GNOME control-center
 Group: Development/Libraries
 Requires: %{name} = %{?epoch}:%{version}-%{release}
 Requires: pkgconfig
 
 %description devel
-GNOME (the GNU Network Object Model Environment) is an attractive and
-easy-to-use GUI desktop environment. The control-center package
-provides the GNOME Control Center utilities that allow you to setup
-and configure your system's GNOME environment (things like the desktop
-background and theme, the screensaver, system sounds, and mouse
-behavior).
+Th control-center package contains configuration utilities for the 
+GNOME desktop.
 
-This packages development files for GNOME Control Center.
+This package contains libraries and header files needed for integrating
+configuration of applications such as window managers with the control-center
+utilities.
 
 %package filesystem
 Summary: GNOME Control Center directories
@@ -354,6 +348,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Nov 21 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.1-6
+- Tweak %%summary and %%description
+
 * Thu Nov 13 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.1-5
 - Update to 2.25.1
 
