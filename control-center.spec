@@ -22,7 +22,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.25.2
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -346,7 +346,7 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
-* Thu Dec  4 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.2-3
+* Thu Dec  4 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.2-4
 - Update to 2.25.2
 
 * Thu Nov 21 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.1-6
