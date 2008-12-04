@@ -17,7 +17,7 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.passwd g
 -
 -	dialog = me->dialog;
 -	gnome_about_me_password (GTK_WINDOW (WID ("about-me-dialog")));
-+        g_spawn_commandline_async ("/usr/bin/userpasswd", NULL);
++        g_spawn_command_line_async ("/usr/bin/userpasswd", NULL);
  }
  
  static void
