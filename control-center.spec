@@ -21,8 +21,8 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.25.1
-Release: 6%{?dist}
+Version: 2.25.2
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -179,11 +179,9 @@ utilities.
 
 %patch7 -p1 -b .make-default
 
-libtoolize --force --copy
+autoreconf -f -i
 
 %build
-
-autoreconf
 
 # Work-around http://bugzilla.gnome.org/show_bug.cgi?id=427939
 sed -i -e 's/@ENABLE_SK_TRUE@_s/_s/' help/Makefile.in
@@ -348,6 +346,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Dec  4 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.2-1
+- Update to 2.25.2
+
 * Thu Nov 21 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.1-6
 - Tweak %%summary and %%description
 
