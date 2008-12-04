@@ -1,30 +1,27 @@
-diff -up gnome-control-center-2.23.2/capplets/about-me/gnome-about-me.c.passwd gnome-control-center-2.23.2/capplets/about-me/gnome-about-me.c
---- gnome-control-center-2.23.2/capplets/about-me/gnome-about-me.c.passwd	2008-05-17 12:47:00.000000000 -0400
-+++ gnome-control-center-2.23.2/capplets/about-me/gnome-about-me.c	2008-05-27 23:20:51.000000000 -0400
-@@ -35,7 +35,6 @@
- #include <libebook/e-book.h>
+diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.passwd gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c
+--- gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.passwd	2008-12-01 08:32:12.000000000 -0500
++++ gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c	2008-12-04 12:54:24.000000000 -0500
+@@ -39,7 +39,6 @@
+ #endif
  
  #include "e-image-chooser.h"
 -#include "gnome-about-me-password.h"
+ #include "gnome-about-me-fingerprint.h"
+ #include "marshal.h"
  
- #include "capplet-util.h"
- 
-@@ -850,10 +849,11 @@ about_me_button_clicked_cb (GtkDialog *d
+@@ -883,10 +882,7 @@ about_me_button_clicked_cb (GtkDialog *d
  static void
  about_me_passwd_clicked_cb (GtkWidget *button, GnomeAboutMe *me)
  {
 -	GladeXML *dialog;
-+	gchar *argv[2]; 
- 
+-
 -	dialog = me->dialog;
 -	gnome_about_me_password (GTK_WINDOW (WID ("about-me-dialog")));
-+	argv[0] = "/usr/bin/userpasswd";
-+	argv[1] = NULL;
-+	g_spawn_async (NULL, argv, NULL, 0, NULL, NULL, NULL, NULL);
++        g_spawn_commandline_async ("/usr/bin/userpasswd", NULL);
  }
  
- static gint
-@@ -865,10 +865,7 @@ about_me_setup_dialog (void)
+ static void
+@@ -906,10 +902,7 @@ about_me_setup_dialog (void)
  	GladeXML     *dialog;
  	GError 	     *error = NULL;
  	GList        *chain;
@@ -36,7 +33,7 @@ diff -up gnome-control-center-2.23.2/capplets/about-me/gnome-about-me.c.passwd g
  
  	me = g_new0 (GnomeAboutMe, 1);
  
-@@ -937,34 +934,14 @@ about_me_setup_dialog (void)
+@@ -978,34 +971,14 @@ about_me_setup_dialog (void)
  		about_me_setup_email (me);
  	}
  
@@ -74,7 +71,7 @@ diff -up gnome-control-center-2.23.2/capplets/about-me/gnome-about-me.c.passwd g
  
  	gtk_label_set_markup (GTK_LABEL (widget), str);
  	g_free (str);
-@@ -972,14 +949,9 @@ about_me_setup_dialog (void)
+@@ -1013,14 +986,9 @@ about_me_setup_dialog (void)
  	widget = WID ("login");
  	gtk_label_set_text (GTK_LABEL (widget), me->login);
  

@@ -1,15 +1,16 @@
-diff -up gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.c.gecos gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.c
---- gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.c.gecos	2008-07-24 16:40:29.000000000 -0400
-+++ gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.c	2008-07-24 16:40:29.000000000 -0400
-@@ -35,6 +35,7 @@
- #include <libebook/e-book.h>
+diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.gecos gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c
+--- gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.gecos	2008-12-04 12:56:02.000000000 -0500
++++ gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c	2008-12-04 13:00:38.000000000 -0500
+@@ -39,6 +39,8 @@
+ #endif
  
  #include "e-image-chooser.h"
 +#include <eel/eel-editable-label.h>
++#include <gdk/gdkkeysyms.h>
+ #include "gnome-about-me-fingerprint.h"
+ #include "marshal.h"
  
- #include "capplet-util.h"
- 
-@@ -61,6 +62,7 @@ typedef struct {
+@@ -69,6 +71,7 @@ typedef struct {
  	gboolean      	 have_image;
  	gboolean      	 image_changed;
  	gboolean      	 create_self;
@@ -17,7 +18,7 @@ diff -up gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.c.gecos gn
  
  	gchar        	*person;
  	gchar 		*login;
-@@ -140,7 +142,7 @@ struct WidToCid ids[] = {
+@@ -148,7 +151,7 @@ struct WidToCid ids[] = {
  #define ATTRIBUTE_OTHER "OTHER"
  
  static void about_me_set_address_field (EContactAddress *, guint, gchar *);
@@ -26,7 +27,7 @@ diff -up gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.c.gecos gn
  
  /*** Utility functions ***/
  static void
-@@ -256,6 +258,50 @@ about_me_commit (GnomeAboutMe *me)
+@@ -285,6 +288,50 @@ about_me_commit (GnomeAboutMe *me)
  	me->create_self = FALSE;
  }
  
@@ -77,7 +78,7 @@ diff -up gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.c.gecos gn
  static gboolean
  about_me_commit_from_timeout (GnomeAboutMe *me)
  {
-@@ -325,22 +371,6 @@ about_me_focus_out (GtkWidget *widget, G
+@@ -354,22 +401,6 @@ about_me_focus_out (GtkWidget *widget, G
  	return FALSE;
  }
  
@@ -100,7 +101,7 @@ diff -up gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.c.gecos gn
  /*
   * Helpers
   */
-@@ -840,6 +870,8 @@ about_me_button_clicked_cb (GtkDialog *d
+@@ -873,6 +904,8 @@ about_me_button_clicked_cb (GtkDialog *d
  			g_source_remove (me->commit_timeout_id);
  			about_me_commit (me);
  		}
@@ -109,24 +110,24 @@ diff -up gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.c.gecos gn
  
  		about_me_destroy (me);
  		gtk_main_quit ();
-@@ -856,6 +888,144 @@ about_me_passwd_clicked_cb (GtkWidget *b
- 	g_spawn_async (NULL, argv, NULL, 0, NULL, NULL, NULL, NULL);
+@@ -893,6 +926,144 @@ about_me_fingerprint_button_clicked_cb (
+ 				    me->disable_fingerprint_button);
  }
  
 +static GtkWidget *
 +find_fullname_editable_label (GnomeAboutMe *me)
 +{
-+	GtkWidget    *widget;
-+	GList        *list;
-+	GtkWidget    *c;
-+	GladeXML     *dialog;
-+
-+	dialog = me->dialog;
-+
++        GtkWidget    *widget;
++        GList        *list;
++        GtkWidget    *c;
++        GladeXML     *dialog;
++ 
++        dialog = me->dialog;
++ 
 +	widget = WID ("fullnamebox");
-+
++ 
 +	list = gtk_container_get_children (GTK_CONTAINER (widget->parent));
-+
++ 
 +	while (list) {
 +		c = list->data;
 +
@@ -142,7 +143,7 @@ diff -up gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.c.gecos gn
 +
 +	return c;
 +}
-+
++ 
 +static void
 +about_me_button_clicked (GtkWidget      *button,
 +			 GnomeAboutMe   *me)
@@ -182,9 +183,9 @@ diff -up gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.c.gecos gn
 +stop_editing (GnomeAboutMe *me, gboolean commit)
 +{
 +	GtkWidget   *button;
-+	GtkWidget   *label;
++        GtkWidget   *label;
 +	GtkWidget   *entry;
-+	GtkWidget   *main_dialog;
++        GtkWidget   *main_dialog;
 +	const gchar *text;
 +	gchar *str;
 +	GladeXML     *dialog;
@@ -219,7 +220,7 @@ diff -up gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.c.gecos gn
 +	gtk_widget_hide (entry);
 +	gtk_widget_show (button);
 +}
-+
++ 
 +static gboolean
 +about_me_entry_focus_out (GtkWidget     *entry,
 +			  GdkEventFocus *event,
@@ -254,7 +255,7 @@ diff -up gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.c.gecos gn
  static gint
  about_me_setup_dialog (void)
  {
-@@ -866,6 +1036,8 @@ about_me_setup_dialog (void)
+@@ -903,6 +1074,8 @@ about_me_setup_dialog (void)
  	GError 	     *error = NULL;
  	GList        *chain;
  	gchar        *str;
@@ -263,7 +264,7 @@ diff -up gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.c.gecos gn
  
  	me = g_new0 (GnomeAboutMe, 1);
  
-@@ -946,6 +1118,25 @@ about_me_setup_dialog (void)
+@@ -983,6 +1156,25 @@ about_me_setup_dialog (void)
  	gtk_label_set_markup (GTK_LABEL (widget), str);
  	g_free (str);
  
@@ -289,9 +290,9 @@ diff -up gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.c.gecos gn
  	widget = WID ("login");
  	gtk_label_set_text (GTK_LABEL (widget), me->login);
  
-diff -up gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.glade.gecos gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.glade
---- gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.glade.gecos	2008-07-08 14:21:03.000000000 -0400
-+++ gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.glade	2008-07-24 16:40:29.000000000 -0400
+diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.glade.gecos gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.glade
+--- gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.glade.gecos	2008-12-01 08:32:12.000000000 -0500
++++ gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.glade	2008-12-04 12:56:02.000000000 -0500
 @@ -101,23 +101,30 @@
  		  </child>
  
@@ -340,9 +341,9 @@ diff -up gnome-control-center-2.23.5/capplets/about-me/gnome-about-me.glade.geco
  		    <packing>
  		      <property name="padding">0</property>
  		      <property name="expand">False</property>
-diff -up gnome-control-center-2.23.5/capplets/about-me/Makefile.am.gecos gnome-control-center-2.23.5/capplets/about-me/Makefile.am
---- gnome-control-center-2.23.5/capplets/about-me/Makefile.am.gecos	2008-07-08 14:21:03.000000000 -0400
-+++ gnome-control-center-2.23.5/capplets/about-me/Makefile.am	2008-07-24 16:40:29.000000000 -0400
+diff -up gnome-control-center-2.25.2/capplets/about-me/Makefile.am.gecos gnome-control-center-2.25.2/capplets/about-me/Makefile.am
+--- gnome-control-center-2.25.2/capplets/about-me/Makefile.am.gecos	2008-12-02 11:52:42.000000000 -0500
++++ gnome-control-center-2.25.2/capplets/about-me/Makefile.am	2008-12-04 12:56:02.000000000 -0500
 @@ -9,9 +9,6 @@ pixmap_files = 				\
  	gnome-about-me-lock-open.png
  
@@ -353,27 +354,10 @@ diff -up gnome-control-center-2.23.5/capplets/about-me/Makefile.am.gecos gnome-c
  	gnome-about-me-password.c	\
  	gnome-about-me-password.h	\
  	e-image-chooser.c		\
-@@ -24,7 +21,7 @@ bin_PROGRAMS = gnome-about-me
- pixmapdir = $(pkgdatadir)/pixmaps
- pixmap_DATA = $(pixmap_files)
- 
--gnome_about_me_LDADD = $(GNOMECC_CAPPLETS_LIBS) $(LIBEBOOK_LIBS)
-+gnome_about_me_LDADD = $(GNOMECC_CAPPLETS_LIBS) $(LIBEBOOK_LIBS) $(EEL_LIBS)
- gnome_about_me_LDFLAGS = -export-dynamic
- 
- @INTLTOOL_DESKTOP_RULE@
-@@ -38,6 +35,7 @@ glade_DATA = $(glade_files)
- INCLUDES = \
- 	$(GNOMECC_CAPPLETS_CFLAGS) \
- 	$(LIBEBOOK_CFLAGS) \
-+	$(EEL_CFLAGS) \
- 	-DDATADIR="\"$(datadir)\"" \
- 	-DGNOMECC_DATA_DIR="\"$(pkgdatadir)\"" \
- 	-DGNOMECC_GLADE_DIR="\"$(gladedir)\"" \
-diff -up gnome-control-center-2.23.5/configure.in.gecos gnome-control-center-2.23.5/configure.in
---- gnome-control-center-2.23.5/configure.in.gecos	2008-07-24 16:40:29.000000000 -0400
-+++ gnome-control-center-2.23.5/configure.in	2008-07-24 16:43:50.000000000 -0400
-@@ -188,6 +188,8 @@ dnl ====================================
+diff -up gnome-control-center-2.25.2/configure.in.gecos gnome-control-center-2.25.2/configure.in
+--- gnome-control-center-2.25.2/configure.in.gecos	2008-12-04 12:56:02.000000000 -0500
++++ gnome-control-center-2.25.2/configure.in	2008-12-04 12:56:02.000000000 -0500
+@@ -182,6 +182,8 @@ dnl ====================================
  dnl About-me
  dnl ==============================================
  

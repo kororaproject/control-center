@@ -50,8 +50,8 @@ Patch30: default-layout-toggle.patch
 Patch32: display-no-help.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
-Patch95: control-center-2.23.2-passwd.patch
-Patch96: control-center-gecos.patch
+Patch95: gnome-control-center-2.25.2-passwd.patch
+Patch96: gnome-control-center-2.25.2-gecos.patch
 # change default preferred apps to programs we ship
 Patch99: default-applications.patch
 
