@@ -1,6 +1,6 @@
 diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.gecos gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c
---- gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.gecos	2008-12-04 12:56:02.000000000 -0500
-+++ gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c	2008-12-04 13:00:38.000000000 -0500
+--- gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.gecos	2008-12-04 13:21:20.000000000 -0500
++++ gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c	2008-12-04 13:21:20.000000000 -0500
 @@ -39,6 +39,8 @@
  #endif
  
@@ -292,7 +292,7 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.gecos gn
  
 diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.glade.gecos gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.glade
 --- gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.glade.gecos	2008-12-01 08:32:12.000000000 -0500
-+++ gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.glade	2008-12-04 12:56:02.000000000 -0500
++++ gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.glade	2008-12-04 13:21:20.000000000 -0500
 @@ -101,23 +101,30 @@
  		  </child>
  
@@ -343,7 +343,7 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.glade.geco
  		      <property name="expand">False</property>
 diff -up gnome-control-center-2.25.2/capplets/about-me/Makefile.am.gecos gnome-control-center-2.25.2/capplets/about-me/Makefile.am
 --- gnome-control-center-2.25.2/capplets/about-me/Makefile.am.gecos	2008-12-02 11:52:42.000000000 -0500
-+++ gnome-control-center-2.25.2/capplets/about-me/Makefile.am	2008-12-04 12:56:02.000000000 -0500
++++ gnome-control-center-2.25.2/capplets/about-me/Makefile.am	2008-12-04 13:24:48.000000000 -0500
 @@ -9,9 +9,6 @@ pixmap_files = 				\
  	gnome-about-me-lock-open.png
  
@@ -354,10 +354,35 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/Makefile.am.gecos gnome-c
  	gnome-about-me-password.c	\
  	gnome-about-me-password.h	\
  	e-image-chooser.c		\
+@@ -28,7 +25,7 @@ bin_PROGRAMS = gnome-about-me
+ pixmapdir = $(pkgdatadir)/pixmaps
+ pixmap_DATA = $(pixmap_files)
+ 
+-gnome_about_me_LDADD = $(GNOMECC_CAPPLETS_LIBS) $(LIBEBOOK_LIBS) $(POLKIT_GNOME_LIBS)
++gnome_about_me_LDADD = $(GNOMECC_CAPPLETS_LIBS) $(EEL_LIBS) $(LIBEBOOK_LIBS) $(POLKIT_GNOME_LIBS)
+ gnome_about_me_LDFLAGS = -export-dynamic
+ 
+ @INTLTOOL_DESKTOP_RULE@
+@@ -43,6 +40,7 @@ INCLUDES = \
+ 	$(GNOMECC_CAPPLETS_CFLAGS) \
+ 	$(LIBEBOOK_CFLAGS) \
+ 	$(POLKIT_GNOME_CFLAGS) \
++	$(EEL_CFLAGS) \
+ 	-DDATADIR="\"$(datadir)\"" \
+ 	-DGNOMECC_DATA_DIR="\"$(pkgdatadir)\"" \
+ 	-DGNOMECC_GLADE_DIR="\"$(gladedir)\"" \
 diff -up gnome-control-center-2.25.2/configure.in.gecos gnome-control-center-2.25.2/configure.in
---- gnome-control-center-2.25.2/configure.in.gecos	2008-12-04 12:56:02.000000000 -0500
-+++ gnome-control-center-2.25.2/configure.in	2008-12-04 12:56:02.000000000 -0500
-@@ -182,6 +182,8 @@ dnl ====================================
+--- gnome-control-center-2.25.2/configure.in.gecos	2008-12-04 13:21:20.000000000 -0500
++++ gnome-control-center-2.25.2/configure.in	2008-12-04 13:21:20.000000000 -0500
+@@ -97,6 +97,7 @@ PKG_CHECK_MODULES(METACITY, libmetacity-
+ PKG_CHECK_MODULES(TYPING, glib-2.0 > 2.11 gconf-2.0 gtk+-2.0)
+ PKG_CHECK_MODULES(GSD_DBUS, gnome-settings-daemon)
+ PKG_CHECK_MODULES(GIO, gio-2.0)
++PKG_CHECK_MODULES(POLKIT_GNOME, polkit-gnome)
+ 
+ gtk_lib_dir=`$PKG_CONFIG --variable libdir gtk+-2.0`
+ gtk_binary_version=`$PKG_CONFIG --variable gtk_binary_version gtk+-2.0`
+@@ -182,6 +183,8 @@ dnl ====================================
  dnl About-me
  dnl ==============================================
  
