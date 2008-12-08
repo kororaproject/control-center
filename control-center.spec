@@ -22,12 +22,15 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.25.2
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 Source: http://download.gnome.org/sources/gnome-control-center/2.25/gnome-control-center-%{version}.tar.bz2
 Source1: org.gnome.control-center.defaultbackground.policy
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=562504
+Patch1: gcc-enroll-stages.patch
 
 Patch3: control-center-2.19.3-no-gnome-common.patch
 # http://bugzilla.gnome.org/536531
@@ -164,6 +167,9 @@ utilities.
 %prep
 %setup -q -n gnome-control-center-%{version}
 
+pushd capplets/about-me
+%patch1 -p0 -b .num-enroll-stages
+popd
 %patch3 -p1 -b .no-gnome-common
 %patch8 -p1 -b .gtkmarshal
 %patch10 -p0 -b .no-oss
@@ -346,6 +352,10 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Dec 08 2008 - Bastien Nocera <bnocera@redhat.com> - 2.25.2-5
+- Add patch to support multiple enrollment stages in the about-me
+  capplet
+
 * Thu Dec  4 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.2-4
 - Update to 2.25.2
 

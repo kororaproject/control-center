@@ -1,0 +1,142 @@
+Index: gnome-about-me-fingerprint.c
+===================================================================
+--- gnome-about-me-fingerprint.c	(revision 9164)
++++ gnome-about-me-fingerprint.c	(working copy)
+@@ -25,6 +25,9 @@
+ #include "fingerprint-strings.h"
+ #include "capplet-util.h"
+ 
++/* This must match the number of images on the 2nd page in the glade file */
++#define MAX_ENROLL_STAGES 3
++
+ static DBusGProxy *manager = NULL;
+ static DBusGConnection *connection = NULL;
+ static gboolean is_disable = FALSE;
+@@ -45,6 +48,8 @@
+ 
+ 	DBusGProxy *device;
+ 	gboolean is_swipe;
++	int num_enroll_stages;
++	int num_stages_done;
+ 	char *name;
+ 	const char *finger;
+ 	gint state;
+@@ -326,11 +331,20 @@
+ 	GladeXML *dialog = data->dialog_page2;
+ 	char *msg;
+ 
++	if (g_str_equal (result, "enroll-completed") || g_str_equal (result, "enroll-stage-passed")) {
++		char *name;
++
++		data->num_stages_done++;
++		name = g_strdup_printf ("image%d", data->num_stages_done);
++		gtk_image_set_from_stock (GTK_IMAGE (WID (name)), GTK_STOCK_YES, GTK_ICON_SIZE_DIALOG);
++		g_free (name);
++	}
++	if (g_str_equal (result, "enroll-completed")) {
++		gtk_label_set_text (GTK_LABEL (WID ("status-label")), _("Done!"));
++		gtk_assistant_set_page_complete (GTK_ASSISTANT (data->ass), WID ("page2"), TRUE);
++	}
++
+ 	if (done != FALSE) {
+-		if (g_str_equal (result, "enroll-completed")) {
+-			gtk_image_set_from_stock (GTK_IMAGE (WID ("image1")), GTK_STOCK_YES, GTK_ICON_SIZE_DIALOG);
+-			gtk_assistant_set_page_complete (GTK_ASSISTANT (data->ass), WID ("page2"), TRUE);
+-		}
+ 		dbus_g_proxy_call(data->device, "EnrollStop", NULL, G_TYPE_INVALID, G_TYPE_INVALID);
+ 		data->state = STATE_CLAIMED;
+ 		if (g_str_equal (result, "enroll-completed") == FALSE) {
+@@ -360,7 +374,8 @@
+ 	if (g_str_equal (name, "enroll")) {
+ 		DBusGProxy *p;
+ 		GError *error = NULL;
+-		int num_enroll_stages;
++		GladeXML *dialog = data->dialog_page2;
++		guint i;
+ 		GValue value = { 0, };
+ 
+ 		if (!dbus_g_proxy_call (data->device, "Claim", &error, G_TYPE_STRING, "", G_TYPE_INVALID, G_TYPE_INVALID)) {
+@@ -404,10 +419,18 @@
+ 			return;
+ 		}
+ 		g_object_unref (p);
+-		num_enroll_stages = g_value_get_int (&value);
+ 
+-		/* FIXME handle num_enroll_stages != 1 */
++		data->num_enroll_stages = g_value_get_int (&value);
+ 
++		/* Hide the extra "bulbs" if not needed */
++		for (i = MAX_ENROLL_STAGES; i > data->num_enroll_stages; i--) {
++			char *name;
++
++			name = g_strdup_printf ("image%d", i);
++			gtk_widget_hide (WID (name));
++			g_free (name);
++		}
++
+ 		dbus_g_proxy_add_signal(data->device, "EnrollStatus", G_TYPE_STRING, G_TYPE_BOOLEAN, NULL);
+ 		dbus_g_proxy_connect_signal(data->device, "EnrollStatus", G_CALLBACK(enroll_result), data, NULL);
+ 
+Index: gnome-about-me-fingerprint.glade
+===================================================================
+--- gnome-about-me-fingerprint.glade	(revision 9163)
++++ gnome-about-me-fingerprint.glade	(working copy)
+@@ -33,7 +33,7 @@
+ 	  <property name="spacing">6</property>
+ 
+ 	  <child>
+-	    <widget class="GtkImage" id="image2">
++	    <widget class="GtkImage" id="image">
+ 	      <property name="visible">True</property>
+ 	      <property name="stock">gtk-dialog-info</property>
+ 	      <property name="icon_size">6</property>
+@@ -216,7 +216,7 @@
+       <child>
+ 	<widget class="GtkLabel" id="enroll-label">
+ 	  <property name="visible">True</property>
+-	  <property name="label" translatable="no">In order to save your fingerprints, you need to swipe your thumb on the &quot;Acme foobar&quot; device.</property>
++	  <property name="label">In order to save your fingerprints, you need to swipe your thumb on the &quot;Acme foobar&quot; device.</property>
+ 	  <property name="use_underline">False</property>
+ 	  <property name="use_markup">False</property>
+ 	  <property name="justify">GTK_JUSTIFY_LEFT</property>
+@@ -266,6 +266,40 @@
+ 	  </child>
+ 
+ 	  <child>
++	    <widget class="GtkImage" id="image2">
++	      <property name="visible">True</property>
++	      <property name="stock">gtk-no</property>
++	      <property name="icon_size">6</property>
++	      <property name="xalign">0.5</property>
++	      <property name="yalign">0.5</property>
++	      <property name="xpad">0</property>
++	      <property name="ypad">0</property>
++	    </widget>
++	    <packing>
++	      <property name="padding">0</property>
++	      <property name="expand">True</property>
++	      <property name="fill">True</property>
++	    </packing>
++	  </child>
++
++	  <child>
++	    <widget class="GtkImage" id="image3">
++	      <property name="visible">True</property>
++	      <property name="stock">gtk-no</property>
++	      <property name="icon_size">6</property>
++	      <property name="xalign">0.5</property>
++	      <property name="yalign">0.5</property>
++	      <property name="xpad">0</property>
++	      <property name="ypad">0</property>
++	    </widget>
++	    <packing>
++	      <property name="padding">0</property>
++	      <property name="expand">True</property>
++	      <property name="fill">True</property>
++	    </packing>
++	  </child>
++
++	  <child>
+ 	    <placeholder/>
+ 	  </child>
+ 	</widget>
