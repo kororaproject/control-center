@@ -22,7 +22,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.25.2
-Release: 6%{?dist}
+Release: 7%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -99,7 +99,6 @@ BuildRequires: libxklavier-devel >= %{libxklavier_version}
 BuildRequires: libXcursor-devel
 BuildRequires: alsa-lib-devel
 BuildRequires: nautilus-devel
-BuildRequires: eel2-devel
 BuildRequires: gettext
 BuildRequires: gnome-menus-devel >= %{gnome_menus_version}
 BuildRequires: gnome-panel-devel
@@ -352,6 +351,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Dec 16 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.2-7
+- Drop eel dependency
+
 * Mon Dec  8 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.2-6
 - Rebuild to reduce pkg-config-induced dependency bloat
 
