@@ -244,10 +244,10 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
 
 # And until we get a new g-c-c package without the sound capplet,
 # remove those by hand.
-rm $RPM_BUILD_ROOT%{_bindir}/gnome-sound-properties			\
-	%{_datadir}/applications/gnome-settings-sound.desktop		\
-	%{_datadir}/gnome-control-center/glade/sound-properties.glade	\
-	%{_datadir}/icons/hicolor/*/apps/gnome-sound-properties.*
+rm $RPM_BUILD_ROOT%{_bindir}/gnome-sound-properties					\
+	$RPM_BUILD_ROOT%{_datadir}/applications/gnome-settings-sound.desktop		\
+	$RPM_BUILD_ROOT%{_datadir}/gnome-control-center/glade/sound-properties.glade	\
+	$RPM_BUILD_ROOT%{_datadir}/icons/hicolor/*/apps/gnome-sound-properties.*
 
 %find_lang %{gettext_package} --all-name --with-gnome
 
