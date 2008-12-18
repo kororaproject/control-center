@@ -22,7 +22,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.25.2
-Release: 8%{?dist}
+Release: 9%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -37,9 +37,6 @@ Patch3: control-center-2.19.3-no-gnome-common.patch
 Patch7: make-default.patch
 # minor build breakage in gtk, will be fixed in the next gtk release
 Patch8: gtkmarshal.patch
-
-# https://bugzilla.redhat.com/show_bug.cgi?id=466342
-Patch10: gcc-sound-props-remove-oss.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=545075 
 Patch22: slab-icon-names.patch
@@ -171,7 +168,6 @@ pushd capplets/about-me
 popd
 %patch3 -p1 -b .no-gnome-common
 %patch8 -p1 -b .gtkmarshal
-%patch10 -p0 -b .no-oss
 %patch22 -p0 -b .slab-icon-names
 %patch25 -p1 -b .ta-schema
 %patch30 -p1 -b .default-layout-toggle
@@ -245,6 +241,13 @@ rm $RPM_BUILD_ROOT%{_datadir}/applications/mimeinfo.cache
 
 # remove useless libtool archive files
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
+
+# And until we get a new g-c-c package without the sound capplet,
+# remove those by hand.
+rm $RPM_BUILD_ROOT%{_bindir}/gnome-sound-properties			\
+	%{_datadir}/applications/gnome-settings-sound.desktop		\
+	%{_datadir}/gnome-control-center/glade/sound-properties.glade	\
+	%{_datadir}/icons/hicolor/*/apps/gnome-sound-properties.*
 
 %find_lang %{gettext_package} --all-name --with-gnome
 
@@ -325,7 +328,6 @@ fi
 %{_bindir}/gnome-keyboard-properties
 %{_bindir}/gnome-mouse-properties
 %{_bindir}/gnome-network-preferences
-%{_bindir}/gnome-sound-properties
 %{_bindir}/gnome-typing-monitor
 %{_bindir}/gnome-window-properties
 %{_bindir}/gnome-font-viewer
@@ -351,6 +353,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Dec 18 2008 - Bastien Nocera <bnocera@redhat.com> - 2.25.2-9
+- Remove the sound capplet by hand, will be gone in the next upstream version
+
 * Wed Dec 17 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.2-8
 - Rebuild against new gnome-desktop
 
