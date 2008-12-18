@@ -21,16 +21,13 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.25.2
-Release: 9%{?dist}
+Version: 2.25.3
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 Source: http://download.gnome.org/sources/gnome-control-center/2.25/gnome-control-center-%{version}.tar.bz2
 Source1: org.gnome.control-center.defaultbackground.policy
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=562504
-Patch1: gcc-enroll-stages.patch
 
 Patch3: control-center-2.19.3-no-gnome-common.patch
 # http://bugzilla.gnome.org/536531
@@ -163,9 +160,6 @@ utilities.
 %prep
 %setup -q -n gnome-control-center-%{version}
 
-pushd capplets/about-me
-%patch1 -p0 -b .num-enroll-stages
-popd
 %patch3 -p1 -b .no-gnome-common
 %patch8 -p1 -b .gtkmarshal
 %patch22 -p0 -b .slab-icon-names
@@ -241,13 +235,6 @@ rm $RPM_BUILD_ROOT%{_datadir}/applications/mimeinfo.cache
 
 # remove useless libtool archive files
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
-
-# And until we get a new g-c-c package without the sound capplet,
-# remove those by hand.
-rm $RPM_BUILD_ROOT%{_bindir}/gnome-sound-properties					\
-	$RPM_BUILD_ROOT%{_datadir}/applications/gnome-settings-sound.desktop		\
-	$RPM_BUILD_ROOT%{_datadir}/gnome-control-center/glade/sound-properties.glade	\
-	$RPM_BUILD_ROOT%{_datadir}/icons/hicolor/*/apps/gnome-sound-properties.*
 
 %find_lang %{gettext_package} --all-name --with-gnome
 
@@ -353,6 +340,10 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Dec 18 2008 - Bastien Nocera <bnocera@redhat.com> - 2.25.3-1
+- Update to 2.25.3
+- Drop upstreamed patches
+
 * Thu Dec 18 2008 - Bastien Nocera <bnocera@redhat.com> - 2.25.2-9
 - Remove the sound capplet by hand, will be gone in the next upstream version
 
