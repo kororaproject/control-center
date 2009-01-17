@@ -1,0 +1,23 @@
+diff -up gnome-control-center-2.24.0.1/capplets/common/gnome-theme-apply.c.notification-theme gnome-control-center-2.24.0.1/capplets/common/gnome-theme-apply.c
+--- gnome-control-center-2.24.0.1/capplets/common/gnome-theme-apply.c.notification-theme	2009-01-17 00:39:18.000000000 -0500
++++ gnome-control-center-2.24.0.1/capplets/common/gnome-theme-apply.c	2009-01-17 00:40:30.000000000 -0500
+@@ -43,6 +43,7 @@ gnome_meta_theme_set (GnomeThemeMetaInfo
+ {
+   GConfClient *client;
+   gchar *old_key;
++  gchar *new_key;
+   gint old_key_int;
+   GnomeWindowManager *window_manager;
+   GnomeWMSettings wm_settings;
+@@ -100,7 +101,10 @@ gnome_meta_theme_set (GnomeThemeMetaInfo
+   g_free (old_key);
+ 
+   /* set the notification theme */
+-  if (meta_theme_info->notification_theme_name != NULL)
++  new_key = meta_theme_info->notification_theme_name;
++  if (new_key == NULL)
++    new_key = "standard";
++  if (compare (old_key, new_key))
+     {
+       old_key = gconf_client_get_string (client, NOTIFICATION_THEME_KEY, NULL);
+       if (compare (old_key, meta_theme_info->notification_theme_name))
