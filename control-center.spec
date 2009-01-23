@@ -22,7 +22,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.25.3
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -37,6 +37,9 @@ Patch8: gtkmarshal.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=568408
 Patch9: gcc-set-https-handler.patch
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=475804
+Patch10: gcc-pam-fprintd-avail.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=545075 
 Patch22: slab-icon-names.patch
@@ -169,6 +172,7 @@ utilities.
 %patch3 -p1 -b .no-gnome-common
 %patch8 -p1 -b .gtkmarshal
 %patch9 -p0 -b .set-https
+%patch10 -p0 -b .pam-fprintd
 %patch22 -p0 -b .slab-icon-names
 %patch25 -p1 -b .ta-schema
 %patch30 -p1 -b .default-layout-toggle
@@ -348,6 +352,10 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Fri Jan 23 2009 - Bastien Nocera <bnocera@redhat.com> - 2.25.3-5
+- Don't show enrollment for users if pam_fprintd isn't enabled in
+  authconfig (#475804)
+
 * Tue Jan 20 2009 - Bastien Nocera <bnocera@redhat.com> - 2.25.3-4
 - Set HTTPS handler correctly when changing default browser (#480707)
 

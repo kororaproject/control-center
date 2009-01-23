@@ -1,0 +1,93 @@
+Index: capplets/about-me/gnome-about-me-fingerprint.c
+===================================================================
+--- capplets/about-me/gnome-about-me-fingerprint.c	(revision 9203)
++++ capplets/about-me/gnome-about-me-fingerprint.c	(working copy)
+@@ -92,6 +92,38 @@
+ 	return device;
+ }
+ 
++static gboolean
++pam_fprintd_available (void)
++{
++	char *contents, **lines;
++	gboolean ret;
++	guint i;
++
++	if (g_file_get_contents ("/etc/sysconfig/authconfig", &contents, NULL, NULL) == FALSE)
++		return TRUE;
++
++	lines = g_strsplit (contents, "\n", -1);
++	g_free (contents);
++
++	ret = FALSE;
++
++	for (i = 0; lines[i] ; i++) {
++		if (g_str_has_prefix (lines[i], "USEFPRINTD=") != FALSE) {
++			char *value;
++
++			value = lines[i] + strlen ("USEFPRINTD=");
++			if (g_strcmp0 (value, "yes") == 0) {
++				ret = TRUE;
++				break;
++			}
++		}
++	}
++
++	g_strfreev (lines);
++
++	return ret;
++}
++
+ static const char *
+ get_reason_for_error (const char *dbus_error)
+ {
+@@ -146,29 +178,24 @@
+ 	gtk_widget_set_no_show_all (enable, TRUE);
+ 	gtk_widget_set_no_show_all (disable, TRUE);
+ 
++	if (pam_fprintd_available () == FALSE)
++		goto bail;
++
+ 	if (manager == NULL) {
+ 		create_manager ();
+-		if (manager == NULL) {
+-			gtk_widget_hide (enable);
+-			gtk_widget_hide (disable);
+-			return;
+-		}
++		if (manager == NULL)
++			goto bail;
+ 	}
+ 
+ 	device = get_first_device ();
+-	if (device == NULL) {
+-		gtk_widget_hide (enable);
+-		gtk_widget_hide (disable);
+-		return;
+-	}
++	if (device == NULL)
++		goto bail;
+ 
+ 	if (!dbus_g_proxy_call (device, "ListEnrolledFingers", &error, G_TYPE_STRING, "", G_TYPE_INVALID,
+ 				G_TYPE_STRV, &fingers, G_TYPE_INVALID)) {
+ 		if (dbus_g_error_has_name (error, "net.reactivated.Fprint.Error.NoEnrolledPrints") == FALSE) {
+-			gtk_widget_hide (enable);
+-			gtk_widget_hide (disable);
+ 			g_object_unref (device);
+-			return;
++			goto bail;
+ 		}
+ 		fingers = NULL;
+ 	}
+@@ -185,6 +212,11 @@
+ 
+ 	g_strfreev (fingers);
+ 	g_object_unref (device);
++
++	return;
++bail:
++	gtk_widget_hide (enable);
++	gtk_widget_hide (disable);
+ }
+ 
+ static void
