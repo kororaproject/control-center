@@ -316,7 +316,7 @@ fi
 %{_bindir}/gnome-keybinding-properties
 %{_bindir}/gnome-keyboard-properties
 %{_bindir}/gnome-mouse-properties
-%{_bindir}/gnome-network-preferences
+%{_bindir}/gnome-network-properties
 %{_bindir}/gnome-typing-monitor
 %{_bindir}/gnome-window-properties
 %{_bindir}/gnome-font-viewer
