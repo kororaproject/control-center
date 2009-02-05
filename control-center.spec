@@ -21,8 +21,8 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.25.3
-Release: 5%{?dist}
+Version: 2.25.90
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -32,11 +32,6 @@ Source1: org.gnome.control-center.defaultbackground.policy
 Patch3: control-center-2.19.3-no-gnome-common.patch
 # http://bugzilla.gnome.org/536531
 Patch7: make-default.patch
-# minor build breakage in gtk, will be fixed in the next gtk release
-Patch8: gtkmarshal.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=568408
-Patch9: gcc-set-https-handler.patch
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=475804
 Patch10: gcc-pam-fprintd-avail.patch
@@ -64,7 +59,6 @@ Patch99: default-applications.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
 
-Obsoletes: gnome fontilus
 # the background capplets expects its .xml files in 
 # a different place now
 Conflicts: desktop-backgrounds-basic < 2.0-27
@@ -107,9 +101,7 @@ BuildRequires: gnome-menus-devel >= %{gnome_menus_version}
 BuildRequires: gnome-panel-devel
 BuildRequires: libgnomekbd-devel >= %{libgnomekbd_version}
 BuildRequires: gnome-settings-daemon-devel
-# For intltool:
 BuildRequires: intltool >= 0.37.1
-BuildRequires: perl(XML::Parser) 
 BuildRequires: evolution-data-server-devel >= 1.9.1
 BuildRequires: libXxf86misc-devel 
 BuildRequires: libxkbfile-devel
@@ -170,8 +162,6 @@ utilities.
 %setup -q -n gnome-control-center-%{version}
 
 %patch3 -p1 -b .no-gnome-common
-%patch8 -p1 -b .gtkmarshal
-%patch9 -p0 -b .set-https
 %patch10 -p0 -b .pam-fprintd
 %patch22 -p0 -b .slab-icon-names
 %patch25 -p1 -b .ta-schema
@@ -352,6 +342,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Feb  5 2009 Matthias Clasen <mclasen@redhat.com> - 2.25.90-1
+- Update to 2.25.90
+
 * Fri Jan 23 2009 - Bastien Nocera <bnocera@redhat.com> - 2.25.3-5
 - Don't show enrollment for users if pam_fprintd isn't enabled in
   authconfig (#475804)
