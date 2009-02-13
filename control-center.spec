@@ -18,11 +18,12 @@
 %define gnome_menus_version 2.11.1
 %define usermode_version 1.83
 %define libgnomekbd_version 2.21
+%define libXrandr_version 1.2.99
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.25.90
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -56,6 +57,8 @@ Patch96: gnome-control-center-2.25.2-gecos.patch
 # change default preferred apps to programs we ship
 Patch99: default-applications.patch
 
+Patch100: visible-bell.patch
+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
 
@@ -74,6 +77,9 @@ Requires: usermode >= %{usermode_version}
 Requires: gnome-desktop >= %{gnome_desktop_version}
 Requires: dbus-x11
 Requires: control-center-filesystem = %{epoch}:%{version}-%{release}
+# we need XRRGetScreenResourcesCurrent
+Requires: libXrandr >= %{libXrandr_version}
+
 # for /usr/share/pkgconfig
 Requires: pkgconfig
 
@@ -94,6 +100,7 @@ BuildRequires: desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires: metacity-devel >= %{metacity_version}
 BuildRequires: libxklavier-devel >= %{libxklavier_version}
 BuildRequires: libXcursor-devel
+BuildRequires: libXrandr-devel >= %{libXrandr_version}
 BuildRequires: alsa-lib-devel
 BuildRequires: nautilus-devel
 BuildRequires: gettext
@@ -173,6 +180,7 @@ utilities.
 %patch95 -p1 -b .passwd
 %patch96 -p1 -b .gecos
 %patch99 -p1 -b .default-apps
+# %patch100 -p0 -b .visible-bell
 
 %patch7 -p1 -b .make-default
 
@@ -342,6 +350,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Fri Feb 13 2009 Matthias Clasen <mclasen@redhat.com> - 2.25.90-2
+- Require a new enough libXrandr
+
 * Thu Feb  5 2009 Matthias Clasen <mclasen@redhat.com> - 2.25.90-1
 - Update to 2.25.90
 
