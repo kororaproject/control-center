@@ -57,8 +57,6 @@ Patch96: gnome-control-center-2.25.2-gecos.patch
 # change default preferred apps to programs we ship
 Patch99: default-applications.patch
 
-Patch100: visible-bell.patch
-
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 URL: http://www.gnome.org
 
@@ -180,7 +178,6 @@ utilities.
 %patch95 -p1 -b .passwd
 %patch96 -p1 -b .gecos
 %patch99 -p1 -b .default-apps
-# %patch100 -p0 -b .visible-bell
 
 %patch7 -p1 -b .make-default
 
