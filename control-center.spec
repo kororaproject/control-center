@@ -51,7 +51,7 @@ Patch32: display-no-help.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=546036
 Patch33: notification-theme.patch
 
-#
+# http://bugzilla.gnome.org/show_bug.cgi?id=550721
 Patch34: initial-layout.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
