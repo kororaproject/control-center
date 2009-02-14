@@ -23,7 +23,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.25.90
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -50,6 +50,9 @@ Patch32: display-no-help.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=546036
 Patch33: notification-theme.patch
+
+#
+Patch34: initial-layout.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
@@ -173,6 +176,7 @@ utilities.
 %patch30 -p1 -b .default-layout-toggle
 %patch32 -p1 -b .display-no-help
 %patch33 -p1 -b .notification-theme
+%patch34 -p1 -b .initial-layout
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -347,6 +351,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Fri Feb 13 2009 Matthias Clasen <mclasen@redhat.com> - 2.25.90-3
+- Make add layout dialog show an initial layout
+
 * Fri Feb 13 2009 Matthias Clasen <mclasen@redhat.com> - 2.25.90-2
 - Require a new enough libXrandr
 
