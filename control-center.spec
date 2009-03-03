@@ -51,9 +51,6 @@ Patch32: display-no-help.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=546036
 Patch33: notification-theme.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=550721
-Patch34: initial-layout.patch
-
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
 Patch96: gnome-control-center-2.25.2-gecos.patch
@@ -176,7 +173,6 @@ utilities.
 %patch30 -p1 -b .default-layout-toggle
 %patch32 -p1 -b .display-no-help
 %patch33 -p1 -b .notification-theme
-%patch34 -p1 -b .initial-layout
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
