@@ -22,8 +22,8 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.25.90
-Release: 4%{?dist}
+Version: 2.25.92
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -37,7 +37,7 @@ Patch7: make-default.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=475804
 Patch10: gcc-pam-fprintd-avail.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=545075 
+# http://bugzilla.gnome.org/show_bug.cgi?id=545075
 Patch22: slab-icon-names.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=554507
@@ -60,10 +60,10 @@ Patch96: gnome-control-center-2.25.2-gecos.patch
 # change default preferred apps to programs we ship
 Patch99: default-applications.patch
 
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 URL: http://www.gnome.org
 
-# the background capplets expects its .xml files in 
+# the background capplets expects its .xml files in
 # a different place now
 Conflicts: desktop-backgrounds-basic < 2.0-27
 Conflicts: desktop-backgrounds-extended < 2.0-27
@@ -85,7 +85,7 @@ Requires: libXrandr >= %{libXrandr_version}
 Requires: pkgconfig
 
 BuildRequires: autoconf automake libtool
-BuildRequires: pango-devel 
+BuildRequires: pango-devel
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gtk2-devel >= %{gtk2_version}
 BuildRequires: librsvg2-devel
@@ -111,7 +111,7 @@ BuildRequires: libgnomekbd-devel >= %{libgnomekbd_version}
 BuildRequires: gnome-settings-daemon-devel
 BuildRequires: intltool >= 0.37.1
 BuildRequires: evolution-data-server-devel >= 1.9.1
-BuildRequires: libXxf86misc-devel 
+BuildRequires: libXxf86misc-devel
 BuildRequires: libxkbfile-devel
 BuildRequires: libXScrnSaver-devel
 BuildRequires: gnome-doc-utils
@@ -136,9 +136,9 @@ Requires(postun): shared-mime-info
 
 %description
 This package contains configuration utilities for the GNOME desktop, which
-allow to configure accessibility options, desktop fonts, keyboard and mouse 
-properties, sound setup, desktop theme and background, user interface 
-properties, screen resolution, and other settings. 
+allow to configure accessibility options, desktop fonts, keyboard and mouse
+properties, sound setup, desktop theme and background, user interface
+properties, screen resolution, and other settings.
 
 %package devel
 Summary: Development files for the GNOME control-center
@@ -147,7 +147,7 @@ Requires: %{name} = %{?epoch}:%{version}-%{release}
 Requires: pkgconfig
 
 %description devel
-Th control-center package contains configuration utilities for the 
+Th control-center package contains configuration utilities for the
 GNOME desktop.
 
 This package contains libraries and header files needed for integrating
@@ -162,7 +162,7 @@ Group: Development/Libraries
 
 %description filesystem
 The GNOME control-center provides a number of extension points
-for applications. This package contains directories where applications 
+for applications. This package contains directories where applications
 can install configuration files that are picked up by the control-center
 utilities.
 
@@ -199,7 +199,7 @@ sed -i -e 's/@ENABLE_SK_TRUE@_s/_s/' help/Makefile.in
 	--enable-alsa \
 	--enable-aboutme \
 	--disable-update-mimedb \
-	CFLAGS="$RPM_OPT_FLAGS -Wno-error" 
+	CFLAGS="$RPM_OPT_FLAGS -Wno-error"
 make %{?_smp_mflags}
 
 %install
@@ -351,6 +351,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Mar  2 2009 Matthias Clasen <mclasen@redhat.com> - 2.25.92-1
+- Update to 2.25.92
+
 * Tue Feb 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:2.25.90-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
