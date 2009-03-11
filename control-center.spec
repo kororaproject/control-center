@@ -180,6 +180,9 @@ utilities.
 %patch32 -p1 -b .display-no-help
 %patch33 -p1 -b .notification-theme
 %patch34 -p0 -b .new-icons
+pushd capplets/about-me
+mv *png icons/
+popd
 %patch35 -p0 -b .fprint-selection-warning
 
 # vendor configuration patches
