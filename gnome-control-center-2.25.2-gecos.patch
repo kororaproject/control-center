@@ -6158,7 +6158,7 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/Makefile.am.gecos gnome-c
 --- gnome-control-center-2.25.2/capplets/about-me/Makefile.am.gecos	2008-12-02 11:52:42.000000000 -0500
 +++ gnome-control-center-2.25.2/capplets/about-me/Makefile.am	2008-12-16 21:16:16.000000000 -0500
 @@ -9,13 +9,16 @@ pixmap_files = 				\
- 	gnome-about-me-lock-open.png
+ Desktop_in_files = gnome-about-me.desktop.in
  
  gnome_about_me_SOURCES =	 	\
 -	eel-alert-dialog.c		\
@@ -6178,8 +6178,8 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/Makefile.am.gecos gnome-c
  	gnome-about-me-fingerprint.h	\
  	$(MARSHALFILES)			\
 @@ -28,7 +31,7 @@ bin_PROGRAMS = gnome-about-me
- pixmapdir = $(pkgdatadir)/pixmaps
- pixmap_DATA = $(pixmap_files)
+ if BUILD_ABOUTME
+ bin_PROGRAMS = gnome-about-me
  
 -gnome_about_me_LDADD = $(GNOMECC_CAPPLETS_LIBS) $(LIBEBOOK_LIBS) $(POLKIT_GNOME_LIBS)
 +gnome_about_me_LDADD = $(GNOMECC_CAPPLETS_LIBS) $(LIBEBOOK_LIBS) $(POLKIT_GNOME_LIBS) $(GAIL_LIBS)

@@ -1,0 +1,13 @@
+Index: capplets/about-me/gnome-about-me-fingerprint.c
+===================================================================
+--- capplets/about-me/gnome-about-me-fingerprint.c	(revision 9336)
++++ capplets/about-me/gnome-about-me-fingerprint.c	(working copy)
+@@ -310,7 +342,7 @@
+ static void
+ finger_combobox_changed (GtkComboBox *combobox, EnrollData *data)
+ {
+-	data->finger = selected_finger (data->dialog_page2);
++	data->finger = selected_finger (data->dialog_page1);
+ }
+ 
+ static void
