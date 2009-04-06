@@ -1,0 +1,17 @@
+--- gnome-control-center-2.26.0/capplets/default-applications/gnome-da-capplet.c	2009-03-16 11:14:59.000000000 -0400
++++ hacked/capplets/default-applications/gnome-da-capplet.c	2009-04-05 22:37:44.330832937 -0400
+@@ -77,10 +77,10 @@
+ 	return;
+ 
+     item = (GnomeDAWebItem *) g_list_nth_data (capplet->web_browsers, index);
+-    if (item == NULL)
+-        return;
+-
+-    if (togglebutton == capplet->new_win_radiobutton) {
++    if (item == NULL) {
++	command = "";
++    }
++    else if (togglebutton == capplet->new_win_radiobutton) {
+ 	command = item->win_command;
+     }
+     else if (togglebutton == capplet->new_tab_radiobutton) {

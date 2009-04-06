@@ -23,7 +23,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.26.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -42,6 +42,9 @@ Patch22: slab-icon-names.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=555591
 Patch30: default-layout-toggle.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=578089
+Patch31: default-apps-custom.patch
 
 Patch32: display-no-help.patch
 
@@ -170,6 +173,7 @@ utilities.
 %patch10 -p0 -b .pam-fprintd
 %patch22 -p0 -b .slab-icon-names
 %patch30 -p1 -b .default-layout-toggle
+%patch31 -p1 -b .default-apps-custom
 %patch32 -p1 -b .display-no-help
 %patch33 -p1 -b .notification-theme
 %patch34 -p0 -b .new-icons
@@ -350,6 +354,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Sun Apr  5 2009 Matthias Clasen <mclasen@redhat.com> - 2.26.0-2
+- Fix a minor ui issue in the preferred apps capplet (#490421)
+
 * Mon Mar 16 2009 Matthias Clasen <mclasen@redhat.com> - 2.26.0-1
 - Update to 2.26.0
 
