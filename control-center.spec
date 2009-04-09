@@ -54,6 +54,9 @@ Patch33: notification-theme.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=574973
 Patch34: gcc-new-fingerprint-icons.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=154029
+Patch35: gnome-control-center-2.26.0-support-touchpads.patch
+
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
 Patch96: gnome-control-center-2.25.2-gecos.patch
@@ -177,6 +180,7 @@ utilities.
 %patch32 -p1 -b .display-no-help
 %patch33 -p1 -b .notification-theme
 %patch34 -p0 -b .new-icons
+%patch35 -p1 -b .support-touchpads
 pushd capplets/about-me
 mv *png icons/
 popd
@@ -198,8 +202,6 @@ sed -i -e 's/@ENABLE_SK_TRUE@_s/_s/' help/Makefile.in
 # Add -Wno-error to silence gswitchit
 %configure --disable-static \
 	--disable-scrollkeeper \
-	--enable-gstreamer \
-	--enable-alsa \
 	--enable-aboutme \
 	--disable-update-mimedb \
 	CFLAGS="$RPM_OPT_FLAGS -Wno-error"
@@ -354,6 +356,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Wed Apr  8 2009 Matthias Clasen <mclasen@redhat.com> - 2.26.0-3
+- Support touchpads
+
 * Sun Apr  5 2009 Matthias Clasen <mclasen@redhat.com> - 2.26.0-2
 - Fix a minor ui issue in the preferred apps capplet (#490421)
 
