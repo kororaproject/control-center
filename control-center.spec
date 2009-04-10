@@ -23,7 +23,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.26.0
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -56,6 +56,9 @@ Patch34: gcc-new-fingerprint-icons.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=154029
 Patch35: gnome-control-center-2.26.0-support-touchpads.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=578572
+Patch36: display-capplet-mnemonics.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
@@ -181,6 +184,7 @@ utilities.
 %patch33 -p1 -b .notification-theme
 %patch34 -p0 -b .new-icons
 %patch35 -p1 -b .support-touchpads
+%patch36 -p1 -b .mnemonics
 pushd capplets/about-me
 mv *png icons/
 popd
@@ -356,6 +360,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Apr  9 2009 Matthias Clasen <mclasen@redhat.com> - 2.26.0-4
+- Make mnemonics in display capplet work
+
 * Wed Apr  8 2009 Matthias Clasen <mclasen@redhat.com> - 2.26.0-3
 - Support touchpads
 
