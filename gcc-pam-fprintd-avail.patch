@@ -1,8 +1,7 @@
-Index: capplets/about-me/gnome-about-me-fingerprint.c
-===================================================================
---- capplets/about-me/gnome-about-me-fingerprint.c	(revision 9203)
-+++ capplets/about-me/gnome-about-me-fingerprint.c	(working copy)
-@@ -92,6 +92,38 @@
+diff -up capplets/about-me/gnome-about-me-fingerprint.c gnome-control-center-2.26.0/capplets/about-me/gnome-about-me-fingerprint.c
+--- capplets/about-me/gnome-about-me-fingerprint.c	2009-04-16 16:51:51.000000000 +0100
++++ capplets/about-me/gnome-about-me-fingerprint.c	2009-04-16 16:56:49.000000000 +0100
+@@ -92,6 +92,40 @@ get_first_device (void)
  	return device;
  }
  
@@ -13,8 +12,10 @@ Index: capplets/about-me/gnome-about-me-fingerprint.c
 +	gboolean ret;
 +	guint i;
 +
++	if (g_file_test ("/etc/pam.d/gdm-fingerprint", G_FILE_TEST_IS_REGULAR) == FALSE)
++		return FALSE;
 +	if (g_file_get_contents ("/etc/sysconfig/authconfig", &contents, NULL, NULL) == FALSE)
-+		return TRUE;
++		return FALSE;
 +
 +	lines = g_strsplit (contents, "\n", -1);
 +	g_free (contents);
@@ -41,7 +42,7 @@ Index: capplets/about-me/gnome-about-me-fingerprint.c
  static const char *
  get_reason_for_error (const char *dbus_error)
  {
-@@ -146,29 +178,24 @@
+@@ -146,29 +180,24 @@ set_fingerprint_label (GtkWidget *enable
  	gtk_widget_set_no_show_all (enable, TRUE);
  	gtk_widget_set_no_show_all (disable, TRUE);
  
@@ -79,7 +80,7 @@ Index: capplets/about-me/gnome-about-me-fingerprint.c
  		}
  		fingers = NULL;
  	}
-@@ -185,6 +212,11 @@
+@@ -185,6 +214,11 @@ set_fingerprint_label (GtkWidget *enable
  
  	g_strfreev (fingers);
  	g_object_unref (device);

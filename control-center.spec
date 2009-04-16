@@ -23,7 +23,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.26.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -360,6 +360,10 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Apr 16 2009 - Bastien Nocera <bnocera@redhat.com> - 2.26.0-5
+- Disable the fingerprint enrollment if gdm-plugin-fingerprint
+  isn't installed
+
 * Thu Apr  9 2009 Matthias Clasen <mclasen@redhat.com> - 2.26.0-4
 - Make mnemonics in display capplet work
 
