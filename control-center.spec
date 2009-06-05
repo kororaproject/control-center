@@ -23,7 +23,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.26.0
-Release: 5%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -59,6 +59,9 @@ Patch35: gnome-control-center-2.26.0-support-touchpads.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=578572
 Patch36: display-capplet-mnemonics.patch
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=497610
+Patch37: 0001--defaultapplications-Add-Arora-to-the-browsers.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
@@ -188,6 +191,7 @@ utilities.
 pushd capplets/about-me
 mv *png icons/
 popd
+%patch37 -p1 -b .arora
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -360,6 +364,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Fri Jun 05 2009 Bastien Nocera <bnocera@redhat.com> 2.26.0-6
+- Add arora to the list of browsers (#497610)
+
 * Thu Apr 16 2009 - Bastien Nocera <bnocera@redhat.com> - 2.26.0-5
 - Disable the fingerprint enrollment if gdm-plugin-fingerprint
   isn't installed
