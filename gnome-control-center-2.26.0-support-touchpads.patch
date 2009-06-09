@@ -426,3 +426,18 @@ diff -up gnome-control-center-2.26.0/capplets/mouse/gnome-mouse-properties.glade
            </widget>
            <packing>
              <property name="position">1</property>
+diff -up gnome-control-center-2.26.0/configure.in.support-touchpads gnome-control-center-2.26.0/configure.in
+--- gnome-control-center-2.26.0/configure.in.support-touchpads	2009-05-11 22:37:08.934391502 -0400
++++ gnome-control-center-2.26.0/configure.in	2009-05-11 22:41:03.615357973 -0400
+@@ -173,6 +173,11 @@ fi
+ 
+ CAPPLET_LIBS="$CAPPLET_LIBS $XCURSOR_LIBS"
+ 
++PKG_CHECK_MODULES(XI, xi)
++
++
++CAPPLET_LIBS="$CAPPLET_LIBS $XI_LIBS"
++
+ dnl ==============
+ dnl gswitchit
+ dnl ==============

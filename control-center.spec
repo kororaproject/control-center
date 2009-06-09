@@ -23,7 +23,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.26.0
-Release: 7%{?dist}
+Release: 8%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -59,6 +59,9 @@ Patch35: gnome-control-center-2.26.0-support-touchpads.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=578572
 Patch36: display-capplet-mnemonics.patch
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=498365
+Patch37: polkit1.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
@@ -195,6 +198,7 @@ popd
 %patch99 -p1 -b .default-apps
 
 %patch7 -p1 -b .make-default
+%patch37 -p1 -b .polkit1
 
 autoreconf -f -i
 
@@ -360,6 +364,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Jun  9 2009 Matthias Clasen <mclasen@redhat.com> - 2.26.0-8
+- Port to PolicyKit 1
+
 * Mon Jun 08 2009 Bastien Nocera <bnocera@redhat.com> 2.26.0-7
 - Remove arora patch for default applications, it should drop-in
   its own XML file instead
