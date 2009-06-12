@@ -23,7 +23,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.26.0
-Release: 8%{?dist}
+Release: 9%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -60,7 +60,8 @@ Patch35: gnome-control-center-2.26.0-support-touchpads.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=578572
 Patch36: display-capplet-mnemonics.patch
 
-# https://bugzilla.redhat.com/show_bug.cgi?id=498365
+# http://bugzilla.redhat.com/show_bug.cgi?id=498365
+# http://bugzilla.gnome.org/show_bug.cgi?id=536531
 Patch37: polkit1.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
@@ -132,7 +133,6 @@ BuildRequires: hal-devel >= 0.5.6
 BuildRequires: dbus-devel >= 0.90
 BuildRequires: dbus-glib-devel >= 0.70
 BuildRequires: scrollkeeper
-BuildRequires: PolicyKit-gnome-devel
 BuildRequires: libcanberra-devel
 
 Requires(preun): GConf2
@@ -364,6 +364,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Fri Jun 12 2009 Matthias Clasen <mclasen@redhat.com> - 2.26.0-9
+- Adapt to changes in GConf
+
 * Mon Jun  9 2009 Matthias Clasen <mclasen@redhat.com> - 2.26.0-8
 - Port to PolicyKit 1
 
