@@ -14,7 +14,7 @@
 %define fontconfig_version 1.0.0
 %define redhat_menus_version 1.8
 %define metacity_version 2.23.1
-%define libxklavier_version 3.6
+%define libxklavier_version 4.0
 %define gnome_menus_version 2.11.1
 %define usermode_version 1.83
 %define libgnomekbd_version 2.21
@@ -22,12 +22,12 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.26.0
-Release: 9%{?dist}
+Version: 2.27.3
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
-Source: http://download.gnome.org/sources/gnome-control-center/2.26/gnome-control-center-%{version}.tar.bz2
+Source: http://download.gnome.org/sources/gnome-control-center/2.27/gnome-control-center-%{version}.tar.bz2
 Source1: org.gnome.control-center.defaultbackground.policy
 
 Patch3: control-center-2.19.3-no-gnome-common.patch
@@ -43,9 +43,6 @@ Patch22: slab-icon-names.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=555591
 Patch30: default-layout-toggle.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=578089
-Patch31: default-apps-custom.patch
-
 Patch32: display-no-help.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=546036
@@ -56,9 +53,6 @@ Patch34: gcc-new-fingerprint-icons.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=154029
 Patch35: gnome-control-center-2.26.0-support-touchpads.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=578572
-Patch36: display-capplet-mnemonics.patch
 
 # http://bugzilla.redhat.com/show_bug.cgi?id=498365
 # http://bugzilla.gnome.org/show_bug.cgi?id=536531
@@ -182,12 +176,10 @@ utilities.
 %patch10 -p0 -b .pam-fprintd
 %patch22 -p0 -b .slab-icon-names
 %patch30 -p1 -b .default-layout-toggle
-%patch31 -p1 -b .default-apps-custom
 %patch32 -p1 -b .display-no-help
 %patch33 -p1 -b .notification-theme
 %patch34 -p0 -b .new-icons
 %patch35 -p1 -b .support-touchpads
-%patch36 -p1 -b .mnemonics
 pushd capplets/about-me
 mv *png icons/
 popd
@@ -364,6 +356,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Jun 30 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.3-1
+- Update to 2.27.3
+
 * Fri Jun 12 2009 Matthias Clasen <mclasen@redhat.com> - 2.26.0-9
 - Adapt to changes in GConf
 
