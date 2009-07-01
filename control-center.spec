@@ -58,6 +58,9 @@ Patch35: gnome-control-center-2.26.0-support-touchpads.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=536531
 Patch37: polkit1.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=587355
+Patch42: gnomekbd.patch
+
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
 Patch96: gnome-control-center-2.25.2-gecos.patch
@@ -180,6 +183,8 @@ utilities.
 %patch33 -p1 -b .notification-theme
 %patch34 -p0 -b .new-icons
 %patch35 -p1 -b .support-touchpads
+%patch42 -p1 -b .gnomekbd
+
 pushd capplets/about-me
 mv *png icons/
 popd
