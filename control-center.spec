@@ -23,7 +23,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.27.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -60,6 +60,9 @@ Patch37: polkit1.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=587355
 Patch42: gnomekbd.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=588166
+Patch43: fix-appearance-capplet.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
@@ -184,6 +187,7 @@ utilities.
 %patch34 -p0 -b .new-icons
 %patch35 -p1 -b .support-touchpads
 %patch42 -p1 -b .gnomekbd
+%patch43 -p1 -b .fix-appearance-capplet
 
 pushd capplets/about-me
 mv *png icons/
@@ -361,6 +365,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Jul  9 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.3-2
+- Improve theme rendering in the appearance capplet
+
 * Tue Jun 30 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.3-1
 - Update to 2.27.3
 
