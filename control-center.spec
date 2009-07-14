@@ -23,7 +23,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.27.3
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -365,6 +365,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Tue Jul 14 2009 Adel Gadllah <adel.gadllah@gmail.com> - 2.27.3-3
+- Reenable firefox options in the default applications capplet
+  (RH #509565)
 * Thu Jul  9 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.3-2
 - Improve theme rendering in the appearance capplet
 

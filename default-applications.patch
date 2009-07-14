@@ -1,7 +1,7 @@
-diff -up gnome-control-center-2.21.92/capplets/default-applications/gnome-default-applications.xml.in.default-apps gnome-control-center-2.21.92/capplets/default-applications/gnome-default-applications.xml.in
---- gnome-control-center-2.21.92/capplets/default-applications/gnome-default-applications.xml.in.default-apps	2008-02-24 18:36:53.000000000 -0500
-+++ gnome-control-center-2.21.92/capplets/default-applications/gnome-default-applications.xml.in	2008-02-26 12:23:53.000000000 -0500
-@@ -44,62 +44,22 @@
+diff -upNr gnome-control-center-2.27.3.orign/capplets/default-applications/gnome-default-applications.xml.in gnome-control-center-2.27.3/capplets/default-applications/gnome-default-applications.xml.in
+--- gnome-control-center-2.27.3.orign/capplets/default-applications/gnome-default-applications.xml.in	2009-05-03 20:30:56.000000000 +0200
++++ gnome-control-center-2.27.3/capplets/default-applications/gnome-default-applications.xml.in	2009-07-14 17:07:43.635848437 +0200
+@@ -44,24 +44,6 @@
        <win-command>galeon -w %s</win-command>
      </web-browser>
      <web-browser>
@@ -26,11 +26,7 @@ diff -up gnome-control-center-2.21.92/capplets/default-applications/gnome-defaul
        <_name>Firefox</_name>
        <executable>firefox</executable>
        <command>firefox %s</command>
-       <icon-name>firefox</icon-name>
-       <run-in-terminal>false</run-in-terminal>
--      <netscape-remote>true</netscape-remote>
-+      <netscape-remote>false</netscape-remote>
-       <tab-command>firefox -new-tab "%s"</tab-command>
+@@ -72,34 +54,12 @@
        <win-command>firefox -new-window "%s"</win-command>
      </web-browser>
      <web-browser>
