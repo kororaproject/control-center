@@ -306,6 +306,7 @@ fi
 %doc AUTHORS COPYING NEWS README
 %{_datadir}/gnome-control-center/keybindings/*.xml
 %{_datadir}/gnome-control-center/default-apps/*.xml
+%{_datadir}/gnome-control-center/glade
 %{_datadir}/gnome-control-center/ui
 %{_datadir}/gnome-control-center/pixmaps
 %{_datadir}/applications/*.desktop
