@@ -29,6 +29,7 @@ License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 Source: http://download.gnome.org/sources/gnome-control-center/2.27/gnome-control-center-%{version}.tar.bz2
 Source1: org.gnome.control-center.defaultbackground.policy
+Source2: finger-icons.tar
 
 Patch3: control-center-2.19.3-no-gnome-common.patch
 # http://bugzilla.gnome.org/536531
@@ -185,6 +186,9 @@ utilities.
 %patch7 -p1 -b .make-default
 %patch37 -p1 -b .polkit1
 
+# fingerprint icons went missing in 2.27.4
+tar -C capplets/about-me/icons -xf %{SOURCE2}
+
 autoreconf -f -i
 
 %build
@@ -302,7 +306,7 @@ fi
 %doc AUTHORS COPYING NEWS README
 %{_datadir}/gnome-control-center/keybindings/*.xml
 %{_datadir}/gnome-control-center/default-apps/*.xml
-%{_datadir}/gnome-control-center/glade
+%{_datadir}/gnome-control-center/ui
 %{_datadir}/gnome-control-center/pixmaps
 %{_datadir}/applications/*.desktop
 %{_datadir}/desktop-directories/*
@@ -355,6 +359,7 @@ fi
 * Tue Jul 14 2009 Adel Gadllah <adel.gadllah@gmail.com> - 2.27.3-3
 - Reenable firefox options in the default applications capplet
   (RH #509565)
+
 * Thu Jul  9 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.3-2
 - Improve theme rendering in the appearance capplet
 
