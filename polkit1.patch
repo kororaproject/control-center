@@ -1,6 +1,6 @@
-diff -up gnome-control-center-2.26.0/capplets/about-me/gnome-about-me.c.polkit1 gnome-control-center-2.26.0/capplets/about-me/gnome-about-me.c
---- gnome-control-center-2.26.0/capplets/about-me/gnome-about-me.c.polkit1	2009-06-09 13:45:16.935332926 -0400
-+++ gnome-control-center-2.26.0/capplets/about-me/gnome-about-me.c	2009-06-09 13:45:17.007312663 -0400
+diff -up gnome-control-center-2.27.4/capplets/about-me/gnome-about-me.c.polkit1 gnome-control-center-2.27.4/capplets/about-me/gnome-about-me.c
+--- gnome-control-center-2.27.4/capplets/about-me/gnome-about-me.c.polkit1	2009-07-15 16:52:23.630080589 -0400
++++ gnome-control-center-2.27.4/capplets/about-me/gnome-about-me.c	2009-07-15 16:52:23.668342168 -0400
 @@ -36,10 +36,6 @@
  #define GNOME_DESKTOP_USE_UNSTABLE_API
  #include <libgnomeui/gnome-desktop-thumbnail.h>
@@ -61,9 +61,9 @@ diff -up gnome-control-center-2.26.0/capplets/about-me/gnome-about-me.c.polkit1 
  
  	g_signal_connect (me->enable_fingerprint_button, "clicked",
  			  G_CALLBACK (about_me_fingerprint_button_clicked_cb), me);
-diff -up gnome-control-center-2.26.0/capplets/about-me/Makefile.am.polkit1 gnome-control-center-2.26.0/capplets/about-me/Makefile.am
---- gnome-control-center-2.26.0/capplets/about-me/Makefile.am.polkit1	2009-06-09 13:45:16.942317965 -0400
-+++ gnome-control-center-2.26.0/capplets/about-me/Makefile.am	2009-06-09 13:45:17.009313427 -0400
+diff -up gnome-control-center-2.27.4/capplets/about-me/Makefile.am.polkit1 gnome-control-center-2.27.4/capplets/about-me/Makefile.am
+--- gnome-control-center-2.27.4/capplets/about-me/Makefile.am.polkit1	2009-07-15 16:52:23.634066013 -0400
++++ gnome-control-center-2.27.4/capplets/about-me/Makefile.am	2009-07-15 16:52:23.669351794 -0400
 @@ -26,7 +26,7 @@ gnome_about_me_SOURCES =	 	\
  if BUILD_ABOUTME
  bin_PROGRAMS = gnome-about-me
@@ -81,10 +81,10 @@ diff -up gnome-control-center-2.26.0/capplets/about-me/Makefile.am.polkit1 gnome
  	$(GAIL_CFLAGS) \
  	-DDATADIR="\"$(datadir)\"" \
  	-DGNOMECC_DATA_DIR="\"$(pkgdatadir)\"" \
-diff -up gnome-control-center-2.26.0/capplets/appearance/appearance-desktop.c.polkit1 gnome-control-center-2.26.0/capplets/appearance/appearance-desktop.c
---- gnome-control-center-2.26.0/capplets/appearance/appearance-desktop.c.polkit1	2009-06-09 13:45:16.982323819 -0400
-+++ gnome-control-center-2.26.0/capplets/appearance/appearance-desktop.c	2009-06-12 13:05:41.315839883 -0400
-@@ -33,7 +33,6 @@
+diff -up gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c.polkit1 gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c
+--- gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c.polkit1	2009-07-15 16:52:23.658335935 -0400
++++ gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c	2009-07-15 16:52:23.670342213 -0400
+@@ -32,7 +32,6 @@
  #include <libgnomeui/gnome-bg.h>
  
  #include <dbus/dbus-glib.h>
@@ -92,7 +92,7 @@ diff -up gnome-control-center-2.26.0/capplets/appearance/appearance-desktop.c.po
  
  enum {
    TARGET_URI_LIST,
-@@ -991,6 +990,16 @@ wp_select_after_realize (GtkWidget *widg
+@@ -995,6 +994,16 @@ wp_select_after_realize (GtkWidget *widg
    select_item (data, item, TRUE);
  }
  
@@ -109,7 +109,7 @@ diff -up gnome-control-center-2.26.0/capplets/appearance/appearance-desktop.c.po
  static void
  set_background (GtkAction *action, gpointer data)
  {
-@@ -998,15 +1007,6 @@ set_background (GtkAction *action, gpoin
+@@ -1002,15 +1011,6 @@ set_background (GtkAction *action, gpoin
    DBusGProxy *proxy;
    DBusGConnection *connection;
    GError *error;
@@ -125,7 +125,7 @@ diff -up gnome-control-center-2.26.0/capplets/appearance/appearance-desktop.c.po
  
    gconf_client_suggest_sync (adata->client, NULL);
  
-@@ -1027,24 +1027,70 @@ set_background (GtkAction *action, gpoin
+@@ -1031,24 +1031,70 @@ set_background (GtkAction *action, gpoin
      return;
    }
  
@@ -204,8 +204,8 @@ diff -up gnome-control-center-2.26.0/capplets/appearance/appearance-desktop.c.po
    GtkWidget *widget, *box, *button;
  
    g_object_set (gtk_settings_get_default (), "gtk-tooltip-timeout", 500, NULL);
-@@ -1169,18 +1215,18 @@ desktop_init (AppearanceData *data,
-   widget = glade_xml_get_widget (data->xml, "background_vbox");
+@@ -1173,18 +1219,18 @@ desktop_init (AppearanceData *data,
+   widget = appearance_capplet_get_widget (data, "background_vbox");
    box = gtk_hbox_new (FALSE, 0);
    gtk_box_pack_end (GTK_BOX (widget), box, FALSE, FALSE, 0);
 - 
@@ -234,31 +234,11 @@ diff -up gnome-control-center-2.26.0/capplets/appearance/appearance-desktop.c.po
    gtk_box_pack_end (GTK_BOX (box), button, FALSE, FALSE, 0);
  
    g_signal_connect (action, "activate", G_CALLBACK (set_background), data);
-diff -up gnome-control-center-2.26.0/capplets/appearance/Makefile.am.polkit1 gnome-control-center-2.26.0/capplets/appearance/Makefile.am
---- gnome-control-center-2.26.0/capplets/appearance/Makefile.am.polkit1	2009-06-09 13:45:16.996323092 -0400
-+++ gnome-control-center-2.26.0/capplets/appearance/Makefile.am	2009-06-09 13:45:17.012313001 -0400
-@@ -44,8 +44,7 @@ gnome_appearance_properties_LDADD = \
- 	$(top_builddir)/capplets/common/libcommon.la \
- 	$(GNOMECC_CAPPLETS_LIBS) \
- 	$(FONT_CAPPLET_LIBS) \
--	$(METACITY_LIBS) \
--	$(POLKIT_GNOME_LIBS) 
-+	$(METACITY_LIBS) 
- gnome_appearance_properties_LDFLAGS = -export-dynamic
- 
- gladedir = $(pkgdatadir)/glade
-@@ -56,7 +55,6 @@ INCLUDES = \
- 	$(METACITY_CFLAGS) \
- 	$(GNOMECC_CAPPLETS_CFLAGS) \
- 	$(FONT_CAPPLET_CFLAGS) \
--	$(POLKIT_GNOME_CFLAGS) \
- 	-DGNOMELOCALEDIR="\"$(datadir)/locale\"" \
- 	-DGNOMECC_DATA_DIR="\"$(pkgdatadir)\"" \
- 	-DGNOMECC_GLADE_DIR="\"$(gladedir)\"" \
-diff -up gnome-control-center-2.26.0/configure.in.polkit1 gnome-control-center-2.26.0/configure.in
---- gnome-control-center-2.26.0/configure.in.polkit1	2009-06-09 13:45:16.943314331 -0400
-+++ gnome-control-center-2.26.0/configure.in	2009-06-09 13:45:17.014319004 -0400
-@@ -102,7 +102,6 @@ PKG_CHECK_MODULES(METACITY, libmetacity-
+diff -up gnome-control-center-2.27.4/capplets/appearance/Makefile.am.polkit1 gnome-control-center-2.27.4/capplets/appearance/Makefile.am
+diff -up gnome-control-center-2.27.4/configure.in.polkit1 gnome-control-center-2.27.4/configure.in
+--- gnome-control-center-2.27.4/configure.in.polkit1	2009-07-15 16:52:23.635066071 -0400
++++ gnome-control-center-2.27.4/configure.in	2009-07-15 16:52:23.673341548 -0400
+@@ -98,7 +98,6 @@ PKG_CHECK_MODULES(METACITY, libmetacity-
  PKG_CHECK_MODULES(TYPING, glib-2.0 > 2.11 gconf-2.0 gtk+-2.0)
  PKG_CHECK_MODULES(GSD_DBUS, gnome-settings-daemon)
  PKG_CHECK_MODULES(GIO, gio-2.0)
@@ -266,7 +246,7 @@ diff -up gnome-control-center-2.26.0/configure.in.polkit1 gnome-control-center-2
  
  gtk_lib_dir=`$PKG_CONFIG --variable libdir gtk+-2.0`
  gtk_binary_version=`$PKG_CONFIG --variable gtk_binary_version gtk+-2.0`
-@@ -204,11 +203,6 @@ if test "x$enable_aboutme" = "xyes"; the
+@@ -224,11 +223,6 @@ if test "x$enable_aboutme" = "xyes"; the
    PKG_CHECK_MODULES(LIBEBOOK, [libebook-1.2 >= 1.7.90],
                      [AC_DEFINE([HAVE_LIBEBOOK], 1,
                      [Define if evolution-data-server libebook-1.2 is available])])

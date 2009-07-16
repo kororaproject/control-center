@@ -17,13 +17,13 @@
 %define libxklavier_version 4.0
 %define gnome_menus_version 2.11.1
 %define usermode_version 1.83
-%define libgnomekbd_version 2.21
+%define libgnomekbd_version 2.27.4
 %define libXrandr_version 1.2.99
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.27.3
-Release: 3%{?dist}
+Version: 2.27.4
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -43,26 +43,18 @@ Patch22: slab-icon-names.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=555591
 Patch30: default-layout-toggle.patch
 
-Patch32: display-no-help.patch
-
 # http://bugzilla.gnome.org/show_bug.cgi?id=546036
 Patch33: notification-theme.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=574973
-Patch34: gcc-new-fingerprint-icons.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=154029
-Patch35: gnome-control-center-2.26.0-support-touchpads.patch
 
 # http://bugzilla.redhat.com/show_bug.cgi?id=498365
 # http://bugzilla.gnome.org/show_bug.cgi?id=536531
 Patch37: polkit1.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=587355
-Patch42: gnomekbd.patch
-
 # http://bugzilla.gnome.org/show_bug.cgi?id=588166
 Patch43: fix-appearance-capplet.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=588729
+Patch45: mnemonic.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
@@ -182,16 +174,8 @@ utilities.
 %patch10 -p0 -b .pam-fprintd
 %patch22 -p0 -b .slab-icon-names
 %patch30 -p1 -b .default-layout-toggle
-%patch32 -p1 -b .display-no-help
 %patch33 -p1 -b .notification-theme
-%patch34 -p0 -b .new-icons
-%patch35 -p1 -b .support-touchpads
-%patch42 -p1 -b .gnomekbd
 %patch43 -p1 -b .fix-appearance-capplet
-
-pushd capplets/about-me
-mv *png icons/
-popd
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -365,6 +349,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Wed Jul 15 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.4-1
+- Update to 2.27.4
+
 * Tue Jul 14 2009 Adel Gadllah <adel.gadllah@gmail.com> - 2.27.3-3
 - Reenable firefox options in the default applications capplet
   (RH #509565)

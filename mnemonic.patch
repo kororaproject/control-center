@@ -1,0 +1,11 @@
+diff -up gnome-control-center-2.27.4/capplets/appearance/data/appearance.ui.mnemonic gnome-control-center-2.27.4/capplets/appearance/data/appearance.ui
+--- gnome-control-center-2.27.4/capplets/appearance/data/appearance.ui.mnemonic	2009-07-15 20:48:24.616318681 -0400
++++ gnome-control-center-2.27.4/capplets/appearance/data/appearance.ui	2009-07-15 20:48:45.877068043 -0400
+@@ -2328,6 +2328,7 @@
+                       <object class="GtkButton" id="color_scheme_defaults_button">
+                         <property name="label" translatable="yes">_Reset to Defaults</property>
+                         <property name="visible">True</property>
++                        <property name="use_underline">True</property>
+                         <property name="can_focus">True</property>
+                         <property name="receives_default">True</property>
+                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>

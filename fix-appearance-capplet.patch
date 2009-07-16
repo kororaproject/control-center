@@ -1,8 +1,15 @@
-diff --git a/capplets/common/theme-thumbnail.c b/capplets/common/theme-thumbnail.c
-index 440b25a..0814b62 100644
---- a/capplets/common/theme-thumbnail.c
-+++ b/capplets/common/theme-thumbnail.c
-@@ -164,43 +164,35 @@ static GdkPixbuf *
+diff -up gnome-control-center-2.27.4/capplets/common/theme-thumbnail.c.fix-appearance-capplet gnome-control-center-2.27.4/capplets/common/theme-thumbnail.c
+--- gnome-control-center-2.27.4/capplets/common/theme-thumbnail.c.fix-appearance-capplet	2009-05-03 14:30:56.000000000 -0400
++++ gnome-control-center-2.27.4/capplets/common/theme-thumbnail.c	2009-07-15 16:47:12.954069199 -0400
+@@ -91,7 +91,6 @@ static int pipe_from_factory_fd[2];
+ #define GTK_THUMBNAIL_SIZE         96
+ #define METACITY_THUMBNAIL_WIDTH  120
+ #define METACITY_THUMBNAIL_HEIGHT  60
+-#define ICON_THUMBNAIL_SIZE        48
+ 
+ 
+ static void
+@@ -164,44 +163,35 @@ static GdkPixbuf *
  create_folder_icon (char *icon_theme_name)
  {
    GtkIconTheme *icon_theme;
@@ -18,7 +25,7 @@ index 440b25a..0814b62 100644
    gtk_icon_theme_set_custom_theme (icon_theme, icon_theme_name);
  
 -  folder_icon_info = NULL;
-+ i = 0;
++  i = 0;
    /* Get the Example icon name in the theme if specified */
    example_icon_name = gtk_icon_theme_get_example_icon_name (icon_theme);
    if (example_icon_name != NULL)
@@ -43,25 +50,25 @@ index 440b25a..0814b62 100644
  
 +  folder_icon_info = gtk_icon_theme_choose_icon (icon_theme, icon_names, 48, GTK_ICON_LOOKUP_FORCE_SIZE);
    if (folder_icon_info != NULL)
--  {
+   {
 -    filename = gtk_icon_info_get_filename (folder_icon_info);
 -
 -    if (filename != NULL)
-     {
+-    {
 -      folder_icon = gdk_pixbuf_new_from_file (filename, NULL);
-+      g_print ("got info %s\n", gtk_icon_info_get_filename (folder_icon_info));
-+      folder_icon = gtk_icon_info_load_icon (folder_icon_info, NULL);
-+      gtk_icon_info_free (folder_icon_info);
-     }
+-    }
+-
++    folder_icon = gtk_icon_info_load_icon (folder_icon_info, NULL);
+     gtk_icon_info_free (folder_icon_info);
+   }
  
--    gtk_icon_info_free (folder_icon_info);
--  }
 +  g_object_unref (icon_theme);
 +  g_free (example_icon_name);
- 
++
    /* render the icon to the thumbnail */
    if (folder_icon == NULL)
-@@ -216,25 +208,7 @@ create_folder_icon (char *icon_theme_name)
+   {
+@@ -216,25 +206,7 @@ create_folder_icon (char *icon_theme_nam
      gtk_widget_destroy (dummy);
    }
  
