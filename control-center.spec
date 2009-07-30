@@ -23,7 +23,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.27.4
-Release: 2%{?dist}
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -354,9 +354,6 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
-* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:2.27.4-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
-
 * Wed Jul 15 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.4-1
 - Update to 2.27.4
 
