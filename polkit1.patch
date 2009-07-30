@@ -1,7 +1,7 @@
 diff -up gnome-control-center-2.27.4/capplets/about-me/gnome-about-me.c.polkit1 gnome-control-center-2.27.4/capplets/about-me/gnome-about-me.c
---- gnome-control-center-2.27.4/capplets/about-me/gnome-about-me.c.polkit1	2009-06-15 07:00:02.000000000 -0400
-+++ gnome-control-center-2.27.4/capplets/about-me/gnome-about-me.c	2009-07-23 15:01:19.841482208 -0400
-@@ -167,28 +167,6 @@ about_me_error (GtkWindow *parent, gchar
+--- gnome-control-center-2.27.4/capplets/about-me/gnome-about-me.c.polkit1	2009-07-29 23:03:00.921501104 -0400
++++ gnome-control-center-2.27.4/capplets/about-me/gnome-about-me.c	2009-07-29 23:03:01.006500314 -0400
+@@ -169,28 +169,6 @@ about_me_error (GtkWindow *parent, gchar
  	gtk_widget_destroy (dialog);
  }
  
@@ -30,7 +30,7 @@ diff -up gnome-control-center-2.27.4/capplets/about-me/gnome-about-me.c.polkit1 
  /********************/
  static void
  about_me_destroy (GnomeAboutMe *me)
-@@ -1034,19 +1012,8 @@ about_me_setup_dialog (void)
+@@ -1194,19 +1172,8 @@ about_me_setup_dialog (void)
  	g_signal_connect (widget, "clicked",
  			  G_CALLBACK (about_me_image_clicked_cb), me);
  
@@ -51,8 +51,8 @@ diff -up gnome-control-center-2.27.4/capplets/about-me/gnome-about-me.c.polkit1 
  	g_signal_connect (me->enable_fingerprint_button, "clicked",
  			  G_CALLBACK (about_me_fingerprint_button_clicked_cb), me);
 diff -up gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c.polkit1 gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c
---- gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c.polkit1	2009-07-23 15:01:19.833483423 -0400
-+++ gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c	2009-07-23 15:01:19.842481776 -0400
+--- gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c.polkit1	2009-07-29 23:03:00.942500211 -0400
++++ gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c	2009-07-29 23:03:01.008501058 -0400
 @@ -32,7 +32,6 @@
  #include <libgnomeui/gnome-bg.h>
  
@@ -204,9 +204,17 @@ diff -up gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c.po
  
    g_signal_connect (action, "activate", G_CALLBACK (set_background), data);
 diff -up gnome-control-center-2.27.4/configure.in.polkit1 gnome-control-center-2.27.4/configure.in
---- gnome-control-center-2.27.4/configure.in.polkit1	2009-07-23 15:02:20.359485300 -0400
-+++ gnome-control-center-2.27.4/configure.in	2009-07-23 15:02:28.628752812 -0400
-@@ -223,11 +223,6 @@ if test "x$enable_aboutme" = "xyes"; the
+--- gnome-control-center-2.27.4/configure.in.polkit1	2009-07-29 23:03:00.926500063 -0400
++++ gnome-control-center-2.27.4/configure.in	2009-07-29 23:08:09.582750857 -0400
+@@ -98,7 +98,6 @@ PKG_CHECK_MODULES(METACITY, libmetacity-
+ PKG_CHECK_MODULES(TYPING, glib-2.0 > 2.11 gconf-2.0 gtk+-2.0)
+ PKG_CHECK_MODULES(GSD_DBUS, gnome-settings-daemon)
+ PKG_CHECK_MODULES(GIO, gio-2.0)
+-PKG_CHECK_MODULES(POLKIT_GNOME, polkit-gnome)
+ 
+ gtk_lib_dir=`$PKG_CONFIG --variable libdir gtk+-2.0`
+ gtk_binary_version=`$PKG_CONFIG --variable gtk_binary_version gtk+-2.0`
+@@ -224,11 +223,6 @@ if test "x$enable_aboutme" = "xyes"; the
    PKG_CHECK_MODULES(LIBEBOOK, [libebook-1.2 >= 1.7.90],
                      [AC_DEFINE([HAVE_LIBEBOOK], 1,
                      [Define if evolution-data-server libebook-1.2 is available])])
@@ -217,4 +225,4 @@ diff -up gnome-control-center-2.27.4/configure.in.polkit1 gnome-control-center-2
 -  		    has_polkit=false)
  fi
  
- AM_CONDITIONAL(BUILD_ABOUTME, test "x$enable_aboutme" = "xyes")
+ PKG_CHECK_MODULES(GAIL, [gail])
