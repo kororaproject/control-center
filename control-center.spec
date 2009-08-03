@@ -23,7 +23,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.27.4
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -59,6 +59,9 @@ Patch45: mnemonic.patch
 
 # http://mail.gnome.org/archives/gnomecc-list/2009-July/msg00015.html
 Patch46: no-tweaks.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=590349
+Patch47: save-as.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
@@ -181,6 +184,7 @@ utilities.
 %patch33 -p1 -b .notification-theme
 %patch43 -p1 -b .fix-appearance-capplet
 %patch46 -p1 -b .no-tweaks
+%patch47 -p1 -b .save-as
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -362,6 +366,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Aug  3 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.4-5
+- Fix a lost mnemonic
+
 * Sun Aug  2 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.4-4
 - Drop unneeded direct deps
 
