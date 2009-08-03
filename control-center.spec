@@ -23,7 +23,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.27.4
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -206,6 +206,11 @@ sed -i -e 's/@ENABLE_SK_TRUE@_s/_s/' help/Makefile.in
 	--enable-aboutme \
 	--disable-update-mimedb \
 	CFLAGS="$RPM_OPT_FLAGS -Wno-error"
+
+# drop unneeded direct library deps with --as-needed
+# libtool doesn't make this easy, so we do it the hard way
+sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' -e 's/    if test "$export_dynamic" = yes && test -n "$export_dynamic_flag_spec"; then/      func_append compile_command " -Wl,-O1,--as-needed"\n      func_append finalize_command " -Wl,-O1,--as-needed"\n\0/' libtool
+
 make %{?_smp_mflags}
 
 %install
@@ -357,6 +362,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Sun Aug  2 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.4-4
+- Drop unneeded direct deps
+
 * Wed Jul 29 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.4-3
 - Omit some 'tweaky' preferences
 
