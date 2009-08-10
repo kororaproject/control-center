@@ -22,14 +22,13 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.27.4
-Release: 5%{?dist}
+Version: 2.27.5
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 Source: http://download.gnome.org/sources/gnome-control-center/2.27/gnome-control-center-%{version}.tar.bz2
 Source1: org.gnome.control-center.defaultbackground.policy
-Source2: finger-icons.tar
 
 Patch3: control-center-2.19.3-no-gnome-common.patch
 # http://bugzilla.gnome.org/536531
@@ -193,9 +192,6 @@ utilities.
 
 %patch7 -p1 -b .make-default
 %patch37 -p1 -b .polkit1
-
-# fingerprint icons went missing in 2.27.4
-tar -C capplets/about-me/icons -xf %{SOURCE2}
 
 autoreconf -f -i
 
