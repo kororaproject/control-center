@@ -1,7 +1,8 @@
-diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.passwd gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c
---- gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.passwd	2008-12-01 08:32:12.000000000 -0500
-+++ gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c	2008-12-04 12:54:24.000000000 -0500
-@@ -39,7 +39,6 @@
+diff --git a/capplets/about-me/gnome-about-me.c b/capplets/about-me/gnome-about-me.c
+index 8119c3c..b7fe5d8 100644
+--- a/capplets/about-me/gnome-about-me.c
++++ b/capplets/about-me/gnome-about-me.c
+@@ -40,7 +40,6 @@
  #endif
  
  #include "e-image-chooser.h"
@@ -9,20 +10,20 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.passwd g
  #include "gnome-about-me-fingerprint.h"
  #include "marshal.h"
  
-@@ -883,10 +882,7 @@ about_me_button_clicked_cb (GtkDialog *d
+@@ -861,10 +860,7 @@ about_me_button_clicked_cb (GtkDialog *dialog, gint response_id, GnomeAboutMe *m
  static void
  about_me_passwd_clicked_cb (GtkWidget *button, GnomeAboutMe *me)
  {
--	GladeXML *dialog;
+-	GtkBuilder *dialog;
 -
 -	dialog = me->dialog;
 -	gnome_about_me_password (GTK_WINDOW (WID ("about-me-dialog")));
-+        g_spawn_command_line_async ("/usr/bin/userpasswd", NULL);
++	g_spawn_command_line_async ("/usr/bin/userpasswd", NULL);
  }
  
  static void
-@@ -906,10 +902,7 @@ about_me_setup_dialog (void)
- 	GladeXML     *dialog;
+@@ -884,10 +880,7 @@ about_me_setup_dialog (void)
+ 	GtkBuilder   *dialog;
  	GError 	     *error = NULL;
  	GList        *chain;
 -
@@ -33,7 +34,7 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.passwd g
  
  	me = g_new0 (GnomeAboutMe, 1);
  
-@@ -978,34 +971,14 @@ about_me_setup_dialog (void)
+@@ -959,34 +952,14 @@ about_me_setup_dialog (void)
  		about_me_setup_email (me);
  	}
  
@@ -71,7 +72,7 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.passwd g
  
  	gtk_label_set_markup (GTK_LABEL (widget), str);
  	g_free (str);
-@@ -1013,14 +986,9 @@ about_me_setup_dialog (void)
+@@ -994,14 +967,9 @@ about_me_setup_dialog (void)
  	widget = WID ("login");
  	gtk_label_set_text (GTK_LABEL (widget), me->login);
  

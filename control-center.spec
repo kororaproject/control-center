@@ -50,9 +50,6 @@ Patch33: notification-theme.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=536531
 Patch37: polkit1.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=588166
-Patch43: fix-appearance-capplet.patch
-
 # http://bugzilla.gnome.org/show_bug.cgi?id=588729
 Patch45: mnemonic.patch
 
@@ -181,7 +178,6 @@ utilities.
 %patch22 -p0 -b .slab-icon-names
 %patch30 -p1 -b .default-layout-toggle
 %patch33 -p1 -b .notification-theme
-%patch43 -p1 -b .fix-appearance-capplet
 %patch46 -p1 -b .no-tweaks
 %patch47 -p1 -b .save-as
 

@@ -1,6 +1,34 @@
-diff -up gnome-control-center-2.27.4/capplets/appearance/appearance-main.c.no-tweaks gnome-control-center-2.27.4/capplets/appearance/appearance-main.c
---- gnome-control-center-2.27.4/capplets/appearance/appearance-main.c.no-tweaks	2009-07-29 23:41:20.056750275 -0400
-+++ gnome-control-center-2.27.4/capplets/appearance/appearance-main.c	2009-07-29 23:41:38.919750322 -0400
+diff --git a/capplets/Makefile.am b/capplets/Makefile.am
+index d88c1d3..e30d861 100644
+--- a/capplets/Makefile.am
++++ b/capplets/Makefile.am
+@@ -6,8 +6,7 @@ always_built_SUBDIRS = \
+ 	keybindings		\
+ 	keyboard		\
+ 	mouse			\
+-	network			\
+-	windows
++	network
+ 
+ SUBDIRS = $(always_built_SUBDIRS)
+ 
+diff --git a/capplets/appearance/Makefile.am b/capplets/appearance/Makefile.am
+index 226e4ec..b940d73 100644
+--- a/capplets/appearance/Makefile.am
++++ b/capplets/appearance/Makefile.am
+@@ -16,8 +16,6 @@ gnome_appearance_properties_SOURCES = \
+ 	appearance-themes.h \
+ 	appearance-style.c \
+ 	appearance-style.h \
+-	appearance-ui.c \
+-	appearance-ui.h \
+ 	gedit-message-area.c \
+ 	gedit-message-area.h \
+ 	gnome-wp-info.c \
+diff --git a/capplets/appearance/appearance-main.c b/capplets/appearance/appearance-main.c
+index 369af02..86e4957 100644
+--- a/capplets/appearance/appearance-main.c
++++ b/capplets/appearance/appearance-main.c
 @@ -172,7 +172,6 @@ main (int argc, char **argv)
    desktop_init (data, (const gchar **) wallpaper_files);
    g_strfreev (wallpaper_files);
@@ -9,10 +37,11 @@ diff -up gnome-control-center-2.27.4/capplets/appearance/appearance-main.c.no-tw
  
    /* prepare the main window */
    w = appearance_capplet_get_widget (data, "appearance_window");
-diff -up gnome-control-center-2.27.4/capplets/appearance/data/appearance.ui.no-tweaks gnome-control-center-2.27.4/capplets/appearance/data/appearance.ui
---- gnome-control-center-2.27.4/capplets/appearance/data/appearance.ui.no-tweaks	2009-07-29 23:50:02.189755937 -0400
-+++ gnome-control-center-2.27.4/capplets/appearance/data/appearance.ui	2009-07-29 23:51:04.979750545 -0400
-@@ -1494,361 +1494,6 @@
+diff --git a/capplets/appearance/data/appearance.ui b/capplets/appearance/data/appearance.ui
+index a68894e..0270d4b 100644
+--- a/capplets/appearance/data/appearance.ui
++++ b/capplets/appearance/data/appearance.ui
+@@ -1506,365 +1506,6 @@
                  <property name="tab_fill">False</property>
                </packing>
              </child>
@@ -29,8 +58,10 @@ diff -up gnome-control-center-2.27.4/capplets/appearance/data/appearance.ui.no-t
 -                      <object class="GtkLabel" id="label35">
 -                        <property name="visible">True</property>
 -                        <property name="xalign">0</property>
--                        <property name="label" translatable="yes">&lt;b&gt;Menus and Toolbars&lt;/b&gt;</property>
--                        <property name="use_markup">True</property>
+-                        <property name="label" translatable="yes">Menus and Toolbars</property>
+-                        <attributes>
+-                          <attribute name="weight" value="bold"/>
+-                        </attributes>
 -                      </object>
 -                      <packing>
 -                        <property name="expand">False</property>
@@ -157,8 +188,10 @@ diff -up gnome-control-center-2.27.4/capplets/appearance/data/appearance.ui.no-t
 -                      <object class="GtkLabel" id="label38">
 -                        <property name="visible">True</property>
 -                        <property name="xalign">0</property>
--                        <property name="label" translatable="yes">&lt;b&gt;Preview&lt;/b&gt;</property>
--                        <property name="use_markup">True</property>
+-                        <property name="label" translatable="yes">Preview</property>
+-                        <attributes>
+-                          <attribute name="weight" value="bold"/>
+-                        </attributes>
 -                      </object>
 -                      <packing>
 -                        <property name="expand">False</property>
@@ -374,28 +407,3 @@ diff -up gnome-control-center-2.27.4/capplets/appearance/data/appearance.ui.no-t
            </object>
            <packing>
              <property name="position">1</property>
-diff -up gnome-control-center-2.27.4/capplets/appearance/Makefile.am.no-tweaks gnome-control-center-2.27.4/capplets/appearance/Makefile.am
---- gnome-control-center-2.27.4/capplets/appearance/Makefile.am.no-tweaks	2009-07-29 23:40:35.174501065 -0400
-+++ gnome-control-center-2.27.4/capplets/appearance/Makefile.am	2009-07-29 23:40:51.076500481 -0400
-@@ -16,8 +16,6 @@ gnome_appearance_properties_SOURCES = \
- 	appearance-themes.h \
- 	appearance-style.c \
- 	appearance-style.h \
--	appearance-ui.c \
--	appearance-ui.h \
- 	gedit-message-area.c \
- 	gedit-message-area.h \
- 	gnome-wp-info.c \
-diff -up gnome-control-center-2.27.4/capplets/Makefile.am.no-tweaks gnome-control-center-2.27.4/capplets/Makefile.am
---- gnome-control-center-2.27.4/capplets/Makefile.am.no-tweaks	2009-07-29 23:39:52.413505115 -0400
-+++ gnome-control-center-2.27.4/capplets/Makefile.am	2009-07-29 23:40:01.297501055 -0400
-@@ -6,8 +6,7 @@ always_built_SUBDIRS = \
- 	keybindings		\
- 	keyboard		\
- 	mouse			\
--	network			\
--	windows
-+	network
- 
- SUBDIRS = $(always_built_SUBDIRS)
- 
