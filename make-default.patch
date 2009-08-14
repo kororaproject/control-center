@@ -1,20 +1,49 @@
-diff -up gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c.make-default gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c
---- gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c.make-default	2009-07-15 11:12:52.000000000 -0400
-+++ gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c	2009-07-15 17:08:10.808068841 -0400
-@@ -31,6 +31,9 @@
+From e47d2eefeea93a34848ee67ea0794d1fc88fe89f Mon Sep 17 00:00:00 2001
+From: Matthias Clasen <mclasen@redhat.com>
+Date: Fri, 14 Aug 2009 12:49:52 +0100
+Subject: [PATCH] =?utf-8?q?Bug=20536531=20=E2=80=93=20Allow=20setting=20the=20default=20background?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+The new gdm uses the system-wide default background for the login
+screen. This patch allows configuring this using the normal
+configuration tool for the desktop background.
+
+Add a "Make default" button to the background tab of the appearance
+capplet. It depends on the gconf-defaults service and uses
+PolicyKit for access control.
+---
+ capplets/appearance/appearance-desktop.c |  116 ++++++++++++++++++++++++++++++
+ 1 files changed, 116 insertions(+), 0 deletions(-)
+
+diff --git a/capplets/appearance/appearance-desktop.c b/capplets/appearance/appearance-desktop.c
+index bf2f5a1..a5ff367 100644
+--- a/capplets/appearance/appearance-desktop.c
++++ b/capplets/appearance/appearance-desktop.c
+@@ -31,6 +31,8 @@
  #include <libgnomeui/gnome-desktop-thumbnail.h>
  #include <libgnomeui/gnome-bg.h>
  
 +#include <dbus/dbus-glib.h>
-+#include <polkit-gnome/polkit-gnome.h>
 +
  enum {
    TARGET_URI_LIST,
    TARGET_BGIMAGE
-@@ -992,12 +995,61 @@ wp_select_after_realize (GtkWidget *widg
+@@ -991,12 +993,108 @@ wp_select_after_realize (GtkWidget *widget,
    select_item (data, item, TRUE);
  }
  
++static char *background_keys[7] = {
++  "/desktop/gnome/background/picture_filename",
++  "/desktop/gnome/background/picture_opacity",
++  "/desktop/gnome/background/picture_options",
++  "/desktop/gnome/background/color_shading_type",
++  "/desktop/gnome/background/primary_color",
++  "/desktop/gnome/background/secondary_color",
++  NULL
++};
++
 +static void
 +set_background (GtkAction *action, gpointer data)
 +{
@@ -22,15 +51,6 @@ diff -up gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c.ma
 +  DBusGProxy *proxy;
 +  DBusGConnection *connection;
 +  GError *error;
-+  char *keys[7] = {
-+    "/desktop/gnome/background/picture_filename",
-+    "/desktop/gnome/background/picture_opacity",
-+    "/desktop/gnome/background/picture_options",
-+    "/desktop/gnome/background/color_shading_type",
-+    "/desktop/gnome/background/primary_color",
-+    "/desktop/gnome/background/secondary_color",
-+    NULL
-+  };
 +
 +  gconf_client_suggest_sync (adata->client, NULL);
 +
@@ -51,14 +71,61 @@ diff -up gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c.ma
 +    return;
 +  }
 +
-+  dbus_g_proxy_call (proxy, "SetSystem",
-+                     &error,
-+                     G_TYPE_STRV, keys,
-+                     G_TYPE_STRV, NULL,
-+                     G_TYPE_INVALID,
-+                     G_TYPE_INVALID);
++  if (!dbus_g_proxy_call (proxy, "SetSystem",
++                          &error,
++                          G_TYPE_STRV, background_keys,
++                          G_TYPE_STRV, NULL,
++                          G_TYPE_INVALID,
++                          G_TYPE_INVALID)) {
++    g_warning ("error calling SetSystem: %s\n", error->message);
++    g_error_free (error);
++  }
 +
 +  g_object_unref (proxy);
++}
++
++static void
++check_can_set_background (GtkAction *action)
++{
++  DBusGProxy *proxy;
++  DBusGConnection *connection;
++  GError *error;
++  guint result;
++
++  result = 0;
++
++  error = NULL;
++  connection = dbus_g_bus_get (DBUS_BUS_SYSTEM, &error);
++  if (error != NULL) {
++    g_warning ("failed to get system bus connection: %s", error->message);
++    g_error_free (error);
++    goto out;
++  }
++
++  proxy = dbus_g_proxy_new_for_name (connection,
++                                     "org.gnome.GConf.Defaults",
++                                     "/",
++                                     "org.gnome.GConf.Defaults");
++  if (proxy == NULL) {
++    g_warning ("Cannot connect to defaults mechanism");
++    goto out;
++  }
++
++  if (!dbus_g_proxy_call (proxy, "CanSetSystem",
++                          &error,
++                          G_TYPE_STRV, background_keys,
++                          G_TYPE_INVALID,
++		          G_TYPE_UINT, &result,
++                          G_TYPE_INVALID)) {
++    g_warning ("error calling CanSetSystem: %s\n", error->message);
++    g_error_free (error);
++  }
++
++  g_print ("calling CanSetSystem: %d\n", result);
++  g_object_unref (proxy);
++
++out:
++  gtk_action_set_visible (action, result != 0);
 +}
 +
  void
@@ -67,34 +134,36 @@ diff -up gnome-control-center-2.27.4/capplets/appearance/appearance-desktop.c.ma
  {
    GtkWidget *add_button;
    GtkCellRenderer *cr;
-+  PolKitAction *pk_action;
-+  PolKitGnomeAction *action;
++  GtkAction *action;
 +  GtkWidget *widget, *box, *button;
  
    g_object_set (gtk_settings_get_default (), "gtk-tooltip-timeout", 500, NULL);
  
-@@ -1118,6 +1170,24 @@ desktop_init (AppearanceData *data,
+@@ -1117,6 +1215,24 @@ desktop_init (AppearanceData *data,
    /* create the file selector later to save time on startup */
    data->wp_filesel = NULL;
  
 +  widget = appearance_capplet_get_widget (data, "background_vbox");
 +  box = gtk_hbox_new (FALSE, 0);
 +  gtk_box_pack_end (GTK_BOX (widget), box, FALSE, FALSE, 0);
-+ 
-+  pk_action = polkit_action_new ();
-+  polkit_action_set_action_id (pk_action, "org.gnome.gconf.defaults.set-default-background");
-+ 
-+  action = polkit_gnome_action_new_default ("set-system", 
-+                                            pk_action,
-+                                            _("Make Default"),
-+                                            _("Set the current background as the system-wide default"));
-+  g_object_set (action, "no-visible", FALSE, NULL);
++
++  action = gtk_action_new ("set-system",
++                           _("Make Default"),
++                           _("Set the current background as the system-wide default"),
++                           NULL);
++  check_can_set_background (action);
 +          
-+  polkit_action_unref (pk_action);
-+  button = polkit_gnome_action_create_button (action);
++  button = gtk_button_new ();
++  gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), action);
++  gtk_widget_set_no_show_all (button, TRUE);
++  g_object_unref (action);
++
 +  gtk_box_pack_end (GTK_BOX (box), button, FALSE, FALSE, 0);
 +
 +  g_signal_connect (action, "activate", G_CALLBACK (set_background), data);
  }
  
  void
+-- 
+1.6.2.5
+

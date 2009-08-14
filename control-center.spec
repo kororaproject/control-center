@@ -1,3 +1,4 @@
+%define		_default_patch_fuzz 2
 %define gettext_package gnome-control-center-2.0
 
 %define glib2_version 2.13.0
@@ -46,9 +47,8 @@ Patch30: default-layout-toggle.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=546036
 Patch33: notification-theme.patch
 
-# http://bugzilla.redhat.com/show_bug.cgi?id=498365
-# http://bugzilla.gnome.org/show_bug.cgi?id=536531
-Patch37: polkit1.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=591796
+Patch37: 0001-Port-about-me-to-PolicyKit-1.0.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=588729
 Patch45: mnemonic.patch
@@ -183,7 +183,7 @@ utilities.
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
-%patch96 -p1 -b .gecos
+#%patch96 -p1 -b .gecos
 %patch99 -p1 -b .default-apps
 
 %patch7 -p1 -b .make-default
@@ -358,6 +358,11 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Fri Aug 14 2009 Bastien Nocera <bnocera@redhat.com> 2.27.5-1
+- Update to 2.27.5
+- Port PolicyKit patches to latest version
+- Disable gecos patch, needs porting to GtkBuilder
+
 * Mon Aug  3 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.4-5
 - Fix a lost mnemonic
 
