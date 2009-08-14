@@ -249,6 +249,9 @@ install -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/PolicyKit/policy
 rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/autostart
 rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/cursor-fonts
 
+# Remove libslab devel stuff which shouldn't be used
+rm -rf $RPM_BUILD_ROOT%{_includedir}/libslab/ $RPM_BUILD_ROOT%{_libdir}/libslab.so
+
 rm $RPM_BUILD_ROOT%{_datadir}/applications/mimeinfo.cache
 
 # remove useless libtool archive files
