@@ -34,6 +34,8 @@ Source1: org.gnome.control-center.defaultbackground.policy
 Patch3: control-center-2.19.3-no-gnome-common.patch
 # http://bugzilla.gnome.org/536531
 Patch7: make-default.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=591824
+Patch8: 0001-Remove-old-code-poking-directly-into-the-pwent.patch
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=475804
 Patch10: gcc-pam-fprintd-avail.patch
@@ -360,6 +362,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Fri Aug 14 2009 Bastien Nocera <bnocera@redhat.com> 2.27.5-1
+- Split off passwd usage patch
+
 * Fri Aug 14 2009 Bastien Nocera <bnocera@redhat.com> 2.27.5-1
 - Update to 2.27.5
 - Port PolicyKit patches to latest version
