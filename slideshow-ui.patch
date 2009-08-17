@@ -1,0 +1,407 @@
+diff --git a/capplets/appearance/appearance-desktop.c b/capplets/appearance/appearance-desktop.c
+index bf2f5a1..436c22a 100644
+--- a/capplets/appearance/appearance-desktop.c
++++ b/capplets/appearance/appearance-desktop.c
+@@ -131,9 +131,7 @@ static void on_item_changed (GnomeBG *bg, AppearanceData *data) {
+ 
+     pixbuf = gnome_wp_item_get_thumbnail (item, data->thumb_factory);
+     if (pixbuf) {
+-      gtk_list_store_set (GTK_LIST_STORE (data->wp_model), &iter,
+-                          0, pixbuf,
+-                         -1);
++      gtk_list_store_set (GTK_LIST_STORE (data->wp_model), &iter, 0, pixbuf, -1);
+       g_object_unref (pixbuf);
+     }
+ 
+@@ -316,10 +314,7 @@ wp_scale_type_changed (GtkComboBox *combobox,
+   item->options = gtk_combo_box_get_active (GTK_COMBO_BOX (data->wp_style_menu));
+ 
+   pixbuf = gnome_wp_item_get_thumbnail (item, data->thumb_factory);
+-  gtk_list_store_set (GTK_LIST_STORE (data->wp_model),
+-                      &iter,
+-                      0, pixbuf,
+-                      -1);
++  gtk_list_store_set (GTK_LIST_STORE (data->wp_model), &iter, 0, pixbuf, -1);
+   if (pixbuf != NULL)
+     g_object_unref (pixbuf);
+ 
+@@ -344,9 +339,7 @@ wp_shade_type_changed (GtkWidget *combobox,
+   item->shade_type = gtk_combo_box_get_active (GTK_COMBO_BOX (data->wp_color_menu));
+ 
+   pixbuf = gnome_wp_item_get_thumbnail (item, data->thumb_factory);
+-  gtk_list_store_set (GTK_LIST_STORE (data->wp_model), &iter,
+-                      0, pixbuf,
+-                      -1);
++  gtk_list_store_set (GTK_LIST_STORE (data->wp_model), &iter, 0, pixbuf, -1);
+   if (pixbuf != NULL)
+     g_object_unref (pixbuf);
+ 
+@@ -991,6 +984,162 @@ wp_select_after_realize (GtkWidget *widget,
+   select_item (data, item, TRUE);
+ }
+ 
++static GdkPixbuf *buttons[3];
++
++static void
++create_button_images (AppearanceData  *data)
++{
++  GtkWidget *widget = (GtkWidget*)data->wp_view;
++  GtkIconSet *icon_set;
++  GdkPixbuf *pixbuf, *pb, *pb2;
++  gint i, w, h;
++
++  icon_set = gtk_style_lookup_icon_set (widget->style, "gtk-media-play");
++  pb = gtk_icon_set_render_icon (icon_set,
++                                 widget->style,
++                                 GTK_TEXT_DIR_RTL,
++                                 GTK_STATE_NORMAL,
++                                 GTK_ICON_SIZE_MENU,
++                                 widget,
++                                 NULL);
++  pb2 = gtk_icon_set_render_icon (icon_set,
++                                  widget->style,
++                                  GTK_TEXT_DIR_LTR,
++                                  GTK_STATE_NORMAL,
++                                  GTK_ICON_SIZE_MENU,
++                                  widget,
++                                  NULL);
++  w = gdk_pixbuf_get_width (pb);
++  h = gdk_pixbuf_get_height (pb);
++
++  for (i = 0; i < 3; i++) {
++    pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 2 * w, h);
++    gdk_pixbuf_fill (pixbuf, 0);
++    if (i > 0)
++      gdk_pixbuf_composite (pb, pixbuf, 0, 0, w, h, 0, 0, 1, 1, GDK_INTERP_NEAREST, 255);
++    if (i < 2)
++      gdk_pixbuf_composite (pb2, pixbuf, w, 0, w, h, w, 0, 1, 1, GDK_INTERP_NEAREST, 255);
++
++    buttons[i] = pixbuf;
++  }
++
++  g_object_unref (pb);
++  g_object_unref (pb2);
++}
++
++static gboolean
++next_frame (AppearanceData  *data,
++            GtkCellRenderer *cr,
++            gint             direction)
++{
++  GnomeWPItem *item;
++  GtkTreeIter iter;
++  GdkPixbuf *pixbuf, *pb;
++  gint frame;
++
++  pixbuf = NULL;
++
++  frame = data->frame + direction;
++  item = get_selected_item (data, &iter);
++
++  if (frame >= 0)
++    pixbuf = gnome_wp_item_get_frame_thumbnail (item, data->thumb_factory, frame);
++  if (pixbuf) {
++    gtk_list_store_set (GTK_LIST_STORE (data->wp_model), &iter, 0, pixbuf, -1);
++    g_object_unref (pixbuf);
++    data->frame = frame;
++  }
++
++  pb = buttons[1];
++  if (direction < 0) {
++    if (frame == 0)
++      pb = buttons[0];
++  }
++  else {
++    pixbuf = gnome_wp_item_get_frame_thumbnail (item, data->thumb_factory, frame + 1);
++    if (pixbuf)
++      g_object_unref (pixbuf);
++    else
++      pb = buttons[2];
++  }
++  g_object_set (cr, "pixbuf", pb, NULL);
++}
++
++static gboolean
++wp_button_press_cb (GtkWidget      *widget,
++                    GdkEventButton *event,
++                    AppearanceData *data)
++{
++  GtkCellRenderer *cell;
++  GdkEventButton *button_event = (GdkEventButton *) event;
++
++  if (event->type != GDK_BUTTON_PRESS)
++    return FALSE;
++
++  if (gtk_icon_view_get_item_at_pos (GTK_ICON_VIEW (widget),
++                                     button_event->x, button_event->y,
++                                     NULL, &cell)) {
++    if (g_object_get_data (G_OBJECT (cell), "buttons")) {
++      gint w, h;
++      GtkCellRenderer *cell2 = NULL;
++      gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &w, &h);
++      if (gtk_icon_view_get_item_at_pos (GTK_ICON_VIEW (widget),
++                                         button_event->x + w, button_event->y,
++                                         NULL, &cell2) && cell == cell2)
++        next_frame (data, cell, -1);
++      else
++        next_frame (data, cell, 1);
++      return TRUE;
++    }
++  }
++
++  return FALSE;
++}
++
++static void
++wp_selected_changed_cb (GtkIconView    *view,
++                        AppearanceData *data)
++{
++  GtkCellRenderer *cr;
++  GList *cells, *l;
++
++  data->frame = -1;
++
++  cells = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (data->wp_view));
++  for (l = cells; l; l = l->next) {
++    cr = l->data;
++    if (g_object_get_data (cr, "buttons"))
++      g_object_set (cr, "pixbuf", buttons[0], NULL);
++  }
++  g_list_free (cells);
++}
++
++static void
++buttons_cell_data_func (GtkCellLayout   *layout,
++                        GtkCellRenderer *cell,
++                        GtkTreeModel    *model,
++                        GtkTreeIter     *iter,
++                        gpointer         user_data)
++{
++  AppearanceData *data = user_data;
++  GtkTreePath *path;
++  GnomeWPItem *item;
++  gboolean visible;
++
++  path = gtk_tree_model_get_path (model, iter);
++
++  if (gtk_icon_view_path_is_selected (GTK_ICON_VIEW (layout), path)) {
++    item = get_selected_item (data, NULL);
++    visible = gnome_bg_changes_with_time (item->bg);
++  }
++  else
++    visible = FALSE;
++
++  g_object_set (G_OBJECT (cell), "visible", visible, NULL);
++
++  gtk_tree_path_free (path);
++}
++
+ void
+ desktop_init (AppearanceData *data,
+ 	      const gchar **uris)
+@@ -1056,6 +1205,24 @@ desktop_init (AppearanceData *data,
+                                   "pixbuf", 0,
+                                   NULL);
+ 
++  cr = gtk_cell_renderer_pixbuf_new ();
++  create_button_images (data);
++  g_object_set (cr,
++                "mode", GTK_CELL_RENDERER_MODE_ACTIVATABLE,
++                "pixbuf", buttons[0],
++                NULL);
++  g_object_set_data (G_OBJECT (cr), "buttons", GINT_TO_POINTER (TRUE));
++
++  gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (data->wp_view), cr, FALSE);
++  gtk_cell_layout_set_cell_data_func (GTK_CELL_LAYOUT (data->wp_view), cr,
++                                      buttons_cell_data_func, data, NULL);
++  g_signal_connect (data->wp_view, "selection-changed",
++                    (GCallback) wp_selected_changed_cb, data);
++  g_signal_connect (data->wp_view, "button-press-event",
++                    G_CALLBACK (wp_button_press_cb), data);
++
++  data->frame = -1;
++
+   gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (data->wp_model), 2,
+                                    (GtkTreeIterCompareFunc) wp_list_sort,
+                                    data, NULL);
+diff --git a/capplets/appearance/appearance.h b/capplets/appearance/appearance.h
+index 7c30687..69001ef 100644
+--- a/capplets/appearance/appearance.h
++++ b/capplets/appearance/appearance.h
+@@ -46,6 +46,7 @@ typedef struct
+   GtkFileChooser *wp_filesel;
+   GtkWidget *wp_image;
+   GSList *wp_uris;
++  gint frame;
+ 
+   /* font */
+   GtkWidget *font_details;
+diff --git a/capplets/appearance/gnome-wp-item.c b/capplets/appearance/gnome-wp-item.c
+index 4e40b07..bf32c51 100644
+--- a/capplets/appearance/gnome-wp-item.c
++++ b/capplets/appearance/gnome-wp-item.c
+@@ -140,9 +140,9 @@ GnomeWPItem * gnome_wp_item_new (const gchar * filename,
+       item->name = g_filename_to_utf8 (item->fileinfo->name, -1, NULL,
+ 				       NULL, NULL);
+ 
++    gnome_wp_item_ensure_gnome_bg (item);
+     gnome_wp_item_update (item);
+     gnome_wp_item_update_description (item);
+-    gnome_wp_item_ensure_gnome_bg (item);
+ 
+     g_hash_table_insert (wallpapers, item->filename, item);
+   } else {
+@@ -177,24 +177,71 @@ void gnome_wp_item_free (GnomeWPItem * item) {
+   g_free (item);
+ }
+ 
++static GdkPixbuf *
++add_slideshow_frame (GdkPixbuf *pixbuf)
++{
++  GdkPixbuf *sheet, *sheet2;
++  GdkPixbuf *tmp;
++  gint w, h;
++
++  w = gdk_pixbuf_get_width (pixbuf);
++  h = gdk_pixbuf_get_height (pixbuf);
++
++  sheet = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, w, h);
++  gdk_pixbuf_fill (sheet, 0x00000000);
++  sheet2 = gdk_pixbuf_new_subpixbuf (sheet, 1, 1, w - 2, h - 2);
++  gdk_pixbuf_fill (sheet2, 0xffffffff);
++  g_object_unref (sheet2);
++
++  tmp = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, w + 6, h + 6);
++
++  gdk_pixbuf_fill (tmp, 0x00000000);
++  gdk_pixbuf_composite (sheet, tmp, 6, 6, w, h, 6.0, 6.0, 1.0, 1.0, GDK_INTERP_NEAREST, 255);
++  gdk_pixbuf_composite (sheet, tmp, 3, 3, w, h, 3.0, 3.0, 1.0, 1.0, GDK_INTERP_NEAREST, 255);
++  gdk_pixbuf_composite (pixbuf, tmp, 0, 0, w, h, 0.0, 0.0, 1.0, 1.0, GDK_INTERP_NEAREST, 255);
++
++  g_object_unref (sheet);
++
++  return tmp;
++}
++
+ #define LIST_IMAGE_WIDTH 108
+ 
+-GdkPixbuf * gnome_wp_item_get_thumbnail (GnomeWPItem * item,
+-					 GnomeDesktopThumbnailFactory * thumbs) {
+-  GdkPixbuf *pixbuf;
++GdkPixbuf * gnome_wp_item_get_frame_thumbnail (GnomeWPItem * item,
++					       GnomeDesktopThumbnailFactory * thumbs,
++                                               gint frame) {
++  GdkPixbuf *pixbuf = NULL;
+   double aspect =
+     (double)gdk_screen_get_height (gdk_screen_get_default()) /
+     gdk_screen_get_width (gdk_screen_get_default());
+ 
+   set_bg_properties (item);
+ 
+-  pixbuf = gnome_bg_create_thumbnail (item->bg, thumbs, gdk_screen_get_default(), LIST_IMAGE_WIDTH, LIST_IMAGE_WIDTH * aspect);
++  if (frame != -1)
++    pixbuf = gnome_bg_create_frame_thumbnail (item->bg, thumbs, gdk_screen_get_default (), LIST_IMAGE_WIDTH, LIST_IMAGE_WIDTH * aspect, frame);
++  else
++    pixbuf = gnome_bg_create_thumbnail (item->bg, thumbs, gdk_screen_get_default(), LIST_IMAGE_WIDTH, LIST_IMAGE_WIDTH * aspect);
++
++  if (pixbuf && gnome_bg_changes_with_time (item->bg))
++    {
++      GdkPixbuf *tmp;
++
++      tmp = add_slideshow_frame (pixbuf);
++      g_object_unref (pixbuf);
++      pixbuf = tmp;
++    }
+ 
+   gnome_bg_get_image_size (item->bg, thumbs, &item->width, &item->height);
+ 
+   return pixbuf;
+ }
+ 
++
++GdkPixbuf * gnome_wp_item_get_thumbnail (GnomeWPItem * item,
++					 GnomeDesktopThumbnailFactory * thumbs) {
++  return gnome_wp_item_get_frame_thumbnail (item, thumbs, -1);
++}
++
+ void gnome_wp_item_update_description (GnomeWPItem * item) {
+   g_free (item->description);
+ 
+@@ -202,27 +249,41 @@ void gnome_wp_item_update_description (GnomeWPItem * item) {
+     item->description = g_strdup (item->name);
+   } else {
+     const gchar *description;
++    gchar *size;
+     gchar *dirname = g_path_get_dirname (item->filename);
+ 
+     if (strcmp (item->fileinfo->mime_type, "application/xml") == 0)
+-      description = _("Slide Show");
++      {
++        if (gnome_bg_changes_with_time (item->bg))
++          description = _("Slide Show");
++        else
++          description = _("Image");
++      }
+     else
+       description = g_content_type_get_description (item->fileinfo->mime_type);
+ 
++    if (gnome_bg_changes_with_size (item->bg))
++      size = g_strdup (_("multiple sizes"));
++    else
++      /* translators: x pixel(s) by y pixel(s) */
++      size = g_strdup_printf ("%d %s by %d %s",
++                              item->width,
++                              ngettext ("pixel", "pixels", item->width),
++                              item->height,
++                              ngettext ("pixel", "pixels", item->height));
++
+     /* translators: <b>wallpaper name</b>
+-     * mime type, x pixel(s) by y pixel(s)
++     * mime type, size
+      * Folder: /path/to/file
+      */
+     item->description = g_markup_printf_escaped (_("<b>%s</b>\n"
+-                                   "%s, %d %s by %d %s\n"
++                                   "%s, %s\n"
+                                    "Folder: %s"),
+                                  item->name,
+                                  description,
+-                                 item->width,
+-                                 ngettext ("pixel", "pixels", item->width),
+-                                 item->height,
+-                                 ngettext ("pixel", "pixels", item->height),
++                                 size,
+                                  dirname);
++    g_free (size);
+     g_free (dirname);
+   }
+ }
+diff --git a/capplets/appearance/gnome-wp-item.h b/capplets/appearance/gnome-wp-item.h
+index 7a62cdb..63bdb69 100644
+--- a/capplets/appearance/gnome-wp-item.h
++++ b/capplets/appearance/gnome-wp-item.h
+@@ -72,6 +72,9 @@ GnomeWPItem * gnome_wp_item_new (const gchar *filename,
+ void gnome_wp_item_free (GnomeWPItem *item);
+ GdkPixbuf * gnome_wp_item_get_thumbnail (GnomeWPItem *item,
+ 					 GnomeDesktopThumbnailFactory *thumbs);
++GdkPixbuf * gnome_wp_item_get_frame_thumbnail (GnomeWPItem *item,
++					 GnomeDesktopThumbnailFactory *thumbs,
++                                         gint frame);
+ void gnome_wp_item_update (GnomeWPItem *item);
+ void gnome_wp_item_update_description (GnomeWPItem *item);
+ void gnome_wp_item_ensure_gnome_bg (GnomeWPItem *item);
+diff --git a/capplets/appearance/gnome-wp-xml.c b/capplets/appearance/gnome-wp-xml.c
+index 59d742b..9d2613d 100644
+--- a/capplets/appearance/gnome-wp-xml.c
++++ b/capplets/appearance/gnome-wp-xml.c
+@@ -237,9 +237,9 @@ static void gnome_wp_xml_load_xml (AppearanceData *data,
+ 	  wp->name = g_strdup (wp->fileinfo->name);
+ 	}
+ 
++        gnome_wp_item_ensure_gnome_bg (wp);
+ 	gnome_wp_item_update_description (wp);
+ 	g_hash_table_insert (data->wp_hash, wp->filename, wp);
+-        gnome_wp_item_ensure_gnome_bg (wp);
+       } else {
+ 	gnome_wp_item_free (wp);
+         wp = NULL;

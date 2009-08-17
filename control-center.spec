@@ -4,7 +4,7 @@
 %define glib2_version 2.13.0
 %define gtk2_version 2.11.6
 %define gconf2_version 1.2.0
-%define gnome_desktop_version 2.23.90
+%define gnome_desktop_version 2.27.5-5
 %define libgnome_version 2.3.0
 %define libbonobo_version 2.3.0
 %define libgnomeui_version 2.3.0
@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.27.5
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -60,6 +60,9 @@ Patch46: no-tweaks.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=590349
 Patch47: save-as.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=591375
+Patch50: slideshow-ui.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
@@ -182,6 +185,7 @@ utilities.
 %patch33 -p1 -b .notification-theme
 %patch46 -p1 -b .no-tweaks
 %patch47 -p1 -b .save-as
+%patch50 -p1 -b .slideshow-ui
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -362,6 +366,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Sun Aug 16 2009 Matthias Clasen <mclasen@redhat.com> 2.27.5-3
+- Make slide shows visually distinct
+
 * Fri Aug 14 2009 Bastien Nocera <bnocera@redhat.com> 2.27.5-2
 - Split off passwd usage patch
 
