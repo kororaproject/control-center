@@ -23,8 +23,8 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.27.5
-Release: 3%{?dist}
+Version: 2.27.90
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -34,8 +34,6 @@ Source1: org.gnome.control-center.defaultbackground.policy
 Patch3: control-center-2.19.3-no-gnome-common.patch
 # http://bugzilla.gnome.org/536531
 Patch7: make-default.patch
-# http://bugzilla.gnome.org/show_bug.cgi?id=591824
-Patch8: 0001-Remove-old-code-poking-directly-into-the-pwent.patch
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=475804
 Patch10: gcc-pam-fprintd-avail.patch
@@ -48,9 +46,6 @@ Patch30: default-layout-toggle.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=546036
 Patch33: notification-theme.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=591796
-Patch37: 0001-Port-about-me-to-PolicyKit-1.0.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=588729
 Patch45: mnemonic.patch
@@ -193,7 +188,6 @@ utilities.
 %patch99 -p1 -b .default-apps
 
 %patch7 -p1 -b .make-default
-%patch37 -p1 -b .polkit1
 
 autoreconf -f -i
 
@@ -366,6 +360,10 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Mon Aug 17 2009 Matthias Clasen <mclasen@redhat.com> 2.27.90-1
+- Update to 2.27.90
+- Drop upstreamed patches
+
 * Sun Aug 16 2009 Matthias Clasen <mclasen@redhat.com> 2.27.5-3
 - Make slide shows visually distinct
 
