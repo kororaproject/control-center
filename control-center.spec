@@ -129,6 +129,7 @@ BuildRequires: dbus-devel >= 0.90
 BuildRequires: dbus-glib-devel >= 0.70
 BuildRequires: scrollkeeper
 BuildRequires: libcanberra-devel
+BuildRequires: unique-devel
 
 Requires(preun): GConf2
 Requires(pre): GConf2
