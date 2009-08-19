@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.27.90
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -58,6 +58,9 @@ Patch47: save-as.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=591375
 Patch50: slideshow-ui.patch
+
+# from upstream
+Patch55: unique-ids.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
@@ -182,6 +185,7 @@ utilities.
 %patch46 -p1 -b .no-tweaks
 %patch47 -p1 -b .save-as
 %patch50 -p1 -b .slideshow-ui
+%patch55 -p1 -b .unique-ids
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -361,6 +365,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Wed Aug 19 2009 Matthias Clasen <mclasen@redhat.com> 2.27.90-2
+- Make the appearance capplet work again
+
 * Mon Aug 17 2009 Matthias Clasen <mclasen@redhat.com> 2.27.90-1
 - Update to 2.27.90
 - Drop upstreamed patches
