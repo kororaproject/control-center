@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.27.90
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -61,6 +61,9 @@ Patch50: slideshow-ui.patch
 
 # from upstream
 Patch55: unique-ids.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=578109
+Patch56: rotate.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
@@ -186,6 +189,7 @@ utilities.
 %patch47 -p1 -b .save-as
 %patch50 -p1 -b .slideshow-ui
 %patch55 -p1 -b .unique-ids
+%patch56 -p1 -b .rotate
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -365,6 +369,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Thu Aug 20 2009 Matthias Clasen <mclasen@redhat.com> 2.27.90-3
+- Fix dragging of rotated monitors in the display capplet
+
 * Wed Aug 19 2009 Matthias Clasen <mclasen@redhat.com> 2.27.90-2
 - Make the appearance capplet work again
 
