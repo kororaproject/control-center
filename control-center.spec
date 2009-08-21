@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.27.90
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -64,6 +64,9 @@ Patch55: unique-ids.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=578109
 Patch56: rotate.patch
+
+#vhttp://bugzilla.gnome.org/show_bug.cgi?id=592642
+Patch57: font-viewer-icon.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
@@ -369,6 +372,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Fri Aug 21 2009 Matthias Clasen <mclasen@redhat.com> 2.27.90-4
+- Fix the font-viewer icon
+
 * Thu Aug 20 2009 Matthias Clasen <mclasen@redhat.com> 2.27.90-3
 - Fix dragging of rotated monitors in the display capplet
 

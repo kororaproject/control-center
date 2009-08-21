@@ -1,0 +1,12 @@
+diff -up gnome-control-center-2.27.90/font-viewer/gnome-font-viewer.desktop.in.in.font-viewer-icon gnome-control-center-2.27.90/font-viewer/gnome-font-viewer.desktop.in.in
+--- gnome-control-center-2.27.90/font-viewer/gnome-font-viewer.desktop.in.in.font-viewer-icon	2009-08-21 18:41:15.009209398 -0400
++++ gnome-control-center-2.27.90/font-viewer/gnome-font-viewer.desktop.in.in	2009-08-21 18:41:47.904444837 -0400
+@@ -1,7 +1,7 @@
+ [Desktop Entry]
+ _Name=Font Viewer
+ _Comment=Preview fonts
+-Icon=gnome-settings-font
++Icon=preferences-desktop-font
+ Exec=gnome-font-viewer %u
+ Terminal=false
+ Type=Application
