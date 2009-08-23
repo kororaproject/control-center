@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.27.90
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -193,6 +193,7 @@ utilities.
 %patch50 -p1 -b .slideshow-ui
 %patch55 -p1 -b .unique-ids
 %patch56 -p1 -b .rotate
+%patch57 -p1 -b .font-viewer-icon
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -372,6 +373,9 @@ fi
 %dir %{_datadir}/gnome-control-center/keybindings
 
 %changelog
+* Sun Aug 23 2009 Matthias Clasen <mclasen@redhat.com> 2.27.90-5
+- Apply the patch...
+
 * Fri Aug 21 2009 Matthias Clasen <mclasen@redhat.com> 2.27.90-4
 - Fix the font-viewer icon
 
