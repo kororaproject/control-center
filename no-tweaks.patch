@@ -1,35 +1,7 @@
-diff --git a/capplets/Makefile.am b/capplets/Makefile.am
-index d88c1d3..e30d861 100644
---- a/capplets/Makefile.am
-+++ b/capplets/Makefile.am
-@@ -6,8 +6,7 @@ always_built_SUBDIRS = \
- 	keybindings		\
- 	keyboard		\
- 	mouse			\
--	network			\
--	windows
-+	network
- 
- SUBDIRS = $(always_built_SUBDIRS)
- 
-diff --git a/capplets/appearance/Makefile.am b/capplets/appearance/Makefile.am
-index 226e4ec..b940d73 100644
---- a/capplets/appearance/Makefile.am
-+++ b/capplets/appearance/Makefile.am
-@@ -16,8 +16,6 @@ gnome_appearance_properties_SOURCES = \
- 	appearance-themes.h \
- 	appearance-style.c \
- 	appearance-style.h \
--	appearance-ui.c \
--	appearance-ui.h \
- 	gedit-message-area.c \
- 	gedit-message-area.h \
- 	gnome-wp-info.c \
-diff --git a/capplets/appearance/appearance-main.c b/capplets/appearance/appearance-main.c
-index 369af02..86e4957 100644
---- a/capplets/appearance/appearance-main.c
-+++ b/capplets/appearance/appearance-main.c
-@@ -172,7 +172,6 @@ main (int argc, char **argv)
+diff -up gnome-control-center-2.27.91/capplets/appearance/appearance-main.c.no-tweaks gnome-control-center-2.27.91/capplets/appearance/appearance-main.c
+--- gnome-control-center-2.27.91/capplets/appearance/appearance-main.c.no-tweaks	2009-08-24 06:54:41.000000000 -0400
++++ gnome-control-center-2.27.91/capplets/appearance/appearance-main.c	2009-08-24 23:31:28.843978482 -0400
+@@ -165,7 +165,6 @@ main (int argc, char **argv)
    desktop_init (data, (const gchar **) wallpaper_files);
    g_strfreev (wallpaper_files);
    font_init (data);
@@ -37,21 +9,22 @@ index 369af02..86e4957 100644
  
    /* prepare the main window */
    w = appearance_capplet_get_widget (data, "appearance_window");
-diff --git a/capplets/appearance/data/appearance.ui b/capplets/appearance/data/appearance.ui
-index a68894e..0270d4b 100644
---- a/capplets/appearance/data/appearance.ui
-+++ b/capplets/appearance/data/appearance.ui
-@@ -1506,365 +1506,6 @@
+diff -up gnome-control-center-2.27.91/capplets/appearance/data/appearance.ui.no-tweaks gnome-control-center-2.27.91/capplets/appearance/data/appearance.ui
+--- gnome-control-center-2.27.91/capplets/appearance/data/appearance.ui.no-tweaks	2009-08-24 23:34:19.741986359 -0400
++++ gnome-control-center-2.27.91/capplets/appearance/data/appearance.ui	2009-08-24 23:36:37.898966013 -0400
+@@ -1530,370 +1530,6 @@
                  <property name="tab_fill">False</property>
                </packing>
              </child>
 -            <child>
 -              <object class="GtkVBox" id="interface_vbox">
+-                <property name="orientation">vertical</property>
 -                <property name="visible">True</property>
 -                <property name="border_width">12</property>
 -                <property name="spacing">18</property>
 -                <child>
 -                  <object class="GtkVBox" id="vbox23">
+-                    <property name="orientation">vertical</property>
 -                    <property name="visible">True</property>
 -                    <property name="spacing">6</property>
 -                    <child>
@@ -85,6 +58,7 @@ index a68894e..0270d4b 100644
 -                        </child>
 -                        <child>
 -                          <object class="GtkVBox" id="vbox24">
+-                            <property name="orientation">vertical</property>
 -                            <property name="visible">True</property>
 -                            <property name="spacing">6</property>
 -                            <child>
@@ -182,6 +156,7 @@ index a68894e..0270d4b 100644
 -                </child>
 -                <child>
 -                  <object class="GtkVBox" id="vbox25">
+-                    <property name="orientation">vertical</property>
 -                    <property name="visible">True</property>
 -                    <property name="spacing">6</property>
 -                    <child>
@@ -215,6 +190,7 @@ index a68894e..0270d4b 100644
 -                        </child>
 -                        <child>
 -                          <object class="GtkVBox" id="vbox26">
+-                            <property name="orientation">vertical</property>
 -                            <property name="visible">True</property>
 -                            <child>
 -                              <object class="GtkMenuBar" id="menubar">
@@ -407,3 +383,28 @@ index a68894e..0270d4b 100644
            </object>
            <packing>
              <property name="position">1</property>
+diff -up gnome-control-center-2.27.91/capplets/appearance/Makefile.am.no-tweaks gnome-control-center-2.27.91/capplets/appearance/Makefile.am
+--- gnome-control-center-2.27.91/capplets/appearance/Makefile.am.no-tweaks	2009-07-16 10:33:13.000000000 -0400
++++ gnome-control-center-2.27.91/capplets/appearance/Makefile.am	2009-08-24 23:31:28.842973536 -0400
+@@ -16,8 +16,6 @@ gnome_appearance_properties_SOURCES = \
+ 	appearance-themes.h \
+ 	appearance-style.c \
+ 	appearance-style.h \
+-	appearance-ui.c \
+-	appearance-ui.h \
+ 	gedit-message-area.c \
+ 	gedit-message-area.h \
+ 	gnome-wp-info.c \
+diff -up gnome-control-center-2.27.91/capplets/Makefile.am.no-tweaks gnome-control-center-2.27.91/capplets/Makefile.am
+--- gnome-control-center-2.27.91/capplets/Makefile.am.no-tweaks	2009-08-24 06:54:41.000000000 -0400
++++ gnome-control-center-2.27.91/capplets/Makefile.am	2009-08-24 23:31:28.841988564 -0400
+@@ -6,8 +6,7 @@ SUBDIRS = \
+ 	keybindings		\
+ 	keyboard		\
+ 	mouse			\
+-	network			\
+-	windows
++	network
+ 
+ DIST_SUBDIRS = \
+ 	common			\
