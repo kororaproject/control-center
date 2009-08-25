@@ -268,6 +268,7 @@ rm -rf $RPM_BUILD_ROOT
 export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
 gconftool-2 --makefile-install-rule 		       \
    %{_sysconfdir}/gconf/schemas/control-center.schemas \
+   %{_sysconfdir}/gconf/schemas/gnome-control-center.schemas \
    %{_sysconfdir}/gconf/schemas/fontilus.schemas \
      > /dev/null || :
 update-desktop-database --quiet %{_datadir}/applications
@@ -280,7 +281,7 @@ fi
 %pre
 if [ "$1" -gt 1 ]; then
     export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-    for f in fontilus.schemas control-center.schemas; do
+    for f in fontilus.schemas control-center.schemas gnome-control-center.schemas; do
         if [ -f %{_sysconfdir}/gconf/schemas/$f ]; then
             gconftool-2 --makefile-uninstall-rule \
 		%{_sysconfdir}/gconf/schemas/$f \
@@ -292,7 +293,7 @@ fi
 %preun
 if [ "$1" -eq 0 ]; then
     export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-    for f in fontilus.schemas control-center.schemas; do
+    for f in fontilus.schemas control-center.schemas gnome-control-center.schemas; do
         if [ -f %{_sysconfdir}/gconf/schemas/$f ]; then
             gconftool-2 --makefile-uninstall-rule \
 		%{_sysconfdir}/gconf/schemas/$f \
@@ -342,6 +343,7 @@ fi
 %{_bindir}/gnome-thumbnail-font
 %{_libdir}/*.so.*
 %{_sysconfdir}/gconf/schemas/control-center.schemas
+%{_sysconfdir}/gconf/schemas/gnome-control-center.schemas
 %{_sysconfdir}/gconf/schemas/fontilus.schemas
 %{_sysconfdir}/xdg/menus/gnomecc.menu
 %{_sysconfdir}/xdg/autostart/gnome-at-session.desktop
