@@ -395,16 +395,3 @@ diff -up gnome-control-center-2.27.91/capplets/appearance/Makefile.am.no-tweaks 
  	gedit-message-area.c \
  	gedit-message-area.h \
  	gnome-wp-info.c \
-diff -up gnome-control-center-2.27.91/capplets/Makefile.am.no-tweaks gnome-control-center-2.27.91/capplets/Makefile.am
---- gnome-control-center-2.27.91/capplets/Makefile.am.no-tweaks	2009-08-24 06:54:41.000000000 -0400
-+++ gnome-control-center-2.27.91/capplets/Makefile.am	2009-08-24 23:31:28.841988564 -0400
-@@ -6,8 +6,7 @@ SUBDIRS = \
- 	keybindings		\
- 	keyboard		\
- 	mouse			\
--	network			\
--	windows
-+	network
- 
- DIST_SUBDIRS = \
- 	common			\

@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.27.91
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -170,6 +170,16 @@ The GNOME control-center provides a number of extension points
 for applications. This package contains directories where applications
 can install configuration files that are picked up by the control-center
 utilities.
+
+%package extra
+Summary: Additional utilities to configure the GNOME desktop
+Group: User Interface/Desktops
+Requires: %{name} = %{?epoch}:%{version}-%{release}
+
+%description extra
+The %{name}-extra package contains additions configuration utilities
+for the GNOME desktop.
+
 
 %prep
 %setup -q -n gnome-control-center-%{version}
@@ -362,7 +372,14 @@ fi
 %dir %{_datadir}/gnome-control-center
 %dir %{_datadir}/gnome-control-center/keybindings
 
+%files extra
+%defattr(-,root,root)
+%{_bindir}/gnome-window-properties
+
 %changelog
+* Tue Aug 25 2009 Matthias Clasen <mclasen@redhat.com> 2.27.91-2
+- Bring the window capplet back from the dead, in an -extra subpackage
+
 * Mon Aug 24 2009 Matthias Clasen <mclasen@redhat.com> 2.27.91-1
 - Update to 2.27.91
 
