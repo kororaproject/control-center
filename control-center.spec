@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.27.91
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -377,6 +377,9 @@ fi
 %{_bindir}/gnome-window-properties
 
 %changelog
+* Thu Aug 27 2009 Matthias Clasen <mclasen@redhat.com> 2.27.91-3
+- Fix a crash in the appearance capplet
+
 * Tue Aug 25 2009 Matthias Clasen <mclasen@redhat.com> 2.27.91-2
 - Bring the window capplet back from the dead, in an -extra subpackage
 

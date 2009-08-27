@@ -1,8 +1,7 @@
-diff --git a/capplets/appearance/appearance-desktop.c b/capplets/appearance/appearance-desktop.c
-index bf2f5a1..436c22a 100644
---- a/capplets/appearance/appearance-desktop.c
-+++ b/capplets/appearance/appearance-desktop.c
-@@ -131,9 +131,7 @@ static void on_item_changed (GnomeBG *bg, AppearanceData *data) {
+diff -up gnome-control-center-2.27.91/capplets/appearance/appearance-desktop.c.slideshow-ui gnome-control-center-2.27.91/capplets/appearance/appearance-desktop.c
+--- gnome-control-center-2.27.91/capplets/appearance/appearance-desktop.c.slideshow-ui	2009-07-28 04:29:08.000000000 -0400
++++ gnome-control-center-2.27.91/capplets/appearance/appearance-desktop.c	2009-08-27 17:35:47.325503034 -0400
+@@ -131,9 +131,7 @@ static void on_item_changed (GnomeBG *bg
  
      pixbuf = gnome_wp_item_get_thumbnail (item, data->thumb_factory);
      if (pixbuf) {
@@ -13,7 +12,7 @@ index bf2f5a1..436c22a 100644
        g_object_unref (pixbuf);
      }
  
-@@ -316,10 +314,7 @@ wp_scale_type_changed (GtkComboBox *combobox,
+@@ -316,10 +314,7 @@ wp_scale_type_changed (GtkComboBox *comb
    item->options = gtk_combo_box_get_active (GTK_COMBO_BOX (data->wp_style_menu));
  
    pixbuf = gnome_wp_item_get_thumbnail (item, data->thumb_factory);
@@ -25,7 +24,7 @@ index bf2f5a1..436c22a 100644
    if (pixbuf != NULL)
      g_object_unref (pixbuf);
  
-@@ -344,9 +339,7 @@ wp_shade_type_changed (GtkWidget *combobox,
+@@ -344,9 +339,7 @@ wp_shade_type_changed (GtkWidget *combob
    item->shade_type = gtk_combo_box_get_active (GTK_COMBO_BOX (data->wp_color_menu));
  
    pixbuf = gnome_wp_item_get_thumbnail (item, data->thumb_factory);
@@ -36,7 +35,7 @@ index bf2f5a1..436c22a 100644
    if (pixbuf != NULL)
      g_object_unref (pixbuf);
  
-@@ -991,6 +984,162 @@ wp_select_after_realize (GtkWidget *widget,
+@@ -991,6 +984,162 @@ wp_select_after_realize (GtkWidget *widg
    select_item (data, item, TRUE);
  }
  
@@ -224,10 +223,9 @@ index bf2f5a1..436c22a 100644
    gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (data->wp_model), 2,
                                     (GtkTreeIterCompareFunc) wp_list_sort,
                                     data, NULL);
-diff --git a/capplets/appearance/appearance.h b/capplets/appearance/appearance.h
-index 7c30687..69001ef 100644
---- a/capplets/appearance/appearance.h
-+++ b/capplets/appearance/appearance.h
+diff -up gnome-control-center-2.27.91/capplets/appearance/appearance.h.slideshow-ui gnome-control-center-2.27.91/capplets/appearance/appearance.h
+--- gnome-control-center-2.27.91/capplets/appearance/appearance.h.slideshow-ui	2009-07-16 10:33:13.000000000 -0400
++++ gnome-control-center-2.27.91/capplets/appearance/appearance.h	2009-08-27 17:35:47.327503988 -0400
 @@ -46,6 +46,7 @@ typedef struct
    GtkFileChooser *wp_filesel;
    GtkWidget *wp_image;
@@ -236,22 +234,20 @@ index 7c30687..69001ef 100644
  
    /* font */
    GtkWidget *font_details;
-diff --git a/capplets/appearance/gnome-wp-item.c b/capplets/appearance/gnome-wp-item.c
-index 4e40b07..bf32c51 100644
---- a/capplets/appearance/gnome-wp-item.c
-+++ b/capplets/appearance/gnome-wp-item.c
-@@ -140,9 +140,9 @@ GnomeWPItem * gnome_wp_item_new (const gchar * filename,
-       item->name = g_filename_to_utf8 (item->fileinfo->name, -1, NULL,
+diff -up gnome-control-center-2.27.91/capplets/appearance/gnome-wp-item.c.slideshow-ui gnome-control-center-2.27.91/capplets/appearance/gnome-wp-item.c
+--- gnome-control-center-2.27.91/capplets/appearance/gnome-wp-item.c.slideshow-ui	2009-05-03 14:30:56.000000000 -0400
++++ gnome-control-center-2.27.91/capplets/appearance/gnome-wp-item.c	2009-08-27 17:36:04.076515226 -0400
+@@ -141,8 +141,8 @@ GnomeWPItem * gnome_wp_item_new (const g
  				       NULL, NULL);
  
-+    gnome_wp_item_ensure_gnome_bg (item);
      gnome_wp_item_update (item);
-     gnome_wp_item_update_description (item);
--    gnome_wp_item_ensure_gnome_bg (item);
+-    gnome_wp_item_update_description (item);
+     gnome_wp_item_ensure_gnome_bg (item);
++    gnome_wp_item_update_description (item);
  
      g_hash_table_insert (wallpapers, item->filename, item);
    } else {
-@@ -177,24 +177,71 @@ void gnome_wp_item_free (GnomeWPItem * item) {
+@@ -177,24 +177,71 @@ void gnome_wp_item_free (GnomeWPItem * i
    g_free (item);
  }
  
@@ -327,7 +323,7 @@ index 4e40b07..bf32c51 100644
  void gnome_wp_item_update_description (GnomeWPItem * item) {
    g_free (item->description);
  
-@@ -202,27 +249,41 @@ void gnome_wp_item_update_description (GnomeWPItem * item) {
+@@ -202,27 +249,41 @@ void gnome_wp_item_update_description (G
      item->description = g_strdup (item->name);
    } else {
      const gchar *description;
@@ -376,11 +372,10 @@ index 4e40b07..bf32c51 100644
      g_free (dirname);
    }
  }
-diff --git a/capplets/appearance/gnome-wp-item.h b/capplets/appearance/gnome-wp-item.h
-index 7a62cdb..63bdb69 100644
---- a/capplets/appearance/gnome-wp-item.h
-+++ b/capplets/appearance/gnome-wp-item.h
-@@ -72,6 +72,9 @@ GnomeWPItem * gnome_wp_item_new (const gchar *filename,
+diff -up gnome-control-center-2.27.91/capplets/appearance/gnome-wp-item.h.slideshow-ui gnome-control-center-2.27.91/capplets/appearance/gnome-wp-item.h
+--- gnome-control-center-2.27.91/capplets/appearance/gnome-wp-item.h.slideshow-ui	2009-05-03 14:30:56.000000000 -0400
++++ gnome-control-center-2.27.91/capplets/appearance/gnome-wp-item.h	2009-08-27 17:35:47.329504382 -0400
+@@ -72,6 +72,9 @@ GnomeWPItem * gnome_wp_item_new (const g
  void gnome_wp_item_free (GnomeWPItem *item);
  GdkPixbuf * gnome_wp_item_get_thumbnail (GnomeWPItem *item,
  					 GnomeDesktopThumbnailFactory *thumbs);
@@ -390,11 +385,10 @@ index 7a62cdb..63bdb69 100644
  void gnome_wp_item_update (GnomeWPItem *item);
  void gnome_wp_item_update_description (GnomeWPItem *item);
  void gnome_wp_item_ensure_gnome_bg (GnomeWPItem *item);
-diff --git a/capplets/appearance/gnome-wp-xml.c b/capplets/appearance/gnome-wp-xml.c
-index 59d742b..9d2613d 100644
---- a/capplets/appearance/gnome-wp-xml.c
-+++ b/capplets/appearance/gnome-wp-xml.c
-@@ -237,9 +237,9 @@ static void gnome_wp_xml_load_xml (AppearanceData *data,
+diff -up gnome-control-center-2.27.91/capplets/appearance/gnome-wp-xml.c.slideshow-ui gnome-control-center-2.27.91/capplets/appearance/gnome-wp-xml.c
+--- gnome-control-center-2.27.91/capplets/appearance/gnome-wp-xml.c.slideshow-ui	2009-07-28 04:29:08.000000000 -0400
++++ gnome-control-center-2.27.91/capplets/appearance/gnome-wp-xml.c	2009-08-27 17:35:47.331534319 -0400
+@@ -237,9 +237,9 @@ static void gnome_wp_xml_load_xml (Appea
  	  wp->name = g_strdup (wp->fileinfo->name);
  	}
  
