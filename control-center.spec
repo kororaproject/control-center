@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.27.91
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -326,9 +326,12 @@ fi
 %doc AUTHORS COPYING NEWS README
 %{_datadir}/gnome-control-center/keybindings/*.xml
 %{_datadir}/gnome-control-center/default-apps/*.xml
-%{_datadir}/gnome-control-center/ui
+%dir %{_datadir}/gnome-control-center/ui
+%{_datadir}/gnome-control-center/ui/*.ui
+%exclude %{_datadir}/gnome-control-center/ui/gnome-window-properties.ui
 %{_datadir}/gnome-control-center/pixmaps
 %{_datadir}/applications/*.desktop
+%exclude %{_datadir}/applications/gnome-window-properties.desktop
 %{_datadir}/desktop-directories/*
 %{_datadir}/mime/packages/gnome-theme-package.xml
 %{_datadir}/icons/hicolor/*/apps/*
@@ -375,8 +378,14 @@ fi
 %files extra
 %defattr(-,root,root)
 %{_bindir}/gnome-window-properties
+%{_datadir}/gnome-control-center/ui/gnome-window-properties.ui
+%{_datadir}/applications/gnome-window-properties.desktop
+
 
 %changelog
+* Sat Aug 29 2009 Matthias Clasen <mclasen@redhat.com> 2.27.91-4
+- Move related files to -extra, too
+
 * Thu Aug 27 2009 Matthias Clasen <mclasen@redhat.com> 2.27.91-3
 - Fix a crash in the appearance capplet
 
