@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.27.91
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -195,7 +195,7 @@ for the GNOME desktop.
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
-#%patch96 -p1 -b .gecos
+%patch96 -p1 -b .gecos
 %patch99 -p1 -b .default-apps
 
 %patch7 -p1 -b .make-default
@@ -383,6 +383,9 @@ fi
 
 
 %changelog
+* Mon Sep 07 2009 Bastien Nocera <bnocera@redhat.com> 2.27.91-5
+- Update "gecos" about-me patch to apply
+
 * Sat Aug 29 2009 Matthias Clasen <mclasen@redhat.com> 2.27.91-4
 - Move related files to -extra, too
 

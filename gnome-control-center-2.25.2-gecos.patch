@@ -1,6 +1,6 @@
-diff -up /dev/null gnome-control-center-2.25.2/capplets/about-me/eel-accessibility.c
---- /dev/null	2008-12-16 15:36:17.645108819 -0500
-+++ gnome-control-center-2.25.2/capplets/about-me/eel-accessibility.c	2008-12-16 21:16:16.000000000 -0500
+diff -uprN gnome-control-center-2.27.91.old/capplets/about-me/eel-accessibility.c gnome-control-center-2.27.91/capplets/about-me/eel-accessibility.c
+--- gnome-control-center-2.27.91.old/capplets/about-me/eel-accessibility.c	1970-01-01 01:00:00.000000000 +0100
++++ gnome-control-center-2.27.91/capplets/about-me/eel-accessibility.c	2009-09-07 13:04:39.000000000 +0100
 @@ -0,0 +1,413 @@
 +/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 +/* eel-accessibility.h - Utility functions for accessibility
@@ -415,9 +415,9 @@ diff -up /dev/null gnome-control-center-2.25.2/capplets/about-me/eel-accessibili
 +		atk_object_set_description (atk_object, description);
 +	}
 +}
-diff -up /dev/null gnome-control-center-2.25.2/capplets/about-me/eel-accessibility.h
---- /dev/null	2008-12-16 15:36:17.645108819 -0500
-+++ gnome-control-center-2.25.2/capplets/about-me/eel-accessibility.h	2008-12-16 21:16:16.000000000 -0500
+diff -uprN gnome-control-center-2.27.91.old/capplets/about-me/eel-accessibility.h gnome-control-center-2.27.91/capplets/about-me/eel-accessibility.h
+--- gnome-control-center-2.27.91.old/capplets/about-me/eel-accessibility.h	1970-01-01 01:00:00.000000000 +0100
++++ gnome-control-center-2.27.91/capplets/about-me/eel-accessibility.h	2009-09-07 13:04:39.000000000 +0100
 @@ -0,0 +1,152 @@
 +/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 +/* eel-accessibility.h - Utility functions for accessibility
@@ -571,9 +571,9 @@ diff -up /dev/null gnome-control-center-2.25.2/capplets/about-me/eel-accessibili
 +
 +
 +#endif /* EEL_ACCESSIBILITY_H */
-diff -up /dev/null gnome-control-center-2.25.2/capplets/about-me/eel-editable-label.c
---- /dev/null	2008-12-16 15:36:17.645108819 -0500
-+++ gnome-control-center-2.25.2/capplets/about-me/eel-editable-label.c	2008-12-16 21:17:57.000000000 -0500
+diff -uprN gnome-control-center-2.27.91.old/capplets/about-me/eel-editable-label.c gnome-control-center-2.27.91/capplets/about-me/eel-editable-label.c
+--- gnome-control-center-2.27.91.old/capplets/about-me/eel-editable-label.c	1970-01-01 01:00:00.000000000 +0100
++++ gnome-control-center-2.27.91/capplets/about-me/eel-editable-label.c	2009-09-07 13:04:39.000000000 +0100
 @@ -0,0 +1,4410 @@
 +/* GTK - The GIMP Toolkit
 + * Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald
@@ -4985,9 +4985,9 @@ diff -up /dev/null gnome-control-center-2.25.2/capplets/about-me/eel-editable-la
 +  return eel_accessibility_set_atk_object_return (widget, accessible);
 +}
 +
-diff -up /dev/null gnome-control-center-2.25.2/capplets/about-me/eel-editable-label.h
---- /dev/null	2008-12-16 15:36:17.645108819 -0500
-+++ gnome-control-center-2.25.2/capplets/about-me/eel-editable-label.h	2008-12-16 21:16:16.000000000 -0500
+diff -uprN gnome-control-center-2.27.91.old/capplets/about-me/eel-editable-label.h gnome-control-center-2.27.91/capplets/about-me/eel-editable-label.h
+--- gnome-control-center-2.27.91.old/capplets/about-me/eel-editable-label.h	1970-01-01 01:00:00.000000000 +0100
++++ gnome-control-center-2.27.91/capplets/about-me/eel-editable-label.h	2009-09-07 13:04:39.000000000 +0100
 @@ -0,0 +1,142 @@
 +/* GTK - The GIMP Toolkit
 + * Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald
@@ -5131,9 +5131,9 @@ diff -up /dev/null gnome-control-center-2.25.2/capplets/about-me/eel-editable-la
 +
 +
 +#endif /* __EEL_EDITABLE_LABEL_H__ */
-diff -up /dev/null gnome-control-center-2.25.2/capplets/about-me/eel-marshal.c
---- /dev/null	2008-12-16 15:36:17.645108819 -0500
-+++ gnome-control-center-2.25.2/capplets/about-me/eel-marshal.c	2008-12-16 21:16:16.000000000 -0500
+diff -uprN gnome-control-center-2.27.91.old/capplets/about-me/eel-marshal.c gnome-control-center-2.27.91/capplets/about-me/eel-marshal.c
+--- gnome-control-center-2.27.91.old/capplets/about-me/eel-marshal.c	1970-01-01 01:00:00.000000000 +0100
++++ gnome-control-center-2.27.91/capplets/about-me/eel-marshal.c	2009-09-07 13:04:39.000000000 +0100
 @@ -0,0 +1,556 @@
 +
 +#include	<glib-object.h>
@@ -5691,9 +5691,9 @@ diff -up /dev/null gnome-control-center-2.25.2/capplets/about-me/eel-marshal.c
 +            data2);
 +}
 +
-diff -up /dev/null gnome-control-center-2.25.2/capplets/about-me/eel-marshal.h
---- /dev/null	2008-12-16 15:36:17.645108819 -0500
-+++ gnome-control-center-2.25.2/capplets/about-me/eel-marshal.h	2008-12-16 21:16:16.000000000 -0500
+diff -uprN gnome-control-center-2.27.91.old/capplets/about-me/eel-marshal.h gnome-control-center-2.27.91/capplets/about-me/eel-marshal.h
+--- gnome-control-center-2.27.91.old/capplets/about-me/eel-marshal.h	1970-01-01 01:00:00.000000000 +0100
++++ gnome-control-center-2.27.91/capplets/about-me/eel-marshal.h	2009-09-07 13:04:39.000000000 +0100
 @@ -0,0 +1,116 @@
 +
 +#ifndef __eel_marshal_MARSHAL_H__
@@ -5811,11 +5811,11 @@ diff -up /dev/null gnome-control-center-2.25.2/capplets/about-me/eel-marshal.h
 +
 +#endif /* __eel_marshal_MARSHAL_H__ */
 +
-diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.gecos gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c
---- gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.gecos	2008-12-16 21:16:16.000000000 -0500
-+++ gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c	2008-12-16 21:16:16.000000000 -0500
-@@ -39,6 +39,8 @@
- #endif
+diff -uprN gnome-control-center-2.27.91.old/capplets/about-me/gnome-about-me.c gnome-control-center-2.27.91/capplets/about-me/gnome-about-me.c
+--- gnome-control-center-2.27.91.old/capplets/about-me/gnome-about-me.c	2009-09-07 13:02:57.000000000 +0100
++++ gnome-control-center-2.27.91/capplets/about-me/gnome-about-me.c	2009-09-07 13:04:39.000000000 +0100
+@@ -34,6 +34,8 @@
+ #include <libgnomeui/gnome-desktop-thumbnail.h>
  
  #include "e-image-chooser.h"
 +#include "eel-editable-label.h"
@@ -5823,7 +5823,7 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.gecos gn
  #include "gnome-about-me-fingerprint.h"
  #include "marshal.h"
  
-@@ -69,6 +71,7 @@ typedef struct {
+@@ -65,6 +67,7 @@ typedef struct {
  	gboolean      	 have_image;
  	gboolean      	 image_changed;
  	gboolean      	 create_self;
@@ -5831,7 +5831,7 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.gecos gn
  
  	gchar        	*person;
  	gchar 		*login;
-@@ -148,7 +151,7 @@ struct WidToCid ids[] = {
+@@ -144,7 +147,7 @@ struct WidToCid ids[] = {
  #define ATTRIBUTE_OTHER "OTHER"
  
  static void about_me_set_address_field (EContactAddress *, guint, gchar *);
@@ -5840,7 +5840,7 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.gecos gn
  
  /*** Utility functions ***/
  static void
-@@ -285,6 +288,50 @@ about_me_commit (GnomeAboutMe *me)
+@@ -259,6 +262,50 @@ about_me_commit (GnomeAboutMe *me)
  	me->create_self = FALSE;
  }
  
@@ -5891,30 +5891,7 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.gecos gn
  static gboolean
  about_me_commit_from_timeout (GnomeAboutMe *me)
  {
-@@ -354,22 +401,6 @@ about_me_focus_out (GtkWidget *widget, G
- 	return FALSE;
- }
- 
--static char *
--get_user_login (void)
--{
--	char buf[LINE_MAX * 4];
--	struct passwd pwd, *err;
--
--	int i;
--#if defined(__sun) && !defined(_POSIX_PTHREAD_SEMANTICS)
--	i = getpwuid_r (getuid (), &pwd, buf, sizeof (buf));
--	return (i != 0) ? g_strdup (pwd.pw_name) : NULL;
--#else
--	i = getpwuid_r (getuid (), &pwd, buf, sizeof (buf), &err);
--	return ((i == 0) && (err == &pwd)) ? g_strdup (pwd.pw_name) : NULL;
--#endif
--}
--
- /*
-  * Helpers
-  */
-@@ -873,6 +904,8 @@ about_me_button_clicked_cb (GtkDialog *d
+@@ -807,6 +854,8 @@ about_me_button_clicked_cb (GtkDialog *d
  			g_source_remove (me->commit_timeout_id);
  			about_me_commit (me);
  		}
@@ -5923,7 +5900,7 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.gecos gn
  
  		about_me_destroy (me);
  		gtk_main_quit ();
-@@ -893,6 +926,144 @@ about_me_fingerprint_button_clicked_cb (
+@@ -827,6 +876,144 @@ about_me_fingerprint_button_clicked_cb (
  				    me->disable_fingerprint_button);
  }
  
@@ -6068,7 +6045,7 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.gecos gn
  static gint
  about_me_setup_dialog (void)
  {
-@@ -903,6 +1074,8 @@ about_me_setup_dialog (void)
+@@ -837,6 +1024,8 @@ about_me_setup_dialog (void)
  	GError 	     *error = NULL;
  	GList        *chain;
  	gchar        *str;
@@ -6077,7 +6054,7 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.gecos gn
  
  	me = g_new0 (GnomeAboutMe, 1);
  
-@@ -983,6 +1156,25 @@ about_me_setup_dialog (void)
+@@ -920,6 +1109,25 @@ about_me_setup_dialog (void)
  	gtk_label_set_markup (GTK_LABEL (widget), str);
  	g_free (str);
  
@@ -6103,61 +6080,46 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.c.gecos gn
  	widget = WID ("login");
  	gtk_label_set_text (GTK_LABEL (widget), me->login);
  
-diff -up gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.glade.gecos gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.glade
---- gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.glade.gecos	2008-12-01 08:32:12.000000000 -0500
-+++ gnome-control-center-2.25.2/capplets/about-me/gnome-about-me.glade	2008-12-16 21:16:16.000000000 -0500
-@@ -101,23 +101,30 @@
- 		  </child>
- 
- 		  <child>
--		    <widget class="GtkLabel" id="fullname">
--		      <property name="visible">True</property>
--		      <property name="label" translatable="yes">Full Name</property>
--		      <property name="use_underline">False</property>
--		      <property name="use_markup">False</property>
--		      <property name="justify">GTK_JUSTIFY_LEFT</property>
--		      <property name="wrap">False</property>
--		      <property name="selectable">False</property>
--		      <property name="xalign">0</property>
--		      <property name="yalign">0.5</property>
--		      <property name="xpad">0</property>
--		      <property name="ypad">0</property>
--		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
--		      <property name="width_chars">-1</property>
--		      <property name="single_line_mode">False</property>
--		      <property name="angle">0</property>
--		    </widget>
-+                    <widget class="GtkButton" id="fullnamebox">
-+                      <property name="relief">GTK_RELIEF_NONE</property>
-+                      <property name="focus_on_click">True</property>
-+ 
-+                      <child>
-+                        <widget class="GtkLabel" id="fullname">
-+                          <property name="visible">True</property>
-+                          <property name="label" translatable="yes">Full Name</property>
-+                          <property name="use_underline">False</property>
-+                          <property name="use_markup">False</property>
-+                          <property name="justify">GTK_JUSTIFY_LEFT</property>
-+                          <property name="wrap">False</property>
-+                          <property name="selectable">False</property>
-+                          <property name="xalign">0</property>
-+                          <property name="yalign">0.5</property>
-+                          <property name="xpad">0</property>
-+                          <property name="ypad">0</property>
-+                          <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-+                          <property name="width_chars">-1</property>
-+                          <property name="single_line_mode">False</property>
-+                          <property name="angle">0</property>
-+                        </widget>
-+                      </child>
-+                    </widget>
- 		    <packing>
- 		      <property name="padding">0</property>
- 		      <property name="expand">False</property>
-diff -up gnome-control-center-2.25.2/capplets/about-me/Makefile.am.gecos gnome-control-center-2.25.2/capplets/about-me/Makefile.am
---- gnome-control-center-2.25.2/capplets/about-me/Makefile.am.gecos	2008-12-02 11:52:42.000000000 -0500
-+++ gnome-control-center-2.25.2/capplets/about-me/Makefile.am	2008-12-16 21:16:16.000000000 -0500
-@@ -9,13 +9,16 @@ pixmap_files = 				\
+diff -uprN gnome-control-center-2.27.91.old/capplets/about-me/gnome-about-me-dialog.ui gnome-control-center-2.27.91/capplets/about-me/gnome-about-me-dialog.ui
+--- gnome-control-center-2.27.91.old/capplets/about-me/gnome-about-me-dialog.ui	2009-08-06 15:11:23.000000000 +0100
++++ gnome-control-center-2.27.91/capplets/about-me/gnome-about-me-dialog.ui	2009-09-07 13:18:44.000000000 +0100
+@@ -44,15 +44,28 @@
+                       </packing>
+                     </child>
+                     <child>
+-                      <object class="GtkLabel" id="fullname">
++                      <object class="GtkButton" id="fullnamebox">
+                         <property name="visible">True</property>
+-                        <property name="xalign">0</property>
+-                        <property name="label" translatable="yes">Full Name</property>
++                        <property name="can_focus">True</property>
++                        <property name="receives_default">False</property>
++                        <child>
++                          <object class="GtkLabel" id="fullname">
++                            <property name="visible">True</property>
++                            <property name="yalign">0</property>
++                            <property name="label" translatable="yes">Full Name</property>
++                          </object>
++                          <packing>
++                            <property name="expand">False</property>
++                            <property name="fill">False</property>
++                            <property name="position">0</property>
++                          </packing>
++                          <placeholder/>
++                        </child>
+                       </object>
+                       <packing>
+                         <property name="expand">False</property>
+                         <property name="fill">False</property>
+-                        <property name="position">1</property>
++                        <property name="position">0</property>
+                       </packing>
+                     </child>
+                   </object>
+diff -uprN gnome-control-center-2.27.91.old/capplets/about-me/Makefile.am gnome-control-center-2.27.91/capplets/about-me/Makefile.am
+--- gnome-control-center-2.27.91.old/capplets/about-me/Makefile.am	2009-08-24 11:54:41.000000000 +0100
++++ gnome-control-center-2.27.91/capplets/about-me/Makefile.am	2009-09-07 13:05:28.000000000 +0100
+@@ -7,13 +7,16 @@ ui_files = gnome-about-me-dialog.ui gnom
  Desktop_in_files = gnome-about-me.desktop.in
  
  gnome_about_me_SOURCES =	 	\
@@ -6177,27 +6139,27 @@ diff -up gnome-control-center-2.25.2/capplets/about-me/Makefile.am.gecos gnome-c
  	gnome-about-me-fingerprint.c	\
  	gnome-about-me-fingerprint.h	\
  	$(MARSHALFILES)			\
-@@ -28,7 +31,7 @@ bin_PROGRAMS = gnome-about-me
+@@ -31,7 +34,7 @@ marshal.c: fprintd-marshal.list
  if BUILD_ABOUTME
  bin_PROGRAMS = gnome-about-me
  
--gnome_about_me_LDADD = $(GNOMECC_CAPPLETS_LIBS) $(LIBEBOOK_LIBS) $(POLKIT_GNOME_LIBS)
-+gnome_about_me_LDADD = $(GNOMECC_CAPPLETS_LIBS) $(LIBEBOOK_LIBS) $(POLKIT_GNOME_LIBS) $(GAIL_LIBS)
+-gnome_about_me_LDADD = $(GNOMECC_CAPPLETS_LIBS) $(LIBEBOOK_LIBS)
++gnome_about_me_LDADD = $(GNOMECC_CAPPLETS_LIBS) $(LIBEBOOK_LIBS) $(GAIL_LIBS)
  gnome_about_me_LDFLAGS = -export-dynamic
  
  @INTLTOOL_DESKTOP_RULE@
-@@ -43,6 +46,7 @@ INCLUDES = \
+@@ -45,6 +48,7 @@ ui_DATA = $(ui_files)
+ INCLUDES = \
  	$(GNOMECC_CAPPLETS_CFLAGS) \
  	$(LIBEBOOK_CFLAGS) \
- 	$(POLKIT_GNOME_CFLAGS) \
 +	$(GAIL_CFLAGS) \
  	-DDATADIR="\"$(datadir)\"" \
  	-DGNOMECC_DATA_DIR="\"$(pkgdatadir)\"" \
- 	-DGNOMECC_GLADE_DIR="\"$(gladedir)\"" \
-diff -up gnome-control-center-2.25.2/configure.in.gecos gnome-control-center-2.25.2/configure.in
---- gnome-control-center-2.25.2/configure.in.gecos	2008-12-16 21:16:16.000000000 -0500
-+++ gnome-control-center-2.25.2/configure.in	2008-12-16 21:16:16.000000000 -0500
-@@ -97,6 +97,7 @@ PKG_CHECK_MODULES(METACITY, libmetacity-
+ 	-DGNOMECC_UI_DIR="\"$(uidir)\"" \
+diff -uprN gnome-control-center-2.27.91.old/configure.in gnome-control-center-2.27.91/configure.in
+--- gnome-control-center-2.27.91.old/configure.in	2009-09-07 13:02:57.000000000 +0100
++++ gnome-control-center-2.27.91/configure.in	2009-09-07 13:04:42.000000000 +0100
+@@ -98,6 +98,7 @@ PKG_CHECK_MODULES(METACITY, libmetacity-
  PKG_CHECK_MODULES(TYPING, glib-2.0 > 2.11 gconf-2.0 gtk+-2.0)
  PKG_CHECK_MODULES(GSD_DBUS, gnome-settings-daemon)
  PKG_CHECK_MODULES(GIO, gio-2.0)
@@ -6205,8 +6167,8 @@ diff -up gnome-control-center-2.25.2/configure.in.gecos gnome-control-center-2.2
  
  gtk_lib_dir=`$PKG_CONFIG --variable libdir gtk+-2.0`
  gtk_binary_version=`$PKG_CONFIG --variable gtk_binary_version gtk+-2.0`
-@@ -200,6 +201,8 @@ if test "x$enable_aboutme" = "xyes"; the
-   		    has_polkit=false)
+@@ -225,6 +226,8 @@ if test "x$enable_aboutme" = "xyes"; the
+                     [Define if evolution-data-server libebook-1.2 is available])])
  fi
  
 +PKG_CHECK_MODULES(GAIL, [gail])
