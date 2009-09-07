@@ -6159,14 +6159,6 @@ diff -uprN gnome-control-center-2.27.91.old/capplets/about-me/Makefile.am gnome-
 diff -uprN gnome-control-center-2.27.91.old/configure.in gnome-control-center-2.27.91/configure.in
 --- gnome-control-center-2.27.91.old/configure.in	2009-09-07 13:02:57.000000000 +0100
 +++ gnome-control-center-2.27.91/configure.in	2009-09-07 13:04:42.000000000 +0100
-@@ -98,6 +98,7 @@ PKG_CHECK_MODULES(METACITY, libmetacity-
- PKG_CHECK_MODULES(TYPING, glib-2.0 > 2.11 gconf-2.0 gtk+-2.0)
- PKG_CHECK_MODULES(GSD_DBUS, gnome-settings-daemon)
- PKG_CHECK_MODULES(GIO, gio-2.0)
-+PKG_CHECK_MODULES(POLKIT_GNOME, polkit-gnome)
- 
- gtk_lib_dir=`$PKG_CONFIG --variable libdir gtk+-2.0`
- gtk_binary_version=`$PKG_CONFIG --variable gtk_binary_version gtk+-2.0`
 @@ -225,6 +226,8 @@ if test "x$enable_aboutme" = "xyes"; the
                      [Define if evolution-data-server libebook-1.2 is available])])
  fi
