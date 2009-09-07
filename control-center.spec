@@ -195,12 +195,12 @@ for the GNOME desktop.
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
-%patch96 -p1 -b .gecos
+#%patch96 -p1 -b .gecos
 %patch99 -p1 -b .default-apps
 
 %patch7 -p1 -b .make-default
 
-autoreconf -f -i
+#autoreconf -f -i
 
 %build
 

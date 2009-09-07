@@ -5910,7 +5910,7 @@ diff -uprN gnome-control-center-2.27.91.old/capplets/about-me/gnome-about-me.c g
 +        GtkWidget    *widget;
 +        GList        *list;
 +        GtkWidget    *c;
-+        GladeXML     *dialog;
++        GtkBuilder   *dialog;
 + 
 +        dialog = me->dialog;
 + 
@@ -5978,7 +5978,7 @@ diff -uprN gnome-control-center-2.27.91.old/capplets/about-me/gnome-about-me.c g
 +        GtkWidget   *main_dialog;
 +	const gchar *text;
 +	gchar *str;
-+	GladeXML     *dialog;
++	GtkBuilder  *dialog;
 +
 +	if (!me->editing_username)
 +		return;
