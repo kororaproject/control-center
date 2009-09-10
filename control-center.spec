@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.27.91
-Release: 6%{?dist}
+Release: 7%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -225,7 +225,7 @@ sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' -e 's/    if test "$export_dyn
 make %{?_smp_mflags}
 
 %install
-rm -rf $RPM_BUILD_ROOT
+r -rf $RPM_BUILD_ROOT
 
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 make install DESTDIR=$RPM_BUILD_ROOT
@@ -238,21 +238,18 @@ for i in apps_gnome_settings_daemon_default_editor.schemas		\
 	    rm -f $RPM_BUILD_ROOT%{_sysconfdir}/gconf/schemas/$i ;	\
 done
 
-# Add a "valid" OnlyShowIn entry, otherwise desktop-file-install complains
-sed -i -e "s/OnlyShowIn=;/OnlyShowIn=GNOME;/"  \
-  $RPM_BUILD_ROOT%{_datadir}/applications/gnome-theme-installer.desktop
-
 desktop-file-install --vendor gnome --delete-original			\
   --dir $RPM_BUILD_ROOT%{_datadir}/applications				\
   --add-only-show-in GNOME						\
   $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
-sed -i -e "s/OnlyShowIn=GNOME;/OnlyShowIn=;/"  \
-  $RPM_BUILD_ROOT%{_datadir}/applications/gnome-theme-installer.desktop
-
 # https://bugzilla.redhat.com/show_bug.cgi?id=161489
 sed -i -e "s/OnlyShowIn=GNOME;//"  \
   $RPM_BUILD_ROOT%{_datadir}/applications/gnome-default-applications.desktop
+
+# https://bugzilla.gnome.org/show_bug.cgi?id=594710
+sed -i -e "s/Icon=gnome-settings-theme/Icon=preferences-desktop-theme/" \
+  $RPM_BUILD_ROOT%{_datadir}/applications/gnome-theme-installer.desktop
 
 # we do want this
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/gnome/wm-properties
@@ -387,6 +384,9 @@ fi
 
 
 %changelog
+* Wed Sep  9 2009 Matthias Clasen <mclasen@redhat.com> 2.27.91-6
+- Fix desktop files to be valid, and fix nonexisting icon
+
 * Mon Sep 07 2009 Bastien Nocera <bnocera@redhat.com> 2.27.91-5
 - Update "gecos" about-me patch to apply
 
