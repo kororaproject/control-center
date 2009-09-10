@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.27.91
-Release: 5%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -64,6 +64,9 @@ Patch95: gnome-control-center-2.25.2-passwd.patch
 Patch96: gnome-control-center-2.25.2-gecos.patch
 # change default preferred apps to programs we ship
 Patch99: default-applications.patch
+
+# update the shell common tasks to desktop files we ship
+Patch100: shell-common-tasks.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 URL: http://www.gnome.org
@@ -197,6 +200,7 @@ for the GNOME desktop.
 %patch95 -p1 -b .passwd
 #%patch96 -p1 -b .gecos
 %patch99 -p1 -b .default-apps
+%patch100 -p1 -b .common-tasks
 
 %patch7 -p1 -b .make-default
 
