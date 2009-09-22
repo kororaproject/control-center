@@ -23,12 +23,12 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.27.91
+Version: 2.28.0
 Release: 7%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
-Source: http://download.gnome.org/sources/gnome-control-center/2.27/gnome-control-center-%{version}.tar.bz2
+Source: http://download.gnome.org/sources/gnome-control-center/2.28/gnome-control-center-%{version}.tar.bz2
 Source1: org.gnome.control-center.defaultbackground.policy
 
 Patch3: control-center-2.19.3-no-gnome-common.patch
@@ -384,6 +384,9 @@ fi
 
 
 %changelog
+* Tue Sep 22 2009 Matthias Clasen <mclasen@redhat.com> 2.28.0-1
+- Update to 2.28.0
+
 * Wed Sep  9 2009 Matthias Clasen <mclasen@redhat.com> 2.27.91-6
 - Fix desktop files to be valid, and fix nonexisting icon
 
