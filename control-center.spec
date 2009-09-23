@@ -56,9 +56,6 @@ Patch46: no-tweaks.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=590349
 Patch47: save-as.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=591375
-Patch50: slideshow-ui.patch
-
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
 Patch96: gnome-control-center-2.25.2-gecos.patch
@@ -194,7 +191,6 @@ for the GNOME desktop.
 %patch33 -p1 -b .notification-theme
 %patch46 -p1 -b .no-tweaks
 %patch47 -p1 -b .save-as
-%patch50 -p1 -b .slideshow-ui
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd

@@ -1,26 +1,6 @@
-From e47d2eefeea93a34848ee67ea0794d1fc88fe89f Mon Sep 17 00:00:00 2001
-From: Matthias Clasen <mclasen@redhat.com>
-Date: Fri, 14 Aug 2009 12:49:52 +0100
-Subject: [PATCH] =?utf-8?q?Bug=20536531=20=E2=80=93=20Allow=20setting=20the=20default=20background?=
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-The new gdm uses the system-wide default background for the login
-screen. This patch allows configuring this using the normal
-configuration tool for the desktop background.
-
-Add a "Make default" button to the background tab of the appearance
-capplet. It depends on the gconf-defaults service and uses
-PolicyKit for access control.
----
- capplets/appearance/appearance-desktop.c |  116 ++++++++++++++++++++++++++++++
- 1 files changed, 116 insertions(+), 0 deletions(-)
-
-diff --git a/capplets/appearance/appearance-desktop.c b/capplets/appearance/appearance-desktop.c
-index bf2f5a1..a5ff367 100644
---- a/capplets/appearance/appearance-desktop.c
-+++ b/capplets/appearance/appearance-desktop.c
+diff -up gnome-control-center-2.28.0/capplets/appearance/appearance-desktop.c.make-default gnome-control-center-2.28.0/capplets/appearance/appearance-desktop.c
+--- gnome-control-center-2.28.0/capplets/appearance/appearance-desktop.c.make-default	2009-09-21 06:44:55.000000000 -0400
++++ gnome-control-center-2.28.0/capplets/appearance/appearance-desktop.c	2009-09-23 18:13:49.115396173 -0400
 @@ -31,6 +31,8 @@
  #include <libgnomeui/gnome-desktop-thumbnail.h>
  #include <libgnomeui/gnome-bg.h>
@@ -30,7 +10,7 @@ index bf2f5a1..a5ff367 100644
  enum {
    TARGET_URI_LIST,
    TARGET_BGIMAGE
-@@ -991,12 +993,108 @@ wp_select_after_realize (GtkWidget *widget,
+@@ -984,6 +986,100 @@ wp_select_after_realize (GtkWidget *widg
    select_item (data, item, TRUE);
  }
  
@@ -115,7 +95,7 @@ index bf2f5a1..a5ff367 100644
 +                          &error,
 +                          G_TYPE_STRV, background_keys,
 +                          G_TYPE_INVALID,
-+		          G_TYPE_UINT, &result,
++                        G_TYPE_UINT, &result,
 +                          G_TYPE_INVALID)) {
 +    g_warning ("error calling CanSetSystem: %s\n", error->message);
 +    g_error_free (error);
@@ -128,18 +108,19 @@ index bf2f5a1..a5ff367 100644
 +  gtk_action_set_visible (action, result != 0);
 +}
 +
- void
- desktop_init (AppearanceData *data,
- 	      const gchar **uris)
+ static GdkPixbuf *buttons[3];
+ 
+ static void
+@@ -1146,6 +1242,8 @@ desktop_init (AppearanceData *data,
  {
-   GtkWidget *add_button;
+   GtkWidget *add_button, *w;
    GtkCellRenderer *cr;
 +  GtkAction *action;
 +  GtkWidget *widget, *box, *button;
+   char *url;
  
    g_object_set (gtk_settings_get_default (), "gtk-tooltip-timeout", 500, NULL);
- 
-@@ -1117,6 +1215,24 @@ desktop_init (AppearanceData *data,
+@@ -1295,6 +1393,24 @@ desktop_init (AppearanceData *data,
    /* create the file selector later to save time on startup */
    data->wp_filesel = NULL;
  
@@ -164,6 +145,3 @@ index bf2f5a1..a5ff367 100644
  }
  
  void
--- 
-1.6.2.5
-
