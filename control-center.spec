@@ -221,7 +221,7 @@ sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' -e 's/    if test "$export_dyn
 make %{?_smp_mflags}
 
 %install
-r -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 make install DESTDIR=$RPM_BUILD_ROOT
