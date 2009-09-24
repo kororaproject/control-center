@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.28.0
-Release: 7%{?dist}
+Release: 8%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -89,7 +89,6 @@ Requires: libXrandr >= %{libXrandr_version}
 # for /usr/share/pkgconfig
 Requires: pkgconfig
 
-BuildRequires: autoconf automake libtool
 BuildRequires: pango-devel
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gtk2-devel >= %{gtk2_version}
@@ -130,6 +129,7 @@ BuildRequires: dbus-glib-devel >= 0.70
 BuildRequires: scrollkeeper
 BuildRequires: libcanberra-devel
 BuildRequires: unique-devel
+BuildRequires: gnome-common
 
 Requires(preun): GConf2
 Requires(pre): GConf2
@@ -184,7 +184,6 @@ for the GNOME desktop.
 %prep
 %setup -q -n gnome-control-center-%{version}
 
-%patch3 -p1 -b .no-gnome-common
 %patch10 -p0 -b .pam-fprintd
 %patch22 -p0 -b .slab-icon-names
 %patch30 -p1 -b .default-layout-toggle
@@ -194,13 +193,11 @@ for the GNOME desktop.
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
-#%patch96 -p1 -b .gecos
+##%patch96 -p1 -b .gecos
 %patch99 -p1 -b .default-apps
 %patch100 -p1 -b .common-tasks
 
 %patch7 -p1 -b .make-default
-
-#autoreconf -f -i
 
 %build
 
@@ -380,6 +377,9 @@ fi
 
 
 %changelog
+* Thu Sep 24 2009 Matthias Clasen <mclasen@redhat.com> 2.28.0-2
+- Fix appearance capplet tabs
+
 * Tue Sep 22 2009 Matthias Clasen <mclasen@redhat.com> 2.28.0-1
 - Update to 2.28.0
 
