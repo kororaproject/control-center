@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.28.0
-Release: 8%{?dist}
+Release: 9%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -43,9 +43,6 @@ Patch22: slab-icon-names.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=555591
 Patch30: default-layout-toggle.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=546036
-Patch33: notification-theme.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=588729
 Patch45: mnemonic.patch
@@ -187,13 +184,12 @@ for the GNOME desktop.
 %patch10 -p0 -b .pam-fprintd
 %patch22 -p0 -b .slab-icon-names
 %patch30 -p1 -b .default-layout-toggle
-%patch33 -p1 -b .notification-theme
 %patch46 -p1 -b .no-tweaks
 %patch47 -p1 -b .save-as
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
-##%patch96 -p1 -b .gecos
+#%patch96 -p1 -b .gecos
 %patch99 -p1 -b .default-apps
 %patch100 -p1 -b .common-tasks
 
@@ -377,6 +373,9 @@ fi
 
 
 %changelog
+* Thu Sep 24 2009 Matthias Clasen <mclasen@redhat.com> 2.28.0-9
+- Drop the notification theme patch
+
 * Thu Sep 24 2009 Matthias Clasen <mclasen@redhat.com> 2.28.0-2
 - Fix appearance capplet tabs
 
