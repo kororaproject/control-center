@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.28.0
-Release: 9%{?dist}
+Release: 10%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -52,6 +52,9 @@ Patch46: no-tweaks.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=590349
 Patch47: save-as.patch
+
+# https://bugzilla.gnome.org/show_bug.cgi?id=596369
+Patch50: fix-background-tooltips.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
@@ -186,6 +189,7 @@ for the GNOME desktop.
 %patch30 -p1 -b .default-layout-toggle
 %patch46 -p1 -b .no-tweaks
 %patch47 -p1 -b .save-as
+%patch50 -p1 -b .fix-background-tooltips
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -373,6 +377,9 @@ fi
 
 
 %changelog
+* Mon Sep 28 2009 Matthias Clasen <mclasen@redhat.com> 2.28.0-10
+- Fix tooltips on the background tab
+
 * Thu Sep 24 2009 Matthias Clasen <mclasen@redhat.com> 2.28.0-9
 - Drop the notification theme patch
 
