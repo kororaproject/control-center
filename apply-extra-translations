@@ -1,0 +1,47 @@
+#! /bin/bash
+
+# This script is a hack to extract translations for "Make Default" from
+# the gnome-power-manager translations and append them to the
+# gnome-control-center translations.
+#
+# To apply translations, use:
+# ./apply-extra-translations --apply gnome-control-center-2.28.0 extra-translations
+#
+# To update the translations, use:
+# ./apply-extra-translations --update gnome-control-center-2.28.0 extra-translations
+
+if [ $# -ne 3 ]; then
+  echo "Usage: apply-extra-translations [--update|--apply] DIRECTORY FILE"
+  exit 1
+fi
+
+mode=$1
+dir=$2
+translations=$3
+
+if [ "$mode" = "--update" ]; then
+  if ! rpm -q gnome-power-manager >/dev/null ; then
+    echo "Please install gnome-power-manager"
+    exit 1
+  fi
+  for i in `cat $dir/po/LINGUAS`; do
+    msgstr=`env LANGUAGE="$i.UTF-8" gettext --domain=gnome-power-manager "Make Default"`
+    echo "$i:$msgstr"
+  done >$translations
+
+elif [ "$mode" = "--apply" ]; then
+
+  for i in `cat $dir/po/LINGUAS`; do
+    msgstr=`grep "^$i:" $translations | cut -d: -f2`
+    if [ "$msgstr" != "Make Default" ]; then
+      cat >>$dir/po/$i.po <<EOF
+
+msgid "Make Default"
+msgstr "$msgstr"
+EOF
+    fi
+  done
+
+fi
+
+exit

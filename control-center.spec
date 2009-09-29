@@ -24,12 +24,14 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.28.0
-Release: 10%{?dist}
+Release: 11%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 Source: http://download.gnome.org/sources/gnome-control-center/2.28/gnome-control-center-%{version}.tar.bz2
 Source1: org.gnome.control-center.defaultbackground.policy
+Source2: apply-extra-translations
+Source3: extra-translations
 
 Patch3: control-center-2.19.3-no-gnome-common.patch
 # http://bugzilla.gnome.org/536531
@@ -215,6 +217,9 @@ sed -i -e 's/@ENABLE_SK_TRUE@_s/_s/' help/Makefile.in
 # libtool doesn't make this easy, so we do it the hard way
 sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' -e 's/    if test "$export_dynamic" = yes && test -n "$export_dynamic_flag_spec"; then/      func_append compile_command " -Wl,-O1,--as-needed"\n      func_append finalize_command " -Wl,-O1,--as-needed"\n\0/' libtool
 
+# patch in translations for "Make Default", taken from gnome-power-manager
+%{SOURCE2} --apply . %{SOURCE3}
+
 make %{?_smp_mflags}
 
 %install
@@ -377,6 +382,9 @@ fi
 
 
 %changelog
+* Mon Sep 28 2009 Matthias Clasen <mclasen@redhat.com> 2.28.0-11
+- Steal translations for "Make Default" from gnome-power-manager
+
 * Mon Sep 28 2009 Matthias Clasen <mclasen@redhat.com> 2.28.0-10
 - Fix tooltips on the background tab
 
