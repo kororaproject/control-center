@@ -23,8 +23,8 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.28.0
-Release: 11%{?dist}
+Version: 2.28.1
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -57,6 +57,22 @@ Patch47: save-as.patch
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=596369
 Patch50: fix-background-tooltips.patch
+
+# https://bugzilla.gnome.org/show_bug.cgi?id=593866
+Patch51: mirror-crash.patch
+
+# https://bugzilla.gnome.org/show_bug.cgi?id=597066
+Patch52: shell-markup.patch
+
+# https://bugzilla.gnome.org/show_bug.cgi?id=596939
+Patch53: keybinding-bugs.patch
+
+# https://bugzilla.gnome.org/show_bug.cgi?id=592348
+Patch54: about-me-delete.patch
+
+Patch55: finger-icons.patch
+
+Patch56: best-shapes.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
@@ -192,6 +208,12 @@ for the GNOME desktop.
 %patch46 -p1 -b .no-tweaks
 %patch47 -p1 -b .save-as
 %patch50 -p1 -b .fix-background-tooltips
+%patch51 -p1 -b .mirror-crash
+%patch52 -p1 -b .shell-markup
+%patch53 -p1 -b .keybinding-bugs
+%patch54 -p1 -b .about-me-delete
+%patch55 -p1 -b .finger-icons
+%patch56 -p1 -b .best-shapes
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -382,6 +404,31 @@ fi
 
 
 %changelog
+* Mon Oct 26 2009 Matthias Clasen <mclasen@redhat.com> 2.28.1-3
+- Change 'Best shapes' to mean grayscale+slight
+
+* Mon Oct 26 2009 Matthias Clasen <mclasen@redhat.com> 2.28.1-2
+- Fix missing fingerprint icons
+
+* Mon Oct 19 2009 Matthias Clasen <mclasen@redhat.com> 2.28.1-1
+- Update to 2.28.1, just translation updates
+
+* Fri Oct  9 2009 Matthias Clasen <mclasen@redhat.com> 2.28.0-16
+- Cosmetic change to the background tab in the appearance capplet
+
+* Tue Oct  6 2009 Matthias Clasen <mclasen@redhat.com> 2.28.0-15
+- Fix a crash in the about-me capplet (#525590)
+
+* Fri Oct  2 2009 Matthias Clasen <mclasen@redhat.com> 2.28.0-14
+- Fix some logic errors in the keybinding capplet that can lead
+  to missing entries
+
+* Fri Oct  2 2009 Matthias Clasen <mclasen@redhat.com> 2.28.0-13
+- Don't show markup in the UI
+
+* Wed Sep 30 2009 Matthias Clasen <mclasen@redhat.com> 2.28.0-12
+- Fix a crash in the display capplet
+
 * Mon Sep 28 2009 Matthias Clasen <mclasen@redhat.com> 2.28.0-11
 - Steal translations for "Make Default" from gnome-power-manager
 

@@ -1,6 +1,6 @@
 diff -up gnome-control-center-2.28.0/capplets/appearance/appearance-desktop.c.make-default gnome-control-center-2.28.0/capplets/appearance/appearance-desktop.c
---- gnome-control-center-2.28.0/capplets/appearance/appearance-desktop.c.make-default	2009-09-21 06:44:55.000000000 -0400
-+++ gnome-control-center-2.28.0/capplets/appearance/appearance-desktop.c	2009-09-23 18:13:49.115396173 -0400
+--- gnome-control-center-2.28.0/capplets/appearance/appearance-desktop.c.make-default	2009-10-09 21:43:13.443819939 -0400
++++ gnome-control-center-2.28.0/capplets/appearance/appearance-desktop.c	2009-10-09 21:45:48.428819404 -0400
 @@ -31,6 +31,8 @@
  #include <libgnomeui/gnome-desktop-thumbnail.h>
  #include <libgnomeui/gnome-bg.h>
@@ -10,7 +10,7 @@ diff -up gnome-control-center-2.28.0/capplets/appearance/appearance-desktop.c.ma
  enum {
    TARGET_URI_LIST,
    TARGET_BGIMAGE
-@@ -984,6 +986,100 @@ wp_select_after_realize (GtkWidget *widg
+@@ -984,6 +986,99 @@ wp_select_after_realize (GtkWidget *widg
    select_item (data, item, TRUE);
  }
  
@@ -101,7 +101,6 @@ diff -up gnome-control-center-2.28.0/capplets/appearance/appearance-desktop.c.ma
 +    g_error_free (error);
 +  }
 +
-+  g_print ("calling CanSetSystem: %d\n", result);
 +  g_object_unref (proxy);
 +
 +out:
@@ -111,7 +110,7 @@ diff -up gnome-control-center-2.28.0/capplets/appearance/appearance-desktop.c.ma
  static GdkPixbuf *buttons[3];
  
  static void
-@@ -1146,6 +1242,8 @@ desktop_init (AppearanceData *data,
+@@ -1146,6 +1241,8 @@ desktop_init (AppearanceData *data,
  {
    GtkWidget *add_button, *w;
    GtkCellRenderer *cr;
@@ -119,27 +118,24 @@ diff -up gnome-control-center-2.28.0/capplets/appearance/appearance-desktop.c.ma
 +  GtkWidget *widget, *box, *button;
    char *url;
  
-   g_object_set (gtk_settings_get_default (), "gtk-tooltip-timeout", 500, NULL);
-@@ -1295,6 +1393,24 @@ desktop_init (AppearanceData *data,
+   data->wp_update_gconf = TRUE;
+@@ -1294,6 +1391,21 @@ desktop_init (AppearanceData *data,
    /* create the file selector later to save time on startup */
    data->wp_filesel = NULL;
  
-+  widget = appearance_capplet_get_widget (data, "background_vbox");
-+  box = gtk_hbox_new (FALSE, 0);
-+  gtk_box_pack_end (GTK_BOX (widget), box, FALSE, FALSE, 0);
-+
 +  action = gtk_action_new ("set-system",
 +                           _("Make Default"),
 +                           _("Set the current background as the system-wide default"),
 +                           NULL);
 +  check_can_set_background (action);
-+          
++
 +  button = gtk_button_new ();
 +  gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), action);
 +  gtk_widget_set_no_show_all (button, TRUE);
 +  g_object_unref (action);
 +
-+  gtk_box_pack_end (GTK_BOX (box), button, FALSE, FALSE, 0);
++  box = appearance_capplet_get_widget (data, "hbox_get_more");
++  gtk_box_pack_end (GTK_BOX (box), button, FALSE, FALSE, 6);
 +
 +  g_signal_connect (action, "activate", G_CALLBACK (set_background), data);
  }

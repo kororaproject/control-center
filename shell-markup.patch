@@ -1,0 +1,29 @@
+diff -up gnome-control-center-2.28.0/libslab/app-shell.c.shell-markup gnome-control-center-2.28.0/libslab/app-shell.c
+--- gnome-control-center-2.28.0/libslab/app-shell.c.shell-markup	2009-10-02 01:03:41.999269098 -0400
++++ gnome-control-center-2.28.0/libslab/app-shell.c	2009-10-02 01:05:13.150267868 -0400
+@@ -726,7 +726,6 @@ static void
+ show_no_results_message (AppShellData * app_data, GtkWidget * containing_vbox)
+ {
+ 	gchar *markup;
+-	gchar *str1;
+ 	gchar *str2;
+ 	
+ 	if (!app_data->filtered_out_everything_widget)
+@@ -750,8 +749,7 @@ show_no_results_message (AppShellData * 
+ 		gtk_container_add (GTK_CONTAINER (app_data->filtered_out_everything_widget), hbox);
+ 	}
+ 
+-	str1 = g_strdup_printf ("<b>%s</b>", app_data->filter_string);
+-	str2 = g_strdup_printf (_("Your filter \"%s\" does not match any items."), str1);
++	str2 = g_strdup_printf (_("Your filter \"%s\" does not match any items."), app_data->filter_string);
+ 	markup = g_markup_printf_escaped ("<span size=\"large\"><b>%s</b></span>\n\n%s",
+ 		_("No matches found."), str2);
+ 	gtk_label_set_text (app_data->filtered_out_everything_widget_label, markup);
+@@ -759,6 +757,7 @@ show_no_results_message (AppShellData * 
+ 	gtk_box_pack_start (GTK_BOX (containing_vbox), app_data->filtered_out_everything_widget,
+ 		TRUE, TRUE, 0);
+ 	g_free (markup);
++	g_free (str2);
+ }
+ 
+ static void
