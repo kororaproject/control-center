@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.28.1
-Release: 3%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -45,6 +45,9 @@ Patch22: slab-icon-names.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=555591
 Patch30: default-layout-toggle.patch
+
+# https://bugzilla.gnome.org/show_bug.cgi?id=600021
+Patch31: 0001-Fix-all-the-keybindings-showing-up-when-using-compiz.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=588729
 Patch45: mnemonic.patch
@@ -73,6 +76,9 @@ Patch54: about-me-delete.patch
 Patch55: finger-icons.patch
 
 Patch56: best-shapes.patch
+
+# https://bugzilla.gnome.org/show_bug.cgi?id=147808
+Patch57: monitor-aspect.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
@@ -214,6 +220,7 @@ for the GNOME desktop.
 %patch54 -p1 -b .about-me-delete
 %patch55 -p1 -b .finger-icons
 %patch56 -p1 -b .best-shapes
+%patch57 -p1 -b .monitor-aspect
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -404,6 +411,13 @@ fi
 
 
 %changelog
+* Mon Nov  9 2009 Matthias Clasen <mclasen@redhat.com> 2.28.1-5
+- Use the primary monitor when determining background
+  aspect ratio (gnome #137808)
+
+* Thu Oct 29 2009 Bastien Nocera <bnocera@redhat.com> 2.28.1-4
+- Fix metacity keybindings showing up under compiz
+
 * Mon Oct 26 2009 Matthias Clasen <mclasen@redhat.com> 2.28.1-3
 - Change 'Best shapes' to mean grayscale+slight
 

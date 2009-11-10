@@ -1,0 +1,21 @@
+diff --git a/capplets/appearance/gnome-wp-item.c b/capplets/appearance/gnome-wp-item.c
+index b4c86f2..5b28aca 100644
+--- a/capplets/appearance/gnome-wp-item.c
++++ b/capplets/appearance/gnome-wp-item.c
+@@ -211,9 +211,13 @@ GdkPixbuf * gnome_wp_item_get_frame_thumbnail (GnomeWPItem * item,
+ 					       GnomeDesktopThumbnailFactory * thumbs,
+                                                gint frame) {
+   GdkPixbuf *pixbuf = NULL;
+-  double aspect =
+-    (double)gdk_screen_get_height (gdk_screen_get_default()) /
+-    gdk_screen_get_width (gdk_screen_get_default());
++  GdkRectangle rect;
++  double aspect;
++
++  /* Use primary monitor for aspect.  Should we use the monitor with
++     the pointer? */
++  gdk_screen_get_monitor_geometry (gdk_screen_get_default(), 0, &rect);
++  aspect = (double)rect.height / rect.width;
+ 
+   set_bg_properties (item);
+ 
