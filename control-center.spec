@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.28.1
-Release: 6%{?dist}
+Release: 10%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -82,6 +82,9 @@ Patch57: monitor-aspect.patch
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=492974
 Patch60: override-redirect.patch
+
+# https://bugzilla.gnome.org/show_bug.cgi?id=604130
+Patch62: no-duplicate-keybindings-dammit.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
@@ -225,6 +228,7 @@ for the GNOME desktop.
 %patch56 -p1 -b .best-shapes
 %patch57 -p1 -b .monitor-aspect
 %patch60 -p1 -b .override-redirect
+%patch62 -p1 -b .no-duplicate-keybindings
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -415,6 +419,9 @@ fi
 
 
 %changelog
+* Tue Dec  8 2009 Matthias Clasen <mclasen@redhat.com> 2.28.1-10
+- Avoid duplicate entries in the keybinding preferences (#542401)
+
 * Mon Dec  7 2009 Matthias Clasen <mclasen@redhat.com> 2.28.1-6
 - Improve typing break locking for multiple monitors
 
