@@ -1,0 +1,12 @@
+diff -up gnome-control-center-2.28.1/capplets/keybindings/gnome-keybinding-properties.c.wm-confusion gnome-control-center-2.28.1/capplets/keybindings/gnome-keybinding-properties.c
+--- gnome-control-center-2.28.1/capplets/keybindings/gnome-keybinding-properties.c.wm-confusion	2009-12-10 13:03:24.592158905 -0500
++++ gnome-control-center-2.28.1/capplets/keybindings/gnome-keybinding-properties.c	2009-12-10 13:03:33.484378505 -0500
+@@ -868,7 +868,7 @@ append_keys_to_tree_from_file (GtkBuilde
+   /* If there's no keys to add, or the settings apply to a window manager
+    * that's not the one we're running */
+   if (keylist->entries->len == 0
+-      || (keylist->wm_name != NULL && strv_contains (wm_keybindings, keylist->wm_name))
++      || (keylist->wm_name != NULL && !strv_contains (wm_keybindings, keylist->wm_name))
+       || keylist->name == NULL)
+     {
+       g_free (keylist->name);
