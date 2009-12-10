@@ -4,7 +4,7 @@
 %define glib2_version 2.13.0
 %define gtk2_version 2.11.6
 %define gconf2_version 1.2.0
-%define gnome_desktop_version 2.27.5-5
+%define gnome_desktop_version 2.28.1-6
 %define libgnome_version 2.3.0
 %define libbonobo_version 2.3.0
 %define libgnomeui_version 2.3.0
@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.28.1
-Release: 12%{?dist}
+Release: 13%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -423,6 +423,9 @@ fi
 
 
 %changelog
+* Thu Dec 10 2009 Jon McCann <jmccann@redhat.com> 2.28.1-13
+- Update aspect ratio patch (gnome #147808)
+
 * Wed Dec 10 2009 Christoph Wickert <cwickert@fedoraproject.org> - 2.28.1-12
 - Let filesystem package own %%{_datadir}/gnome-control-center/default-apps
 
