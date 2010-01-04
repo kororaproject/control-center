@@ -23,12 +23,12 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.28.1
-Release: 13%{?dist}
+Version: 2.29.4
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
-Source: http://download.gnome.org/sources/gnome-control-center/2.28/gnome-control-center-%{version}.tar.bz2
+Source: http://download.gnome.org/sources/gnome-control-center/2.29/gnome-control-center-%{version}.tar.bz2
 Source1: org.gnome.control-center.defaultbackground.policy
 Source2: apply-extra-translations
 Source3: extra-translations
@@ -52,41 +52,16 @@ Patch31: 0001-Fix-all-the-keybindings-showing-up-when-using-compiz.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=588729
 Patch45: mnemonic.patch
 
-# http://mail.gnome.org/archives/gnomecc-list/2009-July/msg00015.html
-Patch46: no-tweaks.patch
-
 # http://bugzilla.gnome.org/show_bug.cgi?id=590349
 Patch47: save-as.patch
-
-# https://bugzilla.gnome.org/show_bug.cgi?id=596369
-Patch50: fix-background-tooltips.patch
-
-# https://bugzilla.gnome.org/show_bug.cgi?id=593866
-Patch51: mirror-crash.patch
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=597066
 Patch52: shell-markup.patch
 
-# https://bugzilla.gnome.org/show_bug.cgi?id=596939
-Patch53: keybinding-bugs.patch
-
-# https://bugzilla.gnome.org/show_bug.cgi?id=592348
-Patch54: about-me-delete.patch
-
-Patch55: finger-icons.patch
-
 Patch56: best-shapes.patch
-
-# https://bugzilla.gnome.org/show_bug.cgi?id=147808
-Patch57: monitor-aspect.patch
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=492974
 Patch60: override-redirect.patch
-
-# https://bugzilla.gnome.org/show_bug.cgi?id=604130
-Patch62: no-duplicate-keybindings-dammit.patch
-# https://bugzilla.gnome.org/show_bug.cgi?id=604295
-Patch63: and-no-wrong-keybindings-either.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
@@ -219,19 +194,10 @@ for the GNOME desktop.
 %patch10 -p0 -b .pam-fprintd
 %patch22 -p0 -b .slab-icon-names
 %patch30 -p1 -b .default-layout-toggle
-%patch46 -p1 -b .no-tweaks
 %patch47 -p1 -b .save-as
-%patch50 -p1 -b .fix-background-tooltips
-%patch51 -p1 -b .mirror-crash
 %patch52 -p1 -b .shell-markup
-%patch53 -p1 -b .keybinding-bugs
-%patch54 -p1 -b .about-me-delete
-%patch55 -p1 -b .finger-icons
 %patch56 -p1 -b .best-shapes
-%patch57 -p1 -b .monitor-aspect
 %patch60 -p1 -b .override-redirect
-%patch62 -p1 -b .no-duplicate-keybindings
-%patch63 -p1 -b .no-wrong-keybindings
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
@@ -423,6 +389,10 @@ fi
 
 
 %changelog
+* Mon Jan  4 2010 Matthias Clasen <mclasen@redhat.com> - 2.29.4-1
+- Update to 2.29.4
+- Drop many upstreamed patches
+
 * Thu Dec 10 2009 Jon McCann <jmccann@redhat.com> 2.28.1-13
 - Update aspect ratio patch (gnome #147808)
 
