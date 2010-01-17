@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.29.4
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -389,6 +389,9 @@ fi
 
 
 %changelog
+* Sun Jan 17 2010 Matthias Clasen <mclasen@redhat.com> - 2.29.4-2
+- Rebuild
+
 * Mon Jan  4 2010 Matthias Clasen <mclasen@redhat.com> - 2.29.4-1
 - Update to 2.29.4
 - Drop many upstreamed patches
