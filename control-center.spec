@@ -33,6 +33,10 @@ Source1: org.gnome.control-center.defaultbackground.policy
 Source2: apply-extra-translations
 Source3: extra-translations
 
+# https://bugzilla.gnome.org/show_bug.cgi?id=609570
+Patch0: 0001-Fix-libm-linking.patch
+BuildRequires: autoconf automake libtool intltool gnome-common
+
 Patch3: control-center-2.19.3-no-gnome-common.patch
 # http://bugzilla.gnome.org/536531
 Patch7: make-default.patch
@@ -190,7 +194,7 @@ for the GNOME desktop.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
-
+%patch0 -p1 -b .libm
 %patch10 -p0 -b .pam-fprintd
 %patch22 -p0 -b .slab-icon-names
 %patch30 -p1 -b .default-layout-toggle
@@ -206,6 +210,8 @@ for the GNOME desktop.
 %patch100 -p1 -b .common-tasks
 
 %patch7 -p1 -b .make-default
+
+autoreconf -f
 
 %build
 

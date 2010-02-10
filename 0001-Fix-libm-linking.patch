@@ -1,0 +1,31 @@
+From a4eef676df12eb8beebd1474427a1b56a7731b50 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Wed, 10 Feb 2010 18:20:45 +0000
+Subject: [PATCH] Fix libm linking
+
+Otherwise we get:
+/usr/bin/ld: gnome-mouse-properties.o: undefined reference to symbol 'floor@@GLIBC_2.0'
+/usr/bin/ld: note: 'floor@@GLIBC_2.0' is defined in DSO /lib/libm.so.6 so try adding it to the linker command line
+/lib/libm.so.6: could not read symbols: Invalid operation
+
+https://bugzilla.gnome.org/show_bug.cgi?id=609570
+---
+ configure.ac |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 84eeb3e..a832547 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -84,6 +84,8 @@ AC_SUBST(XF86MISC_LIBS)
+ AC_CHECK_HEADERS(X11/extensions/XKB.h)
+ CPPFLAGS=$savecppflags
+ 
++AC_CHECK_LIB(m, floor)
++
+ dnl ==============================================
+ dnl Check that we meet the  dependencies
+ dnl ==============================================
+-- 
+1.6.6
+
