@@ -23,7 +23,7 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.29.6
+Version: 2.29.90
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
@@ -389,6 +389,9 @@ fi
 
 
 %changelog
+* Wed Feb 10 2010 Bastien Nocera <bnocera@redhat.com> 2.29.90-1
+- Update to 2.29.90
+
 * Tue Jan 26 2010 Matthias Clasen <mclasen@redhat.com> - 2.29.6-1
 - Update to 2.29.6
 
