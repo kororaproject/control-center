@@ -1,0 +1,38 @@
+--- gnome-control-center-2.28.1/capplets/appearance/appearance-main.c	2010-02-15 12:34:25.205013147 -0500
++++ foo/capplets/appearance/appearance-main.c	2010-02-15 12:08:30.813030941 -0500
+@@ -39,6 +39,8 @@
+   GError *err = NULL;
+ 
+   g_thread_init (NULL);
++  gdk_threads_init ();
++  gdk_threads_enter ();
+   theme_thumbnail_factory_init (*argc, *argv);
+   capplet_init (context, argc, argv);
+   activate_settings_daemon ();
+@@ -208,6 +210,7 @@
+ 
+   /* start the mainloop */
+   gtk_main ();
++  gdk_threads_leave ();
+ 
+   /* free stuff */
+   g_free (data);
+--- gnome-control-center-2.28.1/capplets/appearance/theme-installer.c	2009-08-24 06:54:41.000000000 -0400
++++ foo/capplets/appearance/theme-installer.c	2010-02-15 12:29:59.573014558 -0500
+@@ -613,6 +613,7 @@
+ transfer_done_cb (GtkWidget *dialog,
+ 		  TransferData *tdata)
+ {
++        gdk_threads_enter ();
+ 	/* XXX: path should be on the local filesystem by now? */
+ 
+ 	if (dialog != NULL) {
+@@ -623,6 +624,8 @@
+ 
+ 	g_free (tdata->path);
+ 	g_free (tdata);
++
++        gdk_threads_leave ();
+ }
+ 
+ void

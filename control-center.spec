@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.29.90
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -75,6 +75,9 @@ Patch99: default-applications.patch
 
 # update the shell common tasks to desktop files we ship
 Patch100: shell-common-tasks.patch
+
+# https://bugzilla.gnome.org/show_bug.cgi?id=610003
+Patch101: threads.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 URL: http://www.gnome.org
@@ -208,6 +211,7 @@ for the GNOME desktop.
 #%patch96 -p1 -b .gecos
 %patch99 -p1 -b .default-apps
 %patch100 -p1 -b .common-tasks
+%patch101 -p1 -b .threads
 
 %patch7 -p1 -b .make-default
 
@@ -395,6 +399,9 @@ fi
 
 
 %changelog
+* Mon Feb 15 2010 Matthias Clasen <mclasen@redhat.com> - 2.29.90-2
+- Properly initialize threads in the appearance capplet
+
 * Wed Feb 10 2010 Bastien Nocera <bnocera@redhat.com> 2.29.90-1
 - Update to 2.29.90
 
