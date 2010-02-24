@@ -23,8 +23,8 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.29.90
-Release: 2%{?dist}
+Version: 2.29.91
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -399,6 +399,9 @@ fi
 
 
 %changelog
+* Wed Feb 24 2010 Matthias Clasen <mclasen@redhat.com> - 2.29.91-1
+- Update to 2.29.91
+
 * Mon Feb 15 2010 Matthias Clasen <mclasen@redhat.com> - 2.29.90-2
 - Properly initialize threads in the appearance capplet
 
