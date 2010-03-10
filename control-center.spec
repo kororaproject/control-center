@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.29.92
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -33,7 +33,6 @@ Source1: org.gnome.control-center.defaultbackground.policy
 Source2: apply-extra-translations
 Source3: extra-translations
 
-Patch3: control-center-2.19.3-no-gnome-common.patch
 # http://bugzilla.gnome.org/536531
 Patch7: make-default.patch
 
@@ -45,15 +44,6 @@ Patch22: slab-icon-names.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=555591
 Patch30: default-layout-toggle.patch
-
-# https://bugzilla.gnome.org/show_bug.cgi?id=600021
-Patch31: 0001-Fix-all-the-keybindings-showing-up-when-using-compiz.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=588729
-Patch45: mnemonic.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=590349
-Patch47: save-as.patch
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=597066
 Patch52: shell-markup.patch
@@ -196,7 +186,6 @@ for the GNOME desktop.
 %patch10 -p0 -b .pam-fprintd
 %patch22 -p0 -b .slab-icon-names
 %patch30 -p1 -b .default-layout-toggle
-%patch47 -p1 -b .save-as
 %patch52 -p1 -b .shell-markup
 %patch56 -p1 -b .best-shapes
 %patch60 -p1 -b .override-redirect
@@ -394,6 +383,9 @@ fi
 
 
 %changelog
+* Wed Mar 10 2010 Bastien Nocera <bnocera@redhat.com> 2.29.92-2
+- Remove obsoleted patches
+
 * Tue Mar 09 2010 Bastien Nocera <bnocera@redhat.com> 2.29.92-1
 - Update to 2.29.92
 
