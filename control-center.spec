@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.29.92
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -32,6 +32,10 @@ Source: http://download.gnome.org/sources/gnome-control-center/2.29/gnome-contro
 Source1: org.gnome.control-center.defaultbackground.policy
 Source2: apply-extra-translations
 Source3: extra-translations
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=574256
+# https://bugzilla.gnome.org/show_bug.cgi?id=592348
+Patch0: 0001-about-me-fix-use-after-free-when-closing-window.patch
 
 # http://bugzilla.gnome.org/536531
 Patch7: make-default.patch
@@ -183,6 +187,7 @@ for the GNOME desktop.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
+%patch0 -p0 -b .crash-on-exit
 %patch10 -p0 -b .pam-fprintd
 %patch22 -p0 -b .slab-icon-names
 %patch30 -p1 -b .default-layout-toggle
@@ -383,6 +388,9 @@ fi
 
 
 %changelog
+* Mon Mar 22 2010 Bastien Nocera <bnocera@redhat.com> 2.29.92-3
+- Fix crash on exit in gnome-about-me (#574256)
+
 * Wed Mar 10 2010 Bastien Nocera <bnocera@redhat.com> 2.29.92-2
 - Remove obsoleted patches
 
