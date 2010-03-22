@@ -187,7 +187,7 @@ for the GNOME desktop.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
-%patch0 -p0 -b .crash-on-exit
+%patch0 -p1 -b .crash-on-exit
 %patch10 -p0 -b .pam-fprintd
 %patch22 -p0 -b .slab-icon-names
 %patch30 -p1 -b .default-layout-toggle
