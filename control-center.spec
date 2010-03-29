@@ -34,10 +34,6 @@ Source1: org.gnome.control-center.defaultbackground.policy
 Source2: apply-extra-translations
 Source3: extra-translations
 
-# https://bugzilla.redhat.com/show_bug.cgi?id=574256
-# https://bugzilla.gnome.org/show_bug.cgi?id=592348
-Patch0: 0001-about-me-fix-use-after-free-when-closing-window.patch
-
 # http://bugzilla.gnome.org/536531
 Patch7: make-default.patch
 
@@ -54,9 +50,6 @@ Patch30: default-layout-toggle.patch
 Patch52: shell-markup.patch
 
 Patch56: best-shapes.patch
-
-# https://bugzilla.gnome.org/show_bug.cgi?id=492974
-Patch60: override-redirect.patch
 
 # call the Fedora/RHEL graphical passwd changing apps
 Patch95: gnome-control-center-2.25.2-passwd.patch
@@ -184,13 +177,11 @@ for the GNOME desktop.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
-%patch0 -p1 -b .crash-on-exit
 %patch10 -p0 -b .pam-fprintd
 %patch22 -p0 -b .slab-icon-names
 %patch30 -p1 -b .default-layout-toggle
 %patch52 -p1 -b .shell-markup
 %patch56 -p1 -b .best-shapes
-%patch60 -p1 -b .override-redirect
 
 # vendor configuration patches
 %patch95 -p1 -b .passwd
