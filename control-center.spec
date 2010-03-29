@@ -1,4 +1,4 @@
-%define		_default_patch_fuzz 2
+%define _default_patch_fuzz 2
 %define gettext_package gnome-control-center-2.0
 
 %define glib2_version 2.13.0
@@ -23,12 +23,13 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.29.92
-Release: 3%{?dist}
+Version: 2.30.0
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
-Source: http://download.gnome.org/sources/gnome-control-center/2.29/gnome-control-center-%{version}.tar.bz2
+#VCS: git:git://git.gnome.org/gnome-control-center
+Source: http://download.gnome.org/sources/gnome-control-center/2.30/gnome-control-center-%{version}.tar.bz2
 Source1: org.gnome.control-center.defaultbackground.policy
 Source2: apply-extra-translations
 Source3: extra-translations
@@ -66,10 +67,6 @@ Patch99: default-applications.patch
 # update the shell common tasks to desktop files we ship
 Patch100: shell-common-tasks.patch
 
-# https://bugzilla.gnome.org/show_bug.cgi?id=610003
-Patch101: threads.patch
-
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 URL: http://www.gnome.org
 
 # the background capplets expects its .xml files in
@@ -200,7 +197,6 @@ for the GNOME desktop.
 #%patch96 -p1 -b .gecos
 %patch99 -p1 -b .default-apps
 %patch100 -p1 -b .common-tasks
-%patch101 -p1 -b .threads
 
 %patch7 -p1 -b .make-default
 
@@ -287,10 +283,7 @@ gconftool-2 --makefile-install-rule 		       \
      > /dev/null || :
 update-desktop-database --quiet %{_datadir}/applications
 update-mime-database %{_datadir}/mime > /dev/null
-touch --no-create %{_datadir}/icons/hicolor
-if [ -x /usr/bin/gtk-update-icon-cache ]; then
-  gtk-update-icon-cache -q %{_datadir}/icons/hicolor
-fi
+touch --no-create %{_datadir}/icons/hicolor >&/dev/null || :
 
 %pre
 if [ "$1" -gt 1 ]; then
@@ -320,10 +313,13 @@ fi
 /sbin/ldconfig
 update-desktop-database --quiet %{_datadir}/applications
 update-mime-database %{_datadir}/mime > /dev/null
-touch --no-create %{_datadir}/icons/hicolor
-if [ -x /usr/bin/gtk-update-icon-cache ]; then
-  gtk-update-icon-cache -q %{_datadir}/icons/hicolor
+if [ $1 -eq 0 ]; then
+  touch --no-create %{_datadir}/icons/hicolor >&/dev/null || :
+  gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 fi
+
+%posttrans
+gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 %files -f %{gettext_package}.lang
 %defattr(-, root, root)
@@ -388,6 +384,9 @@ fi
 
 
 %changelog
+* Mon Mar 29 2010 Matthias Clasen <mclasen@redhat.com> 2.30.0-1
+- Update to 2.30.0
+
 * Mon Mar 22 2010 Bastien Nocera <bnocera@redhat.com> 2.29.92-3
 - Fix crash on exit in gnome-about-me (#574256)
 
