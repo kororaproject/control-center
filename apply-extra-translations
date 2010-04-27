@@ -32,6 +32,8 @@ if [ "$mode" = "--update" ]; then
 elif [ "$mode" = "--apply" ]; then
 
   for i in `cat $dir/po/LINGUAS`; do
+    # throw away fuzzies to prevent duplicates
+    sed -i -e '/^#~.*$/d' $dir/po/$i.po
     msgstr=`grep "^$i:" $translations | cut -d: -f2`
     if [ "$msgstr" != "Make Default" ]; then
       cat >>$dir/po/$i.po <<EOF
