@@ -23,7 +23,7 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.30.0
+Version: 2.30.1
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
@@ -215,8 +215,6 @@ sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' -e 's/    if test "$export_dyn
 make %{?_smp_mflags}
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 make install DESTDIR=$RPM_BUILD_ROOT
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
@@ -261,44 +259,18 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
 
 %find_lang %{gettext_package} --all-name --with-gnome
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %post
 /sbin/ldconfig
-export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-gconftool-2 --makefile-install-rule 		       \
-   %{_sysconfdir}/gconf/schemas/control-center.schemas \
-   %{_sysconfdir}/gconf/schemas/gnome-control-center.schemas \
-   %{_sysconfdir}/gconf/schemas/fontilus.schemas \
-     > /dev/null || :
+%gconf_schema_upgrade control-center gnome-control-center fontilus
 update-desktop-database --quiet %{_datadir}/applications
 update-mime-database %{_datadir}/mime > /dev/null
 touch --no-create %{_datadir}/icons/hicolor >&/dev/null || :
 
 %pre
-if [ "$1" -gt 1 ]; then
-    export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-    for f in fontilus.schemas control-center.schemas gnome-control-center.schemas; do
-        if [ -f %{_sysconfdir}/gconf/schemas/$f ]; then
-            gconftool-2 --makefile-uninstall-rule \
-		%{_sysconfdir}/gconf/schemas/$f \
-                > /dev/null || :
-        fi
-    done
-fi
+%gconf_schema_prepare control-center gnome-control-center fontilus
 
 %preun
-if [ "$1" -eq 0 ]; then
-    export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-    for f in fontilus.schemas control-center.schemas gnome-control-center.schemas; do
-        if [ -f %{_sysconfdir}/gconf/schemas/$f ]; then
-            gconftool-2 --makefile-uninstall-rule \
-		%{_sysconfdir}/gconf/schemas/$f \
-                > /dev/null || :
-        fi
-    done
-fi
+%gconf_schema_remove control-center gnome-control-center fontilus
 
 %postun
 /sbin/ldconfig
@@ -375,6 +347,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Tue Apr 27 2010 Matthias Clasen <mclasen@redhat.com> 2.30.1-1
+- Update to 2.30.1
+- Spec file cleanups
+
 * Mon Mar 29 2010 Matthias Clasen <mclasen@redhat.com> 2.30.0-1
 - Update to 2.30.0
 
