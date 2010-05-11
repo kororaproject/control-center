@@ -24,7 +24,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.30.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -242,8 +242,8 @@ sed -i -e "s/Icon=gnome-settings-theme/Icon=preferences-desktop-theme/" \
 # we do want this
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/gnome/wm-properties
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/PolicyKit/policy
-install -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/PolicyKit/policy
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/polkit-1/actions
+install -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/polkit-1/actions
 
 # we don't want these
 rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/autostart
@@ -298,7 +298,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_datadir}/desktop-directories/*
 %{_datadir}/mime/packages/gnome-theme-package.xml
 %{_datadir}/icons/hicolor/*/apps/*
-%{_datadir}/PolicyKit/policy/*
+%{_datadir}/polkit-1/actions/*
 %{_datadir}/pkgconfig/gnome-keybindings.pc
 %{_datadir}/pkgconfig/gnome-default-applications.pc
 # list all binaries explicitly, so we notice if one goes missing
@@ -347,6 +347,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Tue May 11 2010 Matthias Clasen <mclasen@redhat.com> 2.30.1-2
+- Install PolicyKit policy for setting the default background
+  in the right location
+
 * Tue Apr 27 2010 Matthias Clasen <mclasen@redhat.com> 2.30.1-1
 - Update to 2.30.1
 - Spec file cleanups
