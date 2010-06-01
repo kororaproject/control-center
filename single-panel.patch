@@ -1,0 +1,60 @@
+diff -up gnome-control-center-2.31.2/panels/default-applications/default-applications.desktop.in.in.single-panel gnome-control-center-2.31.2/panels/default-applications/default-applications.desktop.in.in
+--- gnome-control-center-2.31.2/panels/default-applications/default-applications.desktop.in.in.single-panel	2010-06-01 17:49:40.532468067 -0400
++++ gnome-control-center-2.31.2/panels/default-applications/default-applications.desktop.in.in	2010-06-01 17:50:02.922724039 -0400
+@@ -1,7 +1,7 @@
+ [Desktop Entry]
+ _Name=Preferred Applications
+ _Comment=Select your default applications
+-Exec=gnome-default-applications-properties
++Exec=gnome-control-center default-applications.desktop
+ Icon=gnome-settings-default-applications
+ Terminal=false
+ Type=Application
+diff -up gnome-control-center-2.31.2/panels/keybindings/keybinding.desktop.in.in.single-panel gnome-control-center-2.31.2/panels/keybindings/keybinding.desktop.in.in
+--- gnome-control-center-2.31.2/panels/keybindings/keybinding.desktop.in.in.single-panel	2010-06-01 17:54:13.408719218 -0400
++++ gnome-control-center-2.31.2/panels/keybindings/keybinding.desktop.in.in	2010-06-01 17:55:04.932473515 -0400
+@@ -1,7 +1,7 @@
+ [Desktop Entry]
+ _Name=Keyboard Shortcuts
+ _Comment=Assign shortcut keys to commands
+-Exec=gnome-keybinding-properties
++Exec=gnome-control-center keybinding.desktop
+ Icon=preferences-desktop-keyboard-shortcuts
+ Terminal=false
+ Type=Application
+diff -up gnome-control-center-2.31.2/panels/keyboard/keyboard.desktop.in.in.single-panel gnome-control-center-2.31.2/panels/keyboard/keyboard.desktop.in.in
+--- gnome-control-center-2.31.2/panels/keyboard/keyboard.desktop.in.in.single-panel	2010-06-01 17:51:41.563964644 -0400
++++ gnome-control-center-2.31.2/panels/keyboard/keyboard.desktop.in.in	2010-06-01 17:51:54.823718309 -0400
+@@ -1,7 +1,7 @@
+ [Desktop Entry]
+ _Name=Keyboard
+ _Comment=Set your keyboard preferences
+-Exec=gnome-keyboard-properties
++Exec=gnome-control-center keyboard.desktop
+ Icon=preferences-desktop-keyboard
+ Terminal=false
+ Type=Application
+diff -up gnome-control-center-2.31.2/panels/mouse/gnome-settings-mouse.desktop.in.in.single-panel gnome-control-center-2.31.2/panels/mouse/gnome-settings-mouse.desktop.in.in
+--- gnome-control-center-2.31.2/panels/mouse/gnome-settings-mouse.desktop.in.in.single-panel	2010-06-01 17:53:03.968732349 -0400
++++ gnome-control-center-2.31.2/panels/mouse/gnome-settings-mouse.desktop.in.in	2010-06-01 17:53:25.061482595 -0400
+@@ -1,7 +1,7 @@
+ [Desktop Entry]
+ _Name=Mouse
+ _Comment=Set your mouse preferences
+-Exec=gnome-mouse-properties
++Exec=gnome-control-center gnome-settings-mouse.desktop
+ Icon=input-mouse
+ Terminal=false
+ Type=Application
+diff -up gnome-control-center-2.31.2/panels/network/gnome-network-properties.desktop.in.in.single-panel gnome-control-center-2.31.2/panels/network/gnome-network-properties.desktop.in.in
+--- gnome-control-center-2.31.2/panels/network/gnome-network-properties.desktop.in.in.single-panel	2010-06-01 17:55:51.604468556 -0400
++++ gnome-control-center-2.31.2/panels/network/gnome-network-properties.desktop.in.in	2010-06-01 17:56:10.455468696 -0400
+@@ -1,7 +1,7 @@
+ [Desktop Entry]
+ _Name=Network Proxy
+ _Comment=Set your network proxy preferences
+-Exec=gnome-network-properties
++Exec=gnome-control-center gnome-network-properties.desktop
+ Icon=gnome-network-properties
+ Terminal=false
+ Type=Application

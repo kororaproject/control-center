@@ -1,4 +1,3 @@
-%define _default_patch_fuzz 2
 %define gettext_package gnome-control-center-2.0
 
 %define glib2_version 2.13.0
@@ -18,54 +17,22 @@
 %define libxklavier_version 4.0
 %define gnome_menus_version 2.11.1
 %define usermode_version 1.83
-%define libgnomekbd_version 2.27.4
+%define libgnomekbd_version 2.31.1
 %define libXrandr_version 1.2.99
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.30.1
+Version: 2.31.2
 Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 #VCS: git:git://git.gnome.org/gnome-control-center
-Source: http://download.gnome.org/sources/gnome-control-center/2.30/gnome-control-center-%{version}.tar.bz2
-Source1: org.gnome.control-center.defaultbackground.policy
-Source2: apply-extra-translations
-Source3: extra-translations
-
-# http://bugzilla.gnome.org/536531
-Patch7: make-default.patch
-
-# https://bugzilla.redhat.com/show_bug.cgi?id=475804
-Patch10: gcc-pam-fprintd-avail.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=545075
-Patch22: slab-icon-names.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=555591
-Patch30: default-layout-toggle.patch
-
-# https://bugzilla.gnome.org/show_bug.cgi?id=597066
-Patch52: shell-markup.patch
-
-Patch56: best-shapes.patch
-
-# call the Fedora/RHEL graphical passwd changing apps
-Patch95: gnome-control-center-2.25.2-passwd.patch
-Patch96: gnome-control-center-2.25.2-gecos.patch
-# change default preferred apps to programs we ship
-Patch99: default-applications.patch
-
-# update the shell common tasks to desktop files we ship
-Patch100: shell-common-tasks.patch
-
+Source: http://download.gnome.org/sources/gnome-control-center/2.31/gnome-control-center-%{version}.tar.bz2
 URL: http://www.gnome.org
 
-# the background capplets expects its .xml files in
-# a different place now
-Conflicts: desktop-backgrounds-basic < 2.0-27
-Conflicts: desktop-backgrounds-extended < 2.0-27
+# fix launching individual panels from the menu
+Patch0: single-panel.patch
 
 Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
@@ -73,15 +40,11 @@ Requires: gnome-icon-theme
 Requires: libgail-gnome
 Requires: alsa-lib
 Requires: gnome-menus >= %{gnome_menus_version}
-Requires: usermode >= %{usermode_version}
 Requires: gnome-desktop >= %{gnome_desktop_version}
 Requires: dbus-x11
 Requires: control-center-filesystem = %{epoch}:%{version}-%{release}
 # we need XRRGetScreenResourcesCurrent
 Requires: libXrandr >= %{libXrandr_version}
-
-# for /usr/share/pkgconfig
-Requires: pkgconfig
 
 BuildRequires: pango-devel
 BuildRequires: glib2-devel >= %{glib2_version}
@@ -165,52 +128,22 @@ for applications. This package contains directories where applications
 can install configuration files that are picked up by the control-center
 utilities.
 
-%package extra
-Summary: Additional utilities to configure the GNOME desktop
-Group: User Interface/Desktops
-Requires: %{name} = %{?epoch}:%{version}-%{release}
-
-%description extra
-The %{name}-extra package contains additions configuration utilities
-for the GNOME desktop.
-
 
 %prep
 %setup -q -n gnome-control-center-%{version}
-%patch10 -p0 -b .pam-fprintd
-%patch22 -p0 -b .slab-icon-names
-%patch30 -p1 -b .default-layout-toggle
-%patch52 -p1 -b .shell-markup
-%patch56 -p1 -b .best-shapes
-
-# vendor configuration patches
-%patch95 -p1 -b .passwd
-#%patch96 -p1 -b .gecos
-%patch99 -p1 -b .default-apps
-%patch100 -p1 -b .common-tasks
-
-%patch7 -p1 -b .make-default
-
-autoreconf -f
+%patch0 -p1 -b .single-panel
 
 %build
-
-# Work-around http://bugzilla.gnome.org/show_bug.cgi?id=427939
-sed -i -e 's/@ENABLE_SK_TRUE@_s/_s/' help/Makefile.in
-
-# Add -Wno-error to silence gswitchit
-%configure --disable-static \
-	--disable-scrollkeeper \
-	--enable-aboutme \
-	--disable-update-mimedb \
-	CFLAGS="$RPM_OPT_FLAGS -Wno-error"
+%configure \
+        --disable-static \
+        --disable-scrollkeeper \
+        --enable-aboutme \
+        --disable-update-mimedb \
+        CFLAGS="$RPM_OPT_FLAGS -Wno-error"
 
 # drop unneeded direct library deps with --as-needed
 # libtool doesn't make this easy, so we do it the hard way
 sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' -e 's/    if test "$export_dynamic" = yes && test -n "$export_dynamic_flag_spec"; then/      func_append compile_command " -Wl,-O1,--as-needed"\n      func_append finalize_command " -Wl,-O1,--as-needed"\n\0/' libtool
-
-# patch in translations for "Make Default", taken from gnome-power-manager
-%{SOURCE2} --apply . %{SOURCE3}
 
 make %{?_smp_mflags}
 
@@ -226,32 +159,21 @@ for i in apps_gnome_settings_daemon_default_editor.schemas		\
 	    rm -f $RPM_BUILD_ROOT%{_sysconfdir}/gconf/schemas/$i ;	\
 done
 
-desktop-file-install --vendor gnome --delete-original			\
+desktop-file-install --delete-original			\
   --dir $RPM_BUILD_ROOT%{_datadir}/applications				\
   --add-only-show-in GNOME						\
   $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=161489
 sed -i -e "s/OnlyShowIn=GNOME;//"  \
-  $RPM_BUILD_ROOT%{_datadir}/applications/gnome-default-applications.desktop
-
-# https://bugzilla.gnome.org/show_bug.cgi?id=594710
-sed -i -e "s/Icon=gnome-settings-theme/Icon=preferences-desktop-theme/" \
-  $RPM_BUILD_ROOT%{_datadir}/applications/gnome-theme-installer.desktop
+  $RPM_BUILD_ROOT%{_datadir}/applications/default-applications.desktop
 
 # we do want this
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/gnome/wm-properties
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/polkit-1/actions
-install -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/polkit-1/actions
-
 # we don't want these
 rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/autostart
 rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/cursor-fonts
-
-# Remove libslab devel stuff which shouldn't be used
-rm -rf $RPM_BUILD_ROOT%{_includedir}/libslab/ $RPM_BUILD_ROOT%{_libdir}/libslab.so
-
 rm $RPM_BUILD_ROOT%{_datadir}/applications/mimeinfo.cache
 
 # remove useless libtool archive files
@@ -291,10 +213,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_datadir}/gnome-control-center/default-apps/*.xml
 %dir %{_datadir}/gnome-control-center/ui
 %{_datadir}/gnome-control-center/ui/*.ui
-%exclude %{_datadir}/gnome-control-center/ui/gnome-window-properties.ui
+#%exclude %{_datadir}/gnome-control-center/ui/gnome-window-properties.ui
 %{_datadir}/gnome-control-center/pixmaps
 %{_datadir}/applications/*.desktop
-%exclude %{_datadir}/applications/gnome-window-properties.desktop
+#%exclude %{_datadir}/applications/gnome-window-properties.desktop
 %{_datadir}/desktop-directories/*
 %{_datadir}/mime/packages/gnome-theme-package.xml
 %{_datadir}/icons/hicolor/*/apps/*
@@ -308,12 +230,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_bindir}/gnome-at-properties
 %{_bindir}/gnome-at-visual
 %{_bindir}/gnome-control-center
-%{_bindir}/gnome-default-applications-properties
+#%{_bindir}/gnome-default-applications-properties
 %{_bindir}/gnome-display-properties
-%{_bindir}/gnome-keybinding-properties
-%{_bindir}/gnome-keyboard-properties
-%{_bindir}/gnome-mouse-properties
-%{_bindir}/gnome-network-properties
+#%{_bindir}/gnome-keybinding-properties
+#%{_bindir}/gnome-keyboard-properties
+#%{_bindir}/gnome-mouse-properties
+#%{_bindir}/gnome-network-properties
 %{_bindir}/gnome-typing-monitor
 %{_bindir}/gnome-font-viewer
 %{_bindir}/gnome-thumbnail-font
@@ -324,12 +246,17 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_sysconfdir}/xdg/menus/gnomecc.menu
 %{_sysconfdir}/xdg/autostart/gnome-at-session.desktop
 %{_libdir}/window-manager-settings/*.so
+%{_libdir}/control-center-1
+%{_libdir}/libgnome-control-center.so
+%{_sbindir}/gnome-display-properties-install-systemwide
 
 %files devel
 %defattr(-,root,root)
 %{_includedir}/gnome-window-settings-2.0
+%{_includedir}/gnome-control-center-1
 %{_libdir}/libgnome-window-settings.so
 %{_libdir}/pkgconfig/*
+%{_datadir}/gtk-doc/html/libgnome-control-center
 
 %files filesystem
 %defattr(-,root,root)
@@ -339,14 +266,13 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %dir %{_datadir}/gnome-control-center/keybindings
 %dir %{_datadir}/gnome-control-center/default-apps
 
-%files extra
-%defattr(-,root,root)
-%{_bindir}/gnome-window-properties
-%{_datadir}/gnome-control-center/ui/gnome-window-properties.ui
-%{_datadir}/applications/gnome-window-properties.desktop
-
 
 %changelog
+* Fri May 28 2010 Matthias Clasen <mclasen@redhat.com> 2.31.2-2
+- Update to 2.31.2
+- Remove vendor prefixes from desktop files, since that breaks
+  the new shell
+
 * Tue May 11 2010 Matthias Clasen <mclasen@redhat.com> 2.30.1-2
 - Install PolicyKit policy for setting the default background
   in the right location
