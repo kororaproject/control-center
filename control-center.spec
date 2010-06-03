@@ -23,7 +23,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.31.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -95,6 +95,9 @@ Requires(post): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(post): shared-mime-info
 Requires(postun): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(postun): shared-mime-info
+
+Provides: control-center-extra = %{epoch}:%{version}-%{release}
+Obsoletes: control-center-extra < 1:2.30.3-3
 
 %description
 This package contains configuration utilities for the GNOME desktop, which
@@ -268,6 +271,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Jun  2 2010 Matthias Clasen <mclasen@redhat.com> 2.31.2-3
+- Add Provides/Obsoletes for the no-longer-existing -extra package
+
 * Fri May 28 2010 Matthias Clasen <mclasen@redhat.com> 2.31.2-2
 - Update to 2.31.2
 - Remove vendor prefixes from desktop files, since that breaks
