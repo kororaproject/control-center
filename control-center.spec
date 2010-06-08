@@ -31,9 +31,6 @@ Group: User Interface/Desktops
 Source: http://download.gnome.org/sources/gnome-control-center/2.31/gnome-control-center-%{version}.tar.bz2
 URL: http://www.gnome.org
 
-# fix launching individual panels from the menu
-Patch0: single-panel.patch
-
 Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
 Requires: gnome-icon-theme
@@ -134,7 +131,6 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
-%patch0 -p1 -b .single-panel
 
 %build
 %configure \
@@ -166,10 +162,6 @@ desktop-file-install --delete-original			\
   --dir $RPM_BUILD_ROOT%{_datadir}/applications				\
   --add-only-show-in GNOME						\
   $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
-
-# https://bugzilla.redhat.com/show_bug.cgi?id=161489
-sed -i -e "s/OnlyShowIn=GNOME;//"  \
-  $RPM_BUILD_ROOT%{_datadir}/applications/default-applications.desktop
 
 # we do want this
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/gnome/wm-properties
@@ -216,10 +208,8 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_datadir}/gnome-control-center/default-apps/*.xml
 %dir %{_datadir}/gnome-control-center/ui
 %{_datadir}/gnome-control-center/ui/*.ui
-#%exclude %{_datadir}/gnome-control-center/ui/gnome-window-properties.ui
 %{_datadir}/gnome-control-center/pixmaps
 %{_datadir}/applications/*.desktop
-#%exclude %{_datadir}/applications/gnome-window-properties.desktop
 %{_datadir}/desktop-directories/*
 %{_datadir}/mime/packages/gnome-theme-package.xml
 %{_datadir}/icons/hicolor/*/apps/*
@@ -230,15 +220,8 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_bindir}/gnome-about-me
 %{_bindir}/gnome-appearance-properties
 %{_bindir}/gnome-at-mobility
-%{_bindir}/gnome-at-properties
 %{_bindir}/gnome-at-visual
 %{_bindir}/gnome-control-center
-#%{_bindir}/gnome-default-applications-properties
-%{_bindir}/gnome-display-properties
-#%{_bindir}/gnome-keybinding-properties
-#%{_bindir}/gnome-keyboard-properties
-#%{_bindir}/gnome-mouse-properties
-#%{_bindir}/gnome-network-properties
 %{_bindir}/gnome-typing-monitor
 %{_bindir}/gnome-font-viewer
 %{_bindir}/gnome-thumbnail-font
