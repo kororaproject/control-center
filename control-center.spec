@@ -126,7 +126,7 @@ utilities.
 %patch2 -p1 -b .gtk-app
 %patch3 -p1 -b .gd2
 
-autoreconf -f
+aclocal --force && automake -f && libtoolize -f && autoconf -f
 
 %build
 %configure \
