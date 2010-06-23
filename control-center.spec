@@ -132,7 +132,6 @@ aclocal --force && automake -f && libtoolize -f && autoconf -f
 %configure \
         --disable-static \
         --disable-scrollkeeper \
-        --enable-aboutme \
         --disable-update-mimedb \
         CFLAGS="$RPM_OPT_FLAGS -Wno-error"
 
@@ -213,7 +212,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_datadir}/pkgconfig/gnome-keybindings.pc
 %{_datadir}/pkgconfig/gnome-default-applications.pc
 # list all binaries explicitly, so we notice if one goes missing
-%{_bindir}/gnome-about-me
 %{_bindir}/gnome-appearance-properties
 %{_bindir}/gnome-at-mobility
 %{_bindir}/gnome-at-visual
