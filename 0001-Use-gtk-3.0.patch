@@ -1,0 +1,43 @@
+From c09f693575b5559d0c72af71fbe1c5626f802df8 Mon Sep 17 00:00:00 2001
+From: Rodrigo Moya <rodrigo@gnome-db.org>
+Date: Thu, 10 Jun 2010 23:06:11 +0200
+Subject: [PATCH] Use gtk+-3.0
+
+---
+ configure.ac |   10 +++++-----
+ 1 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 67882a3..3d5657a 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -106,7 +106,7 @@ dnl ==============================================
+ dnl Check that we meet the  dependencies
+ dnl ==============================================
+ 
+-COMMON_MODULES="gtk+-2.0 >= 2.21.1 dnl
++COMMON_MODULES="gtk+-3.0 >= 2.90.0 dnl
+  glib-2.0 >= 2.17.4 dnl
+  gthread-2.0 dnl
+  gio-2.0 dnl
+@@ -120,13 +120,13 @@ PKG_CHECK_MODULES(DBUS, dbus-1 dbus-glib-1)
+ PKG_CHECK_MODULES(GNOME_DESKTOP, gnome-desktop-2.0)
+ PKG_CHECK_MODULES(DEFAULT_APPLICATIONS_CAPPLET, libxml-2.0)
+ PKG_CHECK_MODULES(METACITY, libmetacity-private >= 2.23.1)
+-PKG_CHECK_MODULES(TYPING, glib-2.0 > 2.11 gconf-2.0 gtk+-2.0)
++PKG_CHECK_MODULES(TYPING, glib-2.0 > 2.11 gconf-2.0 gtk+-3.0)
+ PKG_CHECK_MODULES(GSD_DBUS, gnome-settings-daemon)
+ PKG_CHECK_MODULES(GIO, gio-2.0)
+ 
+-gtk_lib_dir=`$PKG_CONFIG --variable libdir gtk+-2.0`
+-gtk_binary_version=`$PKG_CONFIG --variable gtk_binary_version gtk+-2.0`
+-GTK_ENGINE_DIR="$gtk_lib_dir/gtk-2.0/$gtk_binary_version/engines"
++gtk_lib_dir=`$PKG_CONFIG --variable libdir gtk+-3.0`
++gtk_binary_version=`$PKG_CONFIG --variable gtk_binary_version gtk+-3.0`
++GTK_ENGINE_DIR="$gtk_lib_dir/gtk-3.0/$gtk_binary_version/engines"
+ AC_SUBST(GTK_ENGINE_DIR)
+ 
+ PKG_CHECK_MODULES(GLIB, glib-2.0)
+-- 
+1.7.0.1
+
