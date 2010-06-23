@@ -67,7 +67,6 @@ BuildRequires: dbus-devel >= 0.90
 BuildRequires: dbus-glib-devel >= 0.70
 BuildRequires: scrollkeeper
 BuildRequires: libcanberra-devel
-BuildRequires: gnome-common
 
 Requires(preun): GConf2
 Requires(pre): GConf2
@@ -81,6 +80,7 @@ Provides: control-center-extra = %{epoch}:%{version}-%{release}
 Obsoletes: control-center-extra < 1:2.30.3-3
 
 # For GTK+ 3.x support
+BuildRequires: automake autoconf gnome-common libtool intltool
 Patch0: 0001-Use-gtk-3.0.patch
 Patch1: 0001-You-can-t-mix-GTK2-and-GTK3-so-depend-on-gtk-3.0-ver.patch
 Patch2: 0001-Convert-from-libunique-to-GtkApplication-to-remove-t.patch
@@ -125,6 +125,8 @@ utilities.
 %patch1 -p1 -b .gd1
 %patch2 -p1 -b .gtk-app
 %patch3 -p1 -b .gd2
+
+autoreconf -f
 
 %build
 %configure \
