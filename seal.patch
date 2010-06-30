@@ -1,3 +1,15 @@
+diff -up gnome-control-center-2.31.4/capplets/common/theme-thumbnail.c.seal gnome-control-center-2.31.4/capplets/common/theme-thumbnail.c
+--- gnome-control-center-2.31.4/capplets/common/theme-thumbnail.c.seal	2010-06-30 01:29:37.405211687 -0400
++++ gnome-control-center-2.31.4/capplets/common/theme-thumbnail.c	2010-06-30 01:29:59.217221604 -0400
+@@ -112,7 +112,7 @@ draw_window_on_pixbuf (GtkWidget *widget
+   gtk_window_get_size (GTK_WINDOW (widget), &width, &height);
+ 
+   visual = gtk_widget_get_visual (widget);
+-  pixmap = gdk_pixmap_new (NULL, width, height, visual->depth);
++  pixmap = gdk_pixmap_new (NULL, width, height, gdk_visual_get_depth (visual));
+   gdk_drawable_set_colormap (GDK_DRAWABLE (pixmap), gtk_widget_get_colormap (widget));
+ 
+   window = gtk_widget_get_window (widget);
 diff -up gnome-control-center-2.31.4/shell/cc-shell-category-view.c.seal gnome-control-center-2.31.4/shell/cc-shell-category-view.c
 --- gnome-control-center-2.31.4/shell/cc-shell-category-view.c.seal	2010-06-30 01:06:56.502211127 -0400
 +++ gnome-control-center-2.31.4/shell/cc-shell-category-view.c	2010-06-30 01:07:55.711221673 -0400
