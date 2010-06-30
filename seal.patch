@@ -1,0 +1,62 @@
+diff -up gnome-control-center-2.31.4/shell/cc-shell-category-view.c.seal gnome-control-center-2.31.4/shell/cc-shell-category-view.c
+--- gnome-control-center-2.31.4/shell/cc-shell-category-view.c.seal	2010-06-30 01:06:56.502211127 -0400
++++ gnome-control-center-2.31.4/shell/cc-shell-category-view.c	2010-06-30 01:07:55.711221673 -0400
+@@ -168,21 +168,24 @@ cc_shell_category_view_style_set (GtkWid
+                                   GtkStyle  *old_style)
+ {
+   CcShellCategoryViewPrivate *priv = CC_SHELL_CATEGORY_VIEW (widget)->priv;
++  GtkStyle *style;
++
++  style = gtk_widget_get_style (widget);
+ 
+   if (priv->header)
+     {
+       gtk_widget_modify_bg (priv->header, GTK_STATE_NORMAL,
+-                            &widget->style->base[GTK_STATE_NORMAL]);
++                            &style->base[GTK_STATE_NORMAL]);
+       gtk_widget_modify_fg (priv->header, GTK_STATE_NORMAL,
+-                            &widget->style->text[GTK_STATE_NORMAL]);
++                            &style->text[GTK_STATE_NORMAL]);
+     }
+ 
+   if (priv->iconview)
+     {
+       gtk_widget_modify_bg (priv->iconview, GTK_STATE_NORMAL,
+-                            &widget->style->base[GTK_STATE_NORMAL]);
++                            &style->base[GTK_STATE_NORMAL]);
+       gtk_widget_modify_fg (priv->iconview, GTK_STATE_NORMAL,
+-                            &widget->style->text[GTK_STATE_NORMAL]);
++                            &style->text[GTK_STATE_NORMAL]);
+     }
+ }
+ 
+diff -up gnome-control-center-2.31.4/shell/gnome-control-center.c.seal gnome-control-center-2.31.4/shell/gnome-control-center.c
+--- gnome-control-center-2.31.4/shell/gnome-control-center.c.seal	2010-06-30 01:08:08.610963747 -0400
++++ gnome-control-center-2.31.4/shell/gnome-control-center.c	2010-06-30 01:09:17.626974503 -0400
+@@ -869,6 +869,8 @@ gnome_control_center_init (GnomeControlC
+   GError *err = NULL;
+   GtkWidget *vbox;
+   GnomeControlCenterPrivate *priv;
++  GtkWidget *parent;
++  GtkStyle *style;
+ 
+   priv = self->priv = CONTROL_CENTER_PRIVATE (self);
+ 
+@@ -901,10 +903,13 @@ gnome_control_center_init (GnomeControlC
+   vbox = W (priv->builder, "main-vbox");
+   gtk_widget_set_size_request (vbox, 0, -1);
+ 
+-  gtk_widget_modify_bg (vbox->parent, GTK_STATE_NORMAL,
+-                        &vbox->style->base[GTK_STATE_NORMAL]);
+-  gtk_widget_modify_fg (vbox->parent, GTK_STATE_NORMAL,
+-                        &vbox->style->text[GTK_STATE_NORMAL]);
++  parent = gtk_widget_get_parent (vbox);
++  style = gtk_widget_get_style (vbox);
++
++  gtk_widget_modify_bg (parent, GTK_STATE_NORMAL,
++                        &style->base[GTK_STATE_NORMAL]);
++  gtk_widget_modify_fg (parent, GTK_STATE_NORMAL,
++                        &style->text[GTK_STATE_NORMAL]);
+ 
+   /* load the available settings panels */
+   fill_model (self);
