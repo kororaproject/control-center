@@ -1,7 +1,7 @@
 %define gettext_package gnome-control-center-2.0
 
 %define glib2_version 2.13.0
-%define gtk3_version 2.11.6
+%define gtk3_version 2.90.2
 %define gconf2_version 1.2.0
 %define gnome_desktop_version 2.29.3-2
 %define desktop_file_utils_version 0.9
@@ -17,8 +17,8 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.31.3
-Release: 2%{?dist}
+Version: 2.31.4
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -41,7 +41,7 @@ Requires: libXrandr >= %{libXrandr_version}
 BuildRequires: pango-devel
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gtk3-devel >= %{gtk3_version}
-BuildRequires: librsvg3-devel
+BuildRequires: librsvg-devel
 BuildRequires: GConf2-devel >= %{gconf2_version}
 BuildRequires: gnome-desktop3-devel >= %{gnome_desktop_version}
 BuildRequires: fontconfig-devel >= %{fontconfig_version}
@@ -79,13 +79,6 @@ Requires(postun): shared-mime-info
 Provides: control-center-extra = %{epoch}:%{version}-%{release}
 Obsoletes: control-center-extra < 1:2.30.3-3
 
-# For GTK+ 3.x support
-BuildRequires: automake autoconf gnome-common libtool intltool
-Patch0: 0001-Use-gtk-3.0.patch
-Patch1: 0001-You-can-t-mix-GTK2-and-GTK3-so-depend-on-gtk-3.0-ver.patch
-Patch2: 0001-Convert-from-libunique-to-GtkApplication-to-remove-t.patch
-Patch3: 0001-Use-gnome-desktop-3.0-not-2.0.patch
-
 %description
 This package contains configuration utilities for the GNOME desktop, which
 allow to configure accessibility options, desktop fonts, keyboard and mouse
@@ -121,12 +114,6 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
-%patch0 -p1 -b .gtk3
-%patch1 -p1 -b .gd1
-%patch2 -p1 -b .gtk-app
-%patch3 -p1 -b .gd2
-
-aclocal --force && automake -f && libtoolize -f && autoconf -f
 
 %build
 %configure \
@@ -248,6 +235,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Jun 30 2010 Matthias Clasen <mclasen@redhat.com> 2.31.4-1
+- Update to 2.31.4
+
 * Wed Jun 23 2010 Bastien Nocera <bnocera@redhat.com> 2.31.3-2
 - Add patches to compile against GTK+ 3.x
 
