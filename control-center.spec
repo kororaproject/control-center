@@ -41,7 +41,7 @@ Requires: libXrandr >= %{libXrandr_version}
 BuildRequires: pango-devel
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gtk3-devel >= %{gtk3_version}
-BuildRequires: librsvg-devel
+BuildRequires: librsvg2-devel
 BuildRequires: GConf2-devel >= %{gconf2_version}
 BuildRequires: gnome-desktop3-devel >= %{gnome_desktop_version}
 BuildRequires: fontconfig-devel >= %{fontconfig_version}
