@@ -1,3 +1,15 @@
+diff -up gnome-control-center-2.31.4/capplets/appearance/appearance-font.c.seal gnome-control-center-2.31.4/capplets/appearance/appearance-font.c
+--- gnome-control-center-2.31.4/capplets/appearance/appearance-font.c.seal	2010-06-30 01:40:18.643211337 -0400
++++ gnome-control-center-2.31.4/capplets/appearance/appearance-font.c	2010-06-30 01:39:24.090212245 -0400
+@@ -269,7 +269,7 @@ setup_font_sample (GtkWidget   *darea,
+   width = extents1.xOff + extents2.xOff + 4;
+   height = ascent + descent + 2;
+ 
+-  pixmap = gdk_pixmap_new (NULL, width, height, visual->depth);
++  pixmap = gdk_pixmap_new (NULL, width, height, gdk_visual_get_depth (visual));
+ 
+   draw = XftDrawCreate (xdisplay, GDK_DRAWABLE_XID (pixmap), xvisual, xcolormap);
+ 
 diff -up gnome-control-center-2.31.4/capplets/common/theme-thumbnail.c.seal gnome-control-center-2.31.4/capplets/common/theme-thumbnail.c
 --- gnome-control-center-2.31.4/capplets/common/theme-thumbnail.c.seal	2010-06-30 01:29:37.405211687 -0400
 +++ gnome-control-center-2.31.4/capplets/common/theme-thumbnail.c	2010-06-30 01:29:59.217221604 -0400
