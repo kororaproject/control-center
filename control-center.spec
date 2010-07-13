@@ -192,13 +192,11 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_datadir}/gnome-control-center/pixmaps
 %{_datadir}/applications/*.desktop
 %{_datadir}/desktop-directories/*
-%{_datadir}/mime/packages/gnome-theme-package.xml
 %{_datadir}/icons/hicolor/*/apps/*
 %{_datadir}/polkit-1/actions/*
 %{_datadir}/pkgconfig/gnome-keybindings.pc
 %{_datadir}/pkgconfig/gnome-default-applications.pc
 # list all binaries explicitly, so we notice if one goes missing
-%{_bindir}/gnome-appearance-properties
 %{_bindir}/gnome-at-mobility
 %{_bindir}/gnome-at-visual
 %{_bindir}/gnome-control-center
@@ -211,22 +209,18 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_sysconfdir}/gconf/schemas/fontilus.schemas
 %{_sysconfdir}/xdg/menus/gnomecc.menu
 %{_sysconfdir}/xdg/autostart/gnome-at-session.desktop
-%{_libdir}/window-manager-settings/*.so
 %{_libdir}/control-center-1
 %{_libdir}/libgnome-control-center.so
 %{_sbindir}/gnome-display-properties-install-systemwide
 
 %files devel
 %defattr(-,root,root)
-%{_includedir}/gnome-window-settings-2.0
 %{_includedir}/gnome-control-center-1
-%{_libdir}/libgnome-window-settings.so
 %{_libdir}/pkgconfig/*
 %{_datadir}/gtk-doc/html/libgnome-control-center
 
 %files filesystem
 %defattr(-,root,root)
-%dir %{_libdir}/window-manager-settings
 %dir %{_datadir}/gnome/wm-properties
 %dir %{_datadir}/gnome-control-center
 %dir %{_datadir}/gnome-control-center/keybindings
