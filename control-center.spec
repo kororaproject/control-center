@@ -53,6 +53,7 @@ BuildRequires: gnome-settings-daemon-devel
 BuildRequires: intltool >= 0.37.1
 BuildRequires: libXxf86misc-devel
 BuildRequires: libxkbfile-devel
+BuildRequires: libXScrnSaver-devel
 BuildRequires: gnome-doc-utils
 BuildRequires: libglade2-devel
 BuildRequires: libxml2-devel
