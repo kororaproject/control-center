@@ -3,7 +3,7 @@
 %define glib2_version 2.13.0
 %define gtk3_version 2.90.2
 %define gconf2_version 1.2.0
-%define gnome_desktop_version 2.29.3-2
+%define gnome_desktop_version 2.90.4
 %define desktop_file_utils_version 0.9
 %define xft_version 2.1.7
 %define fontconfig_version 1.0.0
@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.31.5
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -29,24 +29,20 @@ URL: http://www.gnome.org
 Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
 Requires: gnome-icon-theme
-Requires: libgail-gnome
 Requires: alsa-lib
 Requires: gnome-menus >= %{gnome_menus_version}
-Requires: gnome-desktop >= %{gnome_desktop_version}
+Requires: gnome-desktop3 >= %{gnome_desktop_version}
 Requires: dbus-x11
 Requires: control-center-filesystem = %{epoch}:%{version}-%{release}
 # we need XRRGetScreenResourcesCurrent
 Requires: libXrandr >= %{libXrandr_version}
 
-BuildRequires: pango-devel
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gtk3-devel >= %{gtk3_version}
 BuildRequires: librsvg2-devel
 BuildRequires: GConf2-devel >= %{gconf2_version}
 BuildRequires: gnome-desktop3-devel >= %{gnome_desktop_version}
-BuildRequires: fontconfig-devel >= %{fontconfig_version}
 BuildRequires: desktop-file-utils >= %{desktop_file_utils_version}
-BuildRequires: metacity-devel >= %{metacity_version}
 BuildRequires: libxklavier-devel >= %{libxklavier_version}
 BuildRequires: libXcursor-devel
 BuildRequires: libXrandr-devel >= %{libXrandr_version}
@@ -55,14 +51,11 @@ BuildRequires: gnome-menus-devel >= %{gnome_menus_version}
 BuildRequires: libgnomekbd-devel >= %{libgnomekbd_version}
 BuildRequires: gnome-settings-daemon-devel
 BuildRequires: intltool >= 0.37.1
-BuildRequires: evolution-data-server-devel >= 1.9.1
 BuildRequires: libXxf86misc-devel
 BuildRequires: libxkbfile-devel
-BuildRequires: libXScrnSaver-devel
 BuildRequires: gnome-doc-utils
 BuildRequires: libglade2-devel
 BuildRequires: libxml2-devel
-BuildRequires: hal-devel >= 0.5.6
 BuildRequires: dbus-devel >= 0.90
 BuildRequires: dbus-glib-devel >= 0.70
 BuildRequires: scrollkeeper
@@ -228,6 +221,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Jul 21 2010 Bastien Nocera <bnocera@redhat.com> 2.31.5-2
+- Trim BuildRequires
+- Remove libgail-gnome dependency (#616632)
+
 * Tue Jul 13 2010 Matthias Clasen <mclasen@redhat.com> 2.31.5-1
 - Update to 2.31.5
 
