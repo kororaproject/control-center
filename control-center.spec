@@ -17,8 +17,8 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.31.5
-Release: 2%{?dist}
+Version: 2.31.6
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -222,6 +222,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Thu Aug 12 2010 Colin Walters <walters@verbum.org> - 1:2.31.6-1
+- New upstream
+
 * Wed Jul 21 2010 Bastien Nocera <bnocera@redhat.com> 2.31.5-2
 - Trim BuildRequires
 - Remove libgail-gnome dependency (#616632)
