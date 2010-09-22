@@ -198,7 +198,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_bindir}/gnome-font-viewer
 %{_bindir}/gnome-thumbnail-font
 %{_libdir}/*.so.*
-%{_sysconfdir}/gconf/schemas/control-center.schemas
 %{_sysconfdir}/gconf/schemas/gnome-control-center.schemas
 %{_sysconfdir}/gconf/schemas/fontilus.schemas
 %{_sysconfdir}/xdg/menus/gnomecc.menu
