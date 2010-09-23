@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.90.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -61,6 +61,7 @@ BuildRequires: dbus-devel >= 0.90
 BuildRequires: dbus-glib-devel >= 0.70
 BuildRequires: scrollkeeper
 BuildRequires: libcanberra-devel
+BuildRequires: libsocialweb-devel
 
 Requires(preun): GConf2
 Requires(pre): GConf2
@@ -221,6 +222,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Fri Sep 24 2010 Bastien Nocera <bnocera@redhat.com> 2.90.1-2
+- Add libsocialweb BR for the flickr support in background
+
 * Wed Sep 22 2010 Bastien Nocera <bnocera@redhat.com> 2.90.1-1
 - Update to 2.90.1
 
