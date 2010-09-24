@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.90.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -115,6 +115,7 @@ utilities.
         --disable-static \
         --disable-scrollkeeper \
         --disable-update-mimedb \
+        --with-libsocialweb=yes \
         CFLAGS="$RPM_OPT_FLAGS -Wno-error"
 
 # drop unneeded direct library deps with --as-needed
@@ -222,6 +223,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Fri Sep 24 2010 Bastien Nocera <bnocera@redhat.com> 2.90.1-3
+- Force enable libsocialweb support, it's disabled by default
+
 * Fri Sep 24 2010 Bastien Nocera <bnocera@redhat.com> 2.90.1-2
 - Add libsocialweb BR for the flickr support in background
 
