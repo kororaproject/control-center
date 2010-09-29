@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.90.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -223,6 +223,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Sep 29 2010 jkeating - 1:2.90.1-4
+- Rebuilt for gcc bug 634757
+
 * Fri Sep 24 2010 Bastien Nocera <bnocera@redhat.com> 2.90.1-3
 - Force enable libsocialweb support, it's disabled by default
 
