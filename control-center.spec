@@ -1,7 +1,7 @@
 %define gettext_package gnome-control-center-2.0
 
 %define glib2_version 2.13.0
-%define gtk3_version 2.90.2
+%define gtk3_version 2.91.0
 %define gconf2_version 1.2.0
 %define gnome_desktop_version 2.90.4
 %define desktop_file_utils_version 0.9
@@ -17,13 +17,13 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.90.1
-Release: 4%{?dist}
+Version: 2.91.0
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 #VCS: git:git://git.gnome.org/gnome-control-center
-Source: http://download.gnome.org/sources/gnome-control-center/2.90/gnome-control-center-%{version}.tar.bz2
+Source: http://download.gnome.org/sources/gnome-control-center/2.91/gnome-control-center-%{version}.tar.bz2
 URL: http://www.gnome.org
 
 Requires: gnome-settings-daemon >= 2.21.91-3
@@ -62,6 +62,7 @@ BuildRequires: dbus-glib-devel >= 0.70
 BuildRequires: scrollkeeper
 BuildRequires: libcanberra-devel
 BuildRequires: libsocialweb-devel
+BuildRequires: chrpath
 
 Requires(preun): GConf2
 Requires(pre): GConf2
@@ -73,6 +74,12 @@ Requires(postun): shared-mime-info
 
 Provides: control-center-extra = %{epoch}:%{version}-%{release}
 Obsoletes: control-center-extra < 1:2.30.3-3
+
+# already upstream
+Patch0:    port-new-gtk3-api.patch
+
+# rewritten in master
+Patch1:    fix-build.patch
 
 %description
 This package contains configuration utilities for the GNOME desktop, which
@@ -109,8 +116,11 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
+%patch0 -p1 -b .new-gtk3
+%patch1 -p1 -b .fix-build
 
 %build
+autoreconf -f
 %configure \
         --disable-static \
         --disable-scrollkeeper \
@@ -147,10 +157,21 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/gnome/wm-properties
 # we don't want these
 rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/autostart
 rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/cursor-fonts
-rm $RPM_BUILD_ROOT%{_datadir}/applications/mimeinfo.cache
 
 # remove useless libtool archive files
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
+
+# remove rpath
+chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libdefault-applications.so
+chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libbackground.so
+chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libdate_time.so
+chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libkeyboard-properties.so
+chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libmouse-properties.so
+chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libuniversal-access.so
+chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libkeybinding-properties.so
+chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libnetwork.so
+chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libdisplay.so
+chrpath --delete $RPM_BUILD_ROOT%{_bindir}/gnome-control-center
 
 %find_lang %{gettext_package} --all-name --with-gnome
 
@@ -160,12 +181,6 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
 update-desktop-database --quiet %{_datadir}/applications
 update-mime-database %{_datadir}/mime > /dev/null
 touch --no-create %{_datadir}/icons/hicolor >&/dev/null || :
-
-%pre
-%gconf_schema_prepare control-center gnome-control-center fontilus
-
-%preun
-%gconf_schema_remove control-center gnome-control-center fontilus
 
 %postun
 /sbin/ldconfig
@@ -197,11 +212,8 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_bindir}/gnome-at-visual
 %{_bindir}/gnome-control-center
 %{_bindir}/gnome-typing-monitor
-%{_bindir}/gnome-font-viewer
-%{_bindir}/gnome-thumbnail-font
 %{_libdir}/*.so.*
 %{_sysconfdir}/gconf/schemas/gnome-control-center.schemas
-%{_sysconfdir}/gconf/schemas/fontilus.schemas
 %{_sysconfdir}/xdg/menus/gnomecc.menu
 %{_sysconfdir}/xdg/autostart/gnome-at-session.desktop
 %{_libdir}/control-center-1
@@ -223,6 +235,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Oct 06 2010 Richard Hughes <rhughes@redhat.com> 2.91.0-1
+- Update to 2.91.0
+
 * Wed Sep 29 2010 jkeating - 1:2.90.1-4
 - Rebuilt for gcc bug 634757
 

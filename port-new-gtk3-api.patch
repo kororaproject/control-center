@@ -1,0 +1,34 @@
+commit cdffa4f46b52b53fe04b960f2ab3d034e8be82d4
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed Oct 6 10:37:08 2010 +0100
+
+    shell: handle GtkSizeRequest removal
+
+diff --git a/shell/gnome-control-center.c b/shell/gnome-control-center.c
+index e9d598a..5f4d3e3 100644
+--- a/shell/gnome-control-center.c
++++ b/shell/gnome-control-center.c
+@@ -126,7 +126,7 @@ activate_panel (GnomeControlCenter *shell,
+           GtkWidget *panel;
+           GtkWidget *box;
+           gint i, old_page;
+-          GtkRequisition min, nat;
++          int nat_height;
+ 
+           /* create the panel plugin */
+           panel = g_object_new (panel_type, "shell", shell, NULL);
+@@ -162,11 +162,10 @@ activate_panel (GnomeControlCenter *shell,
+ 
+           /* resize to the preferred size of the panel */
+           gtk_widget_set_size_request (priv->window, FIXED_WIDTH, -1);
+-
+-          gtk_widget_get_preferred_size (priv->window,
+-                                         &min, &nat);
++          gtk_widget_get_preferred_height (GTK_WIDGET (priv->window),
++                                           NULL, &nat_height);
+           gtk_window_resize (GTK_WINDOW (priv->window), FIXED_WIDTH,
+-                             nat.height);
++                             nat_height);
+           return;
+         }
+     }
