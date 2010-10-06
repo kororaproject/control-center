@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.91.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -177,7 +177,6 @@ chrpath --delete $RPM_BUILD_ROOT%{_bindir}/gnome-control-center
 
 %post
 /sbin/ldconfig
-%gconf_schema_upgrade control-center gnome-control-center fontilus
 update-desktop-database --quiet %{_datadir}/applications
 update-mime-database %{_datadir}/mime > /dev/null
 touch --no-create %{_datadir}/icons/hicolor >&/dev/null || :
@@ -235,6 +234,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Oct 06 2010 Richard Hughes <rhughes@redhat.com> 2.91.0-2
+- Rebuild with a new gnome-settings-daemon
+
 * Wed Oct 06 2010 Richard Hughes <rhughes@redhat.com> 2.91.0-1
 - Update to 2.91.0
 
