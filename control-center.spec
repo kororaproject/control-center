@@ -63,6 +63,7 @@ BuildRequires: scrollkeeper
 BuildRequires: libcanberra-devel
 BuildRequires: libsocialweb-devel
 BuildRequires: chrpath
+BuildRequires: gnome-common
 
 Requires(preun): GConf2
 Requires(pre): GConf2
