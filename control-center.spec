@@ -76,12 +76,6 @@ Requires(postun): shared-mime-info
 Provides: control-center-extra = %{epoch}:%{version}-%{release}
 Obsoletes: control-center-extra < 1:2.30.3-3
 
-# already upstream
-Patch0:    port-new-gtk3-api.patch
-
-# rewritten in master
-Patch1:    fix-build.patch
-
 %description
 This package contains configuration utilities for the GNOME desktop, which
 allow to configure accessibility options, desktop fonts, keyboard and mouse
@@ -117,8 +111,6 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
-%patch0 -p1 -b .new-gtk3
-%patch1 -p1 -b .fix-build
 
 %build
 autoreconf -f
