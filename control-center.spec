@@ -201,14 +201,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_bindir}/gnome-at-mobility
 %{_bindir}/gnome-at-visual
 %{_bindir}/gnome-control-center
-%{_bindir}/gnome-typing-monitor
 %{_libdir}/*.so.*
 %{_sysconfdir}/gconf/schemas/gnome-control-center.schemas
 %{_sysconfdir}/xdg/menus/gnomecc.menu
 %{_sysconfdir}/xdg/autostart/gnome-at-session.desktop
 %{_libdir}/control-center-1
 %{_libdir}/libgnome-control-center.so
-%{_sbindir}/gnome-display-properties-install-systemwide
 
 %files devel
 %defattr(-,root,root)
