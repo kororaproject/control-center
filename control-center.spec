@@ -198,7 +198,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_datadir}/gnome-control-center/icons/
 %{_datadir}/pkgconfig/gnome-keybindings.pc
 %{_datadir}/pkgconfig/gnome-default-applications.pc
-%{_datadir}/sounds/gnome/default/*.ogg
+%{_datadir}/sounds/gnome/default/*/*.ogg
 # list all binaries explicitly, so we notice if one goes missing
 %{_bindir}/gnome-at-mobility
 %{_bindir}/gnome-at-visual
