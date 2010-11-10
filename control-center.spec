@@ -194,7 +194,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_datadir}/applications/*.desktop
 %{_datadir}/desktop-directories/*
 %{_datadir}/icons/hicolor/*/apps/*
-%{_datadir}/polkit-1/actions/*
 %{_datadir}/pkgconfig/gnome-keybindings.pc
 %{_datadir}/pkgconfig/gnome-default-applications.pc
 # list all binaries explicitly, so we notice if one goes missing
