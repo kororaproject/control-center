@@ -158,15 +158,7 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/gnome/cursor-fonts
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
 
 # remove rpath
-chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libdefault-applications.so
-chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libbackground.so
-chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libdate_time.so
-chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libkeyboard-properties.so
-chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libmouse-properties.so
-chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libuniversal-access.so
-chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libkeybinding-properties.so
-chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libnetwork.so
-chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/libdisplay.so
+chrpath --delete $RPM_BUILD_ROOT%{_libdir}/control-center-1/panels/*.so
 chrpath --delete $RPM_BUILD_ROOT%{_bindir}/gnome-control-center
 
 %find_lang %{gettext_package} --all-name --with-gnome
