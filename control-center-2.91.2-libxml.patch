@@ -1,0 +1,32 @@
+From 54c96a4315c65161905805c93e8327142c663aca Mon Sep 17 00:00:00 2001
+From: Yanko Kaneti <yaneti@declera.com>
+Date: Wed, 10 Nov 2010 02:20:00 +0200
+Subject: [PATCH] sound: Explicit link to libxml
+
+https://bugzilla.gnome.org/show_bug.cgi?id=634467
+---
+ panels/sound/Makefile.am |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+diff --git a/panels/sound/Makefile.am b/panels/sound/Makefile.am
+index c1ec3a7..6e8f34e 100644
+--- a/panels/sound/Makefile.am
++++ b/panels/sound/Makefile.am
+@@ -18,6 +18,7 @@ AM_CPPFLAGS =					\
+ 	$(PANEL_CFLAGS)				\
+ 	$(DISABLE_DEPRECATED)			\
+ 	$(PULSEAUDIO_CFLAGS)			\
++	$(XML_CFLAGS)				\
+ 	-DLOCALE_DIR=\""$(datadir)/locale"\"	\
+ 	-DLIBEXECDIR=\"$(libexecdir)\"		\
+ 	-DGLADEDIR=\""$(pkgdatadir)"\"		\
+@@ -83,6 +84,7 @@ libsound_la_LDFLAGS =				\
+ 	$(PANEL_LDFLAGS)			\
+ 	$(CANBERRA_LIBS)			\
+ 	$(PULSEAUDIO_LIBS)			\
++	$(XML_LIBS)				\
+ 	$(NULL)
+ 
+ libsound_la_SOURCES =				\
+-- 
+1.7.3.2
