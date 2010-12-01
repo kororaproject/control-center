@@ -17,8 +17,8 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.91.2
-Release: 2%{?dist}
+Version: 2.91.3
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -79,10 +79,6 @@ Requires(postun): shared-mime-info
 Provides: control-center-extra = %{epoch}:%{version}-%{release}
 Obsoletes: control-center-extra < 1:2.30.3-3
 
-Patch0: 0001-background-one-last-old-gnome_bg-remnant.patch
-# https://bugzilla.gnome.org/show_bug.cgi?id=634467
-Patch1:	control-center-2.91.2-libxml.patch
-
 %description
 This package contains configuration utilities for the GNOME desktop, which
 allow to configure accessibility options, desktop fonts, keyboard and mouse
@@ -118,8 +114,6 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
-%patch0 -p1 -b .gnome-bg
-%patch1 -p1 -b .libxml
 
 %build
 autoreconf -f
@@ -230,6 +224,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Dec 01 2010 Bastien Nocera <bnocera@redhat.com> 2.91.3-1
+- Update to 2.91.3
+
 * Fri Nov 12 2010 Adam Williamson <awilliam@redhat.com> 2.91.2-2
 - add upstream patch to fix sound module to link against libxml
   https://bugzilla.gnome.org/show_bug.cgi?id=634467
