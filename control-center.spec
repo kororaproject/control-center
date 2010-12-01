@@ -65,6 +65,7 @@ BuildRequires: libsocialweb-devel
 BuildRequires: chrpath
 BuildRequires: gsettings-desktop-schemas-devel
 BuildRequires: pulseaudio-libs-devel libcanberra-devel
+BuildRequires: upower-devel
 BuildRequires: polkit-devel
 BuildRequires: gnome-common
 
