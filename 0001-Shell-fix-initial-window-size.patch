@@ -1,0 +1,54 @@
+From 01f8f489d23fec0ee62b005af8fd902846732f22 Mon Sep 17 00:00:00 2001
+From: Matthias Clasen <mclasen@redhat.com>
+Date: Fri, 3 Dec 2010 21:22:26 -0500
+Subject: [PATCH] Shell: fix initial window size
+
+The code is setting the min-content-height out of a ::size-allocate
+handler, so the resulting size request is ignored. Doing a separate
+size request in an idle has the desired effect.
+---
+ shell/gnome-control-center.c |   21 ++++++++++++++++++++-
+ 1 files changed, 20 insertions(+), 1 deletions(-)
+
+diff --git a/shell/gnome-control-center.c b/shell/gnome-control-center.c
+index 4f639f3..5fce474 100644
+--- a/shell/gnome-control-center.c
++++ b/shell/gnome-control-center.c
+@@ -913,6 +913,16 @@ gnome_control_center_class_init (GnomeControlCenterClass *klass)
+   shell_class->get_toplevel = _shell_get_toplevel;
+ }
+ 
++static gboolean
++queue_resize (gpointer data)
++{
++  GtkWidget *widget = data;
++
++  gtk_widget_queue_resize (widget);
++
++  return FALSE;
++}
++
+ static void
+ on_window_size_allocate (GtkWidget          *widget,
+                          GtkAllocation      *allocation,
+@@ -945,7 +955,16 @@ on_window_size_allocate (GtkWidget          *widget,
+       height = 50;
+     }
+ 
+-  gtk_scrolled_window_set_min_content_height (GTK_SCROLLED_WINDOW (self->priv->scrolled_window), height);
++  if (gtk_scrolled_window_get_min_content_height (GTK_SCROLLED_WINDOW (self->priv->scrolled_window)) != height)
++    {
++      g_debug ("Setting min content height: %d", height);
++      gtk_scrolled_window_set_min_content_height (GTK_SCROLLED_WINDOW (self->priv->scrolled_window), height);
++      /*
++       * Queueing a resize out of size-allocate is ignored,
++       * so we have to defer to an idle.
++       */
++      g_idle_add (queue_resize, self->priv->scrolled_window);
++    }
+ }
+ 
+ static void
+-- 
+1.7.3.2
+
