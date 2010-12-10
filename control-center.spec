@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.91.3
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -39,6 +39,8 @@ Requires: dbus-x11
 Requires: control-center-filesystem = %{epoch}:%{version}-%{release}
 # we need XRRGetScreenResourcesCurrent
 Requires: libXrandr >= %{libXrandr_version}
+# for user accounts
+Requires: accountsservice
 
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gtk3-devel >= %{gtk3_version}
@@ -82,6 +84,7 @@ Requires(postun): shared-mime-info
 
 Provides: control-center-extra = %{epoch}:%{version}-%{release}
 Obsoletes: control-center-extra < 1:2.30.3-3
+Obsoletes: accountsdialog <= 0.6
 
 %description
 This package contains configuration utilities for the GNOME desktop, which
@@ -229,6 +232,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Fri Dec 10 2010 Bill Nottingham <notting@redhat.com> 2.91.3-4
+- user-accounts: require accountsserivce, obsolete accountsdialog
+
 * Fri Dec  3 2010 Matthias Clasen <mclasen@redhat.com> 2.91.3-3
 - Fix initial window size
 
