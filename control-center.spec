@@ -26,6 +26,8 @@ Group: User Interface/Desktops
 Source: http://download.gnome.org/sources/gnome-control-center/2.91/gnome-control-center-%{version}.tar.bz2
 URL: http://www.gnome.org
 
+Patch0: gnome-control-center-update-policy.patch
+
 Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
 Requires: gnome-icon-theme
@@ -121,6 +123,7 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
+%patch0 -p1 -b .update-policy
 
 %build
 autoreconf -f
