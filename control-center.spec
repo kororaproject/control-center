@@ -1,7 +1,7 @@
 %define gettext_package gnome-control-center-2.0
 
 %define glib2_version 2.13.0
-%define gtk3_version 2.91.0
+%define gtk3_version 2.99.0
 %define gconf2_version 1.2.0
 %define gnome_desktop_version 2.90.4
 %define desktop_file_utils_version 0.9
@@ -41,6 +41,7 @@ Requires: accountsservice
 
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gtk3-devel >= %{gtk3_version}
+BuildRequires: gdk-pixbuf2-devel >= 2.23.0
 BuildRequires: librsvg2-devel
 BuildRequires: GConf2-devel >= %{gconf2_version}
 BuildRequires: gnome-desktop3-devel >= %{gnome_desktop_version}
@@ -76,8 +77,10 @@ Requires(pre): GConf2
 Requires(post): GConf2
 Requires(post): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(post): shared-mime-info
+Requires(post): /usr/bin/gtk-update-icon-cache
 Requires(postun): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(postun): shared-mime-info
+Requires(postun): /usr/bin/gtk-update-icon-cache
 
 Provides: control-center-extra = %{epoch}:%{version}-%{release}
 Obsoletes: control-center-extra < 1:2.30.3-3
