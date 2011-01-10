@@ -3,7 +3,7 @@
 %define glib2_version 2.13.0
 %define gtk3_version 2.99.0
 %define gconf2_version 1.2.0
-%define gnome_desktop_version 2.90.4
+%define gnome_desktop_version 2.91.5
 %define desktop_file_utils_version 0.9
 %define xft_version 2.1.7
 %define fontconfig_version 1.0.0
@@ -17,7 +17,7 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.91.4
+Version: 2.91.5
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
@@ -234,6 +234,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Jan 10 2011 Matthias Clasen <mclasen@redhat.com> 2.91.5-1
+- Update to 2.91.5
+
 * Sat Jan  8 2011 Matthias Clasen <mclasen@redhat.com> 2.91.4-1
 - Update to 2.91.4
 
