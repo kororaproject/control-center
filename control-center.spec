@@ -224,7 +224,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %dir %{_datadir}/gnome/wm-properties
 %dir %{_datadir}/gnome-control-center
 %dir %{_datadir}/gnome-control-center/keybindings
-%dir %{_datadir}/gnome-control-center/default-apps
 
 
 %changelog
