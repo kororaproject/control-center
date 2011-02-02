@@ -71,6 +71,7 @@ BuildRequires: pulseaudio-libs-devel libcanberra-devel
 BuildRequires: upower-devel
 BuildRequires: polkit-devel
 BuildRequires: gnome-common
+BuildRequires: cups-devel
 
 Requires(preun): GConf2
 Requires(pre): GConf2
