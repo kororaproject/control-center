@@ -72,6 +72,7 @@ BuildRequires: upower-devel
 BuildRequires: polkit-devel
 BuildRequires: gnome-common
 BuildRequires: cups-devel
+BuildRequires: libgtop2-devel
 
 Requires(preun): GConf2
 Requires(pre): GConf2
