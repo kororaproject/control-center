@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.91.6
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -38,6 +38,8 @@ Requires: control-center-filesystem = %{epoch}:%{version}-%{release}
 Requires: libXrandr >= %{libXrandr_version}
 # for user accounts
 Requires: accountsservice
+# For the user languages
+Requires: iso-codes
 
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gtk3-devel >= %{gtk3_version}
@@ -73,6 +75,7 @@ BuildRequires: polkit-devel
 BuildRequires: gnome-common
 BuildRequires: cups-devel
 BuildRequires: libgtop2-devel
+BuildRequires: iso-codes-devel
 
 Requires(preun): GConf2
 Requires(pre): GConf2
@@ -227,6 +230,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Thu Feb 03 2011 Bastien Nocera <bnocera@redhat.com> 2.91.6-3
+- Add missing iso-codes dependencies
+
 * Thu Feb 03 2011 Bastien Nocera <bnocera@redhat.com> 2.91.6-2
 - Rebuild against newer GTK+ 3.x
 
