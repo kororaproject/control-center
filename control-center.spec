@@ -202,6 +202,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_datadir}/gnome-control-center/keybindings/*.xml
 %{_datadir}/gnome-control-center/ui
 %{_datadir}/gnome-control-center/pixmaps
+%{_datadir}/gnome-control-center/datetime/
 %{_datadir}/gnome-control-center/sounds/gnome-sounds-default.xml
 %{_datadir}/applications/*.desktop
 %{_datadir}/desktop-directories/*
