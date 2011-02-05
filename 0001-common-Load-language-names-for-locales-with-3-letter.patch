@@ -1,0 +1,131 @@
+From 40e2c9eed4a3a21d8e722bfda21dbf962dc7bc49 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 3 Feb 2011 19:11:02 +0000
+Subject: [PATCH] common: Load language names for locales with 3 letters
+
+If software with "Chhattisgarhi" translations was loaded (such
+as k3b), we would fail to load the language name for it, as we
+were not parsing the ISO-639-3 database.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=641373
+---
+ panels/common/gdm-languages.c |   45 ++++++++++++++++++++++++++++++++--------
+ 1 files changed, 36 insertions(+), 9 deletions(-)
+
+diff --git a/panels/common/gdm-languages.c b/panels/common/gdm-languages.c
+index 5607221..fa2f040 100644
+--- a/panels/common/gdm-languages.c
++++ b/panels/common/gdm-languages.c
+@@ -781,15 +781,18 @@ languages_parse_start_tag (GMarkupParseContext      *ctx,
+         const char *ccode_longB;
+         const char *ccode_longT;
+         const char *ccode;
++        const char *ccode_id;
+         const char *lang_name;
+ 
+-        if (! g_str_equal (element_name, "iso_639_entry") || attr_names == NULL || attr_values == NULL) {
++        if (! (g_str_equal (element_name, "iso_639_entry") || g_str_equal (element_name, "iso_639_3_entry"))
++            || attr_names == NULL || attr_values == NULL) {
+                 return;
+         }
+ 
+         ccode = NULL;
+         ccode_longB = NULL;
+         ccode_longT = NULL;
++        ccode_id = NULL;
+         lang_name = NULL;
+ 
+         while (*attr_names && *attr_values) {
+@@ -817,6 +820,15 @@ languages_parse_start_tag (GMarkupParseContext      *ctx,
+                                 }
+                                 ccode_longT = *attr_values;
+                         }
++                } else if (g_str_equal (*attr_names, "id")) {
++                        /* skip if empty */
++                        if (**attr_values) {
++                                if (strlen (*attr_values) != 2 &&
++                                    strlen (*attr_values) != 3) {
++                                        return;
++                                }
++                                ccode_id = *attr_values;
++                        }
+                 } else if (g_str_equal (*attr_names, "name")) {
+                         lang_name = *attr_values;
+                 }
+@@ -844,6 +856,11 @@ languages_parse_start_tag (GMarkupParseContext      *ctx,
+                                      g_strdup (ccode_longT),
+                                      g_strdup (lang_name));
+         }
++        if (ccode_id != NULL) {
++                g_hash_table_insert (gdm_languages_map,
++                                     g_strdup (ccode_id),
++                                     g_strdup (lang_name));
++        }
+ }
+ 
+ static void
+@@ -934,20 +951,20 @@ territories_parse_start_tag (GMarkupParseContext      *ctx,
+ }
+ 
+ static void
+-languages_init (void)
++languages_variant_init (const char *variant)
+ {
+         GError  *error;
+         gboolean res;
+         char    *buf;
+         gsize    buf_len;
++        char    *filename;
+ 
+-        bindtextdomain ("iso_639", ISO_CODES_LOCALESDIR);
+-        bind_textdomain_codeset ("iso_639", "UTF-8");
+-
+-        gdm_languages_map = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
++        bindtextdomain (variant, ISO_CODES_LOCALESDIR);
++        bind_textdomain_codeset (variant, "UTF-8");
+ 
+         error = NULL;
+-        res = g_file_get_contents (ISO_CODES_DATADIR "/iso_639.xml",
++        filename = g_strdup_printf (ISO_CODES_DATADIR "/%s.xml", variant);
++        res = g_file_get_contents (filename,
+                                    &buf,
+                                    &buf_len,
+                                    &error);
+@@ -962,22 +979,32 @@ languages_init (void)
+ 
+                 if (! res) {
+                         g_warning ("Failed to parse '%s': %s\n",
+-                                   ISO_CODES_DATADIR "/iso_639.xml",
++                                   filename,
+                                    error->message);
+                         g_error_free (error);
++                        g_free (filename);
+                 }
+ 
+                 g_markup_parse_context_free (ctx);
+                 g_free (buf);
+         } else {
+                 g_warning ("Failed to load '%s': %s\n",
+-                           ISO_CODES_DATADIR "/iso_639.xml",
++                           filename,
+                            error->message);
+                 g_error_free (error);
+         }
+ }
+ 
+ static void
++languages_init (void)
++{
++        gdm_languages_map = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
++
++        languages_variant_init ("iso_639");
++        languages_variant_init ("iso_639_3");
++}
++
++static void
+ territories_init (void)
+ {
+         GError  *error;
+-- 
+1.7.4
+

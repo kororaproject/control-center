@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.91.6
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -92,6 +92,7 @@ Obsoletes: control-center-extra < 1:2.30.3-3
 Obsoletes: accountsdialog <= 0.6
 
 Patch0: 0001-datetime-Fix-crash-when-TZ-is-an-alias.patch
+Patch1: 0001-common-Load-language-names-for-locales-with-3-letter.patch
 
 %description
 This package contains configuration utilities for the GNOME desktop, which
@@ -129,6 +130,7 @@ utilities.
 %prep
 %setup -q -n gnome-control-center-%{version}
 %patch0 -p1 -b .tz-aliases
+%patch1 -p1 -b .iso-639-3
 
 %build
 autoreconf -f
@@ -234,6 +236,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Sat Feb 05 2011 Bastien Nocera <bnocera@redhat.com> 2.91.6-5
+- Fix crasher running region and language with KDE apps installed
+
 * Fri Feb 04 2011 Bastien Nocera <bnocera@redhat.com> 2.91.6-4
 - Fix crasher running date and time on the live CD
 
