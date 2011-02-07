@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.91.6
-Release: 5%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -37,7 +37,7 @@ Requires: control-center-filesystem = %{epoch}:%{version}-%{release}
 # we need XRRGetScreenResourcesCurrent
 Requires: libXrandr >= %{libXrandr_version}
 # for user accounts
-Requires: accountsservice
+Requires: accountsservice apg
 # For the user languages
 Requires: iso-codes
 
@@ -236,6 +236,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Feb 07 2011 Bastien Nocera <bnocera@redhat.com> 2.91.6-6
+- Add missing apg Requires (#675227)
+
 * Sat Feb 05 2011 Bastien Nocera <bnocera@redhat.com> 2.91.6-5
 - Fix crasher running region and language with KDE apps installed
 
