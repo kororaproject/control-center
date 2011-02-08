@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.91.6
-Release: 6%{?dist}
+Release: 7%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -236,6 +236,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:2.91.6-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Mon Feb 07 2011 Bastien Nocera <bnocera@redhat.com> 2.91.6-6
 - Add missing apg Requires (#675227)
 
