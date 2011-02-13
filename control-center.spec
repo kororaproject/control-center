@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.91.6
-Release: 8%{?dist}
+Release: 9%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -236,6 +236,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Sun Feb 13 2011 Christopher Aillon <caillon@redhat.com> - 1:2.91.6-9
+- Rebuild against new libxklavier
+
 * Thu Feb 10 2011 Matthias Clasen <mclasen@redhat.com>  2.91.6-8
 - Rebuild against newer gtk
 
