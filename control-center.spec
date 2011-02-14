@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.91.6
-Release: 9%{?dist}
+Release: 10%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -66,7 +66,8 @@ BuildRequires: dbus-devel >= 0.90
 BuildRequires: dbus-glib-devel >= 0.70
 BuildRequires: scrollkeeper
 BuildRequires: libcanberra-devel
-BuildRequires: libsocialweb-devel
+# https://bugzilla.gnome.org/show_bug.cgi?id=636869
+# BuildRequires: libsocialweb-devel
 BuildRequires: chrpath
 BuildRequires: gsettings-desktop-schemas-devel
 BuildRequires: pulseaudio-libs-devel libcanberra-devel
@@ -134,11 +135,12 @@ utilities.
 
 %build
 autoreconf -f
+# Re-add --with-libsocialweb=yes when
+# https://bugzilla.gnome.org/show_bug.cgi?id=636869 is fixed
 %configure \
         --disable-static \
         --disable-scrollkeeper \
         --disable-update-mimedb \
-        --with-libsocialweb=yes \
         CFLAGS="$RPM_OPT_FLAGS -Wno-error"
 
 # drop unneeded direct library deps with --as-needed
@@ -236,6 +238,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Feb 14 2011 Bastien Nocera <bnocera@redhat.com> 2.91.6-10
+- Disable libsocialweb support for now
+
 * Sun Feb 13 2011 Christopher Aillon <caillon@redhat.com> - 1:2.91.6-9
 - Rebuild against new libxklavier
 
