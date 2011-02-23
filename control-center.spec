@@ -17,8 +17,8 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.91.6
-Release: 9%{?dist}
+Version: 2.91.90
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -91,9 +91,6 @@ Provides: control-center-extra = %{epoch}:%{version}-%{release}
 Obsoletes: control-center-extra < 1:2.30.3-3
 Obsoletes: accountsdialog <= 0.6
 
-Patch0: 0001-datetime-Fix-crash-when-TZ-is-an-alias.patch
-Patch1: 0001-common-Load-language-names-for-locales-with-3-letter.patch
-
 %description
 This package contains configuration utilities for the GNOME desktop, which
 allow to configure accessibility options, desktop fonts, keyboard and mouse
@@ -129,8 +126,6 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
-%patch0 -p1 -b .tz-aliases
-%patch1 -p1 -b .iso-639-3
 
 %build
 autoreconf -f
@@ -236,6 +231,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Tue Feb 22 2011 Matthias Clasen <mclasen@redhat.com> - 1:2.91.90-1
+- Update to 2.91.90
+
 * Sun Feb 13 2011 Christopher Aillon <caillon@redhat.com> - 1:2.91.6-9
 - Rebuild against new libxklavier
 
