@@ -27,7 +27,7 @@ Source: http://download.gnome.org/sources/gnome-control-center/2.91/gnome-contro
 URL: http://www.gnome.org
 
 # upstream fix
-Patch: sound-fallback.patch
+Patch0: sound-fallback.patch
 
 Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
