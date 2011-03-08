@@ -17,17 +17,14 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.91.90
-Release: 2%{?dist}
+Version: 2.91.91
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 #VCS: git:git://git.gnome.org/gnome-control-center
 Source: http://download.gnome.org/sources/gnome-control-center/2.91/gnome-control-center-%{version}.tar.bz2
 URL: http://www.gnome.org
-
-# upstream fix
-Patch0: sound-fallback.patch
 
 Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
@@ -129,7 +126,6 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
-%patch0 -p1 -b .sound-fallback
 
 %build
 autoreconf -f
@@ -137,7 +133,7 @@ autoreconf -f
         --disable-static \
         --disable-scrollkeeper \
         --disable-update-mimedb \
-        --with-libsocialweb=yes \
+        --with-libsocialweb=no \
         CFLAGS="$RPM_OPT_FLAGS -Wno-error"
 
 # drop unneeded direct library deps with --as-needed
@@ -235,6 +231,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Tue Mar 08 2011 Bastien Nocera <bnocera@redhat.com> 2.91.91-1
+- Update to 2.91.91
+- Disable libsocialweb support until Flickr integration is fixed upstream
+
 * Mon Feb 28 2011 Matthias Clasen <mclasen@redhat.com> - 1:2.91.90-2
 - Fix a typo in the autostart condition for the sound applet
 
