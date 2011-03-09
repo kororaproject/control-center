@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.91.91
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -73,7 +73,7 @@ BuildRequires: chrpath
 BuildRequires: gsettings-desktop-schemas-devel
 BuildRequires: pulseaudio-libs-devel libcanberra-devel
 BuildRequires: upower-devel
-BuildRequires: NetworkManager-devel >= 0.8.995
+BuildRequires: NetworkManager-glib-devel >= 0.8.995
 BuildRequires: polkit-devel
 BuildRequires: gnome-common
 BuildRequires: cups-devel
@@ -216,7 +216,22 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_sysconfdir}/xdg/autostart/gnome-sound-applet.desktop
 %{_sysconfdir}/gconf/schemas/gnome-control-center.schemas
 %{_sysconfdir}/xdg/menus/gnomecc.menu
-%{_libdir}/control-center-1
+%dir %{_libdir}/control-center-1
+%{_libdir}/control-center-1/panels/libbackground.so
+%{_libdir}/control-center-1/panels/libdate_time.so
+%{_libdir}/control-center-1/panels/libdisplay.so
+%{_libdir}/control-center-1/panels/libinfo.so
+%{_libdir}/control-center-1/panels/libkeyboard.so
+%{_libdir}/control-center-1/panels/libmedia.so
+%{_libdir}/control-center-1/panels/libmouse-properties.so
+%{_libdir}/control-center-1/panels/libnetwork.so
+%{_libdir}/control-center-1/panels/libpower.so
+%{_libdir}/control-center-1/panels/libprinters.so
+%{_libdir}/control-center-1/panels/libregion.so
+%{_libdir}/control-center-1/panels/libscreen.so
+%{_libdir}/control-center-1/panels/libsound.so
+%{_libdir}/control-center-1/panels/libuniversal-access.so
+%{_libdir}/control-center-1/panels/libuser-accounts.so
 %{_libdir}/libgnome-control-center.so
 
 %files devel
@@ -233,6 +248,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Mar 09 2011 Richard Hughes <rhughes@redhat.com> 2.91.91-3
+- Ensure we have NetworkManager-glib-devel to get the network panel
+- Explicitly list all the panels so we know if one goes missing
+
 * Tue Mar  8 2011 Matthias Clasen <mclasen@redhat.com> 2.91.91-2
 - Rebuild against NetworkManager 0.9, to get the network panel
 
