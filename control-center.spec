@@ -37,7 +37,6 @@ Requires: gnome-menus >= %{gnome_menus_version}
 Requires: gnome-desktop3 >= %{gnome_desktop_version}
 Requires: dbus-x11
 Requires: control-center-filesystem = %{epoch}:%{version}-%{release}
-Requires: NetworkManager-devel >= 0.8.995
 # we need XRRGetScreenResourcesCurrent
 Requires: libXrandr >= %{libXrandr_version}
 # for user accounts
@@ -75,6 +74,7 @@ BuildRequires: chrpath
 BuildRequires: gsettings-desktop-schemas-devel
 BuildRequires: pulseaudio-libs-devel libcanberra-devel
 BuildRequires: upower-devel
+BuildRequires: NetworkManager-devel >= 0.8.995
 BuildRequires: polkit-devel
 BuildRequires: gnome-common
 BuildRequires: cups-devel
@@ -86,10 +86,8 @@ Requires(pre): GConf2
 Requires(post): GConf2
 Requires(post): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(post): shared-mime-info
-Requires(post): /usr/bin/gtk-update-icon-cache
 Requires(postun): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(postun): shared-mime-info
-Requires(postun): /usr/bin/gtk-update-icon-cache
 
 Provides: control-center-extra = %{epoch}:%{version}-%{release}
 Obsoletes: control-center-extra < 1:2.30.3-3
