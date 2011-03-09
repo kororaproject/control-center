@@ -18,13 +18,16 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.91.91
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 #VCS: git:git://git.gnome.org/gnome-control-center
 Source: http://download.gnome.org/sources/gnome-control-center/2.91/gnome-control-center-%{version}.tar.bz2
 URL: http://www.gnome.org
+
+# upstream fix
+Patch0: 0001-Network-don-t-by-shy.patch
 
 Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
@@ -34,6 +37,7 @@ Requires: gnome-menus >= %{gnome_menus_version}
 Requires: gnome-desktop3 >= %{gnome_desktop_version}
 Requires: dbus-x11
 Requires: control-center-filesystem = %{epoch}:%{version}-%{release}
+Requires: NetworkManager-devel >= 0.8.995
 # we need XRRGetScreenResourcesCurrent
 Requires: libXrandr >= %{libXrandr_version}
 # for user accounts
@@ -126,6 +130,7 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
+%patch0 -p1 -b .fix-network
 
 %build
 autoreconf -f
@@ -231,6 +236,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Tue Mar  8 2011 Matthias Clasen <mclasen@redhat.com> 2.91.91-2
+- Rebuild against NetworkManager 0.9, to get the network panel
+
 * Tue Mar 08 2011 Bastien Nocera <bnocera@redhat.com> 2.91.91-1
 - Update to 2.91.91
 - Disable libsocialweb support until Flickr integration is fixed upstream
