@@ -27,7 +27,7 @@ Source: http://download.gnome.org/sources/gnome-control-center/2.91/gnome-contro
 URL: http://www.gnome.org
 
 # upstream fix
-Patch0: 0001-Network-don-t-by-shy.patch
+Patch0: 0001-Network-don-t-be-shy.patch
 
 Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
