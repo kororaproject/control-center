@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.91.91
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -43,6 +43,8 @@ Requires: libXrandr >= %{libXrandr_version}
 Requires: accountsservice apg
 # For the user languages
 Requires: iso-codes
+# For the sound panel and gnome-sound-applet
+Requires: gnome-icon-theme-symbolic
 
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gtk3-devel >= %{gtk3_version}
@@ -248,6 +250,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Mar 14 2011 Bastien Nocera <bnocera@redhat.com> 2.91.91-4
+- Add gnome-icon-theme-symbolic dependency (#678696)
+
 * Wed Mar 09 2011 Richard Hughes <rhughes@redhat.com> 2.91.91-3
 - Ensure we have NetworkManager-glib-devel to get the network panel
 - Explicitly list all the panels so we know if one goes missing
