@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.91.91
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -93,6 +93,9 @@ Requires(postun): shared-mime-info
 Provides: control-center-extra = %{epoch}:%{version}-%{release}
 Obsoletes: control-center-extra < 1:2.30.3-3
 Obsoletes: accountsdialog <= 0.6
+Provides: accountsdialog = %{epoch}:%{version}-%{release}
+Obsoletes: desktop-effects <= 0.8.7-3
+Provides: desktop-effects = %{epoch}:%{version}-%{release}
 
 %description
 This package contains configuration utilities for the GNOME desktop, which
@@ -250,6 +253,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Tue Mar 15 2011 Bastien Nocera <bnocera@redhat.com> 2.91.91-5
+- We now replace desktop-effects, with the info panel (#684565)
+
 * Mon Mar 14 2011 Bastien Nocera <bnocera@redhat.com> 2.91.91-4
 - Add gnome-icon-theme-symbolic dependency (#678696)
 
