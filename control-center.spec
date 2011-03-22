@@ -236,6 +236,8 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_libdir}/control-center-1/panels/libuser-accounts.so
 %{_libdir}/libgnome-control-center.so
 
+%{_datadir}/pixmaps/faces
+
 %files devel
 %defattr(-,root,root)
 %{_includedir}/gnome-control-center-1
