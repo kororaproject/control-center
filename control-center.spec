@@ -225,7 +225,8 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_libdir}/control-center-1/panels/libkeyboard.so
 %{_libdir}/control-center-1/panels/libmedia.so
 %{_libdir}/control-center-1/panels/libmouse-properties.so
-%{_libdir}/control-center-1/panels/libnetwork.so
+# We don't have NM 0.9 yet
+# %{_libdir}/control-center-1/panels/libnetwork.so
 %{_libdir}/control-center-1/panels/libpower.so
 %{_libdir}/control-center-1/panels/libprinters.so
 %{_libdir}/control-center-1/panels/libregion.so
