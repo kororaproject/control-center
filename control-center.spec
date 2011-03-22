@@ -17,18 +17,14 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.91.91
-Release: 6%{?dist}
+Version: 2.91.92
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 #VCS: git:git://git.gnome.org/gnome-control-center
 Source: http://download.gnome.org/sources/gnome-control-center/2.91/gnome-control-center-%{version}.tar.bz2
 URL: http://www.gnome.org
-
-# upstream fixes
-Patch0: 0001-Network-don-t-be-shy.patch
-Patch1: admin-accounts-change.patch
 
 Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
@@ -133,8 +129,6 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
-%patch0 -p1 -b .fix-network
-%patch1 -p1 -b .admin-accounts-change
 
 %build
 autoreconf -f
@@ -255,6 +249,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Mar 21 2011 Matthias Clasen <mclasen@redhat.com> 2.91.92-1
+- Update to 2.91.92
+
 * Thu Mar 17 2011 Ray Strode <rstrode@redhat.com> 2.91.91-6
 - Drop incomplete "Supervised" account type
   Resolves: #688363
