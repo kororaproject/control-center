@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.91.92
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -78,7 +78,7 @@ BuildRequires: gnome-common
 BuildRequires: cups-devel
 BuildRequires: libgtop2-devel
 BuildRequires: iso-codes-devel
-BuildRequires: cheese-libs-devel
+BuildRequires: cheese-libs-devel >= 2.91.93
 
 Requires(preun): GConf2
 Requires(pre): GConf2
@@ -252,6 +252,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Fri Mar 25 2011 Matthias Clasen <mclasen@redhat.com> 2.91.92-4
+- Rebuild against newer cheese
+
 * Thu Mar 24 2011 Matthias Clasen <mclasen@redhat.com> 2.91.92-3
 - Rebuild against NetworkManager 0.9
 
