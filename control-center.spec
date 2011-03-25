@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 2.91.92
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -72,12 +72,13 @@ BuildRequires: chrpath
 BuildRequires: gsettings-desktop-schemas-devel
 BuildRequires: pulseaudio-libs-devel libcanberra-devel
 BuildRequires: upower-devel
-BuildRequires: NetworkManager-glib-devel >= 0.8.995
+BuildRequires: NetworkManager-glib-devel >= 0.8.997
 BuildRequires: polkit-devel
 BuildRequires: gnome-common
 BuildRequires: cups-devel
 BuildRequires: libgtop2-devel
 BuildRequires: iso-codes-devel
+BuildRequires: cheese-libs-devel
 
 Requires(preun): GConf2
 Requires(pre): GConf2
@@ -225,8 +226,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_libdir}/control-center-1/panels/libkeyboard.so
 %{_libdir}/control-center-1/panels/libmedia.so
 %{_libdir}/control-center-1/panels/libmouse-properties.so
-# We don't have NM 0.9 yet
-# %{_libdir}/control-center-1/panels/libnetwork.so
+%{_libdir}/control-center-1/panels/libnetwork.so
 %{_libdir}/control-center-1/panels/libpower.so
 %{_libdir}/control-center-1/panels/libprinters.so
 %{_libdir}/control-center-1/panels/libregion.so
@@ -252,6 +252,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Thu Mar 24 2011 Matthias Clasen <mclasen@redhat.com> 2.91.92-2
+- Rebuild against NetworkManager 0.9
+
 * Mon Mar 21 2011 Matthias Clasen <mclasen@redhat.com> 2.91.92-1
 - Update to 2.91.92
 
