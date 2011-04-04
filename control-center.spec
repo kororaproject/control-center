@@ -17,13 +17,13 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.91.93
+Version: 3.0.0
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 #VCS: git:git://git.gnome.org/gnome-control-center
-Source: http://download.gnome.org/sources/gnome-control-center/2.91/gnome-control-center-%{version}.tar.bz2
+Source: http://download.gnome.org/sources/gnome-control-center/3.0/gnome-control-center-%{version}.tar.bz2
 URL: http://www.gnome.org
 
 Requires: gnome-settings-daemon >= 2.21.91-3
@@ -252,6 +252,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Apr 04 2011 Bastien Nocera <bnocera@redhat.com> 3.0.0-1
+- Update to 3.0.0
+
 * Mon Mar 28 2011 Matthias Clasen <mclasen@redhat.com> 2.91.93-1
 - 2.91.93
 
