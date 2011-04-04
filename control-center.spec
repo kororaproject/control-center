@@ -242,7 +242,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %defattr(-,root,root)
 %{_includedir}/gnome-control-center-1
 %{_libdir}/pkgconfig/*
-%{_datadir}/gtk-doc/html/libgnome-control-center
 
 %files filesystem
 %defattr(-,root,root)
