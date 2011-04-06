@@ -18,13 +18,16 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 3.0.0.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 #VCS: git:git://git.gnome.org/gnome-control-center
 Source: http://download.gnome.org/sources/gnome-control-center/3.0/gnome-control-center-%{version}.tar.bz2
 URL: http://www.gnome.org
+
+# https://bugzilla.gnome.org/show_bug.cgi?id=645002
+Patch0: 0001-network-add-a-Other.-entry-to-the-wireless-combobox-.patch
 
 Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
@@ -130,6 +133,7 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
+%patch0 -p1 -b .hidden-ap
 
 %build
 autoreconf -f
@@ -251,6 +255,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Apr  6 2011 Matthias Clasen <mclasen@redhat.com> 3.0.0.1-2
+- Add a way to connect to hidden access points
+
 * Wed Apr  6 2011 Matthias Clasen <mclasen@redhat.com> 3.0.0.1-1
 - Update to 3.0.0.1
 
