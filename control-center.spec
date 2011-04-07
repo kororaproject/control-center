@@ -18,7 +18,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 3.0.0.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -28,6 +28,9 @@ URL: http://www.gnome.org
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=645002
 Patch0: 0001-network-add-a-Other.-entry-to-the-wireless-combobox-.patch
+
+# https://bugzilla.gnome.org/show_bug.cgi?id=646987
+Patch1: gnome-sound-applet.patch
 
 Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
@@ -134,6 +137,7 @@ utilities.
 %prep
 %setup -q -n gnome-control-center-%{version}
 %patch0 -p1 -b .hidden-ap
+%patch1 -p1 -b .sound-applet
 
 %build
 autoreconf -f
@@ -255,6 +259,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Thu Apr  7 2011 Matthias Clasen <mclasen@redhat.com> 3.0.0.1-3
+- Only autostart the sound applet in GNOME
+3
 * Wed Apr  6 2011 Matthias Clasen <mclasen@redhat.com> 3.0.0.1-2
 - Add a way to connect to hidden access points
 
