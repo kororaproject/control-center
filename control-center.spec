@@ -17,14 +17,20 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 2.91.6
-Release: 10%{?dist}
+Version: 3.0.0.1
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 #VCS: git:git://git.gnome.org/gnome-control-center
-Source: http://download.gnome.org/sources/gnome-control-center/2.91/gnome-control-center-%{version}.tar.bz2
+Source: http://download.gnome.org/sources/gnome-control-center/3.0/gnome-control-center-%{version}.tar.bz2
 URL: http://www.gnome.org
+
+# https://bugzilla.gnome.org/show_bug.cgi?id=645002
+Patch0: 0001-network-add-a-Other.-entry-to-the-wireless-combobox-.patch
+
+# https://bugzilla.gnome.org/show_bug.cgi?id=646987
+Patch1: gnome-sound-applet.patch
 
 Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
@@ -40,6 +46,8 @@ Requires: libXrandr >= %{libXrandr_version}
 Requires: accountsservice apg
 # For the user languages
 Requires: iso-codes
+# For the sound panel and gnome-sound-applet
+Requires: gnome-icon-theme-symbolic
 
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gtk3-devel >= %{gtk3_version}
@@ -66,34 +74,32 @@ BuildRequires: dbus-devel >= 0.90
 BuildRequires: dbus-glib-devel >= 0.70
 BuildRequires: scrollkeeper
 BuildRequires: libcanberra-devel
-# https://bugzilla.gnome.org/show_bug.cgi?id=636869
-# BuildRequires: libsocialweb-devel
 BuildRequires: chrpath
 BuildRequires: gsettings-desktop-schemas-devel
 BuildRequires: pulseaudio-libs-devel libcanberra-devel
 BuildRequires: upower-devel
+BuildRequires: NetworkManager-glib-devel >= 0.8.997
 BuildRequires: polkit-devel
 BuildRequires: gnome-common
 BuildRequires: cups-devel
 BuildRequires: libgtop2-devel
 BuildRequires: iso-codes-devel
+BuildRequires: cheese-libs-devel >= 2.91.93
 
 Requires(preun): GConf2
 Requires(pre): GConf2
 Requires(post): GConf2
 Requires(post): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(post): shared-mime-info
-Requires(post): /usr/bin/gtk-update-icon-cache
 Requires(postun): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(postun): shared-mime-info
-Requires(postun): /usr/bin/gtk-update-icon-cache
 
 Provides: control-center-extra = %{epoch}:%{version}-%{release}
 Obsoletes: control-center-extra < 1:2.30.3-3
 Obsoletes: accountsdialog <= 0.6
-
-Patch0: 0001-datetime-Fix-crash-when-TZ-is-an-alias.patch
-Patch1: 0001-common-Load-language-names-for-locales-with-3-letter.patch
+Provides: accountsdialog = %{epoch}:%{version}-%{release}
+Obsoletes: desktop-effects <= 0.8.7-3
+Provides: desktop-effects = %{epoch}:%{version}-%{release}
 
 %description
 This package contains configuration utilities for the GNOME desktop, which
@@ -130,8 +136,8 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
-%patch0 -p1 -b .tz-aliases
-%patch1 -p1 -b .iso-639-3
+%patch0 -p1 -b .hidden-ap
+%patch1 -p1 -b .sound-applet
 
 %build
 autoreconf -f
@@ -221,14 +227,30 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_sysconfdir}/xdg/autostart/gnome-sound-applet.desktop
 %{_sysconfdir}/gconf/schemas/gnome-control-center.schemas
 %{_sysconfdir}/xdg/menus/gnomecc.menu
-%{_libdir}/control-center-1
+%dir %{_libdir}/control-center-1
+%{_libdir}/control-center-1/panels/libbackground.so
+%{_libdir}/control-center-1/panels/libdate_time.so
+%{_libdir}/control-center-1/panels/libdisplay.so
+%{_libdir}/control-center-1/panels/libinfo.so
+%{_libdir}/control-center-1/panels/libkeyboard.so
+%{_libdir}/control-center-1/panels/libmedia.so
+%{_libdir}/control-center-1/panels/libmouse-properties.so
+%{_libdir}/control-center-1/panels/libnetwork.so
+%{_libdir}/control-center-1/panels/libpower.so
+%{_libdir}/control-center-1/panels/libprinters.so
+%{_libdir}/control-center-1/panels/libregion.so
+%{_libdir}/control-center-1/panels/libscreen.so
+%{_libdir}/control-center-1/panels/libsound.so
+%{_libdir}/control-center-1/panels/libuniversal-access.so
+%{_libdir}/control-center-1/panels/libuser-accounts.so
 %{_libdir}/libgnome-control-center.so
+
+%{_datadir}/pixmaps/faces
 
 %files devel
 %defattr(-,root,root)
 %{_includedir}/gnome-control-center-1
 %{_libdir}/pkgconfig/*
-%{_datadir}/gtk-doc/html/libgnome-control-center
 
 %files filesystem
 %defattr(-,root,root)
@@ -238,8 +260,56 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
-* Mon Feb 14 2011 Bastien Nocera <bnocera@redhat.com> 2.91.6-10
-- Disable libsocialweb support for now
+* Thu Apr  7 2011 Matthias Clasen <mclasen@redhat.com> 3.0.0.1-3
+- Only autostart the sound applet in GNOME 3
+
+* Wed Apr  6 2011 Matthias Clasen <mclasen@redhat.com> 3.0.0.1-2
+- Add a way to connect to hidden access points
+
+* Wed Apr  6 2011 Matthias Clasen <mclasen@redhat.com> 3.0.0.1-1
+- Update to 3.0.0.1
+
+* Mon Apr 04 2011 Bastien Nocera <bnocera@redhat.com> 3.0.0-1
+- Update to 3.0.0
+
+* Mon Mar 28 2011 Matthias Clasen <mclasen@redhat.com> 2.91.93-1
+- 2.91.93
+
+* Fri Mar 25 2011 Matthias Clasen <mclasen@redhat.com> 2.91.92-4
+- Rebuild against newer cheese
+
+* Thu Mar 24 2011 Matthias Clasen <mclasen@redhat.com> 2.91.92-3
+- Rebuild against NetworkManager 0.9
+
+* Mon Mar 21 2011 Matthias Clasen <mclasen@redhat.com> 2.91.92-1
+- Update to 2.91.92
+
+* Thu Mar 17 2011 Ray Strode <rstrode@redhat.com> 2.91.91-6
+- Drop incomplete "Supervised" account type
+  Resolves: #688363
+
+* Tue Mar 15 2011 Bastien Nocera <bnocera@redhat.com> 2.91.91-5
+- We now replace desktop-effects, with the info panel (#684565)
+
+* Mon Mar 14 2011 Bastien Nocera <bnocera@redhat.com> 2.91.91-4
+- Add gnome-icon-theme-symbolic dependency (#678696)
+
+* Wed Mar 09 2011 Richard Hughes <rhughes@redhat.com> 2.91.91-3
+- Ensure we have NetworkManager-glib-devel to get the network panel
+- Explicitly list all the panels so we know if one goes missing
+
+* Tue Mar  8 2011 Matthias Clasen <mclasen@redhat.com> 2.91.91-2
+- Rebuild against NetworkManager 0.9, to get the network panel
+
+* Tue Mar 08 2011 Bastien Nocera <bnocera@redhat.com> 2.91.91-1
+- Update to 2.91.91
+- Disable libsocialweb support until Flickr integration is fixed upstream
+
+* Mon Feb 28 2011 Matthias Clasen <mclasen@redhat.com> - 1:2.91.90-2
+- Fix a typo in the autostart condition for the sound applet
+
+* Tue Feb 22 2011 Matthias Clasen <mclasen@redhat.com> - 1:2.91.90-1
+- Update to 2.91.90
 
 * Sun Feb 13 2011 Christopher Aillon <caillon@redhat.com> - 1:2.91.6-9
 - Rebuild against new libxklavier
