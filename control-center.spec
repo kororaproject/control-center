@@ -17,7 +17,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 3.0.1.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -79,7 +79,7 @@ BuildRequires: gnome-common
 BuildRequires: cups-devel
 BuildRequires: libgtop2-devel
 BuildRequires: iso-codes-devel
-BuildRequires: cheese-libs-devel >= 3.0.1
+BuildRequires: cheese-libs-devel >= 1:3.0.1
 
 Requires(post): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(post): shared-mime-info
@@ -241,7 +241,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
-* Wed Apr 27 2011 Matthias Clasen <mclasen@redhat.com> - 3.0.1.1-2
+* Wed Apr 27 2011 Matthias Clasen <mclasen@redhat.com> - 3.0.1.1-3
 - Rebuild against newer cheese-libs
 
 * Tue Apr 26 2011 Matthias Clasen <mclasen@redhat.com> - 3.0.1.1-1
