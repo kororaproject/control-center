@@ -2,7 +2,6 @@
 
 %define glib2_version 2.13.0
 %define gtk3_version 2.99.0
-%define gconf2_version 1.2.0
 %define gnome_desktop_version 2.91.5
 %define desktop_file_utils_version 0.9
 %define xft_version 2.1.7
@@ -17,20 +16,14 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 3.0.0.1
-Release: 3%{?dist}
+Version: 3.0.1.1
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 #VCS: git:git://git.gnome.org/gnome-control-center
 Source: http://download.gnome.org/sources/gnome-control-center/3.0/gnome-control-center-%{version}.tar.bz2
 URL: http://www.gnome.org
-
-# https://bugzilla.gnome.org/show_bug.cgi?id=645002
-Patch0: 0001-network-add-a-Other.-entry-to-the-wireless-combobox-.patch
-
-# https://bugzilla.gnome.org/show_bug.cgi?id=646987
-Patch1: gnome-sound-applet.patch
 
 Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
@@ -48,12 +41,14 @@ Requires: accountsservice apg
 Requires: iso-codes
 # For the sound panel and gnome-sound-applet
 Requires: gnome-icon-theme-symbolic
+# For the printers panel
+Requires: cups-pk-helper
 
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gtk3-devel >= %{gtk3_version}
 BuildRequires: gdk-pixbuf2-devel >= 2.23.0
 BuildRequires: librsvg2-devel
-BuildRequires: GConf2-devel >= %{gconf2_version}
+BuildRequires: GConf2-devel
 BuildRequires: gnome-desktop3-devel >= %{gnome_desktop_version}
 BuildRequires: desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires: libxklavier-devel >= %{libxklavier_version}
@@ -86,9 +81,6 @@ BuildRequires: libgtop2-devel
 BuildRequires: iso-codes-devel
 BuildRequires: cheese-libs-devel >= 2.91.93
 
-Requires(preun): GConf2
-Requires(pre): GConf2
-Requires(post): GConf2
 Requires(post): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(post): shared-mime-info
 Requires(postun): desktop-file-utils >= %{desktop_file_utils_version}
@@ -136,17 +128,14 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
-%patch0 -p1 -b .hidden-ap
-%patch1 -p1 -b .sound-applet
 
 %build
 autoreconf -f
-# Re-add --with-libsocialweb=yes when
-# https://bugzilla.gnome.org/show_bug.cgi?id=636869 is fixed
 %configure \
         --disable-static \
         --disable-scrollkeeper \
         --disable-update-mimedb \
+        --with-libsocialweb=no \
         CFLAGS="$RPM_OPT_FLAGS -Wno-error"
 
 # drop unneeded direct library deps with --as-needed
@@ -159,13 +148,6 @@ make %{?_smp_mflags}
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 make install DESTDIR=$RPM_BUILD_ROOT
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
-
-for i in apps_gnome_settings_daemon_default_editor.schemas		\
-	    apps_gnome_settings_daemon_keybindings.schemas		\
-	    apps_gnome_settings_daemon_screensaver.schemas		\
-	    desktop_gnome_font_rendering.schemas ; do			\
-	    rm -f $RPM_BUILD_ROOT%{_sysconfdir}/gconf/schemas/$i ;	\
-done
 
 desktop-file-install --delete-original			\
   --dir $RPM_BUILD_ROOT%{_datadir}/applications				\
@@ -225,7 +207,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_bindir}/gnome-sound-applet
 %{_libdir}/*.so.*
 %{_sysconfdir}/xdg/autostart/gnome-sound-applet.desktop
-%{_sysconfdir}/gconf/schemas/gnome-control-center.schemas
 %{_sysconfdir}/xdg/menus/gnomecc.menu
 %dir %{_libdir}/control-center-1
 %{_libdir}/control-center-1/panels/libbackground.so
@@ -260,9 +241,15 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
-* Thu Apr  7 2011 Matthias Clasen <mclasen@redhat.com> 3.0.0.1-3
-- Only autostart the sound applet in GNOME 3
+* Tue Apr 26 2011 Matthias Clasen <mclasen@redhat.com> - 3.0.1.1-1
+- Update to 3.0.1.1
 
+* Tue Apr 26 2011 Bastien Nocera <bnocera@redhat.com> 3.0.1-1
+- Update to 3.0.1
+
+* Thu Apr  7 2011 Matthias Clasen <mclasen@redhat.com> 3.0.0.1-3
+- Only autostart the sound applet in GNOME
+3
 * Wed Apr  6 2011 Matthias Clasen <mclasen@redhat.com> 3.0.0.1-2
 - Add a way to connect to hidden access points
 

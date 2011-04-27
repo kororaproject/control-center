@@ -1,8 +1,0 @@
-diff -up gnome-control-center-3.0.0.1/panels/sound/data/gnome-sound-applet.desktop.in.gnome-applet gnome-control-center-3.0.0.1/panels/sound/data/gnome-sound-applet.desktop.in
---- gnome-control-center-3.0.0.1/panels/sound/data/gnome-sound-applet.desktop.in.gnome-applet	2011-04-07 00:13:28.103053385 -0400
-+++ gnome-control-center-3.0.0.1/panels/sound/data/gnome-sound-applet.desktop.in	2011-04-07 00:14:10.165527528 -0400
-@@ -15,3 +15,4 @@ X-GNOME-Bugzilla-Component=sound
- #X-GNOME-Autostart-Phase=Panel
- X-GNOME-Autostart-Notify=true
- AutostartCondition=GNOME3 if-session gnome-fallback
-+OnlyShowIn=GNOME;
