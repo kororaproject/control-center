@@ -1,0 +1,22 @@
+diff -up gnome-control-center-3.0.2/panels/printers/pp-new-printer-dialog.c.bak gnome-control-center-3.0.2/panels/printers/pp-new-printer-dialog.c
+--- gnome-control-center-3.0.2/panels/printers/pp-new-printer-dialog.c.bak	2011-05-09 12:31:40.000000000 +0200
++++ gnome-control-center-3.0.2/panels/printers/pp-new-printer-dialog.c	2011-06-17 16:11:51.000000000 +0200
+@@ -31,6 +31,7 @@
+ #include <gtk/gtk.h>
+ 
+ #include <cups/cups.h>
++#include <cups/ppd.h>
+ 
+ #include "pp-new-printer-dialog.h"
+ #include "pp-utils.h"
+diff -up gnome-control-center-3.0.2/panels/printers/pp-utils.c.bak gnome-control-center-3.0.2/panels/printers/pp-utils.c
+--- gnome-control-center-3.0.2/panels/printers/pp-utils.c.bak	2011-05-09 12:31:40.000000000 +0200
++++ gnome-control-center-3.0.2/panels/printers/pp-utils.c	2011-06-17 16:11:37.000000000 +0200
+@@ -25,6 +25,7 @@
+ #include <glib/gstdio.h>
+ #include <gtk/gtk.h>
+ #include <cups/cups.h>
++#include <cups/ppd.h>
+ #include <dbus/dbus-glib.h>
+ 
+ #include "pp-utils.h"
