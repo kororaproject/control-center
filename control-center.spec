@@ -212,6 +212,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_sysconfdir}/xdg/menus/gnomecc.menu
 %dir %{_libdir}/control-center-1
 %{_libdir}/control-center-1/panels/libbackground.so
+%{_libdir}/control-center-1/panels/libcolor.so
 %{_libdir}/control-center-1/panels/libdate_time.so
 %{_libdir}/control-center-1/panels/libdisplay.so
 %{_libdir}/control-center-1/panels/libinfo.so
@@ -219,6 +220,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_libdir}/control-center-1/panels/libmedia.so
 %{_libdir}/control-center-1/panels/libmouse-properties.so
 %{_libdir}/control-center-1/panels/libnetwork.so
+%{_libdir}/control-center-1/panels/libonline-accounts.so
 %{_libdir}/control-center-1/panels/libpower.so
 %{_libdir}/control-center-1/panels/libprinters.so
 %{_libdir}/control-center-1/panels/libregion.so
