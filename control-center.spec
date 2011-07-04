@@ -16,13 +16,13 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 3.0.2
+Version: 3.1.3
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 #VCS: git:git://git.gnome.org/gnome-control-center
-Source: http://download.gnome.org/sources/gnome-control-center/3.0/gnome-control-center-%{version}.tar.bz2
+Source: http://download.gnome.org/sources/gnome-control-center/3.1/gnome-control-center-%{version}.tar.xz
 URL: http://www.gnome.org
 
 Patch0: gnome-control-center-3.0.2-new-cups.patch
@@ -244,6 +244,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Jul 04 2011 Bastien Nocera <bnocera@redhat.com> 3.1.3-1
+- Update to 3.1.3
+
 * Fri Jun 17 2011 Tomas Bzatek <tbzatek@redhat.com> - 3.0.2-1
 - Update to 3.0.2
 
