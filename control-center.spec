@@ -43,8 +43,6 @@ Requires: iso-codes
 Requires: gnome-icon-theme-symbolic
 # For the printers panel
 Requires: cups-pk-helper
-# For the online-accounts panel
-Requires: gnome-online-accounts-devel
 
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gtk3-devel >= %{gtk3_version}
@@ -82,6 +80,7 @@ BuildRequires: cups-devel
 BuildRequires: libgtop2-devel
 BuildRequires: iso-codes-devel
 BuildRequires: cheese-libs-devel >= 1:3.0.1
+BuildRequires: gnome-online-accounts-devel
 
 Requires(post): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(post): shared-mime-info
