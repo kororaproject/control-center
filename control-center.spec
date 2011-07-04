@@ -25,8 +25,6 @@ Group: User Interface/Desktops
 Source: http://download.gnome.org/sources/gnome-control-center/3.1/gnome-control-center-%{version}.tar.xz
 URL: http://www.gnome.org
 
-Patch0: gnome-control-center-3.0.2-new-cups.patch
-
 Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
 Requires: gnome-icon-theme
@@ -130,7 +128,6 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
-%patch0 -p1 -b .new-cups
 
 %build
 autoreconf -f
