@@ -101,20 +101,6 @@ allow to configure accessibility options, desktop fonts, keyboard and mouse
 properties, sound setup, desktop theme and background, user interface
 properties, screen resolution, and other settings.
 
-%package devel
-Summary: Development files for the GNOME control-center
-Group: Development/Libraries
-Requires: %{name} = %{?epoch}:%{version}-%{release}
-Requires: pkgconfig
-
-%description devel
-Th control-center package contains configuration utilities for the
-GNOME desktop.
-
-This package contains libraries and header files needed for integrating
-configuration of applications such as window managers with the control-center
-utilities.
-
 %package filesystem
 Summary: GNOME Control Center directories
 Group: Development/Libraries
@@ -191,7 +177,6 @@ fi
 gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 %files -f %{gettext_package}.lang
-%defattr(-, root, root)
 %doc AUTHORS COPYING NEWS README
 %{_datadir}/gnome-control-center/keybindings/*.xml
 %{_datadir}/gnome-control-center/ui
@@ -229,16 +214,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_libdir}/control-center-1/panels/libuniversal-access.so
 %{_libdir}/control-center-1/panels/libuser-accounts.so
 %{_libdir}/libgnome-control-center.so
-
 %{_datadir}/pixmaps/faces
 
-%files devel
-%defattr(-,root,root)
-%{_includedir}/gnome-control-center-1
-%{_libdir}/pkgconfig/*
-
 %files filesystem
-%defattr(-,root,root)
 %dir %{_datadir}/gnome/wm-properties
 %dir %{_datadir}/gnome-control-center
 %dir %{_datadir}/gnome-control-center/keybindings
