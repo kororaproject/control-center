@@ -18,7 +18,7 @@ Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 3.1.4
 Release: 1%{?dist}
-Epoch: 1
+Epoch: 2
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 #VCS: git:git://git.gnome.org/gnome-control-center
@@ -139,7 +139,7 @@ unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 
 desktop-file-install --delete-original			\
   --dir $RPM_BUILD_ROOT%{_datadir}/applications				\
-  --add-only-show-in GNOME						\
+  --remove-only-show-in XFCE						\
   $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 # we do want this
@@ -223,6 +223,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Aug 17 2011 Christoph Wickert <cwickert@fedoraproject.org> - 3.1.4-2
+- Fix autostart behavior (#729271)
+
 * Mon Jul 25 2011 Matthias Clasen <mclasen@redhat.com> 3.1.4-1
 - Update to 3.1.4
 
@@ -245,8 +248,8 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 - Update to 3.0.1
 
 * Thu Apr  7 2011 Matthias Clasen <mclasen@redhat.com> 3.0.0.1-3
-- Only autostart the sound applet in GNOME
-3
+- Only autostart the sound applet in GNOME 3 (#693548)
+
 * Wed Apr  6 2011 Matthias Clasen <mclasen@redhat.com> 3.0.0.1-2
 - Add a way to connect to hidden access points
 
