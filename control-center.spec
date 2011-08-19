@@ -17,7 +17,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 3.1.5
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -95,6 +95,8 @@ Obsoletes: accountsdialog <= 0.6
 Provides: accountsdialog = %{epoch}:%{version}-%{release}
 Obsoletes: desktop-effects <= 0.8.7-3
 Provides: desktop-effects = %{epoch}:%{version}-%{release}
+Provides: control-center-devel = %{epoch}:%{version}-%{release}
+Obsoletes: control-center-devel < 1:3.1.4-2
 
 %description
 This package contains configuration utilities for the GNOME desktop, which
@@ -224,6 +226,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Fri Aug 19 2011 Matthias Clasen <mclasen@redhat.com> 3.1.5-2
+- Obsolete control-center-devel
+
 * Thu Aug 18 2011 Matthias Clasen <mclasen@redhat.com> 3.1.5-1
 - Update to 3.1.5
 
