@@ -17,8 +17,8 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 3.1.4
-Release: 1%{?dist}
-Epoch: 2
+Release: 2%{?dist}
+Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 #VCS: git:git://git.gnome.org/gnome-control-center
