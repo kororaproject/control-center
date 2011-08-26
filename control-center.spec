@@ -16,14 +16,17 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 3.1.4
-Release: 2%{?dist}
+Version: 3.1.5
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 #VCS: git:git://git.gnome.org/gnome-control-center
 Source: http://download.gnome.org/sources/gnome-control-center/3.1/gnome-control-center-%{version}.tar.xz
 URL: http://www.gnome.org
+
+# upstream fix
+Patch0: 0001-region-avoid-a-crash-in-the-absence-of-configured-la.patch
 
 Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
@@ -82,6 +85,7 @@ BuildRequires: iso-codes-devel
 BuildRequires: cheese-libs-devel >= 1:3.0.1
 BuildRequires: gnome-online-accounts-devel
 BuildRequires: colord-devel
+BuildRequires: libnotify-devel
 
 Requires(post): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(post): shared-mime-info
@@ -94,6 +98,8 @@ Obsoletes: accountsdialog <= 0.6
 Provides: accountsdialog = %{epoch}:%{version}-%{release}
 Obsoletes: desktop-effects <= 0.8.7-3
 Provides: desktop-effects = %{epoch}:%{version}-%{release}
+Provides: control-center-devel = %{epoch}:%{version}-%{release}
+Obsoletes: control-center-devel < 1:3.1.4-2
 
 %description
 This package contains configuration utilities for the GNOME desktop, which
@@ -116,6 +122,7 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
+%patch0 -p1
 
 %build
 autoreconf -f
@@ -223,6 +230,15 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Aug 22 2011 Matthias Clasen <mclasen@redhat.com> 3.1.5-3
+- Fix a crash without configured layouts
+
+* Fri Aug 19 2011 Matthias Clasen <mclasen@redhat.com> 3.1.5-2
+- Obsolete control-center-devel
+
+* Thu Aug 18 2011 Matthias Clasen <mclasen@redhat.com> 3.1.5-1
+- Update to 3.1.5
+
 * Wed Aug 17 2011 Christoph Wickert <cwickert@fedoraproject.org> - 3.1.4-2
 - Fix autostart behavior (#729271)
 
