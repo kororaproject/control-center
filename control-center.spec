@@ -16,17 +16,14 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 3.1.5
-Release: 3%{?dist}
+Version: 3.1.90
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 #VCS: git:git://git.gnome.org/gnome-control-center
 Source: http://download.gnome.org/sources/gnome-control-center/3.1/gnome-control-center-%{version}.tar.xz
 URL: http://www.gnome.org
-
-# upstream fix
-Patch0: 0001-region-avoid-a-crash-in-the-absence-of-configured-la.patch
 
 Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
@@ -122,7 +119,6 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
-%patch0 -p1
 
 %build
 autoreconf -f
@@ -220,6 +216,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_libdir}/control-center-1/panels/libsound.so
 %{_libdir}/control-center-1/panels/libuniversal-access.so
 %{_libdir}/control-center-1/panels/libuser-accounts.so
+%{_libdir}/control-center-1/panels/libwacom-properties.so
 %{_libdir}/libgnome-control-center.so
 %{_datadir}/pixmaps/faces
 
@@ -230,6 +227,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Aug 31 2011 Matthias Clasen <mclasen@redhat.com> 3.1.90-1
+- Update to 3.1.90
+
 * Mon Aug 22 2011 Matthias Clasen <mclasen@redhat.com> 3.1.5-3
 - Fix a crash without configured layouts
 
