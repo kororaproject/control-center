@@ -16,7 +16,7 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 3.1.91
+Version: 3.1.92
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
@@ -73,7 +73,8 @@ BuildRequires: chrpath
 BuildRequires: gsettings-desktop-schemas-devel
 BuildRequires: pulseaudio-libs-devel libcanberra-devel
 BuildRequires: upower-devel
-BuildRequires: NetworkManager-glib-devel >= 0.8.997
+BuildRequires: NetworkManager-glib-devel >= 0.9
+BuildRequires: NetworkManager-gtk-devel >= 0.9
 BuildRequires: polkit-devel
 BuildRequires: gnome-common
 BuildRequires: cups-devel
@@ -121,6 +122,7 @@ utilities.
 %setup -q -n gnome-control-center-%{version}
 
 %build
+autoreconf -f
 %configure \
         --disable-static \
         --disable-scrollkeeper \
@@ -141,7 +143,7 @@ unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 
 desktop-file-install --delete-original			\
   --dir $RPM_BUILD_ROOT%{_datadir}/applications				\
-  --remove-only-show-in XFCE						\
+  --add-only-show-in GNOME						\
   $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 # we do want this
@@ -226,6 +228,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Tue Sep 20 2011 Matthias Clasen <mclasen@redhat.com> 3.1.92-1
+- Update to 3.1.92
+
 * Tue Sep  6 2011 Matthias Clasen <mclasen@redhat.com> 3.1.91-1
 - Update to 3.1.91
 
