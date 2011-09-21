@@ -122,7 +122,6 @@ utilities.
 %setup -q -n gnome-control-center-%{version}
 
 %build
-autoreconf -f
 %configure \
         --disable-static \
         --disable-scrollkeeper \
