@@ -17,7 +17,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 3.2.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -227,6 +227,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Oct 26 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:3.2.1-2
+- Rebuilt for glibc bug#747377
+
 * Mon Oct 17 2011 Bastien Nocera <bnocera@redhat.com> 3.2.1-1
 - Update to 3.2.1
 
