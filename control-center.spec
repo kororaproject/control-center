@@ -196,7 +196,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 # list all binaries explicitly, so we notice if one goes missing
 %{_bindir}/gnome-control-center
 %{_bindir}/gnome-sound-applet
-%{_libdir}/*.so.*
 %{_sysconfdir}/xdg/autostart/gnome-sound-applet.desktop
 %{_sysconfdir}/xdg/menus/gnomecc.menu
 %dir %{_libdir}/control-center-1
@@ -206,7 +205,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_libdir}/control-center-1/panels/libdisplay.so
 %{_libdir}/control-center-1/panels/libinfo.so
 %{_libdir}/control-center-1/panels/libkeyboard.so
-%{_libdir}/control-center-1/panels/libmedia.so
 %{_libdir}/control-center-1/panels/libmouse-properties.so
 %{_libdir}/control-center-1/panels/libnetwork.so
 %{_libdir}/control-center-1/panels/libonline-accounts.so
@@ -218,7 +216,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_libdir}/control-center-1/panels/libuniversal-access.so
 %{_libdir}/control-center-1/panels/libuser-accounts.so
 %{_libdir}/control-center-1/panels/libwacom-properties.so
-%{_libdir}/libgnome-control-center.so
 %{_datadir}/pixmaps/faces
 
 %files filesystem
