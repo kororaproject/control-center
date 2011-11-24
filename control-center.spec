@@ -84,6 +84,7 @@ BuildRequires: cheese-libs-devel >= 1:3.0.1
 BuildRequires: gnome-online-accounts-devel
 BuildRequires: colord-devel
 BuildRequires: libnotify-devel
+BuildRequires: gnome-doc-utils
 
 Requires(post): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(post): shared-mime-info
