@@ -85,6 +85,7 @@ BuildRequires: gnome-online-accounts-devel
 BuildRequires: colord-devel
 BuildRequires: libnotify-devel
 BuildRequires: gnome-doc-utils
+BuildRequires: libwacom-devel
 
 Requires(post): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(post): shared-mime-info
