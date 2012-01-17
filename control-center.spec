@@ -80,7 +80,7 @@ BuildRequires: gnome-common
 BuildRequires: cups-devel
 BuildRequires: libgtop2-devel
 BuildRequires: iso-codes-devel
-BuildRequires: cheese-libs-devel >= 1:3.0.1
+BuildRequires: cheese-libs-devel >= 1:3.0.1 clutter-gst-devel clutter-gtk-devel
 BuildRequires: gnome-online-accounts-devel
 BuildRequires: colord-devel
 BuildRequires: libnotify-devel
