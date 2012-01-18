@@ -17,7 +17,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 3.3.4
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -129,6 +129,7 @@ utilities.
         --disable-scrollkeeper \
         --disable-update-mimedb \
         --with-libsocialweb=no \
+        --enable-systemd \
         CFLAGS="$RPM_OPT_FLAGS -Wno-error"
 
 # drop unneeded direct library deps with --as-needed
@@ -226,6 +227,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Tue Jan 17 2012 Matthias Clasen <mclasen@redhat.com> 3.3.4-2
+- Use systemd for session tracking
+
 * Tue Jan 17 2012 Bastien Nocera <bnocera@redhat.com> 3.3.4-1
 - Update to 3.3.4
 
