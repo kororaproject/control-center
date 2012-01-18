@@ -86,6 +86,7 @@ BuildRequires: colord-devel
 BuildRequires: libnotify-devel
 BuildRequires: gnome-doc-utils
 BuildRequires: libwacom-devel
+BuildRequires: systemd-devel
 
 Requires(post): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(post): shared-mime-info
