@@ -16,8 +16,8 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 3.3.4
-Release: 2%{?dist}
+Version: 3.3.4.1
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -87,6 +87,7 @@ BuildRequires: libnotify-devel
 BuildRequires: gnome-doc-utils
 BuildRequires: libwacom-devel
 BuildRequires: systemd-devel
+BuildRequires: gnome-bluetooth-devel >= 3.3.4
 
 Requires(post): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(post): shared-mime-info
@@ -228,6 +229,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Jan 18 2012 Bastien Nocera <bnocera@redhat.com> 3.3.4.1-1
+- Update to 3.3.4.1
+
 * Tue Jan 17 2012 Matthias Clasen <mclasen@redhat.com> 3.3.4-2
 - Use systemd for session tracking
 
