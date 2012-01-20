@@ -191,6 +191,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_datadir}/gnome-control-center/pixmaps
 %{_datadir}/gnome-control-center/datetime/
 %{_datadir}/gnome-control-center/sounds/gnome-sounds-default.xml
+%{_datadir}/gnome-control-center/bluetooth.ui
 %{_datadir}/applications/*.desktop
 %{_datadir}/desktop-directories/*
 %{_datadir}/icons/hicolor/*/*/*
@@ -204,6 +205,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_sysconfdir}/xdg/menus/gnomecc.menu
 %dir %{_libdir}/control-center-1
 %{_libdir}/control-center-1/panels/libbackground.so
+%{_libdir}/control-center-1/panels/libbluetooth.so
 %{_libdir}/control-center-1/panels/libcolor.so
 %{_libdir}/control-center-1/panels/libdate_time.so
 %{_libdir}/control-center-1/panels/libdisplay.so
