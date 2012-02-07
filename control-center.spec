@@ -196,6 +196,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_datadir}/desktop-directories/*
 %{_datadir}/icons/hicolor/*/*/*
 %{_datadir}/gnome-control-center/icons/
+%{_datadir}/polkit-1/actions/org.gnome.controlcenter.datetime.policy
 %{_datadir}/pkgconfig/gnome-keybindings.pc
 %{_datadir}/sounds/gnome/default/*/*.ogg
 # list all binaries explicitly, so we notice if one goes missing
