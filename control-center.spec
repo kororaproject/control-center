@@ -16,7 +16,7 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 3.3.4.1
+Version: 3.3.5
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
@@ -196,6 +196,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_datadir}/desktop-directories/*
 %{_datadir}/icons/hicolor/*/*/*
 %{_datadir}/gnome-control-center/icons/
+%{_datadir}/polkit-1/actions/org.gnome.controlcenter.datetime.policy
 %{_datadir}/pkgconfig/gnome-keybindings.pc
 %{_datadir}/sounds/gnome/default/*/*.ogg
 # list all binaries explicitly, so we notice if one goes missing
@@ -231,6 +232,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Tue Feb  7 2012 Matthias Clasen <mclasen@redhat.com> 3.3.5-1
+- Update to 3.3.5
+
 * Wed Jan 18 2012 Bastien Nocera <bnocera@redhat.com> 3.3.4.1-1
 - Update to 3.3.4.1
 
