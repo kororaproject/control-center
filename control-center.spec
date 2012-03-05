@@ -16,7 +16,7 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 3.3.90
+Version: 3.3.91
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
@@ -232,6 +232,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Mar 05 2012 Bastien Nocera <bnocera@redhat.com> 3.3.91-1
+- Update to 3.3.91
+
 * Wed Feb 22 2012 Bastien Nocera <bnocera@redhat.com> 3.3.90-1
 - Update to 3.3.90
 
