@@ -17,13 +17,17 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 3.4.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
 #VCS: git:git://git.gnome.org/gnome-control-center
 Source: http://download.gnome.org/sources/gnome-control-center/3.4/gnome-control-center-%{version}.tar.xz
 URL: http://www.gnome.org
+
+# https://bugzilla.gnome.org/show_bug.cgi?id=672682
+# https://bugzilla.redhat.com/show_bug.cgi?id=802381
+Patch0: printers-firewalld1-api.patch
 
 Requires: gnome-settings-daemon >= 2.21.91-3
 Requires: redhat-menus >= %{redhat_menus_version}
@@ -124,6 +128,7 @@ utilities.
 
 %prep
 %setup -q -n gnome-control-center-%{version}
+%patch0 -p1 -b .firewalld1
 
 %build
 %configure \
@@ -232,6 +237,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Thu Apr 12 2012 Marek Kasik <mkasik@redhat.com> - 3.4.0-2
+- Add support for FirewallD1 API
+- Resolves: #802381
+
 * Mon Mar 26 2012 Richard Hughes <rhughes@redhat.com> - 3.4.0-1
 - New upstream version.
 
