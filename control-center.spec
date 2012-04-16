@@ -16,8 +16,8 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 3.4.0
-Release: 2%{?dist}
+Version: 3.4.1
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -237,6 +237,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Apr 16 2012 Richard Hughes <hughsient@gmail.com> - 1:3.4.1-1
+- Update to 3.4.1
+
 * Thu Apr 12 2012 Marek Kasik <mkasik@redhat.com> - 3.4.0-2
 - Add support for FirewallD1 API
 - Resolves: #802381

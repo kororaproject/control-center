@@ -32,7 +32,7 @@ index 0b21502..0427683 100644
  static void
  devices_get_cb (GObject      *source_object,
                  GAsyncResult *res,
-@@ -565,10 +581,7 @@ devices_get_cb (GObject      *source_object,
+@@ -567,10 +583,7 @@ devices_get_cb (GObject      *source_obj
  
            if (error)
              {
@@ -44,7 +44,7 @@ index 0b21502..0427683 100644
                  g_warning ("Install system-config-printer which provides \
  DBus method \"GroupPhysicalDevices\" to group duplicates in device list.");
  
-@@ -756,96 +769,115 @@ line_split (gchar *line)
+@@ -758,96 +771,115 @@ line_split (gchar *line)
    return result;
  }
  
@@ -196,7 +196,7 @@ index 0b21502..0427683 100644
  
    bus = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
    if (!bus)
-@@ -856,36 +888,298 @@ service_enabled (gchar *service_name)
+@@ -858,36 +890,298 @@ service_enabled (gchar *service_name)
      }
  
    output = g_dbus_connection_call_sync (bus,
@@ -508,7 +508,7 @@ index 0b21502..0427683 100644
  }
  
  static gboolean
-@@ -928,8 +1222,7 @@ dbus_method_available (gchar *name,
+@@ -930,8 +1224,7 @@ dbus_method_available (gchar *name,
      }
    else
      {
@@ -518,7 +518,7 @@ index 0b21502..0427683 100644
          result = FALSE;
        else
          result = TRUE;
-@@ -1315,7 +1608,11 @@ populate_devices_list (PpNewPrinterDialog *pp)
+@@ -1317,7 +1610,11 @@ populate_devices_list (PpNewPrinterDialo
  
    actualize_devices_list (pp);
  
@@ -531,8 +531,8 @@ index 0b21502..0427683 100644
                               FIREWALLD_PATH,
                               FIREWALLD_IFACE,
                               "getServices"))
-@@ -1858,10 +2155,14 @@ new_printer_add_button_cb (GtkButton *button,
-             }
+@@ -1772,10 +2069,14 @@ new_printer_add_button_cb (GtkButton *bu
+           printer_set_default_media_size (pp->devices[device_id].display_name);
  
            if (pp->devices[device_id].device_uri &&
 -              dbus_method_available (FIREWALLD_BUS,
@@ -550,7 +550,7 @@ index 0b21502..0427683 100644
              {
                if (g_str_has_prefix (pp->devices[device_id].device_uri, "dnssd:") ||
                    g_str_has_prefix (pp->devices[device_id].device_uri, "mdns:"))
-@@ -1942,9 +2243,7 @@ new_printer_add_button_cb (GtkButton *button,
+@@ -1856,9 +2157,7 @@ new_printer_add_button_cb (GtkButton *bu
  
                if (bus == NULL ||
                    (error &&
