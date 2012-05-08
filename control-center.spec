@@ -17,7 +17,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 3.4.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -91,7 +91,9 @@ BuildRequires: libnotify-devel
 BuildRequires: gnome-doc-utils
 BuildRequires: libwacom-devel
 BuildRequires: systemd-devel
+%ifnarch s390 s390x
 BuildRequires: gnome-bluetooth-devel >= 3.3.4
+%endif
 
 Requires(post): desktop-file-utils >= %{desktop_file_utils_version}
 Requires(post): shared-mime-info
@@ -237,6 +239,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Tue May 08 2012 Bastien Nocera <bnocera@redhat.com> 3.4.1-2
+- Disable Bluetooth panel on s390
+
 * Mon Apr 16 2012 Richard Hughes <hughsient@gmail.com> - 1:3.4.1-1
 - Update to 3.4.1
 
