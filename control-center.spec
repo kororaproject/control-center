@@ -16,8 +16,8 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 3.4.1
-Release: 2%{?dist}
+Version: 3.4.2
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -239,6 +239,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Tue May 15 2012 Richard Hughes <hughsient@gmail.com> - 1:3.4.2-1
+- Update to 3.4.2
+
 * Tue May 08 2012 Bastien Nocera <bnocera@redhat.com> 3.4.1-2
 - Disable Bluetooth panel on s390
 
