@@ -16,7 +16,7 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 3.4.2
+Version: 3.5.2
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
@@ -239,6 +239,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Jun 06 2012 Richard Hughes <hughsient@gmail.com> - 1:3.5.2-1
+- Update to 3.5.2
+
 * Fri May 18 2012 Richard Hughes <hughsient@gmail.com> - 1:3.4.2-1
 - Update to 3.4.2
 
