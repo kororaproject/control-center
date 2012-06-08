@@ -91,6 +91,7 @@ BuildRequires: libnotify-devel
 BuildRequires: gnome-doc-utils
 BuildRequires: libwacom-devel
 BuildRequires: systemd-devel
+BuildRequires: libpwquality-devel
 %ifnarch s390 s390x
 BuildRequires: gnome-bluetooth-devel >= 3.3.4
 %endif
