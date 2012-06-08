@@ -78,7 +78,7 @@ BuildRequires: gsettings-desktop-schemas-devel
 BuildRequires: pulseaudio-libs-devel libcanberra-devel
 BuildRequires: upower-devel
 BuildRequires: NetworkManager-glib-devel >= 0.9
-BuildRequires: NetworkManager-gtk-devel >= 0.9
+BuildRequires: libnm-gtk-devel >= 0.9
 BuildRequires: polkit-devel
 BuildRequires: gnome-common
 BuildRequires: cups-devel
