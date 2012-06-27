@@ -16,7 +16,7 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 3.5.3
+Version: 3.5.4
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
@@ -240,6 +240,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Jun 27 2012 Richard Hughes <hughsient@gmail.com> - 1:3.5.4-1
+- Update to 3.5.4
+
 * Tue Jun 26 2012 Richard Hughes <hughsient@gmail.com> - 1:3.5.3-1
 - Update to 3.5.3
 
