@@ -17,7 +17,7 @@
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
 Version: 3.4.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -198,7 +198,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_datadir}/gnome-control-center/pixmaps
 %{_datadir}/gnome-control-center/datetime/
 %{_datadir}/gnome-control-center/sounds/gnome-sounds-default.xml
+%ifnarch s390 s390x
 %{_datadir}/gnome-control-center/bluetooth.ui
+%endif
 %{_datadir}/applications/*.desktop
 %{_datadir}/desktop-directories/*
 %{_datadir}/icons/hicolor/*/*/*
@@ -213,7 +215,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_sysconfdir}/xdg/menus/gnomecc.menu
 %dir %{_libdir}/control-center-1
 %{_libdir}/control-center-1/panels/libbackground.so
+%ifnarch s390 s390x
 %{_libdir}/control-center-1/panels/libbluetooth.so
+%endif
 %{_libdir}/control-center-1/panels/libcolor.so
 %{_libdir}/control-center-1/panels/libdate_time.so
 %{_libdir}/control-center-1/panels/libdisplay.so
@@ -239,6 +243,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Jul 02 2012 Dan Horák <dan[at]danny.cz> - 1:3.4.2-2
+- fix build on s390(x) without Bluetooth
+
 * Tue May 15 2012 Richard Hughes <hughsient@gmail.com> - 1:3.4.2-1
 - Update to 3.4.2
 
