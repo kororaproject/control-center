@@ -16,8 +16,8 @@
 
 Summary: Utilities to configure the GNOME desktop
 Name: control-center
-Version: 3.5.4
-Release: 2%{?dist}
+Version: 3.5.5
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2+ and GFDL
 Group: User Interface/Desktops
@@ -92,6 +92,7 @@ BuildRequires: gnome-doc-utils
 BuildRequires: libwacom-devel
 BuildRequires: systemd-devel
 BuildRequires: libpwquality-devel
+BuildRequires: ibus-devel
 %ifnarch s390 s390x
 BuildRequires: gnome-bluetooth-devel >= 3.3.4
 %endif
@@ -244,6 +245,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Thu Jul 19 2012 Matthias Clasen <mclasen@redhat.com> - 1:3.5.5-1
+- Update to 3.5.5
+
 * Mon Jul 02 2012 Dan Horák <dan[at]danny.cz> - 1:3.5.4-2
 - fix build on s390(x) without Bluetooth
 
