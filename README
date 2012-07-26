@@ -1,0 +1,14 @@
+This is the Korora maintained control-center repo which tracks the Fedora
+upstream.
+
+1. Tracking the upstream.
+
+# git remote add upstream git://pkgs.fedoraproject.org/control-center
+# git fetch upstream
+
+
+2. Syncing with upstream.
+
+# git checkout -b upstream upstream/upstream
+# git checkout master
+# git rebase upstream
