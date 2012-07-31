@@ -1,0 +1,1197 @@
+diff --git a/configure.ac b/configure.ac
+index d496365..1abc8c8 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -131,6 +131,7 @@ PKG_CHECK_MODULES(WACOM_PANEL, $COMMON_MODULES
+                   gnome-settings-daemon >= $GSD_REQUIRED_VERSION
+                   xi >= 1.2 x11 libwacom >= $LIBWACOM_REQUIRED_VERSION
+                   gnome-desktop-3.0 >= $GNOME_DESKTOP_REQUIRED_VERSION)
++PKG_CHECK_MODULES(DRIVERS_PANEL, $COMMON_MODULES)
+ 
+ GDESKTOP_PREFIX=`$PKG_CONFIG --variable prefix gsettings-desktop-schemas`
+ AC_SUBST(GDESKTOP_PREFIX)
+@@ -200,6 +201,9 @@ else
+ fi
+ AM_CONDITIONAL(BUILD_CHEESE, test x${have_cheese} = xyes)
+ 
++# TODO: Check for jockey-backend
++
++
+ # This is a hard-dependency for the region and user-accounts panels
+ PKG_CHECK_MODULES(ISOCODES, iso-codes)
+ 
+@@ -412,6 +416,8 @@ panels/user-accounts/data/icons/Makefile
+ panels/wacom/Makefile
+ panels/wacom/calibrator/Makefile
+ panels/wacom/gnome-wacom-panel.desktop.in
++panels/drivers/Makefile
++panels/drivers/gnome-drivers-panel.desktop.in
+ po/Makefile.in
+ shell/Makefile
+ shell/gnome-control-center.desktop.in
+diff --git a/panels/Makefile.am b/panels/Makefile.am
+index 172dd06..9d07efa 100644
+--- a/panels/Makefile.am
++++ b/panels/Makefile.am
+@@ -14,6 +14,7 @@ SUBDIRS= \
+ 	universal-access \
+ 	user-accounts \
+ 	datetime \
++	drivers \
+ 	wacom
+ 
+ if BUILD_PRINTERS
+diff --git a/panels/drivers/Makefile.am b/panels/drivers/Makefile.am
+new file mode 100644
+index 0000000..3dcb505
+--- /dev/null
++++ b/panels/drivers/Makefile.am
+@@ -0,0 +1,34 @@
++cappletname = drivers
++
++INCLUDES = 						\
++	$(PANEL_CFLAGS)					\
++	$(DRIVERS_PANEL_CFLAGS)				\
++	-DGNOMECC_UI_DIR="\"$(uidir)\""			\
++	-DGNOMELOCALEDIR="\"$(datadir)/locale\""	\
++	-DBINDIR="\"$(bindir)\""			\
++	-DGNOMECC_DATA_DIR="\"$(pkgdatadir)\""		\
++	$(NULL)
++
++ccpanelsdir = $(PANELS_DIR)
++ccpanels_LTLIBRARIES = libdrivers.la
++
++libdrivers_la_SOURCES =		\
++	drivers-module.c		\
++	cc-drivers-panel.c	\
++	cc-drivers-panel.h
++
++libdrivers_la_LIBADD = $(PANEL_LIBS) $(DRIVERS_PANEL_LIBS)
++libdrivers_la_LDFLAGS = $(PANEL_LDFLAGS)
++
++uidir = $(pkgdatadir)/ui
++dist_ui_DATA = drivers.ui
++
++@INTLTOOL_DESKTOP_RULE@
++
++desktopdir = $(datadir)/applications
++desktop_in_files = gnome-drivers-panel.desktop.in
++desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
++
++CLEANFILES = $(desktop_in_files) $(desktop_DATA)
++
++-include $(top_srcdir)/git.mk
+diff --git a/panels/drivers/cc-drivers-panel.c b/panels/drivers/cc-drivers-panel.c
+new file mode 100644
+index 0000000..ac27f7f
+--- /dev/null
++++ b/panels/drivers/cc-drivers-panel.c
+@@ -0,0 +1,654 @@
++/* -*- mode: C; c-file-style: "gnu"; indent-tabs-mode: nil; -*-
++ *
++ * Copyright (C) 2010 Red Hat, Inc
++ * Copyright (C) 2011 Richard Hughes <richard@hughsie.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
++ *
++ */
++
++#include <config.h>
++
++#include <glib/gi18n.h>
++#include <gtk/gtk.h>
++#include <gdk/gdkx.h>
++
++#include "cc-drivers-panel.h"
++
++#define WID(b, w) (GtkWidget *) gtk_builder_get_object (b, w)
++
++G_DEFINE_DYNAMIC_TYPE (CcDriversPanel, cc_drivers_panel, CC_TYPE_PANEL)
++
++#define DRIVERS_PANEL_PRIVATE(o) \
++  (G_TYPE_INSTANCE_GET_PRIVATE ((o), CC_TYPE_DRIVERS_PANEL, CcDriversPanelPrivate))
++
++struct _CcDriversPanelPrivate
++{
++  GCancellable  *cancellable;
++  GDBusProxy    *proxy;
++  GSettings     *settings;
++  GtkBuilder    *builder;
++  GtkTreeStore  *list_store_devices;
++  GtkWidget     *main_window;
++};
++
++enum {
++  GCM_PREFS_COLUMN_DEVICE_PATH,
++  GCM_PREFS_COLUMN_SORT,
++  GCM_PREFS_COLUMN_ICON,
++  GCM_PREFS_COLUMN_TITLE,
++  GCM_PREFS_COLUMN_STATUS,
++  GCM_PREFS_COLUMN_STATUS_IMAGE,
++  GCM_PREFS_COLUMN_TOOLTIP,
++  GCM_PREFS_COLUMN_RADIO_ACTIVE,
++  GCM_PREFS_COLUMN_RADIO_VISIBLE,
++  GCM_PREFS_COLUMN_NUM_COLUMNS
++};
++
++enum {
++  GCM_PREFS_COMBO_COLUMN_TEXT,
++  GCM_PREFS_COMBO_COLUMN_PROFILE,
++  GCM_PREFS_COMBO_COLUMN_TYPE,
++  GCM_PREFS_COMBO_COLUMN_NUM_COLUMNS
++};
++
++typedef enum {
++  GCM_PREFS_ENTRY_TYPE_PROFILE,
++  GCM_PREFS_ENTRY_TYPE_IMPORT
++} GcmPrefsEntryType;
++
++#define GCM_SETTINGS_SCHEMA     "org.gnome.settings-daemon.plugins.color"
++
++/* max number of devices and profiles to cause auto-expand at startup */
++#define GCM_PREFS_MAX_DEVICES_PROFILES_EXPANDED         5
++
++static void     gcm_prefs_device_add_cb (GtkWidget *widget, CcDriversPanel *prefs);
++
++static void
++gcm_prefs_combobox_add_profile (GtkWidget *widget,
++                                GcmPrefsEntryType entry_type,
++                                GtkTreeIter *iter)
++{
++
++}
++
++static void
++gcm_prefs_default_cb (GtkWidget *widget, CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_treeview_popup_menu (CcDriversPanel *prefs, GtkWidget *treeview)
++{
++}
++
++static gboolean
++gcm_prefs_treeview_popup_menu_cb (GtkWidget *treeview, CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_calibrate_cb (GtkWidget *widget, CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_device_add_cb (GtkWidget *widget, CcDriversPanel *prefs)
++{
++}
++
++static gboolean
++gcm_prefs_is_profile_suitable_for_device ()
++{
++}
++
++static gint
++gcm_prefs_combo_sort_func_cb (GtkTreeModel *model,
++                              GtkTreeIter *a,
++                              GtkTreeIter *b,
++                              gpointer user_data)
++{
++}
++
++static gboolean
++gcm_prefs_combo_set_default_cb (gpointer user_data)
++{
++}
++
++static gboolean
++gcm_prefs_profile_exists_in_array (GPtrArray *array)
++{
++}
++
++static void
++gcm_prefs_add_profiles_suitable_for_devices (CcDriversPanel *prefs,
++                                             GtkWidget *widget,
++                                             GPtrArray *profiles)
++{
++}
++
++static void
++gcm_prefs_profile_add_cb (GtkWidget *widget, CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_profile_remove_cb (GtkWidget *widget, CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_make_profile_default_cb (GObject *object,
++                                   GAsyncResult *res,
++                                   gpointer user_data)
++{
++}
++
++static void
++gcm_prefs_profile_make_default_internal (CcDriversPanel *prefs,
++                                         GtkTreeModel *model,
++                                         GtkTreeIter *iter_selected)
++{
++}
++
++static void
++gcm_prefs_profile_view_cb (GtkWidget *widget, CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_button_assign_cancel_cb (GtkWidget *widget, CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_button_assign_ok_cb (GtkWidget *widget, CcDriversPanel *prefs)
++{
++}
++
++static gboolean
++gcm_prefs_profile_delete_event_cb (GtkWidget *widget,
++                                   GdkEvent *event,
++                                   CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_delete_cb (GtkWidget *widget, CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_treeview_renderer_toggled (GtkCellRendererToggle *cell,
++                                     const gchar *path, CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_add_devices_columns (CcDriversPanel *prefs,
++                               GtkTreeView *treeview)
++{
++}
++
++static void
++gcm_prefs_set_calibrate_button_sensitivity (CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_device_clicked (CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_profile_clicked (CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_devices_treeview_clicked_cb (GtkTreeSelection *selection,
++                                       CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_treeview_row_activated_cb (GtkTreeView *tree_view,
++                                     GtkTreePath *path,
++                                     GtkTreeViewColumn *column,
++                                     CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_set_combo_simple_text (GtkWidget *combo_box)
++{
++}
++
++static void
++gcm_prefs_profile_combo_changed_cb (GtkWidget *widget,
++                                    CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_client_sensor_changed_cb (CcDriversPanel *prefs)
++{
++}
++
++static gchar *
++gcm_prefs_get_profile_created_for_sort ()
++{
++
++}
++
++static gchar *
++gcm_prefs_get_profile_title (CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_device_remove_profiles_phase1 (CcDriversPanel *prefs, GtkTreeIter *parent)
++{
++}
++
++static void
++gcm_prefs_device_remove_profiles_phase2 (CcDriversPanel *prefs, GtkTreeIter *parent)
++{
++}
++
++static GtkTreeIter *
++get_iter_for_profile (GtkTreeModel *model, GtkTreeIter *parent)
++{
++}
++
++static void
++gcm_prefs_device_set_model_by_iter (CcDriversPanel *prefs, GtkTreeIter *iter)
++{
++}
++
++static void
++gcm_prefs_device_changed_cb (CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_add_device (CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_remove_device (CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_update_device_list_extra_entry (CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_device_added_cb (CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_changed_cb (CcDriversPanel *prefs)
++{
++  g_debug ("changed: (doing nothing)");
++}
++
++static void
++gcm_prefs_device_removed_cb (CcDriversPanel *prefs)
++{
++}
++
++static gboolean
++gcm_prefs_tree_model_count_cb (GtkTreeModel *model,
++                               GtkTreePath *path,
++                               GtkTreeIter *iter,
++                               gpointer user_data)
++{
++}
++
++static void
++gcm_prefs_get_devices_cb (GObject *object,
++                          GAsyncResult *res,
++                          gpointer user_data)
++{
++}
++
++static void
++gcm_prefs_button_virtual_add_cb (GtkWidget *widget, CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_button_virtual_cancel_cb (GtkWidget *widget, CcDriversPanel *prefs)
++{
++}
++
++static gboolean
++gcm_prefs_virtual_delete_event_cb (GtkWidget *widget,
++                                   GdkEvent *event,
++                                   CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_setup_virtual_combobox (GtkWidget *widget)
++{
++}
++
++static gboolean
++gcm_prefs_virtual_set_from_file (CcDriversPanel *prefs, GFile *file)
++{
++}
++
++static void
++gcm_prefs_virtual_drag_data_received_cb (GtkWidget *widget,
++                                         GdkDragContext *context,
++                                         gint x, gint y,
++                                         GtkSelectionData *data,
++                                         guint info,
++                                         guint _time,
++                                         CcDriversPanel *prefs)
++{
++}
++
++static void
++gcm_prefs_setup_drag_and_drop (GtkWidget *widget)
++{
++}
++
++static void
++gcm_prefs_connect_cb (GObject *object,
++                      GAsyncResult *res,
++                      gpointer user_data)
++{
++}
++
++static void
++gcm_prefs_window_realize_cb (GtkWidget *widget, CcDriversPanel *prefs)
++{
++}
++
++static const char *
++cc_drivers_panel_get_help_uri (CcPanel *panel)
++{
++  return "help:gnome-help/color";
++}
++
++static void
++cc_drivers_panel_get_property (GObject    *object,
++                              guint       property_id,
++                              GValue     *value,
++                              GParamSpec *pspec)
++{
++  switch (property_id)
++  {
++    default:
++      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
++  } 
++}
++
++static void
++cc_drivers_panel_set_property (GObject      *object,
++                              guint         property_id,
++                              const GValue *value,
++                              GParamSpec   *pspec)
++{
++  switch (property_id)
++  {
++    default:
++      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
++  }
++}
++
++static void
++cc_drivers_panel_dispose (GObject *object)
++{
++  g_warning("Panel ... cc_drivers_panel_dispose!");
++
++  CcDriversPanelPrivate *priv = CC_DRIVERS_PANEL (object)->priv;
++
++  if (priv->settings)
++    {
++      g_object_unref (priv->settings);
++      priv->settings = NULL;
++    }
++  if (priv->cancellable != NULL)
++    {
++      g_cancellable_cancel (priv->cancellable);
++      g_object_unref (priv->cancellable);
++      priv->cancellable = NULL;
++    }
++  if (priv->builder != NULL)
++    {
++      g_object_unref (priv->builder);
++      priv->builder = NULL;
++    }
++
++
++  G_OBJECT_CLASS (cc_drivers_panel_parent_class)->dispose (object);
++}
++
++static void
++cc_drivers_panel_finalize (GObject *object)
++{
++  g_warning("Panel ... cc_drivers_panel_finalize!");
++
++  G_OBJECT_CLASS (cc_drivers_panel_parent_class)->finalize (object);
++}
++
++static void
++cc_drivers_panel_class_init (CcDriversPanelClass *klass)
++{
++  g_warning("Panel ... cc_drivers_panel_class_init!");
++
++  GObjectClass *object_class = G_OBJECT_CLASS (klass);
++
++  g_type_class_add_private (klass, sizeof (CcDriversPanelPrivate));
++
++  object_class->get_property = cc_drivers_panel_get_property;
++  object_class->set_property = cc_drivers_panel_set_property;
++  object_class->dispose = cc_drivers_panel_dispose;
++  object_class->finalize = cc_drivers_panel_finalize;
++}
++
++static void
++cc_drivers_panel_class_finalize (CcDriversPanelClass *klass)
++{
++  g_warning("Panel ... cc_drivers_panel_class_finalize!");
++}
++
++static void
++cc_drivers_panel_init (CcDriversPanel *prefs)
++{
++  CcDriversPanelPrivate *priv;
++  GError *error = NULL;
++  GtkStyleContext *context;
++  GtkTreeSelection *selection;
++  GtkWidget *widget;
++
++  g_warning("Panel ... Fingers crossed!");
++    
++  priv = prefs->priv = DRIVERS_PANEL_PRIVATE (prefs);
++
++  priv->builder = gtk_builder_new ();
++  gtk_builder_add_from_file (priv->builder,
++                             GNOMECC_UI_DIR "/drivers.ui",
++                             &error);
++
++  if (error != NULL)
++    {
++      g_warning ("Could not load interface file: %s", error->message);
++      g_error_free (error);
++      return;
++    }
++
++  g_warning("Panel ... INIT");
++    
++  priv->cancellable = g_cancellable_new ();
++
++  /* setup defaults */
++  priv->settings = g_settings_new (GCM_SETTINGS_SCHEMA);
++
++  /* create list stores */
++  priv->list_store_devices = gtk_tree_store_new (GCM_PREFS_COLUMN_NUM_COLUMNS,
++                                                 G_TYPE_STRING,
++                                                 G_TYPE_STRING,
++                                                 G_TYPE_STRING,
++                                                 G_TYPE_STRING,
++                                                 G_TYPE_STRING,
++                                                 G_TYPE_STRING,
++                                                 G_TYPE_STRING,
++                                                 G_TYPE_BOOLEAN,
++                                                 G_TYPE_BOOLEAN);
++
++  /* assign buttons */
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "toolbutton_driver_enable"));
++  g_signal_connect (widget, "clicked",
++                    G_CALLBACK (gcm_prefs_profile_add_cb), prefs);
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "toolbutton_driver_disable"));
++  g_signal_connect (widget, "clicked",
++                    G_CALLBACK (gcm_prefs_profile_remove_cb), prefs);
++
++  /* create device tree view */
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "treeview_devices"));
++  gtk_tree_view_set_model (GTK_TREE_VIEW (widget),
++                           GTK_TREE_MODEL (priv->list_store_devices));
++  gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW (widget), TRUE);
++  gtk_tree_view_set_level_indentation (GTK_TREE_VIEW (widget), 0);
++  selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (widget));
++  g_signal_connect (selection, "changed",
++                    G_CALLBACK (gcm_prefs_devices_treeview_clicked_cb),
++                    prefs);
++  g_signal_connect (GTK_TREE_VIEW (widget), "row-activated",
++                    G_CALLBACK (gcm_prefs_treeview_row_activated_cb),
++                    prefs);
++  g_signal_connect (GTK_TREE_VIEW (widget), "popup-menu",
++                    G_CALLBACK (gcm_prefs_treeview_popup_menu_cb),
++                    prefs);
++
++  /* add columns to the tree view */
++  gcm_prefs_add_devices_columns (prefs, GTK_TREE_VIEW (widget));
++
++  /* force to be at least ~6 rows high */
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "scrolledwindow_devices"));
++  gtk_scrolled_window_set_min_content_height (GTK_SCROLLED_WINDOW (widget),
++                                              200);
++
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "toolbutton_device_default"));
++  g_signal_connect (widget, "clicked",
++                    G_CALLBACK (gcm_prefs_default_cb), prefs);
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "toolbutton_device_remove"));
++  g_signal_connect (widget, "clicked",
++                    G_CALLBACK (gcm_prefs_delete_cb), prefs);
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "toolbutton_device_add"));
++  g_signal_connect (widget, "clicked",
++                    G_CALLBACK (gcm_prefs_device_add_cb), prefs);
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "toolbutton_device_calibrate"));
++  g_signal_connect (widget, "clicked",
++                    G_CALLBACK (gcm_prefs_calibrate_cb), prefs);
++
++  /* make devices toolbar sexy */
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "scrolledwindow_devices"));
++  context = gtk_widget_get_style_context (widget);
++  gtk_style_context_set_junction_sides (context, GTK_JUNCTION_BOTTOM);
++
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "toolbar_devices"));
++  context = gtk_widget_get_style_context (widget);
++  gtk_style_context_add_class (context, GTK_STYLE_CLASS_INLINE_TOOLBAR);
++  gtk_style_context_set_junction_sides (context, GTK_JUNCTION_TOP);
++
++  /* set up virtual dialog */
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "dialog_virtual"));
++  g_signal_connect (widget, "delete-event",
++                    G_CALLBACK (gcm_prefs_virtual_delete_event_cb),
++                    prefs);
++  g_signal_connect (widget, "drag-data-received",
++                    G_CALLBACK (gcm_prefs_virtual_drag_data_received_cb),
++                    prefs);
++  gcm_prefs_setup_drag_and_drop (widget);
++
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "button_virtual_add"));
++  g_signal_connect (widget, "clicked",
++                    G_CALLBACK (gcm_prefs_button_virtual_add_cb),
++                    prefs);
++
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "button_virtual_cancel"));
++  g_signal_connect (widget, "clicked",
++                    G_CALLBACK (gcm_prefs_button_virtual_cancel_cb),
++                    prefs);
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "combobox_virtual_type"));
++  gcm_prefs_setup_virtual_combobox (widget);
++
++  /* set up assign dialog */
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "dialog_assign"));
++  g_signal_connect (widget, "delete-event",
++                    G_CALLBACK (gcm_prefs_profile_delete_event_cb), prefs);
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "button_assign_cancel"));
++  g_signal_connect (widget, "clicked",
++                    G_CALLBACK (gcm_prefs_button_assign_cancel_cb), prefs);
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "button_assign_ok"));
++  g_signal_connect (widget, "clicked",
++                    G_CALLBACK (gcm_prefs_button_assign_ok_cb), prefs);
++
++  /* setup icc profiles list */
++  widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
++                                               "combobox_profile"));
++  gcm_prefs_set_combo_simple_text (widget);
++  gtk_widget_set_sensitive (widget, FALSE);
++  g_signal_connect (G_OBJECT (widget), "changed",
++                    G_CALLBACK (gcm_prefs_profile_combo_changed_cb), prefs);
++
++  /* set calibrate button sensitivity */
++  gcm_prefs_set_calibrate_button_sensitivity (prefs);
++
++  widget = WID (priv->builder, "dialog-vbox1");
++  gtk_widget_reparent (widget, (GtkWidget *) prefs);
++  g_signal_connect (widget, "realize",
++                    G_CALLBACK (gcm_prefs_window_realize_cb),
++                    prefs);
++}
++
++void
++cc_drivers_panel_register (GIOModule *module)
++{
++  cc_drivers_panel_register_type (G_TYPE_MODULE (module));
++  g_io_extension_point_implement (CC_SHELL_PANEL_EXTENSION_POINT,
++                                  CC_TYPE_DRIVERS_PANEL,
++                                  "drivers", 0);
++
++  g_warning("Registered.");
++}
++
+diff --git a/panels/drivers/cc-drivers-panel.h b/panels/drivers/cc-drivers-panel.h
+new file mode 100644
+index 0000000..1aeda53
+--- /dev/null
++++ b/panels/drivers/cc-drivers-panel.h
+@@ -0,0 +1,75 @@
++/* -*- mode: C; c-file-style: "gnu"; indent-tabs-mode: nil; -*-
++ *
++ * Copyright (C) 2010 Red Hat, Inc
++ * Copyright (C) 2011 Richard Hughes <richard@hughsie.com>
++ * Copyright (C) 2012 KororaProject Team <dev@kororaproject.org>    
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
++ *
++ */
++
++
++#ifndef _CC_DRIVERS_PANEL_H
++#define _CC_DRIVERS_PANEL_H
++
++#include <shell/cc-panel.h>
++
++G_BEGIN_DECLS
++
++#define CC_TYPE_DRIVERS_PANEL cc_drivers_panel_get_type()
++
++#define CC_DRIVERS_PANEL(obj) \
++  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
++  CC_TYPE_DRIVERS_PANEL, CcDriversPanel))
++
++#define CC_DRIVERS_PANEL_CLASS(klass) \
++  (G_TYPE_CHECK_CLASS_CAST ((klass), \
++  CC_TYPE_COLOR_PANEL, CcDriversPanelClass))
++
++#define CC_IS_DRIVERS_PANEL(obj) \
++  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
++  CC_TYPE_DRIVERS_PANEL))
++
++#define CC_IS_DRIVERS_PANEL_CLASS(klass) \
++  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
++  CC_TYPE_DRIVERS_PANEL))
++
++#define CC_DRIVERS_PANEL_GET_CLASS(obj) \
++  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
++  CC_TYPE_DRIVERS_PANEL, CcDriversPanelClass))
++
++typedef struct _CcDriversPanel CcDriversPanel;
++typedef struct _CcDriversPanelClass CcDriversPanelClass;
++typedef struct _CcDriversPanelPrivate CcDriversPanelPrivate;
++
++struct _CcDriversPanel
++{
++  CcPanel parent;
++
++  CcDriversPanelPrivate *priv;
++};
++
++struct _CcDriversPanelClass
++{
++  CcPanelClass parent_class;
++};
++
++GType cc_drivers_panel_get_type (void) G_GNUC_CONST;
++
++void  cc_drivers_panel_register (GIOModule *module);
++
++G_END_DECLS
++
++#endif /* _CC_DRIVERS_PANEL_H */
+diff --git a/panels/drivers/drivers-module.c b/panels/drivers/drivers-module.c
+new file mode 100644
+index 0000000..d5e9044
+--- /dev/null
++++ b/panels/drivers/drivers-module.c
+@@ -0,0 +1,43 @@
++/* -*- mode: C; c-file-style: "gnu"; indent-tabs-mode: nil; -*-
++ *
++ * Copyright (C) 2010 Red Hat, Inc
++ * Copyright (C) 2011 Richard Hughes <richard@hughsie.com>
++ * Copyright (C) 2012 KororaProject Team <dev@kororaproject.org>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
++ *
++ *
++ */
++
++#include <config.h>
++
++#include "cc-drivers-panel.h"
++
++#include <glib/gi18n-lib.h>
++
++void
++g_io_module_load (GIOModule *module)
++{
++  bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);
++  bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
++
++  /* register the panel */
++  cc_drivers_panel_register (module);
++}
++
++void
++g_io_module_unload (GIOModule *module)
++{
++}
+diff --git a/panels/drivers/drivers.ui b/panels/drivers/drivers.ui
+new file mode 100644
+index 0000000..ccee270
+--- /dev/null
++++ b/panels/drivers/drivers.ui
+@@ -0,0 +1,295 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<interface>
++  <!-- interface-requires gtk+ 3.0 -->
++  <object class="GtkWindow" id="drivers_panel">
++    <property name="can_focus">False</property>
++    <property name="border_width">12</property>
++    <property name="title" translatable="yes">Additional Drivers</property>
++    <property name="window_position">center</property>
++    <property name="icon_name">preferences-system</property>
++    <child>
++      <object class="GtkBox" id="dialog-vbox1">
++        <property name="visible">True</property>
++        <property name="can_focus">False</property>
++        <property name="border_width">15</property>
++        <property name="orientation">vertical</property>
++        <property name="spacing">12</property>
++        <child>
++          <object class="GtkHBox" id="hbox3">
++            <property name="visible">True</property>
++            <property name="can_focus">False</property>
++            <property name="spacing">9</property>
++            <child>
++              <object class="GtkLabel" id="label_intro">
++                <property name="visible">True</property>
++                <property name="can_focus">False</property>
++                <property name="xalign">0</property>
++                <property name="label" translatable="yes">There are no proprietary drivers in use on this sytem.</property>
++                <property name="wrap">True</property>
++              </object>
++              <packing>
++                <property name="expand">False</property>
++                <property name="fill">False</property>
++                <property name="position">0</property>
++              </packing>
++            </child>
++            <child>
++              <object class="GtkLabel" id="label_padding">
++                <property name="visible">True</property>
++                <property name="can_focus">False</property>
++              </object>
++              <packing>
++                <property name="expand">True</property>
++                <property name="fill">True</property>
++                <property name="position">1</property>
++              </packing>
++            </child>
++            <child>
++              <object class="GtkLinkButton" id="linkbutton_help">
++                <property name="label" translatable="yes">Learn more</property>
++                <property name="use_action_appearance">False</property>
++                <property name="visible">True</property>
++                <property name="can_focus">True</property>
++                <property name="receives_default">True</property>
++                <property name="has_tooltip">True</property>
++                <property name="tooltip_text" translatable="yes">Learn more about proprietary drivers.</property>
++                <property name="use_action_appearance">False</property>
++                <property name="relief">none</property>
++                <property name="xalign">0.50999999046325684</property>
++                <property name="uri">help:gnome-help/drivers</property>
++              </object>
++              <packing>
++                <property name="expand">False</property>
++                <property name="fill">True</property>
++                <property name="position">2</property>
++              </packing>
++            </child>
++          </object>
++          <packing>
++            <property name="expand">False</property>
++            <property name="fill">False</property>
++            <property name="position">0</property>
++          </packing>
++        </child>
++        <child>
++          <object class="GtkVBox" id="vbox3">
++            <property name="visible">True</property>
++            <property name="can_focus">False</property>
++            <child>
++              <object class="GtkScrolledWindow" id="scrolledwindow_devices">
++                <property name="visible">True</property>
++                <property name="can_focus">True</property>
++                <property name="shadow_type">in</property>
++                <child>
++                  <object class="GtkTreeView" id="treeview_devices">
++                    <property name="visible">True</property>
++                    <property name="can_focus">True</property>
++                    <child internal-child="selection">
++                      <object class="GtkTreeSelection" id="treeview-selection"/>
++                    </child>
++                  </object>
++                </child>
++              </object>
++              <packing>
++                <property name="expand">True</property>
++                <property name="fill">True</property>
++                <property name="position">0</property>
++              </packing>
++            </child>
++            <child>
++              <object class="GtkToolbar" id="toolbar_devices">
++                <property name="visible">True</property>
++                <property name="can_focus">False</property>
++                <property name="show_arrow">False</property>
++                <property name="icon_size">1</property>
++                <child>
++                  <object class="GtkToolItem" id="right_button_group">
++                    <property name="use_action_appearance">False</property>
++                    <property name="visible">True</property>
++                    <property name="can_focus">False</property>
++                    <property name="use_action_appearance">False</property>
++                    <child>
++                      <object class="GtkBox" id="right_button_group_box">
++                        <property name="visible">True</property>
++                        <property name="can_focus">False</property>
++                        <child>
++                          <object class="GtkButton" id="toolbutton_driver_enable">
++                            <property name="label" translatable="yes">Enable</property>
++                            <property name="use_action_appearance">False</property>
++                            <property name="visible">True</property>
++                            <property name="can_focus">False</property>
++                            <property name="receives_default">False</property>
++                            <property name="use_action_appearance">False</property>
++                            <property name="use_underline">True</property>
++                          </object>
++                          <packing>
++                            <property name="expand">False</property>
++                            <property name="fill">True</property>
++                            <property name="position">2</property>
++                          </packing>
++                        </child>
++                        <child>
++                          <object class="GtkButton" id="toolbutton_driver_disable">
++                            <property name="label" translatable="yes">Disable</property>
++                            <property name="use_action_appearance">False</property>
++                            <property name="can_focus">False</property>
++                            <property name="receives_default">False</property>
++                            <property name="use_action_appearance">False</property>
++                            <property name="use_underline">True</property>
++                          </object>
++                          <packing>
++                            <property name="expand">False</property>
++                            <property name="fill">True</property>
++                            <property name="position">3</property>
++                          </packing>
++                        </child>
++                      </object>
++                    </child>
++                  </object>
++                  <packing>
++                    <property name="expand">False</property>
++                  </packing>
++                </child>
++              </object>
++              <packing>
++                <property name="expand">False</property>
++                <property name="fill">True</property>
++                <property name="position">1</property>
++              </packing>
++            </child>
++          </object>
++          <packing>
++            <property name="expand">False</property>
++            <property name="fill">True</property>
++            <property name="position">1</property>
++          </packing>
++        </child>
++      </object>
++    </child>
++  </object>
++  <object class="GtkDialog" id="dialog_assign">
++    <property name="can_focus">False</property>
++    <property name="border_width">5</property>
++    <property name="title"> </property>
++    <property name="resizable">False</property>
++    <property name="modal">True</property>
++    <property name="window_position">center-on-parent</property>
++    <property name="destroy_with_parent">True</property>
++    <property name="icon_name">gnome-color-manager</property>
++    <property name="type_hint">dialog</property>
++    <property name="skip_taskbar_hint">True</property>
++    <property name="skip_pager_hint">True</property>
++    <property name="transient_for">drivers_panel</property>
++    <child internal-child="vbox">
++      <object class="GtkBox" id="dialog-vbox3">
++        <property name="visible">True</property>
++        <property name="can_focus">False</property>
++        <property name="orientation">vertical</property>
++        <property name="spacing">2</property>
++        <child internal-child="action_area">
++          <object class="GtkButtonBox" id="dialog-action_area3">
++            <property name="visible">True</property>
++            <property name="can_focus">False</property>
++            <property name="layout_style">end</property>
++            <child>
++              <object class="GtkButton" id="button_assign_cancel">
++                <property name="label">gtk-cancel</property>
++                <property name="use_action_appearance">False</property>
++                <property name="visible">True</property>
++                <property name="can_focus">True</property>
++                <property name="receives_default">True</property>
++                <property name="use_action_appearance">False</property>
++                <property name="use_stock">True</property>
++              </object>
++              <packing>
++                <property name="expand">False</property>
++                <property name="fill">False</property>
++                <property name="position">0</property>
++              </packing>
++            </child>
++            <child>
++              <object class="GtkButton" id="button_assign_ok">
++                <property name="label">gtk-add</property>
++                <property name="use_action_appearance">False</property>
++                <property name="visible">True</property>
++                <property name="can_focus">True</property>
++                <property name="receives_default">True</property>
++                <property name="use_action_appearance">False</property>
++                <property name="use_stock">True</property>
++              </object>
++              <packing>
++                <property name="expand">False</property>
++                <property name="fill">False</property>
++                <property name="position">1</property>
++              </packing>
++            </child>
++          </object>
++          <packing>
++            <property name="expand">False</property>
++            <property name="fill">True</property>
++            <property name="pack_type">end</property>
++            <property name="position">0</property>
++          </packing>
++        </child>
++        <child>
++          <object class="GtkVBox" id="vbox5">
++            <property name="visible">True</property>
++            <property name="can_focus">False</property>
++            <property name="spacing">9</property>
++            <child>
++              <object class="GtkHBox" id="hbox29">
++                <property name="visible">True</property>
++                <property name="can_focus">False</property>
++                <child>
++                  <object class="GtkLabel" id="label_assign_title">
++                    <property name="visible">True</property>
++                    <property name="can_focus">False</property>
++                    <property name="label" translatable="yes" comments="Profiles that can be added to the device">Available Profiles</property>
++                    <attributes>
++                      <attribute name="weight" value="bold"/>
++                    </attributes>
++                  </object>
++                  <packing>
++                    <property name="expand">False</property>
++                    <property name="fill">False</property>
++                    <property name="position">0</property>
++                  </packing>
++                </child>
++              </object>
++              <packing>
++                <property name="expand">False</property>
++                <property name="fill">False</property>
++                <property name="position">0</property>
++              </packing>
++            </child>
++            <child>
++              <object class="GtkComboBox" id="combobox_profile">
++                <property name="visible">True</property>
++                <property name="can_focus">False</property>
++                <property name="margin_right">5</property>
++              </object>
++              <packing>
++                <property name="expand">False</property>
++                <property name="fill">True</property>
++                <property name="position">1</property>
++              </packing>
++            </child>
++          </object>
++          <packing>
++            <property name="expand">False</property>
++            <property name="fill">True</property>
++            <property name="position">1</property>
++          </packing>
++        </child>
++      </object>
++    </child>
++    <action-widgets>
++      <action-widget response="0">button_assign_cancel</action-widget>
++      <action-widget response="0">button_assign_ok</action-widget>
++    </action-widgets>
++  </object>
++  <object class="GtkSizeGroup" id="sizegroup_buttons"/>
++  <object class="GtkSizeGroup" id="sizegroup_combos"/>
++  <object class="GtkSizeGroup" id="sizegroup_defaults"/>
++  <object class="GtkSizeGroup" id="sizegroup_devices"/>
++</interface>
+diff --git a/panels/drivers/gnome-drivers-panel.desktop.in.in b/panels/drivers/gnome-drivers-panel.desktop.in.in
+new file mode 100644
+index 0000000..7d5d4d4
+--- /dev/null
++++ b/panels/drivers/gnome-drivers-panel.desktop.in.in
+@@ -0,0 +1,17 @@
++[Desktop Entry]
++_Name=Color
++_Comment=Color management settings
++Exec=gnome-control-center drivers
++Icon=preferences-color
++Terminal=false
++Type=Application
++StartupNotify=true
++Categories=GNOME;GTK;Settings;X-GNOME-Settings-Panel;HardwareSettings
++OnlyShowIn=GNOME;Unity;
++X-GNOME-Bugzilla-Bugzilla=GNOME
++X-GNOME-Bugzilla-Product=gnome-control-center
++X-GNOME-Bugzilla-Component=drivers
++X-GNOME-Bugzilla-Version=@VERSION@
++X-GNOME-Settings-Panel=drivers
++# Translators: those are keywords for the drivers control-center panel
++_Keywords=Driver;

@@ -234,6 +234,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_libdir}/control-center-1/panels/libuniversal-access.so
 %{_libdir}/control-center-1/panels/libuser-accounts.so
 %{_libdir}/control-center-1/panels/libwacom-properties.so
+%{_libdir}/control-center-1/panels/libdrivers.so
 %{_datadir}/pixmaps/faces
 
 %files filesystem
