@@ -1,8 +1,7 @@
-diff --git a/configure.ac b/configure.ac
-index d496365..1abc8c8 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -131,6 +131,7 @@ PKG_CHECK_MODULES(WACOM_PANEL, $COMMON_MODULES
+diff -Nurd gnome-control-center-3.4.2/configure.ac gnome-control-center-3.4.2-new/configure.ac
+--- gnome-control-center-3.4.2/configure.ac	2012-05-15 20:19:58.000000000 +1000
++++ gnome-control-center-3.4.2-new/configure.ac	2012-08-02 20:43:16.499027405 +1000
+@@ -131,6 +131,7 @@
                    gnome-settings-daemon >= $GSD_REQUIRED_VERSION
                    xi >= 1.2 x11 libwacom >= $LIBWACOM_REQUIRED_VERSION
                    gnome-desktop-3.0 >= $GNOME_DESKTOP_REQUIRED_VERSION)
@@ -10,7 +9,7 @@ index d496365..1abc8c8 100644
  
  GDESKTOP_PREFIX=`$PKG_CONFIG --variable prefix gsettings-desktop-schemas`
  AC_SUBST(GDESKTOP_PREFIX)
-@@ -200,6 +201,9 @@ else
+@@ -200,6 +201,9 @@
  fi
  AM_CONDITIONAL(BUILD_CHEESE, test x${have_cheese} = xyes)
  
@@ -20,7 +19,7 @@ index d496365..1abc8c8 100644
  # This is a hard-dependency for the region and user-accounts panels
  PKG_CHECK_MODULES(ISOCODES, iso-codes)
  
-@@ -412,6 +416,8 @@ panels/user-accounts/data/icons/Makefile
+@@ -412,6 +416,8 @@
  panels/wacom/Makefile
  panels/wacom/calibrator/Makefile
  panels/wacom/gnome-wacom-panel.desktop.in
@@ -29,63 +28,9 @@ index d496365..1abc8c8 100644
  po/Makefile.in
  shell/Makefile
  shell/gnome-control-center.desktop.in
-diff --git a/panels/Makefile.am b/panels/Makefile.am
-index 172dd06..9d07efa 100644
---- a/panels/Makefile.am
-+++ b/panels/Makefile.am
-@@ -14,6 +14,7 @@ SUBDIRS= \
- 	universal-access \
- 	user-accounts \
- 	datetime \
-+	drivers \
- 	wacom
- 
- if BUILD_PRINTERS
-diff --git a/panels/drivers/Makefile.am b/panels/drivers/Makefile.am
-new file mode 100644
-index 0000000..3dcb505
---- /dev/null
-+++ b/panels/drivers/Makefile.am
-@@ -0,0 +1,34 @@
-+cappletname = drivers
-+
-+INCLUDES = 						\
-+	$(PANEL_CFLAGS)					\
-+	$(DRIVERS_PANEL_CFLAGS)				\
-+	-DGNOMECC_UI_DIR="\"$(uidir)\""			\
-+	-DGNOMELOCALEDIR="\"$(datadir)/locale\""	\
-+	-DBINDIR="\"$(bindir)\""			\
-+	-DGNOMECC_DATA_DIR="\"$(pkgdatadir)\""		\
-+	$(NULL)
-+
-+ccpanelsdir = $(PANELS_DIR)
-+ccpanels_LTLIBRARIES = libdrivers.la
-+
-+libdrivers_la_SOURCES =		\
-+	drivers-module.c		\
-+	cc-drivers-panel.c	\
-+	cc-drivers-panel.h
-+
-+libdrivers_la_LIBADD = $(PANEL_LIBS) $(DRIVERS_PANEL_LIBS)
-+libdrivers_la_LDFLAGS = $(PANEL_LDFLAGS)
-+
-+uidir = $(pkgdatadir)/ui
-+dist_ui_DATA = drivers.ui
-+
-+@INTLTOOL_DESKTOP_RULE@
-+
-+desktopdir = $(datadir)/applications
-+desktop_in_files = gnome-drivers-panel.desktop.in
-+desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
-+
-+CLEANFILES = $(desktop_in_files) $(desktop_DATA)
-+
-+-include $(top_srcdir)/git.mk
-diff --git a/panels/drivers/cc-drivers-panel.c b/panels/drivers/cc-drivers-panel.c
-new file mode 100644
-index 0000000..ac27f7f
---- /dev/null
-+++ b/panels/drivers/cc-drivers-panel.c
+diff -Nurd gnome-control-center-3.4.2/panels/drivers/cc-drivers-panel.c gnome-control-center-3.4.2-new/panels/drivers/cc-drivers-panel.c
+--- gnome-control-center-3.4.2/panels/drivers/cc-drivers-panel.c	1970-01-01 10:00:00.000000000 +1000
++++ gnome-control-center-3.4.2-new/panels/drivers/cc-drivers-panel.c	2012-08-02 20:43:16.503027371 +1000
 @@ -0,0 +1,654 @@
 +/* -*- mode: C; c-file-style: "gnu"; indent-tabs-mode: nil; -*-
 + *
@@ -741,11 +686,9 @@ index 0000000..ac27f7f
 +  g_warning("Registered.");
 +}
 +
-diff --git a/panels/drivers/cc-drivers-panel.h b/panels/drivers/cc-drivers-panel.h
-new file mode 100644
-index 0000000..1aeda53
---- /dev/null
-+++ b/panels/drivers/cc-drivers-panel.h
+diff -Nurd gnome-control-center-3.4.2/panels/drivers/cc-drivers-panel.h gnome-control-center-3.4.2-new/panels/drivers/cc-drivers-panel.h
+--- gnome-control-center-3.4.2/panels/drivers/cc-drivers-panel.h	1970-01-01 10:00:00.000000000 +1000
++++ gnome-control-center-3.4.2-new/panels/drivers/cc-drivers-panel.h	2012-08-02 20:43:16.505027355 +1000
 @@ -0,0 +1,75 @@
 +/* -*- mode: C; c-file-style: "gnu"; indent-tabs-mode: nil; -*-
 + *
@@ -822,11 +765,9 @@ index 0000000..1aeda53
 +G_END_DECLS
 +
 +#endif /* _CC_DRIVERS_PANEL_H */
-diff --git a/panels/drivers/drivers-module.c b/panels/drivers/drivers-module.c
-new file mode 100644
-index 0000000..d5e9044
---- /dev/null
-+++ b/panels/drivers/drivers-module.c
+diff -Nurd gnome-control-center-3.4.2/panels/drivers/drivers-module.c gnome-control-center-3.4.2-new/panels/drivers/drivers-module.c
+--- gnome-control-center-3.4.2/panels/drivers/drivers-module.c	1970-01-01 10:00:00.000000000 +1000
++++ gnome-control-center-3.4.2-new/panels/drivers/drivers-module.c	2012-08-02 20:43:16.506027347 +1000
 @@ -0,0 +1,43 @@
 +/* -*- mode: C; c-file-style: "gnu"; indent-tabs-mode: nil; -*-
 + *
@@ -871,11 +812,9 @@ index 0000000..d5e9044
 +g_io_module_unload (GIOModule *module)
 +{
 +}
-diff --git a/panels/drivers/drivers.ui b/panels/drivers/drivers.ui
-new file mode 100644
-index 0000000..ccee270
---- /dev/null
-+++ b/panels/drivers/drivers.ui
+diff -Nurd gnome-control-center-3.4.2/panels/drivers/drivers.ui gnome-control-center-3.4.2-new/panels/drivers/drivers.ui
+--- gnome-control-center-3.4.2/panels/drivers/drivers.ui	1970-01-01 10:00:00.000000000 +1000
++++ gnome-control-center-3.4.2-new/panels/drivers/drivers.ui	2012-08-02 20:49:00.945168931 +1000
 @@ -0,0 +1,295 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<interface>
@@ -1054,7 +993,7 @@ index 0000000..ccee270
 +    <property name="modal">True</property>
 +    <property name="window_position">center-on-parent</property>
 +    <property name="destroy_with_parent">True</property>
-+    <property name="icon_name">gnome-color-manager</property>
++    <property name="icon_name">jockey</property>
 +    <property name="type_hint">dialog</property>
 +    <property name="skip_taskbar_hint">True</property>
 +    <property name="skip_pager_hint">True</property>
@@ -1172,17 +1111,15 @@ index 0000000..ccee270
 +  <object class="GtkSizeGroup" id="sizegroup_defaults"/>
 +  <object class="GtkSizeGroup" id="sizegroup_devices"/>
 +</interface>
-diff --git a/panels/drivers/gnome-drivers-panel.desktop.in.in b/panels/drivers/gnome-drivers-panel.desktop.in.in
-new file mode 100644
-index 0000000..7d5d4d4
---- /dev/null
-+++ b/panels/drivers/gnome-drivers-panel.desktop.in.in
+diff -Nurd gnome-control-center-3.4.2/panels/drivers/gnome-drivers-panel.desktop.in.in gnome-control-center-3.4.2-new/panels/drivers/gnome-drivers-panel.desktop.in.in
+--- gnome-control-center-3.4.2/panels/drivers/gnome-drivers-panel.desktop.in.in	1970-01-01 10:00:00.000000000 +1000
++++ gnome-control-center-3.4.2-new/panels/drivers/gnome-drivers-panel.desktop.in.in	2012-08-02 20:48:14.679572868 +1000
 @@ -0,0 +1,17 @@
 +[Desktop Entry]
-+_Name=Color
-+_Comment=Color management settings
++_Name=Drivers
++_Comment=Proprietary driver settings
 +Exec=gnome-control-center drivers
-+Icon=preferences-color
++Icon=jockey
 +Terminal=false
 +Type=Application
 +StartupNotify=true
@@ -1195,3 +1132,52 @@ index 0000000..7d5d4d4
 +X-GNOME-Settings-Panel=drivers
 +# Translators: those are keywords for the drivers control-center panel
 +_Keywords=Driver;
+diff -Nurd gnome-control-center-3.4.2/panels/drivers/Makefile.am gnome-control-center-3.4.2-new/panels/drivers/Makefile.am
+--- gnome-control-center-3.4.2/panels/drivers/Makefile.am	1970-01-01 10:00:00.000000000 +1000
++++ gnome-control-center-3.4.2-new/panels/drivers/Makefile.am	2012-08-02 20:43:16.501027387 +1000
+@@ -0,0 +1,34 @@
++cappletname = drivers
++
++INCLUDES = 						\
++	$(PANEL_CFLAGS)					\
++	$(DRIVERS_PANEL_CFLAGS)				\
++	-DGNOMECC_UI_DIR="\"$(uidir)\""			\
++	-DGNOMELOCALEDIR="\"$(datadir)/locale\""	\
++	-DBINDIR="\"$(bindir)\""			\
++	-DGNOMECC_DATA_DIR="\"$(pkgdatadir)\""		\
++	$(NULL)
++
++ccpanelsdir = $(PANELS_DIR)
++ccpanels_LTLIBRARIES = libdrivers.la
++
++libdrivers_la_SOURCES =		\
++	drivers-module.c		\
++	cc-drivers-panel.c	\
++	cc-drivers-panel.h
++
++libdrivers_la_LIBADD = $(PANEL_LIBS) $(DRIVERS_PANEL_LIBS)
++libdrivers_la_LDFLAGS = $(PANEL_LDFLAGS)
++
++uidir = $(pkgdatadir)/ui
++dist_ui_DATA = drivers.ui
++
++@INTLTOOL_DESKTOP_RULE@
++
++desktopdir = $(datadir)/applications
++desktop_in_files = gnome-drivers-panel.desktop.in
++desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
++
++CLEANFILES = $(desktop_in_files) $(desktop_DATA)
++
++-include $(top_srcdir)/git.mk
+diff -Nurd gnome-control-center-3.4.2/panels/Makefile.am gnome-control-center-3.4.2-new/panels/Makefile.am
+--- gnome-control-center-3.4.2/panels/Makefile.am	2012-03-06 01:04:55.000000000 +1100
++++ gnome-control-center-3.4.2-new/panels/Makefile.am	2012-08-02 20:43:16.500027396 +1000
+@@ -14,6 +14,7 @@
+ 	universal-access \
+ 	user-accounts \
+ 	datetime \
++	drivers \
+ 	wacom
+ 
+ if BUILD_PRINTERS
